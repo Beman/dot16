@@ -1,0 +1,242 @@
+<html><head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>TR2 call for proposals</title>
+</head>
+
+<body>
+
+  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="579">
+    <tr>
+      <td width="153" align="left" valign="top">Document number:</td>
+      <td width="426">Nxxxx=12-xxxx</td>
+    </tr>
+    <tr>
+      <td width="153" align="left" valign="top">Date:</td>
+      <td width="426">
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-02-17<!--webbot bot="Timestamp" endspan i-checksum="12117" --></td>
+    </tr>
+    <tr>
+      <td width="153" align="left" valign="top">Project:</td>
+      <td width="426">Programming Language C++, Library Working Group</td>
+    </tr>
+    <tr>
+      <td width="153" align="left" valign="top">Reply-to:</td>
+      <td width="426">&nbsp;</td>
+    </tr>
+  </table>
+
+
+<h1>Call for Library Proposals</h1>
+
+<p>The C++ standards committee is soliciting proposals for additional library 
+components.</p>
+
+<p>&nbsp;</p>
+
+<p>Such library components would appear in either library technical reports or 
+in the C++ standard library itself. </p>
+
+<p>&nbsp;</p>
+
+<p>The committee will consider both proposals that address entirely new domains, 
+and proposals to modify the existing standard library.</p>
+
+<p>The committee especially welcomes proposals in the following areas: </p>
+<ul>
+  <li> Unicode </li>
+  <li> XML and HTML </li>
+  <li> Networking </li>
+  <li> Usability for novices and occasional programmers</li>
+</ul>
+
+<p>Although each proposal will be evaluated on its own merits, the
+  committee is more interested in high-level libraries that solve
+  day-to-day problems of application programmers than in low-level
+  infrastructure.
+</p>
+
+<p>The committee welcomes proposals with or without formal wording (often known 
+as &quot;standardese&quot;).
+</p>
+
+<blockquote>
+  <ul>
+    <li>Proposals without formal wording are requests for interest. If there is 
+    sufficient interest on the part of the committee, the proposal author(s) 
+    will need to provide an updated version of the proposal that does include 
+    formal wording. The committee recognizes that writing the formal 
+    specification for a library component can be daunting and will make 
+    additional information and help available to get new authors started.<br>
+&nbsp;</li>
+    <li>Proposals with formal wording... </li>
+  </ul>
+</blockquote>
+
+<p>&nbsp;</p>
+
+<h2>Guidelines</h2>
+<p>A proposal is more than a wish. "C++ should support JPEG
+  manipulation" is not a proposal. A class synopsis is not a
+  proposal. Even the documentation for a widely used library isn't
+  necessarily a proposal.  A proposal should include the following
+  things: </p>
+
+<ul>
+  <li>Motivation and scope. What user community is this library
+  intended for, what problems does it address (and what problems does
+  it deliberately not address), and how is it intended to be
+  used?</li>
+  <li>How does it fit with the rest of the standard library as a coherent 
+  whole?</li>
+  <li>Design decisions. A problem usually has many solutions.  Why this 
+  particular solution? How does this relate to previous work in this area, if 
+  any? </li>
+  <li>"Standardese." A standard is a contract between implementers and
+  users, to make it possible for users to write portable code. It's
+  supposed to say what implementers are permitted to do, what they're
+  required to do, and what users can and can't count on. The
+  "standardese" should match the general style of exposition of the
+  standard, but it doesn't have to match the exact margins or
+  fonts or section numbering; those things will all be changed
+  anyway. </li>
+</ul>
+
+<p>These things are important so that the standardization committee
+  can evaluate whether the proposal solves the problem it's intended
+  to solve.  Remember that C++ committee members aren't necessarily
+  experts in whatever domain you're addressing.  A clear discussion of
+  motivation and design decisions is more important than finalizing
+  the exact standardese wording.  You should expect a proposal to go
+  through at least one revision before it's accepted, so, if the
+  committee likes a proposal, there will be a later opportunity to
+  adjust the precise wording.</p>
+
+<h2>Existing practice</h2>
+<p>The committee prefers proposals that are based on existing
+practice. Existing practice isn't an absolute rule, but it is an
+important guideline that the committee can use to judge the risk of a
+proposal.  First, a proposal must be implementable, and the best
+evidence that something is implementable is that it has been
+implemented. Second, if a proposal is based on existing practice, the
+committee can have more confidence that the proposal solves a real
+problem and that its interface serves the needs of real users.</p>
+
+<p>The preference for existing practice doesn't necessarily mean that
+  a proposal has to be exactly the same as some existing library.  A
+  proposal might be adjust an existing library's interface to make it
+  more like the style used elsewhere in the C++ standard, or a
+  proposal might be an attempt to reconcile the interfaces of several
+  preexisting libraries, or a proposal might be based on existing
+  practice in some other language. In rare cases the committee might
+  be willing to adopt a completely experimental library, even without
+  widespread existing practice, if the proposal is sufficiently
+  compelling.</p>
+
+<h2>Organization of a typical proposal</h2>
+<blockquote>
+    <p><b><i>I. Table of Contents</i></b></p>
+    <p><b><i>II. Motivation and Scope</i></b></p>
+    <p><i>Why is this important? What kinds of problems does it
+    address, and what kinds of programmers is it intended to support?
+    Is it based on existing practice? Is there a reference
+    implementation?</i></p>
+    <p><i><b>III. Impact On the Standard</b></i></p>
+    <p><i>What does it depend on, and what depends on it? Is it a pure
+    extension, or does it require changes to standard components? Can
+    it be implemented using today's compilers, or does it require
+    language features that will only be available as part of C++0x?</i></p>
+    <p><b><i>IV. Design Decisions</i></b></p>
+    <p><i>Why did you choose the specific design that you did? What
+    alternatives did you consider, and what are the tradeoffs? What
+    are the consequences of your choice, for users and implementers?
+    What decisions are left up to implementers? If there are any
+    similar libraries in use, how do their design decisions compare to
+    yours?</i></p>
+    <p><b><i>V. Proposed Text for the Standard</i></b></p>
+    <p><b><i>VI. Acknowledgements</i></b></p>
+    <p><b><i>VII. References</i></b></p>
+</blockquote>
+<h2>Proposal examples</h2>
+<p>Successful proposals for TR1 can be used as models. Examples include:</p>
+<ul>
+<li>A Proposal to Add Hash Tables to the Standard Library (revision
+  4), WG21 Document N1456=03-0039, 2003.
+  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html">
+  www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1456.html</a></li>
+
+<li>A Proposal to Add General Purpose Smart Pointers to the Library
+  Technical Report, WG21 Document N1450=03-0033, 2003. 
+  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1450.html">
+  www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1450.html</a></li>
+
+<li>A Proposal to add Regular Expressions to the Standard Library,
+  WG21 Document 03-0011=N1429, 2003. 
+  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1429.htm">
+  www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1429.htm</a></li>
+
+<li>A Proposal to Add an Extensible Random Number Facility to the
+  Standard Library (Revision 2), WG21 Document N1452, 2003.
+  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1452.html">
+  www.open-std.org/jtc1/sc22/wg21/docs/papers/2003/n1452.html</a></li>
+</ul>
+
+<h2>Submission procedures</h2>
+
+<p>Please note that details of these procedures are likely to change. Please 
+check the Library Working Group's unofficial web site (<a href="http://cplusplus.github.com/LWG/">cplusplus.github.com/LWG/</a>) 
+for the latest update to submission procedures.</p>
+<p>The proposal may be in PDF, HTML, or plain text formats. To submit a proposal:</p>
+
+<ul>
+  <li>Once you have written the proposal document, email
+  <span style="background-color: #FFFF00">???</span> requesting a document 
+  number. Be sure to include the title of the proposal document. The document 
+  number will be in the form Nnnnn=yy-nnnn.&nbsp; If you circulate or otherwise 
+  publish the document before it has appeared in an official committee mailing, 
+  replace the N with a D (for draft). Make sure the date on the document is in 
+  the form yyyy-mm-dd. These are formal ISO requirements.<br>
+&nbsp;</li>
+  <li dir="ltr">
+<p dir="ltr">Email the finished document to
+<span style="background-color: #FFFF00">???</span>.</p>
+
+  </li>
+</ul>
+<p dir="ltr">The proposal document will then appear in the next official 
+committee mailing. (The term &quot;mailing&quot; dates from when documents were circulated 
+by physical mail.) Mailings are published roughly two weeks before and after 
+committee meetings.</p>
+
+<p>
+  You should either plan to attend a standardization committee meeting
+  yourself
+  (see <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/meetings">
+  www.open-std.org/jtc1/sc22/wg21/docs/meetings</a> for meeting
+  schedules), or find someone who will present your
+  proposal for you.  Getting a proposal accepted is an interactive
+  process, and it is almost certain that the committee will have
+  questions.  At the least, you need to be willing to respond to email
+  queries.
+</p>
+
+<hr>
+
+<p>
+  Most proposals should be targeted for TR2, not for C++0x. A C++0x
+  library proposal will be judged by much stricter standards than a
+  TR2 proposal.  A C++0x proposal will be accepted only if it can be
+  shown to be very low risk and only if the committee is certain that
+  it can be finalized without jeopardizing the schedule for C++0x.
+  Experimental proposals will not be considered for C++0x.  For TR2,
+  however, the committee will be less conservative.</p>
+
+<p>
+   Proposals for C++0x library extensions must be received by October 1, 2005.
+   Proposals for TR2 library extensions must be received by October 1, 2006.
+</p>
+
+
+
+
+</body></html>
