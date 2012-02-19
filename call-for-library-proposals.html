@@ -9,7 +9,7 @@
   <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="579">
     <tr>
       <td width="153" align="left" valign="top">Document number:</td>
-      <td width="426">Nxxxx=12-xxxx</td>
+      <td width="426"><span style="background-color: #FFFF00">Nxxxx</span><span style="background-color: #FFFF00">=12-xxxx</span></td>
     </tr>
     <tr>
       <td width="153" align="left" valign="top">Date:</td>
@@ -22,7 +22,7 @@
     </tr>
     <tr>
       <td width="153" align="left" valign="top">Reply-to:</td>
-      <td width="426">&nbsp;</td>
+      <td width="426"><span style="background-color: #FFFF00">???</span></td>
     </tr>
   </table>
 
@@ -30,52 +30,96 @@
 <h1>Call for Library Proposals</h1>
 
 <p>The C++ standards committee is soliciting proposals for additional library 
-components.</p>
+components. Such proposals can range from as small as the addition of a single 
+signature to an existing library on up to a major framework larger than any 
+current standard library component. The committee will decide whether a 
+successful proposal will appear in the standard itself, as part of a larger 
+technical report, as a standalone technical report, or even as a standalone 
+international standard. The committee will be working on multiple library work 
+items in parallel, with some of those that end up as technical reports being 
+shipped when ready rather than waiting for completion of single large technical 
+report. </p>
 
-<p>&nbsp;</p>
-
-<p>Such library components would appear in either library technical reports or 
-in the C++ standard library itself. </p>
-
-<p>&nbsp;</p>
-
-<p>The committee will consider both proposals that address entirely new domains, 
-and proposals to modify the existing standard library.</p>
-
-<p>The committee especially welcomes proposals in the following areas: </p>
-<ul>
-  <li> Unicode </li>
-  <li> XML and HTML </li>
-  <li> Networking </li>
-  <li> Usability for novices and occasional programmers</li>
-</ul>
-
-<p>Although each proposal will be evaluated on its own merits, the
-  committee is more interested in high-level libraries that solve
-  day-to-day problems of application programmers than in low-level
-  infrastructure.
-</p>
+<p>This call for proposals in open ended; there is no cutoff date. As a 
+practical matter, the committee is just starting a revision cycle after shipping 
+C++11, and so the next year is a particularly good window of opportunity to get 
+a library proposal accepted into the pipeline.</p>
 
 <p>The committee welcomes proposals with or without formal wording (often known 
-as &quot;standardese&quot;).
-</p>
+as &quot;standardese&quot;). This is a change from past practice, and is intended to 
+encourage library developers to step forward with proposals.</p>
 
 <blockquote>
   <ul>
     <li>Proposals without formal wording are requests for interest. If there is 
     sufficient interest on the part of the committee, the proposal author(s) 
-    will need to provide an updated version of the proposal that does include 
-    formal wording. The committee recognizes that writing the formal 
+    will then need to provide an updated version of the proposal that does 
+    include formal wording. The committee recognizes that writing the formal 
     specification for a library component can be daunting and will make 
     additional information and help available to get new authors started.<br>
 &nbsp;</li>
-    <li>Proposals with formal wording... </li>
+    <li>Proposals with formal wording may also need to go through several 
+    revisions before being accepted as work items, although smaller, less 
+    complex proposals tend to move through the process more quickly than larger, 
+    more complex major libraries.</li>
   </ul>
 </blockquote>
 
-<p>&nbsp;</p>
+<h2>Increasing the chance of acceptance</h2>
 
-<h2>Guidelines</h2>
+<p>The committee evaluates each proposal on its own merits. Nevertheless, here 
+are some suggestions to increase the chance of acceptance.</p>
+
+<ul>
+  <li>Base the proposal on existing practice. See the
+  <a href="#Existing-practice">Existing practice</a> section below. </li>
+  <li>Avoid breaking existing code. Breaking existing code puts a proposal at 
+  extreme risk. If existing code has to be broken, provide an analysis 
+  identifying what code breaks, whether the breakage is silent or noisy, and 
+  what a user would have to do to mitigate the breakage.</li>
+  <li>Avoid modifications to existing headers unless you are willing to see your 
+  proposal be held until the next standard. The committee will consider both 
+  proposals that address entirely new domains, and proposals to modify the 
+  existing standard library, but modification of existing headers is viewed as 
+  unsuitable for TRs. This is a change from past guidance.</li>
+  <li>Check the
+  <a href="http://cplusplus.github.com/LWG/lwg-proposal-status.html">Library 
+  Proposal Status Report</a>. While you are welcome to submit a proposal that 
+  competes with an existing proposal, you could also submit suggestions for 
+  changes to the existing proposal.</li>
+  <li>The committee is particularly interested high-level libraries that solve 
+  day-to-day problems of application programmers.</li>
+  <li>The committee is particularly interested in features that add usability 
+  for novices and occasional programmers.</li>
+  <li>The standard library already has a lot of low-level facilities, so such 
+  proposals need to be particularly strong to gain traction.</li>
+</ul>
+
+<h2><a name="Existing-practice">Existing practice</a></h2>
+<p>The committee prefers proposals that are based on existing
+practice. Existing practice isn't an absolute rule, but it is an
+important guideline that the committee can use to judge the risk of a
+proposal.  First, a proposal must be implementable, and the best
+evidence that something is implementable is that it has been
+implemented. Second, if a proposal is based on existing practice, the
+committee can have more confidence that the proposal solves a real
+problem and that its interface serves the needs of real users.</p>
+
+<p>The preference for existing practice doesn't necessarily mean that
+  a proposal has to be exactly the same as some existing library.  A
+  proposal might adjust an existing library's interface to match the style of the C++ standard 
+library, or a
+  proposal might attempt to reconcile the interfaces of several preexisting 
+libraries, or a proposal might be based on existing practice in some other 
+language.</p>
+
+<p>The committee does occasionally adopt a completely experimental library, even 
+without widespread existing practice. Such proposals are generally tiny, and 
+simple enough that there is virtually no risk that widespread usage will turn up 
+additional problems. And even these really simple proposals need to have been 
+implemented. </p>
+
+<h2>Guidelines for the proposal document</h2>
 <p>A proposal is more than a wish. "C++ should support JPEG
   manipulation" is not a proposal. A class synopsis is not a
   proposal. Even the documentation for a widely used library isn't
@@ -111,27 +155,6 @@ as &quot;standardese&quot;).
   through at least one revision before it's accepted, so, if the
   committee likes a proposal, there will be a later opportunity to
   adjust the precise wording.</p>
-
-<h2>Existing practice</h2>
-<p>The committee prefers proposals that are based on existing
-practice. Existing practice isn't an absolute rule, but it is an
-important guideline that the committee can use to judge the risk of a
-proposal.  First, a proposal must be implementable, and the best
-evidence that something is implementable is that it has been
-implemented. Second, if a proposal is based on existing practice, the
-committee can have more confidence that the proposal solves a real
-problem and that its interface serves the needs of real users.</p>
-
-<p>The preference for existing practice doesn't necessarily mean that
-  a proposal has to be exactly the same as some existing library.  A
-  proposal might be adjust an existing library's interface to make it
-  more like the style used elsewhere in the C++ standard, or a
-  proposal might be an attempt to reconcile the interfaces of several
-  preexisting libraries, or a proposal might be based on existing
-  practice in some other language. In rare cases the committee might
-  be willing to adopt a completely experimental library, even without
-  widespread existing practice, if the proposal is sufficiently
-  compelling.</p>
 
 <h2>Organization of a typical proposal</h2>
 <blockquote>
@@ -184,7 +207,7 @@ problem and that its interface serves the needs of real users.</p>
 <h2>Submission procedures</h2>
 
 <p>Please note that details of these procedures are likely to change. Please 
-check the Library Working Group's unofficial web site (<a href="http://cplusplus.github.com/LWG/">cplusplus.github.com/LWG/</a>) 
+check the Library Working Group's web site (<a href="http://cplusplus.github.com/LWG/">cplusplus.github.com/LWG/</a>) 
 for the latest update to submission procedures.</p>
 <p>The proposal may be in PDF, HTML, or plain text formats. To submit a proposal:</p>
 
@@ -221,20 +244,6 @@ committee meetings.</p>
 </p>
 
 <hr>
-
-<p>
-  Most proposals should be targeted for TR2, not for C++0x. A C++0x
-  library proposal will be judged by much stricter standards than a
-  TR2 proposal.  A C++0x proposal will be accepted only if it can be
-  shown to be very low risk and only if the committee is certain that
-  it can be finalized without jeopardizing the schedule for C++0x.
-  Experimental proposals will not be considered for C++0x.  For TR2,
-  however, the committee will be less conservative.</p>
-
-<p>
-   Proposals for C++0x library extensions must be received by October 1, 2005.
-   Proposals for TR2 library extensions must be received by October 1, 2006.
-</p>
 
 
 
