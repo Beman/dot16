@@ -1,0 +1,402 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Any Library Proposal</title>
+<style type="text/css">
+ ins {background-color:#A0FFA0}
+ del {background-color:#FFA0A0}
+ body { width:7.5in; }
+ pre { font-size:smaller; background-color:#D7EEFF }
+</style>
+</head>
+
+<body>
+  <table border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="612">
+    <tr>
+      <td width="163" align="left" valign="top">Document number:</td>
+      <td width="449"><span style="background-color: #FFFF00">D3390=12-0080</span></td>
+    </tr>
+    <tr>
+      <td width="163" align="left" valign="top">Date:</td>
+      <td width="449">
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-05-09<!--webbot bot="Timestamp" endspan i-checksum="12312" --></td>
+    </tr>
+    <tr>
+      <td width="163" align="left" valign="top">Project:</td>
+      <td width="449">Programming Language C++</td>
+    </tr>
+    <tr>
+      <td width="163" align="left" valign="top">Reply-to:</td>
+      <td width="449">Beman Dawes &lt;bdawes at acm dot org&gt;<br>
+      Kevlin Henney &lt;kevlin at curbralan dot com&gt;</td>
+    </tr>
+  </table>
+
+<h1><i>Any</i> Library Proposal (Revision 1)</h1>
+
+<p><a href="#Introduction">Introduction</a><br>
+<a href="#Motivation">Motivation and Design</a><br>
+<a href="#Design-paths-not-taken">Design paths not taken</a><br>
+<a href="#Revision-History">Revision History</a><br>
+<a href="#Examples">Examples</a><br>
+<a href="#Proposed-Wording">Proposed Wording</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#ValueType-Requirements"><code>ValueType</code> 
+Requirements</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#synopsis">Header <code>&lt;any&gt;</code> synopsis</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Class-bad_any_cast">Class <code>bad_any_cast</code></a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Class-any">Class <code>any</code></a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Non-member">Non-member functions</a></p>
+<h2><a name="Introduction">Introduction</a></h2>
+<p>This paper proposes a type-safe container for single values of value types 
+that is suitable for a Technical Specification (TS), the C++ Standard itself 
+(C++1Y), or a new International Standard (IS). </p>
+<p>The proposal is based on the Boost Any Library (see
+<a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost version of the library is widely used. The 
+proposal is a pure 
+addition to the standard library, requires no modifications of existing headers, and would have no effect on existing code.</p>
+<h2><a name="Motivation">Motivation</a> and Design</h2>
+<p>There are times when a generic (in the sense of <span class="emphasis"><em>
+general</em></span> as opposed to <span class="emphasis"><em>template-based 
+programming</em></span>) type is needed: variables that are truly variable, 
+accommodating values of many other more specific types rather than C++'s normal 
+strict and static types. We can distinguish three basic kinds of generic type:</p>
+<ol>
+  <li>Converting types that can hold one of a number of possible value types, 
+  e.g. <code class="computeroutput">int</code> and <code class="computeroutput">
+  string</code>, and freely convert between them, for instance interpreting
+  <code class="computeroutput">5</code> as <code class="computeroutput">&quot;5&quot;</code> 
+  or vice-versa. Such types are common in scripting and other interpreted 
+  languages. <code class="computeroutput">boost::lexical_cast</code> supports 
+  such conversion functionality.<br>
+&nbsp;</li>
+  <li>Discriminated types that contain values of different types but do not 
+  attempt conversion between them, i.e. <code class="computeroutput">5</code> is 
+  held strictly as an <code class="computeroutput">int</code> and is not 
+  implicitly convertible either to <code class="computeroutput">&quot;5&quot;</code> or to
+  <code class="computeroutput">5.0</code>. Their indifference to interpretation 
+  but awareness of type effectively makes them safe, generic containers of 
+  single values, with no scope for surprises from ambiguous conversions.<br>
+&nbsp;</li>
+  <li>Indiscriminate types that can refer to anything but are oblivious to the 
+  actual underlying type, entrusting all forms of access and interpretation to 
+  the programmer. This niche is dominated by <code class="computeroutput">void *</code>, 
+  which offers plenty of scope for surprising, undefined behavior.</li>
+</ol>
+<p>The proposed <code>any</code> class (based on the class of the same name 
+described in
+<a href="http://www.two-sdg.demon.co.uk/curbralan/papers/ValuedConversions.pdf" target="_top">
+&quot;Valued Conversions&quot;</a> by Kevlin Henney, <span class="emphasis"><em>C++ Report</em></span> 
+12(7), July/August 2000) is a variant value type based on the second category. 
+It supports copying of any value type and safe checked extraction of that value 
+strictly against its type.</p>
+<h2><a name="Design-paths-not-taken">Design paths not taken</a></h2>
+<p>A similar design, offering more appropriate operators, could be used for a 
+generalized function adaptor, a generalized iterator adaptor,&nbsp; and other 
+object types that need uniform runtime treatment but support only compile-time 
+template parameter conformance. Such components are not proposed here.</p>
+<h2><a name="Revision-History">Revision History</a></h2>
+<p><span style="background-color: #FFFF00">D3390</span> - Revision 1</p>
+  <ul>
+    <li>Text updated to reflect target is could be a TS, C++1Y, or a new IS.</li>
+    <li><code>noexcept</code> applied where appropriate.</li>
+    <li><code>any</code> copy assignment interface updated to match Boost.</li>
+  </ul>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">
+N1939</a> - Initial paper</p>
+<h2><a name="Examples">Examples</a></h2>
+<p>The following code demonstrates the syntax for using implicit conversions to 
+and copying of any objects:</p>
+<blockquote>
+  <pre class="programlisting">#include &lt;list&gt;
+#include &lt;any&gt;
+
+using <code>std::tbd</code><code class="computeroutput">::any_cast</code>;
+using std::tbd::any;
+
+typedef std::list&lt;<code class="computeroutput">any</code>&gt; many;
+
+void append_int(many&amp; values, int value)
+{
+    <code class="computeroutput">any</code> to_append = value;
+    values.push_back(to_append);
+}
+
+void append_string(many&amp; values, const std::string&amp; value)
+{
+    values.push_back(value);
+}
+
+void append_char_ptr(many&amp; values, const char* value)
+{
+    values.push_back(value);
+}
+
+void append_any(many&amp; values, const <code class="computeroutput">any</code>&amp; value)
+{
+    values.push_back(value);
+}
+
+void append_nothing(many&amp; values)
+{
+    values.push_back(());
+}</pre>
+</blockquote>
+<p>The following predicates follow on from the previous definitions and 
+demonstrate the use of queries on any objects:</p>
+<blockquote>
+  <pre class="programlisting">bool is_empty(const <code class="computeroutput">any</code>&amp; operand)
+{
+    return operand.<code class="computeroutput">empty</code>();
+}
+
+bool is_int(const <code class="computeroutput">any</code>&amp; operand)
+{
+    return operand.<code class="computeroutput">type</code>() == typeid(int);
+}
+
+bool is_char_ptr(const <code class="computeroutput">any</code>&amp; operand)
+{
+    try
+    {
+        <code class="computeroutput">any_cast</code>&lt;const char *&gt;(operand);
+        return true;
+    }
+    catch(const <code class="computeroutput">std::tr2::bad_any_cast</code>&amp;)
+    {
+        return false;
+    }
+}
+
+bool is_string(const <code class="computeroutput">any</code>&amp; operand)
+{
+    return <code class="computeroutput">any_cast</code>&lt;std::string&gt;(&amp;operand);
+}
+
+void count_all(many&amp; values, std::ostream&amp; out)
+{
+    out &lt;&lt; &quot;#empty == &quot;
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_empty) &lt;&lt; std::endl;
+    out &lt;&lt; &quot;#int == &quot;
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_int) &lt;&lt; std::endl;
+    out &lt;&lt; &quot;#const char * == &quot;
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_char_ptr) &lt;&lt; std::endl;
+    out &lt;&lt; &quot;#string == &quot;
+        &lt;&lt; std::count_if(values.begin(), values.end(), is_string) &lt;&lt; std::endl;
+}
+</pre>
+</blockquote>
+<p>The following type, patterned after the OMG's Property Service, defines 
+name-value pairs for arbitrary value types:</p>
+<blockquote>
+  <pre class="programlisting">struct property
+{
+    property();
+    property(const std::string&amp;, const <code class="computeroutput">any</code>&amp;);
+
+    std::string name;
+    <code class="computeroutput">any</code> value;
+};
+
+typedef std::list&lt;property&gt; properties;
+</pre>
+</blockquote>
+<p>The following base class demonstrates one approach to runtime polymorphism 
+based callbacks that also require arbitrary argument types. The absence of 
+virtual member templates requires that different solutions have different 
+trade-offs in terms of efficiency, safety, and generality. Using a checked 
+variant type offers one approach:</p>
+<blockquote>
+  <pre class="programlisting">class consumer
+{
+public:
+    virtual void notify(const <code class="computeroutput">any</code>&amp;) = 0;
+    ...
+};</pre>
+</blockquote>
+
+<h2><a name="Proposed-Wording">Proposed Wording</a></h2>
+
+<p>This clause describes components that C++ programs may use to perform 
+operations on objects of a discriminated type.</p>
+
+<blockquote>
+
+<p>[<i>Note:</i> The discriminated type may contain values of different types 
+but does not attempt conversion between them, i.e. <code class="computeroutput">
+5</code> is held strictly as an <code class="computeroutput">int</code> and is 
+not implicitly convertible either to <code class="computeroutput">&quot;5&quot;</code> or 
+to <code class="computeroutput">5.0</code>. This indifference to interpretation 
+but awareness of type effectively allows safe, generic containers of single 
+values, with no scope for surprises from ambiguous conversions. <i>-- end note.</i>]</p>
+
+</blockquote>
+
+<h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
+
+<p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
+[copyconstructible]. A <code>ValueType</code> type may optionally meet the requirements for 
+<code>CopyAssignable</code> [copyassignable]. The strong exception-safety guarantee is required for all 
+forms of assignment. The destructor for <code>ValueType</code> types shall provide the no-throw exception-safety 
+guarantee.</p>
+
+<blockquote>
+
+<p>[<i>Note:</i> Values are strongly informational objects for which identity is not significant, 
+i.e. the focus is principally on their state content and any behavior organized 
+around that. Another distinguishing feature of values is their granularity: 
+normally fine-grained objects representing simple concepts in the system such as 
+quantities.</p>
+
+<p>As the emphasis of a value lies in its state not its identity, values can be 
+copied and typically assigned one to another, requiring the explicit or implicit 
+definition of a public copy constructor and public assignment operator. Values 
+typically live within other scopes, i.e. within objects or blocks, rather than 
+on the heap. Values are therefore normally passed around and manipulated 
+directly as variables or through references, but not as pointers that emphasize 
+identity and indirection. <i>--end note</i>]</p>
+
+</blockquote>
+
+<h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
+<blockquote>
+  <pre>namespace std { namespace tbd {
+  class bad_any_cast : public std::bad_cast
+  {
+  public:
+    virtual const char* what() const;
+  };
+
+  class any
+  {
+  public:
+    // construct/copy/destruct
+    any();
+    any(const any&amp; other);
+
+    template&lt;typename ValueType&gt;
+      any(const ValueType&amp; value);
+  
+    any&amp; operator=(any rhs);
+
+    template&lt;typename ValueType&gt;
+      any&amp; operator=(const ValueType&amp; rhs);
+
+   ~any();
+
+    // modifiers
+    any&amp; swap(any&amp; rhs) noexcept;
+
+    // observers
+    bool empty() const noexcept;
+    const std::type_info&amp; type() const noexcept;
+  };
+
+  template&lt;typename ValueType&gt;
+    ValueType any_cast(const any&amp; operand);
+
+  template&lt;typename ValueType&gt;
+    const ValueType* any_cast(const any* operand);
+
+  template&lt;typename ValueType&gt;
+    ValueType* any_cast(any* operand);
+
+}}</pre>
+</blockquote>
+<h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
+<p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
+any_cast</code>.</p>
+<h3><a name="Class-any">Class <code>any</code></a></h3>
+<p>Objects of class <code>any</code> hold instances of any type that 
+satisfies the <code>ValueType</code> requirements.</p>
+<h4>construct/copy/destruct</h4>
+<pre>any();</pre>
+<blockquote>
+  <p><i>Postconditions:</i> <code>this-&gt;empty()</code></p>
+</blockquote>
+<pre>any(const any&amp; other);</pre>
+<blockquote>
+  <p><i>Effects:</i> Copies content of <code>other</code> into a new 
+  instance, so that any content is equivalent in both type and value to the 
+  content of other, or empty if other is empty.</p>
+  <p><i>Throws:</i> May throw a <code>bad_alloc</code> exception or any 
+  exceptions arising from the copy constructor of the contained type.</p>
+</blockquote>
+<pre>template&lt;typename ValueType&gt;
+  any(const ValueType&amp; value);</pre>
+<blockquote>
+  <p><i>Effects:</i> Makes a copy of <code>value</code>, so that the initial 
+  content of the new instance is equivalent in both type and value to value.</p>
+  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  copy constructor of the contained type.</p>
+</blockquote>
+<pre>any&amp; operator=(any rhs);</pre>
+<blockquote>
+  <p><i>Effects:</i> <code>rhs.swap(*this)</code></p>
+  <p><i>Throws:</i> <code>std::bad_alloc</code> or any exceptions arising from 
+  the copy constructor of the contained type. Assignment satisfies the strong 
+  guarantee of exception safety.</p>
+</blockquote>
+<pre>template&lt;typename ValueType&gt;
+  any&amp; operator=(const ValueType&amp; rhs);</pre>
+<blockquote>
+  <p><i>Effects:</i> <code>any(rhs).swap(*this)</code></p>
+  <p><i>Returns:</i> <code>*this</code></p>
+  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  copy constructor of the contained type. Assignment satisfies the strong 
+  guarantee of exception safety.</p>
+</blockquote>
+<pre>~any();</pre>
+<blockquote>
+  <p><i>Effects:</i> Releases resources.</p>
+  <p><i>Throws:</i> Nothing.</p>
+</blockquote>
+<h4>any modifiers</h4>
+  <pre>any&amp; swap(any&amp; rhs) noexcept;</pre>
+  <blockquote>
+  <p><i>Effects:</i> Exchange of the contents of <code>*this</code> and <code>
+  rhs</code>.</p>
+  <p><i>Returns:</i> <code>*this</code></p>
+  </blockquote>
+<h4>any observers</h4>
+<pre>bool empty() const noexcept;</pre>
+<blockquote>
+  <p><i>Returns:</i> <code>true</code> if instance is empty, otherwise <code>
+  false</code>.</p>
+</blockquote>
+  <pre><code>const std::type_info&amp; type() const</code> noexcept<code>;</code></pre>
+  <blockquote>
+  <p><i>Returns:</i> the typeid of the contained value if instance is non-empty, 
+  otherwise <code>typeid(void)</code>. </p>
+  <p>[<i>Note:</i> Useful for querying against types known either at compile 
+  time or only at runtime. <i>--end note</i>]</p>
+  </blockquote>
+<h3><a name="Non-member">Non-member</a> functions</h3>
+<pre>template&lt;typename ValueType&gt;
+  ValueType any_cast(const any &amp; operand);</pre>
+<blockquote>
+  <p><i>Returns:</i> The value contained by <code>operand</code>.</p>
+  <p><i>Throws:</i> <code>bad_any_cast</code> if unsuccessful.</p>
+  <p>[<i>Note: </i>A copy is returned because the C++ keyword casts return 
+  copies.<i>--end note.</i>]</p>
+</blockquote>
+<pre>template&lt;typename ValueType&gt;
+  const ValueType* any_cast(const any* operand);
+template&lt;typename ValueType&gt;
+  ValueType  any_cast(any* operand);</pre>
+<blockquote>
+  <p><i>Returns: </i>A similarly qualified pointer to the value content if 
+  successful, otherwise null.</p>
+</blockquote>
+<hr>
+<p>© Copyright 2001 Kevlin Henney<br>
+© Copyright 2006 Beman Dawes</p>
+<p>Revised
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-05-09<!--webbot bot="Timestamp" endspan i-checksum="12312" --></p>
+
+</body>
+
+</html>
