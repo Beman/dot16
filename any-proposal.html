@@ -247,10 +247,10 @@ values, with no scope for surprises from ambiguous conversions. <i>-- end note.<
 <h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
 
 <p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
-[copyconstructible]. A <code>ValueType</code> type may optionally meet the requirements for 
-<code>CopyAssignable</code> [copyassignable]. The strong exception-safety guarantee is required for all 
-forms of assignment. The destructor for <code>ValueType</code> types shall provide the no-throw exception-safety 
-guarantee.</p>
+[copyconstructible]. <del>A <code>ValueType</code> type may optionally meet the requirements for 
+<code>CopyAssignable</code> [copyassignable].</del> The strong exception-safety guarantee is required for all 
+forms of assignment. <del>The destructor for <code>ValueType</code> types shall provide the no-throw exception-safety 
+guarantee.</del></p>
 
 <blockquote>
 
@@ -304,6 +304,8 @@ identity and indirection. <i>--end note</i>]</p>
     bool empty() const noexcept;
     const std::type_info&amp; type() const noexcept;
   };
+
+  <ins>void swap(any&amp; x, any&amp; y);</ins>
 
   template&lt;typename ValueType&gt;
     ValueType any_cast(const any&amp; operand);
@@ -385,6 +387,10 @@ satisfies the <code>ValueType</code> requirements.</p>
   time or only at runtime. <i>--end note</i>]</p>
   </blockquote>
 <h3><a name="Non-member">Non-member</a> functions</h3>
+<ins><code>void swap(swap(any&amp; x, any&amp; y);</code></ins>
+  <blockquote>
+    <ins><i>Effects:</i> <code>x.swap(y)</code>.</ins> 
+  </blockquote>
 <pre>template&lt;typename ValueType&gt;
   ValueType any_cast(const any&amp; operand);</pre>
 <blockquote>
@@ -396,7 +402,7 @@ satisfies the <code>ValueType</code> requirements.</p>
 <pre>template&lt;typename ValueType&gt;
   const ValueType* any_cast(const any* operand);
 template&lt;typename ValueType&gt;
-  ValueType  any_cast(any* operand);</pre>
+  ValueType<ins>*</ins>  any_cast(any* operand);</pre>
 <blockquote>
   <p><i>Returns: </i>A similarly qualified pointer to the value content if 
   successful, otherwise null.</p>
