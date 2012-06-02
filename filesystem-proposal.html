@@ -39,12 +39,12 @@ del     { background-color:#FFA0A0 }
   <table style="border-collapse: collapse;" border="0" bordercolor="#111111" cellpadding="0" cellspacing="0" width="579">
     <tbody><tr>
       <td align="left" valign="top" width="153">Document number:</td>
-      <td width="426">N3335=12-0025</td>
+      <td width="426">N3365=12-0055</td>
     </tr>
     <tr>
       <td align="left" valign="top" width="153">Date:</td>
       <td width="426">
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-01-13<!--webbot bot="Timestamp" endspan i-checksum="12045" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-02-27<!--webbot bot="Timestamp" endspan i-checksum="12118" --></td>
     </tr>
     <tr>
       <td align="left" valign="top" width="153">Project:</td>
@@ -57,17 +57,34 @@ del     { background-color:#FFA0A0 }
   </tbody></table>
 
 
-<h1>Filesystem Library for C++11/TR2 (Revision 1)</h1>
+<h1>Filesystem Library Proposal (Revision 2)</h1>
 
 
-<p>This paper proposes that the&nbsp;filesystem library component of <i>C++ Standard 
-Library Technical Report 2</i> be based on Version 3 of the Boost Filesystem 
+<p>This paper proposes a filesystem library component suitable for a <i>C++ 
+Standard Library Technical Report</i> or for the <i>C++ Standard Library</i>. 
+The proposed library is based on Version 3 of the Boost Filesystem 
 Library (see <a href="http://www.boost.org/libs/filesystem">
 www.boost.org/libs/filesystem</a>). Preliminary wording is provided. A
 <a href="#TODO">TODO</a> list identifies remaining work to be done.</p>
 
 
-<h2>Revision history</h2>
+<h2>Revision history </h2>
+
+
+<p>N3365=12-0055, Filesystem Library Proposal (Revision 
+2). Changes 
+include:</p>
+
+
+<ul>
+  <li>Namespaces changed to <code>std::tbd::filesystem</code> per 
+  <a href="#Issues-List">issue 
+  1</a> discussion in Kona.</li>
+  <li>Removed references to Boost within the proposed wording.</li>
+  <li>Minor fixes to the proposed wording.</li>
+  <li>Added Issue 7: How should class path inserter and extractor be specified?</li>
+  <li>Marked up all issues to reflect Kona LWG discussions.</li>
+</ul>
 
 
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3335.html">
@@ -83,7 +100,7 @@ include:</p>
     raised by the LWG review of N3239 at the Bloomington meeting, and private 
     communications from LWG members.</li>
     <li>Namespace changed to <code>files</code> as an experiment. Made this 
-    issue number 1 so the LWG can pass judgement.</li>
+    issue number 1 so the LWG can pass judgment.</li>
     <li>New functions were added, suggested by David Svoboda, to generate 
     canonical paths and manage permissions.</li>
     <li>More C++11 functionality was applied. This process is still incomplete, 
@@ -156,9 +173,6 @@ class would be the best place to experiment with this concept, not a path class.
     application is correct.</li>
     <li>Boost.Filesystem needs to implement <code>char16_t</code> and <code>char32_t</code> support to verify the 
     specification for these is correct.</li>
-    <li>Replace path inserter and extractor <i>Effects</i> with prose, since the 
-    current wording relies on 
-  <code>boost::io::quoted</code>.</li>
     <li>The Boost implementation has more class path non-member relational 
     functions that shown in the docs, and the specific set of relational 
     functions varies between Windows and POSIX. Figure out what's happening and 
@@ -167,8 +181,15 @@ class would be the best place to experiment with this concept, not a path class.
     implemented. Expose <code>path_traits</code>?</li>
     <li><i>Effects</i> for <code>copy</code> and <code>copy_directory</code> 
     need to be reviewed, revised, tested, peer reviewed.</li>
-    <li>Review changes to header &lt;fstream&gt;. Add semantics. Add section 
-    names. Verify still in sync with WP.</li>
+    <li>Dinkumware/Microsoft report slightly different results for Decomposition 
+    table. Rerun table. Check discrepancies.</li>
+    <li>Apply issue resolutions from Kona.</li>
+    <li>Remove registered trademarks from normative text per ISO policy.</li>
+    <li>Review Nick Stoughton's email for suggestions, action items.</li>
+    <li>Change <code>time_t</code> to <code>chrono system_clock::time_point</code>, 
+    per LWG discussion in Kona. </li>
+    <li>Add [section.name] and, if possible, section numbering, per LWG 
+    discussion in Kona. </li>
   </ul>
   
   
@@ -181,7 +202,7 @@ class would be the best place to experiment with this concept, not a path class.
     <a href="#Definitions">Definitions</a><br>
     <a href="#Conformance">Conformance</a><br>
     <a href="#Header-filesystem-synopsis">
-    Header <code>&lt;files&gt;</code> synopsis</a><br>
+    Header <code>&lt;filesystem&gt;</code> synopsis</a><br>
     <a href="#Error-reporting">Error reporting</a><br>
     <a href="#class-path">Class <code>path</code></a><br>
 &nbsp;&nbsp;&nbsp; <a href="#path-Conversions"><code>path</code> conversions</a><br>
@@ -203,7 +224,6 @@ class would be the best place to experiment with this concept, not a path class.
 &nbsp;&nbsp;&nbsp; <a href="#path-decomposition"><code>path</code> decomposition</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#path-query"><code>path</code> query</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#path-iterators"><code>path</code> iterators</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#path-deprecated-functions"><code>path</code> deprecated functions</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#path-non-member-functions"><code>path</code> non-member functions</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#path-inserter-extractor"><code>path</code> inserters and extractors</a><br>
  &nbsp;<a href="#Class-filesystem_error">Class <code>filesystem_error</code></a><br>
@@ -320,12 +340,16 @@ to the Technical Report as a new Clause:</span></p>
 
 <p>This Clause describes components that perform operations on file systems and 
 their components, such as paths, regular files, and directories.</p>
-<p>Operating systems such as <i>MAC OS, UNIX</i>, and <i>Windows</i> are 
+<p dir="ltr">Operating systems such as <i>Linux, MAC OS, UNIX</i>, and <i>Windows</i> are 
 mentioned in this Clause for purposes of illustration or to give guidance to 
 implementers. No slight to other operating systems is implied or intended.</p>
-<p><a name="Footnote-3">Footnote 3</a>: <i>MAC OS</i>® is a registered trademark 
+<p><span style="background-color: #E0E0E0">Footnote:</span> Linux® is a 
+registered trademark of Linus Torvalds.</p>
+<p><a name="Footnote-3"><span style="background-color: #E0E0E0">Footnote</span></a><span style="background-color: #E0E0E0">:</span> <i>MAC OS</i>® is a registered trademark 
 of Apple Inc.</p>
-<p><a name="Footnote-4">Footnote 4</a>: <i>Windows</i>® is a registered 
+<p><span style="background-color: #E0E0E0">Footnote:</span> <i>UNIX</i>® is a 
+registered trademark of The Open Group. </p>
+<p><a name="Footnote-4"><span style="background-color: #E0E0E0">Footnote</span></a><span style="background-color: #E0E0E0">:</span> <i>Windows</i>® is a registered 
 trademark of Microsoft Corporation.</p>
 
 <h2><a name="Conformance">Conformance</a></h2>
@@ -495,8 +519,8 @@ the same object within a file system.</p>
 <p><b><i><a name="Dot">Dot</a>, Dot Dot:</i></b> Synonyms for the filenames <code>"."</code> 
 and <code>".."</code>, respectively. The dot filename names the current 
 directory. The dot dot filename names the parent directory.</p>
-<h2><a name="Header-filesystem-synopsis">Header <code>&lt;files&gt;</code> synopsis</a></h2>
-<pre>namespace std { namespace tr2 { namespace files {
+<h2><a name="Header-filesystem-synopsis">Header <code>&lt;filesystem&gt;</code> synopsis</a></h2>
+<pre>namespace std { namespace tbd { namespace filesystem {
 
     class <a href="#class-path">path</a>;
 
@@ -685,7 +709,7 @@ directory. The dot dot filename names the parent directory.</p>
     path         <a href="#unique_path">unique_path</a>(const path&amp; model="%%%%-%%%%-%%%%-%%%%");
     path         <a href="#unique_path">unique_path</a>(const path&amp; model, system::error_code&amp; ec);
 
-} } }  // namespaces std::tr2::files</pre>
+} } }  // namespaces std::tbd::filesystem</pre>
 <h2><a name="Error-reporting">Error reporting</a></h2>
 <p>Filesystem library functions often provide two overloads, one that 
 throws an exception to report file system errors, and another that sets an
@@ -746,7 +770,7 @@ system or for a particular file system.</p>
 is an example of an innocuous appearing path that is not actually valid. <i>-- 
 end example</i>]</p>
 </blockquote>
-<pre>namespace std { namespace tr2 { namespace files {
+<pre>namespace std { namespace tbd { namespace filesystem {
 
       class path
       {
@@ -860,7 +884,7 @@ end example</i>]</p>
         string_type pathname;  // <b><i>exposition only</i></b>
       };
 
-} } }  // namespaces std::tr2::files</pre>
+} } }  // namespaces std::tbd::filesystem</pre>
 <p><code><a name="value_type">value_type</a></code> is an implementation-defined 
 <code>typedef</code> for the 
 character type used by the operating system to represent pathnames.</p>
@@ -895,30 +919,37 @@ native format prefix can be introduced to identify the native format. <i>-- end
 rationale</i>]</p>
 </blockquote>
 
-<table style="border-collapse: collapse;" align="center" bgcolor="#D7EEFF" border="1" bordercolor="#111111" cellpadding="3" cellspacing="0" width="90%">
+<div align="center">
+  <center>
+
+<table style="border-collapse: collapse;" bgcolor="#E0E0E0" border="1" bordercolor="#111111" cellpadding="3" cellspacing="0" width="90%">
   <tbody><tr>
     <td>
-    Class <code>path</code> does not currently map invalid characters in 
+    <i>Class <code>path</code> does not currently map invalid characters in 
     filenames to valid characters. In the future we might add something like 
-    this:<blockquote>
-<p>When converting filenames to the native operating system format, 
+    this:</i><blockquote>
+<p><i>When converting filenames to the native operating system format, 
 implementations are encouraged, but not required, to convert otherwise invalid 
 characters or character sequences to valid characters or character sequences. 
-Such conversions are implementation-defined.</p>
+Such conversions are implementation-defined.</i></p>
 <blockquote>
-<p>[<i>Note:</i> Filename conversion allows much wider portability of both 
-programs and filenames that would otherwise be possible.</p>
-<p>Implementations are encouraged to base conversion on existing standards or 
-practice. Examples include the Uniform Resource Locator escape syntax of a percent sign (<code>'%'</code>) 
-followed by two hex digits representing the character value. On
-<i>OpenVMS</i>, which does not allow percent signs in filenames, a dollar sign (<code>'$'</code>) 
+<p><i>[Note: Filename conversion allows much wider portability of both 
+programs and filenames that would otherwise be possible.</i></p>
+<p><i>Implementations are encouraged to base conversion on existing standards or 
+practice. Examples include the Uniform Resource Locator escape syntax of a percent sign (<code>'%'</code>)
+ 
+followed by two hex digits representing the character value. On OpenVMS,
+ which does not allow percent signs in filenames, a dollar sign (<code>'$'</code>) 
 followed by two hex digits is the existing practice, as is converting lowercase 
-letters to uppercase.<i> -- end note.</i>]</p>
+letters to uppercase. -- end note.]</i></p>
 </blockquote>
     </blockquote>
     </td>
   </tr>
 </tbody></table>
+
+  </center>
+</div>
 
 <p>If the native format requires 
 paths for regular files to be formatted differently from paths for directories, the 
@@ -994,7 +1025,7 @@ compliant iterator. The iterator's value type is required to be <code>char</code
   char32_t</code>.</li>
   <li>A C-array. The value type is required to be <code>char</code>, <code>
   wchar_t</code>, <code>char16_t</code>, or <code>char32_t</code>.</li>
-  <li>A <code>boost::filesystem::directory_entry</code>.</li>
+  <li>A <code>std::filesystem::directory_entry</code>.</li>
 </ul>
 
 <h3> <a name="path-constructors"> <code>
@@ -1351,7 +1382,9 @@ path</code>.</p>
 <p> The forward traversal order is as follows:</p>
 <ul>
   <li>The <i>root-name</i> element, if present.</li>
-  <li>The <i>root-directory</i> element, if present.</li>
+  <li>The <i>root-directory</i> element, if present, in the generic format. <i>
+  [note:</i> the generic format is required to ensure lexicographical 
+  comparison works correctly. <i>-- end note</i>]</li>
   <li>Each successive <i>filename</i> element, if present.</li>
   <li><i>Dot</i>, if one or more trailing non-root <i>slash</i> 
   characters are present.</li>
@@ -1496,9 +1529,9 @@ inline std::basic_istream&lt;Char, Traits&gt;&amp; operator&gt;&gt;(std::basic_i
    <code>is</code></p>
   </blockquote>
 <h3><a name="Class-filesystem_error">Class <code>filesystem_error</code></a></h3>
-<pre>namespace std { namespace tr2 { namespace files {
+<pre>namespace std { namespace tbd { namespace filesystem {
 
-      class basic_filesystem_error : public system_error
+      class filesystem_error : public system_error
       {
       public:
         filesystem_error();
@@ -1520,8 +1553,8 @@ inline std::basic_istream&lt;Char, Traits&gt;&amp; operator&gt;&gt;(std::basic_i
 
         const char * <a href="#filesystem_error-what">what</a>() const;
       };
-} } }  // namespaces std::tr2::files</pre>
-<p>The class template <code>basic_filesystem_error</code> defines the type of 
+} } }  // namespaces std::tbd::filesystem</pre>
+<p>The class template <code>filesystem_error</code> defines the type of 
 objects thrown as exceptions to report file system errors from functions described in this 
 Clause.</p>
 <h4> <a name="filesystem_error-members"> <code>filesystem_error</code> members</a></h4>
@@ -1789,7 +1822,7 @@ or others removes write permission for all. </p>
 
 </tbody></table>
 <h3><a name="file_status">Class file_status</a></h3>
-<pre>namespace std { namespace tr2 { namespace files {
+<pre>namespace std { namespace tbd { namespace filesystem {
 
       class file_status
       {
@@ -1812,7 +1845,7 @@ or others removes write permission for all. </p>
         void       type(<a href="#file_type">file_type</a> ft) noexcept;
         void       permissions(<a href="#Enum-perms">perms</a> prms) noexcept;
       };
-} } }  // namespaces std::tr2::files</pre>
+} } }  // namespaces std::tbd::filesystem</pre>
 <p>An object of type <code>file_status</code> stores information about the type 
 and permissions of a file.</p>
 <h4 dir="ltr"><a name="file_status-constructors"><code>file_status</code> 
@@ -1852,7 +1885,7 @@ constructors</a></h4>
 </blockquote>
 <h3><a name="Class-directory_entry">Class <code>directory_entry</code></a></h3>
 <div dir="ltr">
-<pre>namespace std { namespace tr2 { namespace files {
+<pre>namespace std { namespace tbd { namespace filesystem {
 
       class directory_entry
       {
@@ -1892,7 +1925,7 @@ constructors</a></h4>
         mutable file_status  m_symlink_status; // for exposition only; lstat()-like
       };
 
-} } }  // namespaces std::tr2::files</pre>
+} } }  // namespaces std::tbd::filesystem</pre>
 </div>
 <p>A <code>directory_entry</code> object stores a <code>path object</code>, 
 a <code>file_status</code> object for non-symbolic link status, and a <code>
@@ -2078,7 +2111,7 @@ As if,</p>
 <p>Objects of type <code>directory_iterator</code> provide standard library 
 compliant iteration over the contents of a directory. Also see class <code>
 <a href="#Class-recursive_directory_iterator">recursive_directory_iterator</a></code>.</p>
-<pre>namespace std { namespace tr2 { namespace files {
+<pre>namespace std { namespace tbd { namespace filesystem {
 
       class directory_iterator
       {
@@ -2100,7 +2133,7 @@ compliant iteration over the contents of a directory. Also see class <code>
         //  C++ Std, 24.1.1 Input iterators [input.iterators]
       };
 
-} } }  // namespaces std::tr2::files</pre>
+} } }  // namespaces std::tbd::filesystem</pre>
 <p> <code>directory_iterator</code> satisfies the requirements of an 
 input iterator (C++ Std, 24.2.1, Input iterators [input.iterators]).</p>
 <p>A <code>directory_iterator</code> reads successive elements from the directory for 
@@ -2199,7 +2232,7 @@ directory_iterator&amp; increment(system::error_code&amp; ec);</pre>
 <p>Objects of type <code>recursive_directory_iterator</code> provide standard library 
 compliant iteration over the contents of a directory, including recursion into 
 its sub-directories.</p>
-<pre>namespace std { namespace tr2 { namespace files {
+<pre>namespace std { namespace tbd { namespace filesystem {
 
       class recursive_directory_iterator :
         public iterator&lt;input_iterator_tag, directory_entry&gt;
@@ -2241,7 +2274,7 @@ its sub-directories.</p>
         </b></i><a href="#symlink_option">symlink_option</a> m_options;  <i><b>// for exposition only</b></i>
       };
 
-} } }  // namespaces std::tr2::files</pre>
+} } }  // namespaces std::tbd::filesystem</pre>
 
 <p>The behavior of a <code>recursive_directory_iterator</code> is the same 
 as a <code>directory_iterator</code> unless otherwise specified.</p>
@@ -3177,9 +3210,10 @@ End of proposed wording.</span> </p>
 <hr>
 <h2><a name="Issues-List">Issues List</a></h2>
 <hr>
-<h3>Issue 1: What is the appropriate namespace?</h3>
+<h3>Issue 1: What is the appropriate namespace?&nbsp;&nbsp;&nbsp; Status: 
+Tentatively resolved</h3>
 <h4>Discussion</h4>
-<p>The proposal places the library in <code>namespace std::tr2::files</code>. 
+<p>The N3335 proposal places the library in namespace <code>std::tr2::files</code>. 
 Rationale for a sub-namespace is that the library uses several names that don't 
 seem appropriate for namespace <code>tr2</code> since full standardization would 
 then put the names into <code>std</code>. The function names <code>remove</code> 
@@ -3187,12 +3221,17 @@ and <code>rename</code> are of particular concern because these functions differ
 in behavior from current standard library functions with those names. It also 
 doesn't seem desirable to preempt names like <code>equivalent</code> and <code>
 status</code>.</p>
-<p>The Boost Filesystem library used <code>namespace boost::filesystem</code>, 
-but that always seemed a bit too long.</p>
-<h4>Proposed resolution</h4>
-<p>Status quo. Leave in <code>namespace std::tr2::files</code>.</p>
+<h4>Resolution</h4>
+<p><i>Kona: Strong support for <code>filesystem</code> as the library's 
+namespace. Strong support for a technical report namespace that alerts uses that 
+contents are likely to change if and when they later get moved into the 
+standard. </i></p>
+<p><i>No decision yet on a TR namespace; <code>experimental</code> being used as 
+a placeholder. Thus the full namespace is changed to <code>
+std::experimental::filesystem.</code></i></p>
 <hr>
-<h3>Issue 2: Excessive use of <code>const codecvt_type&amp;</code> arguments</h3>
+<h3>Issue 2: Excessive use of <code>const codecvt_type&amp;</code> arguments&nbsp;&nbsp;&nbsp; 
+Status: Open</h3>
 <h4>Discussion</h4>
 <p>Users sometimes need to do path conversions that use something other than the 
 imbued codecvt facet. The need is particularly acute in multi-threaded 
@@ -3201,38 +3240,45 @@ said, providing an optional <code>const codecvt_type&amp;</code> argument for ev
 function where the need might possibly arise is excessive because its use is so 
 rare and it adds considerable interface clutter.</p>
 <h4>Proposed resolution</h4>
-<p dir="ltr">Remove all existing class path <code>const codecvt_type&amp;</code> 
-arguments.</p>
-<p>Add an additional non-member function:</p>
-<blockquote>
-  <pre>unspecified-iterator-type convert(<code>const path&amp; p, const codecvt_type&amp; codecvt</code>);</pre>
-  <p dir="ltr"><i>Returns: </i>An unspecified iterator type whose value type is
-  <code>path::value_type</code>. The returned iterator points to the beginning 
-  of a sequence equivalent to <code>p.native()</code> with encoding as specified 
-  by <code>codecvt</code>.</p>
-</blockquote>
+<p dir="ltr"><i>Kona:</i></p>
+<p dir="ltr"><i>Remove all existing class path <code>const codecvt_type&amp;</code> 
+arguments.</i></p>
+<p dir="ltr"><i>Beman to pursue separate encoding conversion functionality, per 
+Thursday N3336 "Adapting standard library strings and IO to a Unicode World" 
+discussion. See Kona wiki.</i></p>
+<p dir="ltr"><i>If a separate encoding conversion facility isn't possible, then 
+some form of minimal class path encoding conversion facility will be needed. 
+But..., the LWG would like to see use cases and clearer explanation of 
+motivation before deciding on specifics, and be very sure that there is no way 
+to achieve with existing std library functionality, albeit with some loss of 
+efficiency.</i></p>
 <hr>
-<h3>Issue 3: Possible "implicit cast to native type"?</h3>
+<h3>Issue 3: Possible "implicit cast to native type"?&nbsp;&nbsp;&nbsp;&nbsp; 
+Status: Open</h3>
 <h4>Discussion</h4>
 <p>In Bloomington there was discussion of "implicit cast to implicit cast to 
 native OS type to inter operate with existing iostream library and native 
 functions instead of modifying fstream".</p>
-<p>Beman comments: I wasn't in Bloomington and am not sure of the context of the 
-above. N3239 inadvertently included the Boost docs for &lt;fstream&gt; rather than 
-suggested &lt;fstream&gt; changes for TR2, and that may have caused some confusion. Or 
-maybe I'm just missing something from the wiki notes. Some further discussions 
-are needed to better define the issue.</p>
 <h4>Proposed resolution</h4>
+<p><i>Kona: The Dinkumware/Microsoft implementation has added an implicit 
+conversion to the string type, eliminating any need to modify fstream. 
+(Discussion: might be safer to make the implicit conversion protected, then make 
+fstream classes friends).</i></p>
+<p><i>Action: Beman to investigate, test, as avoiding modification of existing 
+header and classes is much desired.</i></p>
 <hr>
-<h3>Issue 4: Given move semantics, it is best not to return const strings.</h3>
+<h3>Issue 4: Given move semantics, it is best not to return const strings.&nbsp;&nbsp;&nbsp;&nbsp; 
+Status: Resolved</h3>
 <h4>Discussion</h4>
 <p>The issue title pretty much says it all.</p>
 <h4>Proposed resolution</h4>
-<p>As part of the C++11 refinements to the interface, review returns of const 
-strings and change to plain strings where appropriate.</p>
+<p><i>Kona: Return plain strings. Remove the permission for implementations to 
+return const refs, since uses are not in performace critical code and subtle 
+portability bugs may occur.</i></p>
+<p><i>Action: Beman to apply to proposed wording.</i></p>
 <hr>
 <h3>Issue 5: Is there a way to handle characters that are illegal for particular 
-OS?</h3>
+OS?&nbsp;&nbsp;&nbsp;&nbsp; Status: NAD</h3>
 <h4>Discussion</h4>
 <p>Question raised by Pablo in Bloomington.</p>
 <h4>Proposed resolution</h4>
@@ -3242,13 +3288,38 @@ unrepresentable characters. There was a comment to that effect in N3239. I
 believe it should be deferred to some future release since (1) it is complex 
 enough that I'd like to see actual implementation and use experience (presumably 
 via Boost), and (2) I can't recall a user ever requesting such a feature.</p>
+<p><i>Kona: No consensus for change, since there doesn't appear to be any 
+compelling use case.</i></p>
 <hr>
-<h3>Issue 6: Could allocator support be class path?</h3>
+<h3>Issue 6: Could allocator support be added to class path?&nbsp;&nbsp;&nbsp;&nbsp; 
+Status: Open</h3>
 <h4>Discussion</h4>
 <p>Question raised by a committee member in private email.</p>
-<p>Comment from Beman: How would allocator support work, given that class path 
-is not a template?</p>
-<h4>Proposed resolution</h4>
+<p><i>Kona: Much discussion.</i></p>
+<p><i>Action: Alisdair to write paper, based on a real implementation, so that 
+it is possible to assess the impact on interface, performance, etc.</i></p>
+<p><i>Post-Kona: Alisdair will defer paper until after TR. </i></p>
+<hr>
+<h3>Issue 7: How should class path inserter and extractor be specified?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+Status: Resolved</h3>
+<h4>Discussion</h4>
+<p>Class <code>path</code> currently is specified to used the Boost detail <code>
+quoted</code> stream manipulator. A path object is inserted delimited by quotes, 
+and extracted accordingly, ensuring that paths containing spaces are 
+round-tripped correctly.&nbsp; Quotes in the path itself are escaped, and io 
+state is saved and restored.</p>
+<p>See
+<a href="http://www.boost.org/doc/libs/1_48_0/libs/io/doc/quoted_manip.html">
+http://www.boost.org/doc/libs/1_48_0/libs/io/doc/quoted_manip.html</a></p>
+<p>Since the standard can't specify behavior in terms of something in Boost, we 
+have to change the specification. Since the <code>quoted</code> stream 
+manipulator is a handy little component, the issue is raised as to whether it 
+should go in TR2.</p>
+<h4>Resolution</h4>
+<p><i>Kona: Specify the path inserter and extractor to have the desired 
+behavior without reference to how it is achieved. (If someone wants to propose a 
+quoted manipulator, that's a separate proposal for a different TR.)</i></p>
+<p><i>Action:&nbsp; Beman to apply to proposed wording.</i></p>
 <hr>
 <p>
 
