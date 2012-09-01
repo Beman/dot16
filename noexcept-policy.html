@@ -1,0 +1,65 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>New Page 1</title>
+</head>
+
+<body>
+
+<h1>Policy for standard library use of noexcept</h1>
+<p>&gt;&gt; On Aug 31, 2012, at 8:05 PM, Dave Abrahams &lt;dave@boostpro.com&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; on Thu Aug 30 2012, Beman Dawes &lt;bdawes-AT-acm.org&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; I don't get it.<br>
+&gt;&gt;<br>
+&gt;&gt; We were told in Madrid to be conservative in the use of noexcept, and<br>
+&gt;&gt; in particular not to use noexcept on functions that have preconditions<br>
+&gt;&gt; (I.e. Requires elements.) See N3279.<br>
+&gt;&gt;<br>
+&gt;&gt; You should ignore this bad advice. Normally I'd say, &quot;IMO&quot; just to be<br>
+&gt;&gt; polite, but I don't feel I should do anything to soften this statement.<br>
+&gt;&gt; Preconditions and exceptions have no intrinsic relationship, and nothing<br>
+&gt;&gt; should be done to artificially connect them.<br>
+&gt;&gt;<br>
+&gt;&gt; In the wonderful world of well-formed programs, Dave is correct.<br>
+&gt;&gt; In the practical world of supporting potentially buggy software, we often<br>
+&gt;&gt; want to offer library modes that help users find their problems quickly.<br>
+&gt;<br>
+&gt; I know all the arguments. Such library modes are allowed as extensions<br>
+&gt; and shouldn't be written into the library spec.<br>
+<br>
+Strongly agree.<br>
+<br>
+&nbsp;</p>
+<h2>The Problem</h2>
+<p>Clause 17 does not state overall policy for the use of noexcept in the 
+standard library, except to allow implementers to add noexcept to non-virtual 
+functions.</p>
+<p>That creates several problems:</p>
+<ul>
+  <li>Library use of 17 is not subject to serious scrutiny</li>
+</ul>
+<p>As long as the LWG's policy on use of noexcept is not described in 17, 
+library use of 17 is not subject to serious scrutiny by those not privy to the 
+inner workings of the LWG. That includes both committee members and others who 
+do not normally attend LWG discussions.</p>
+<ul>
+  <li>There is currently no way to know if noexcept applies to functions like 
+  iterator member functions that are required by the standard, but do not appear 
+  in any synopsis.</li>
+</ul>
+<p>By attempting to set a policy, serious debate can occur as to what the policy 
+should be. This is important since several committee members believe the Nxxxx 
+guidelines are not suitable for long term use.</p>
+<p>&nbsp;</p>
+<h2>Proposed Wording</h2>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
