@@ -10,7 +10,7 @@
  ins {background-color:#AAFFD5}
  del {background-color:#FFD0D0}
  body { width:7.5in; font-family:sans-serif; }
- pre { font-size:smaller; background-color:#D7EEFF }
+ pre { background-color:#D7EEFF }
 </style>
 </head>
 
@@ -57,9 +57,11 @@ Requirements</a><br>
 that is suitable for a Technical Specification (TS), the C++ Standard itself 
 (C++1Y), or a new International Standard (IS). </p>
 <p>The proposal is based on the Boost Any Library (see
-<a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost version of the library is widely used. The 
+<a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost version of the library 
+has been in wide use for over a decade. The 
 proposal is a pure 
-addition to the standard library, requires no modifications of existing headers, and would have no effect on existing code.</p>
+addition to the standard library, requires no modifications of existing headers, and, 
+modulo the usual namespace caveats, will have no effect on existing code.</p>
 <h2><a name="Motivation">Motivation</a> and Design</h2>
 <p>There are times when a generic (in the sense of <span class="emphasis"><em>
 general</em></span> as opposed to <span class="emphasis"><em>template-based 
@@ -97,7 +99,7 @@ It supports copying of any value type and safe checked extraction of that value
 strictly against its type.</p>
 <h2><a name="Design-paths-not-taken">Design paths not taken</a></h2>
 <p>A similar design, offering more appropriate operators, could be used for a 
-generalized function adaptor, a generalized iterator adaptor,&nbsp; and other 
+generalized function adaptor, a generalized iterator adaptor,&nbsp;and other 
 object types that need uniform runtime treatment but support only compile-time 
 template parameter conformance. Such components are not proposed here.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
@@ -117,11 +119,13 @@ template parameter conformance. Such components are not proposed here.</p>
     <li dir="ltr">
     <p dir="ltr">Changed <code>any</code> assignment from ValueType to pass by 
     value instead of const reference (Sean Parent).</li>
+    <li dir="ltr">
+    <p dir="ltr">Made several small editorial changes to improve standardese.</li>
   </ul>
 <p dir="ltr">Sean Parent of Adobe Systems kindly provided his C++11 version of 
 the <code>any</code> interface to aid in preparing this proposal. Sean has done 
 extensive experiments with real C++11 compilers on issues such as pass-by-value 
-versus pass-by-reference. Changes annotated above are based on his work. </p>
+versus pass-by-reference. Changes annotated above are strongly influenced by his work. </p>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">
 N1939</a> - Initial paper</p>
 <h2><a name="Examples">Examples</a></h2>
@@ -284,6 +288,9 @@ identity and indirection. <i>--end note</i>]</p>
 </blockquote>
 
 <h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
+
+<p><i>Additions from the prior version are in <ins>green with 
+underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 <blockquote>
   <pre>namespace std { namespace tbd {
   class bad_any_cast : public std::bad_cast
@@ -312,11 +319,11 @@ identity and indirection. <i>--end note</i>]</p>
    ~any();
 
     // modifiers
-    any&amp; swap(any&amp; rhs) noexcept;
+    any&amp; swap(any&amp; rhs) <ins>noexcept</ins>;
 
     // observers
-    bool empty() const noexcept;
-    const type_info&amp; type() const noexcept;
+    bool empty() const <ins>noexcept</ins>;
+    const type_info&amp; type() const <ins>noexcept</ins>;
   };
 
   <ins>void swap(any&amp; x, any&amp; y) noexcept;</ins>
@@ -349,9 +356,8 @@ satisfies the <code>ValueType</code> requirements.</p>
 <pre>any(const any&amp; other);</pre>
 <blockquote>
   <p><i>Effects:</i> Copies content of <code>other</code> into a new 
-  instance, so that any content is equivalent in both type and value to the 
-  content of other, or empty if other is empty.</p>
-  <p><i>Throws:</i> May throw a <code>bad_alloc</code> exception or any 
+  instance, so that any content is equivalent in both type and value to <code>other</code>, or empty if <code>other</code> is empty.</p>
+  <p><i>Throws:</i> <code>bad_alloc</code> or any 
   exceptions arising from the copy constructor of the contained type.</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
@@ -396,15 +402,15 @@ satisfies the <code>ValueType</code> requirements.</p>
   <p><i>Returns:</i> <code>true</code> if instance is empty, otherwise <code>
   false</code>.</p>
 </blockquote>
-  <pre><code>const std::type_info&amp; type() const</code> noexcept<code>;</code></pre>
+  <pre><code>const type_info&amp; type() const</code> noexcept<code>;</code></pre>
   <blockquote>
-  <p><i>Returns:</i> the typeid of the contained value if instance is non-empty, 
+  <p><i>Returns:</i> The <code>typeid</code> of the contained value if instance is non-empty, 
   otherwise <code>typeid(void)</code>. </p>
   <p>[<i>Note:</i> Useful for querying against types known either at compile 
   time or only at runtime. <i>--end note</i>]</p>
   </blockquote>
 <h3><a name="Non-member">Non-member</a> functions</h3>
-<code>void swap(swap(any&amp; x, any&amp; y);</code>
+<code>void swap(swap(any&amp; x, any&amp; y) noexcept;</code>
   <blockquote>
     <i>Effects:</i> <code>x.swap(y)</code>. 
   </blockquote>
@@ -424,7 +430,7 @@ template&lt;typename ValueType&gt;
   ValueType*  any_cast(any* operand);</pre>
 <blockquote>
   <p><i>Returns: </i>A similarly qualified pointer to the value content if 
-  successful, otherwise null.</p>
+  successful, otherwise <code>nullptr</code>.</p>
 </blockquote>
 <hr>
 <p>© Copyright 2001 Kevlin Henney<br>
