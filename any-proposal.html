@@ -18,7 +18,7 @@
   <table border="0">
     <tr>
       <td>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">D3390=12-0080</span></td>
+      <td>N3390=12-0080</td>
     </tr>
     <tr>
       <td>Date:</td>
@@ -36,8 +36,7 @@
     </tr>
   </table>
 
-<h1><i>Any</i> Library Proposal (Revision 1)
-<span style="background-color: #FFFF00">DRAFT</span> </h1>
+<h1><i>Any</i> Library Proposal (Revision 1) </h1>
 
 <p><a href="#Introduction">Introduction</a><br>
 <a href="#Motivation">Motivation and Design</a><br>
@@ -103,7 +102,8 @@ generalized function adaptor, a generalized iterator adaptor,&nbsp;and other
 object types that need uniform runtime treatment but support only compile-time 
 template parameter conformance. Such components are not proposed here.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
-<p><span style="background-color: #FFFF00">D3390</span> - Revision 1</p>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">
+N3390</a> - Revision 1</p>
   <ul>
     <li>Text updated to reflect target is could be a TS, C++1Y, or a new IS.</li>
     <li><code>noexcept</code> applied where appropriate.</li>
@@ -202,7 +202,7 @@ bool is_char_ptr(const <code class="computeroutput">any</code>&amp; operand)
 
 bool is_string(const <code class="computeroutput">any</code>&amp; operand)
 {
-    return <code class="computeroutput">any_cast</code>&lt;std::string&gt;(&amp;operand);
+    return <code class="computeroutput">any_cast</code>&lt;std::string*&gt;(&amp;operand);
 }
 
 void count_all(many&amp; values, std::ostream&amp; out)
