@@ -23,7 +23,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-22<!--webbot bot="Timestamp" endspan i-checksum="12556" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-23<!--webbot bot="Timestamp" endspan i-checksum="12558" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -112,7 +112,9 @@ template parameter conformance. Such components are not proposed here.</p>
     <li>
     <p dir="ltr">Added missing <code>any_cast</code> overload.</li>
     <li>
-    <p dir="ltr">Added <code>any</code> move constructor.</li>
+    <p dir="ltr">Added <code>any</code> move constructor (Sean Parent).</li>
+    <li>
+    <p dir="ltr">Added <code>any</code> move assignment (Sean Parent).</li>
     <li dir="ltr">
     <p dir="ltr">Changed constructor from ValueType to pass by 
     value instead of const reference (Sean Parent).</li>
@@ -120,14 +122,20 @@ template parameter conformance. Such components are not proposed here.</p>
     <p dir="ltr">Changed <code>any</code> assignment from ValueType to pass by 
     value instead of const reference (Sean Parent).</li>
     <li dir="ltr">
+    <p dir="ltr">Changed <code>any_cast</code> with pointer argument to require 
+    that the template parameter itself be a pointer, to match <code>dynamic_cast</code>. 
+    (Thanks to Sean for catching this.) The Boost interface added <code>*</code> 
+    to the return type solely to cope with historical compiler issues, and this 
+    workaround had crept into the proposal. </li>
+    <li dir="ltr">
     <p dir="ltr">Made several small editorial changes to improve standardese.</li>
   </ul>
 <p dir="ltr">Sean Parent of Adobe Systems kindly provided his C++11 version of 
 the <code>any</code> interface to aid in preparing this proposal. Sean has done 
 extensive experiments with real C++11 compilers on issues such as pass-by-value 
-versus pass-by-reference. Changes annotated above are strongly influenced by his work. </p>
-<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">
-N1939</a> - Initial paper</p>
+versus pass-by-reference. Changes annotated above are strongly influenced by his 
+suggestions. </p>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">N1939</a> - Initial paper</p>
 <h2><a name="Examples">Examples</a></h2>
 <p>The following code demonstrates the syntax for using implicit conversions to 
 and copying of any objects:</p>
@@ -302,7 +310,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
   class any
   {
   public:
-    // construct/copy/destruct
+    // construct/destruct
     any();
 
     any(const any&amp; other);
@@ -310,13 +318,15 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 
     template&lt;typename ValueType&gt;
       any(<del>const</del> ValueType<del>&amp;</del> value);
+
+   ~any() <ins>noexcept</ins>;
   
-    any&amp; operator=(any rhs);
+    // assignments
+    any&amp; operator=(<del>const</del> any<del>&amp;</del> rhs);
+    <ins>any&amp; operator=(any&amp;&amp; rhs) noexcept;</ins>
 
     template&lt;typename ValueType&gt;
       any&amp; operator=(<del>const</del> ValueType<del>&amp;</del> rhs);
-
-   ~any();
 
     // modifiers
     any&amp; swap(any&amp; rhs) <ins>noexcept</ins>;
@@ -335,10 +345,10 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     <ins>ValueType any_cast(any&amp; operand);</ins>
 
   template&lt;typename ValueType&gt;
-    const ValueType* any_cast(const any* operand);
+    <del>const</del> ValueType<del>*</del> any_cast(const any* operand) <ins>noexcept</ins>;
 
   template&lt;typename ValueType&gt;
-    ValueType* any_cast(any* operand);
+    ValueType<del>*</del> any_cast(any* operand) <ins>noexcept</ins>;
 
 }}</pre>
 </blockquote>
@@ -348,7 +358,7 @@ any_cast</code>.</p>
 <h3><a name="Class-any">Class <code>any</code></a></h3>
 <p>Objects of class <code>any</code> hold instances of any type that 
 satisfies the <code>ValueType</code> requirements.</p>
-<h4>construct/copy/destruct</h4>
+<h4><code>any</code> construct/destruct</h4>
 <pre>any();</pre>
 <blockquote>
   <p><i>Postconditions:</i> <code>this-&gt;empty()</code></p>
@@ -360,6 +370,11 @@ satisfies the <code>ValueType</code> requirements.</p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any 
   exceptions arising from the copy constructor of the contained type.</p>
 </blockquote>
+<pre>any(any&amp;&amp; other) noexcept;</pre>
+<blockquote>
+  <p><i>Effects:</i> Moves content of <code>other</code> into a new instance, so that any content is equivalent in both type and value to 
+  the original content of <code>other</code>, or empty if <code>other</code> is empty.</p>
+</blockquote>
 <pre>template&lt;typename ValueType&gt;
   any(ValueType value);</pre>
 <blockquote>
@@ -368,12 +383,22 @@ satisfies the <code>ValueType</code> requirements.</p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
+<pre>~any() noexcept;</pre>
+<blockquote>
+  <p><i>Effects:</i> Releases resources.</p>
+</blockquote>
+<h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(any rhs);</pre>
 <blockquote>
   <p><i>Effects:</i> <code>rhs.swap(*this)</code></p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from 
   the copy constructor of the contained type. Assignment satisfies the strong 
   guarantee of exception safety.</p>
+</blockquote>
+<pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
+<blockquote>
+  <p><i>Effects:</i> Moves content of <code>rhs</code> to <code>*this</code>, so that any content is equivalent in both type and value to 
+  the original content of <code>rhs</code>, or empty if <code>rhs</code> is empty.</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
   any&amp; operator=(ValueType rhs);</pre>
@@ -384,19 +409,14 @@ satisfies the <code>ValueType</code> requirements.</p>
   copy constructor of the contained type. Assignment satisfies the strong 
   guarantee of exception safety.</p>
 </blockquote>
-<pre>~any();</pre>
-<blockquote>
-  <p><i>Effects:</i> Releases resources.</p>
-  <p><i>Throws:</i> Nothing.</p>
-</blockquote>
-<h4>any modifiers</h4>
+<h4><code>any</code> modifiers</h4>
   <pre>any&amp; swap(any&amp; rhs) noexcept;</pre>
   <blockquote>
   <p><i>Effects:</i> Exchange of the contents of <code>*this</code> and <code>
   rhs</code>.</p>
   <p><i>Returns:</i> <code>*this</code></p>
   </blockquote>
-<h4>any observers</h4>
+<h4><code>any</code> observers</h4>
 <pre>bool empty() const noexcept;</pre>
 <blockquote>
   <p><i>Returns:</i> <code>true</code> if instance is empty, otherwise <code>
@@ -410,7 +430,7 @@ satisfies the <code>ValueType</code> requirements.</p>
   time or only at runtime. <i>--end note</i>]</p>
   </blockquote>
 <h3><a name="Non-member">Non-member</a> functions</h3>
-<code>void swap(swap(any&amp; x, any&amp; y) noexcept;</code>
+  <pre><code>void swap(swap(any&amp; x, any&amp; y) noexcept;</code> </pre>
   <blockquote>
     <i>Effects:</i> <code>x.swap(y)</code>. 
   </blockquote>
@@ -425,18 +445,19 @@ template&lt;typename ValueType&gt;
   returned.<i>--end note.</i>]</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
-  const ValueType* any_cast(const any* operand);
+  ValueType any_cast(const any* operand) noexcept;
 template&lt;typename ValueType&gt;
-  ValueType*  any_cast(any* operand);</pre>
+  ValueType any_cast(any* operand) noexcept;</pre>
 <blockquote>
-  <p><i>Returns: </i>A similarly qualified pointer to the value content if 
-  successful, otherwise <code>nullptr</code>.</p>
+  <p><i>Returns: </i>A pointer to the value contained by <code>operand</code> if 
+  successful, otherwise <code>nullptr</code>. The returned pointer is <code>
+  const</code> qualified for the signature with a <code>const</code> argument.</p>
 </blockquote>
 <hr>
 <p>© Copyright 2001 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-22<!--webbot bot="Timestamp" endspan i-checksum="12556" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-23<!--webbot bot="Timestamp" endspan i-checksum="12558" --></p>
 
 </body>
 
