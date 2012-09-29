@@ -316,41 +316,41 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     any();
 
     any(const any&amp; other);
-    <ins>any(any&amp;&amp; x) noexcept;</ins>
+    any(any&amp;&amp; x) noexcept;
 
     template&lt;typename ValueType&gt;
-      any(<del>const</del> ValueType<del>&amp;</del> value);
+      any(ValueType value);
 
-   ~any() <ins>noexcept</ins>;
+   ~any() noexcept;
   
     // assignments
-    any&amp; operator=(<del>const</del> any<del>&amp;</del> rhs);
-    <ins>any&amp; operator=(any&amp;&amp; rhs) noexcept;</ins>
+    any&amp; operator=(any rhs);
+    any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template&lt;typename ValueType&gt;
-      any&amp; operator=(<del>const</del> ValueType<del>&amp;</del> rhs);
+      any&amp; operator=(ValueType rhs);
 
     // modifiers
-    any&amp; swap(any&amp; rhs) <ins>noexcept</ins>;
+    any&amp; swap(any&amp; rhs) noexcept;
 
     // observers
-    bool empty() const <ins>noexcept</ins>;
-    const type_info&amp; type() const <ins>noexcept</ins>;
+    bool empty() const noexcept;
+    const type_info&amp; type() const noexcept;
   };
 
-  <ins>void swap(any&amp; x, any&amp; y) noexcept;</ins>
+  void swap(any&amp; x, any&amp; y) noexcept;
 
   template&lt;typename ValueType&gt;
     ValueType any_cast(const any&amp; operand);
 
-  <ins>template&lt;typename ValueType&gt;</ins>
-    <ins>ValueType any_cast(any&amp; operand);</ins>
+  template&lt;typename ValueType&gt;
+    ValueType any_cast(any&amp; operand);
 
   template&lt;typename ValueType&gt;
-    <del>const</del> ValueType<del>*</del> any_cast(const any* operand) <ins>noexcept</ins>;
+    ValueType any_cast(const any* operand) noexcept;
 
   template&lt;typename ValueType&gt;
-    ValueType<del>*</del> any_cast(any* operand) <ins>noexcept</ins>;
+    ValueType any_cast(any* operand) noexcept;
 
 }}</pre>
 </blockquote>
