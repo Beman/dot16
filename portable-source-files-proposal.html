@@ -1,0 +1,95 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Portable Source Files</title>
+<style type="text/css">
+  body  {
+        font-family: sans-serif;
+        margin: 1em;
+        max-width : 7.5in;
+          }
+
+  table { margin: 0.5em; }
+
+  pre   { background-color:#D7EEFF }
+
+  ins   { background-color:#D0FFE8 }
+  del   { background-color:#FFD7D7 }
+
+</style>
+</head>
+
+<body>
+
+  <table border="0">
+    <tr>
+      <td>Document number:&nbsp;&nbsp; </td>
+      <td>Nxxxx=12-xxxx</td>
+    </tr>
+    <tr>
+      <td>Date:</td>
+      <td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-11<!--webbot bot="Timestamp" endspan i-checksum="12009" --></td>
+    </tr>
+    <tr>
+      <td>Project:</td>
+      <td>Programming Language C++</td>
+    </tr>
+    <tr>
+      <td valign="top">Reply-to:</td>
+      <td>Beman Dawes &lt;bdawes at acm dot org&gt;</td>
+    </tr>
+  </table>
+
+
+<h1>Portable Program Source Files Proposal</h1>
+<p>Even this simple program cannot be written portably in C++ and may fail to 
+compile:</p>
+<blockquote>
+  <pre>int main() {}</pre>
+</blockquote>
+<p>The problem is that &quot;The set of physical source file characters accepted is 
+implementation-defined&quot; (2.2 Phases of translation [lex.phases] paragraph 1). So 
+even though the above program&#39;s code is portable, the file that contains it is not.</p>
+<p>This creates two problems:</p>
+<ul>
+  <li>It plays into the stereotype of C++ being unfriendly to Unicode, 
+  particularly UTF-8.</li>
+  <li>It can create problems for widely portable programs. Boost, for example, 
+  even in source file comments cannot use the copyright sign (©) or the names of 
+  some developers because of reports they cause compilation failures in some 
+  environments.</li>
+</ul>
+<p>The fix is simple; continue to allow implementations their current latitude, 
+but also require that the UTF-8 character set be accepted.</p>
+<h2>Proposed change to the standard</h2>
+<p><i>Change 2.2 Phases of translation [lex.phases] as indicated:</i></p>
+  <blockquote>
+<p>The precedence among the syntax rules of translation is specified by the 
+following phases.11 </p>
+<p>1. <ins>An implementation  accepts one or more sets of physical source file characters. 
+One of the physical source file character sets accepted shall be UTF-8 without 
+byte-order marker. Other physical source file character sets accepted, if any, 
+are implementation-defined. A source file shall contain only one physical source 
+file character set; how that set is determined is implementation defined.</ins> Physical source file characters are mapped, in an 
+implementation-defined manner, to the basic source character set (introducing 
+new-line characters for end-of-line indicators) if necessary. <del>The set of 
+physical source file characters accepted is implementation-defined.</del> Trigraph 
+sequences (2.4) are replaced by corresponding single-character internal 
+representations. Any source file character not in the basic source character set 
+(2.3) is replaced by the universal-character-name that designates that 
+character. (An implementation may use any internal encoding, so long as an 
+actual extended character encountered in the source file, and the same extended 
+character expressed in the source file as a universal-character-name (i.e., 
+using the \uXXXX notation), are handled equivalently except where this 
+replacement is reverted in a raw string literal.)</p>
+  </blockquote>
+<hr>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
