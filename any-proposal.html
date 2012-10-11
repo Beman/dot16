@@ -104,6 +104,17 @@ object types that need uniform runtime treatment but support only compile-time
 template parameter conformance. Such components are not proposed here.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 2</p>
+<p>Thanks to Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler 
+for these changes:</span></span></p>
+  <ul>
+    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; typos.</li>
+    <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
+    standard library practice for member <code>swap</code> function return 
+    values.</li>
+    <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
+    to standard library practice</li>
+  </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">
 N3390</a> - Revision 1</p>
   <ul>
@@ -196,7 +207,7 @@ bool is_char_ptr(const <code class="computeroutput">any</code>&amp; operand)
         <code class="computeroutput">any_cast</code>&lt;const char *&gt;(operand);
         return true;
     }
-    catch(const <code class="computeroutput">std::tr2::bad_any_cast</code>&amp;)
+    catch(const <code class="computeroutput">std::tbd::bad_any_cast</code>&amp;)
     {
         return false;
     }
@@ -321,7 +332,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     template&lt;typename ValueType&gt;
       any(ValueType value);
 
-   ~any() noexcept;
+   ~any() <del>noexcept</del>;
   
     // assignments
     any&amp; operator=(any rhs);
@@ -331,7 +342,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
       any&amp; operator=(ValueType rhs);
 
     // modifiers
-    any&amp; swap(any&amp; rhs) noexcept;
+    <del>any&amp;</del> <ins>void</ins> swap(any&amp; rhs) noexcept;
 
     // observers
     bool empty() const noexcept;
@@ -385,7 +396,7 @@ satisfies the <code>ValueType</code> requirements.</p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
-<pre>~any() noexcept;</pre>
+<pre>~any();</pre>
 <blockquote>
   <p><i>Effects:</i> Releases resources.</p>
 </blockquote>
@@ -412,11 +423,10 @@ satisfies the <code>ValueType</code> requirements.</p>
   guarantee of exception safety.</p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
-  <pre>any&amp; swap(any&amp; rhs) noexcept;</pre>
+  <pre>void swap(any&amp; rhs) noexcept;</pre>
   <blockquote>
   <p><i>Effects:</i> Exchange of the contents of <code>*this</code> and <code>
   rhs</code>.</p>
-  <p><i>Returns:</i> <code>*this</code></p>
   </blockquote>
 <h4><code>any</code> observers</h4>
 <pre>bool empty() const noexcept;</pre>
@@ -432,7 +442,7 @@ satisfies the <code>ValueType</code> requirements.</p>
   time or only at runtime. <i>--end note</i>]</p>
   </blockquote>
 <h3><a name="Non-member">Non-member</a> functions</h3>
-  <pre><code>void swap(swap(any&amp; x, any&amp; y) noexcept;</code> </pre>
+  <pre><code>void swap(any&amp; x, any&amp; y) noexcept;</code> </pre>
   <blockquote>
     <i>Effects:</i> <code>x.swap(y)</code>. 
   </blockquote>
