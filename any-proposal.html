@@ -23,7 +23,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-29<!--webbot bot="Timestamp" endspan i-checksum="12570" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-11<!--webbot bot="Timestamp" endspan i-checksum="12009" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -113,7 +113,10 @@ for these changes:</span></span></p>
     standard library practice for member <code>swap</code> function return 
     values.</li>
     <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
-    to standard library practice</li>
+    to standard library practice.</li>
+    <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
+    exception is thrown&quot;, to conform to the usual standard library approach to 
+    specifying the strong exception-safety guarantee.</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">
 N3390</a> - Revision 1</p>
@@ -310,7 +313,7 @@ identity and indirection. <i>--end note</i>]</p>
 
 <h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
 
-<p><i>Additions from the prior version are in <ins>green with 
+<p><i>Synopsis additions from the prior version are in <ins>green with 
 underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 <blockquote>
   <pre>namespace std { namespace tbd {
@@ -403,10 +406,10 @@ satisfies the <code>ValueType</code> requirements.</p>
 <h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(any rhs);</pre>
 <blockquote>
-  <p><i>Effects:</i> <code>rhs.swap(*this)</code></p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from 
-  the copy constructor of the contained type. Assignment satisfies the strong 
-  guarantee of exception safety.</p>
+  <p><i>Effects:</i> <code>rhs.swap(*this)</code>, however, no effects if an 
+  exception is thrown.</p>
+  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  copy constructor of the contained type.</p>
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
 <blockquote>
@@ -416,11 +419,11 @@ satisfies the <code>ValueType</code> requirements.</p>
 <pre>template&lt;typename ValueType&gt;
   any&amp; operator=(ValueType rhs);</pre>
 <blockquote>
-  <p><i>Effects:</i> <code>any(rhs).swap(*this)</code></p>
+  <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if 
+  an exception is thrown.</p>
   <p><i>Returns:</i> <code>*this</code></p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
-  copy constructor of the contained type. Assignment satisfies the strong 
-  guarantee of exception safety.</p>
+  copy constructor of the contained type.</p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
   <pre>void swap(any&amp; rhs) noexcept;</pre>
@@ -469,7 +472,7 @@ template&lt;typename ValueType&gt;
 <p>© Copyright 2001 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-29<!--webbot bot="Timestamp" endspan i-checksum="12570" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-11<!--webbot bot="Timestamp" endspan i-checksum="12009" --></p>
 
 </body>
 
