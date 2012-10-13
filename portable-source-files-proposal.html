@@ -28,7 +28,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-12<!--webbot bot="Timestamp" endspan i-checksum="12011" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-13<!--webbot bot="Timestamp" endspan i-checksum="12013" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -60,15 +60,13 @@ even though the above program&#39;s code is portable, the file that contains it 
 </ul>
 <p>The fix is simple; continue to allow implementations their current latitude, 
 but also require that the UTF-8 character set be accepted.</p>
-<p>The proposed fix appears to existing practice for recent releases of the GCC 
-and Microsoft compilers on Windows.</p>
 <h2>Proposed change to the standard</h2>
 <p><i>Change 2.2 Phases of translation [lex.phases] as indicated:</i></p>
   <blockquote>
 <p>The precedence among the syntax rules of translation is specified by the 
 following phases.11 </p>
 <p>1. <ins>An implementation  accepts one or more sets of physical source file characters. 
-One of the physical source file character sets accepted shall be UTF-8 without 
+One of the physical source file character sets accepted shall be UTF-8 with or without 
 byte-order marker. Any other physical source file character sets accepted 
 are implementation-defined. A source file shall contain only one physical source 
 file character set; how that character set is determined is implementation defined.</ins> Physical source file characters are mapped, in an 
@@ -84,6 +82,21 @@ character expressed in the source file as a universal-character-name (i.e.,
 using the \uXXXX notation), are handled equivalently except where this 
 replacement is reverted in a raw string literal.)</p>
   </blockquote>
+<h2>Rationale</h2>
+<h3>UTF-8</h3>
+<p>UTF-8 is recommended as the required physical source file character set 
+because it is an ISO standard (ISO/IEC 10646 annex D), is the dominant de facto 
+standard, and is already supported by several C++ compilers. </p>
+<h3>Byte-order marker</h3>
+<p>The Unicode Technical Committee says of a 0xEFBBBF byte-order marker that 
+&quot;Its usage at the beginning of a UTF-8 data stream is neither required nor 
+recommended by the Unicode Standard&quot; although &quot;its presence does not affect 
+conformance to the UTF-8 encoding scheme.&quot; The proposed wording chose &quot;with or 
+without&quot; for maximum flexibility.</p>
+<p>The committee may wish to query compiler vendors to better understand 
+existing practice as regards byte-order markers. </p>
+<h2>Acknowledgements</h2>
+<p>Thanks to Clark Nelson for reviewing a draft of this proposal.</p>
 <hr>
 <p>&nbsp;</p>
 
