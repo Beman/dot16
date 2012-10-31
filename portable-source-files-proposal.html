@@ -12,8 +12,8 @@
           }
 
 
-  ins   { background-color:#D0FFE8 }
-  del   { background-color:#FFD7D7 }
+  ins   { color:#006300 }
+  del   { color:#FF0000 }
 
 </style>
 </head>
@@ -28,7 +28,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-13<!--webbot bot="Timestamp" endspan i-checksum="12013" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-29<!--webbot bot="Timestamp" endspan i-checksum="12026" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -49,25 +49,33 @@ compile:</p>
   <pre>int main() {}</pre>
 </blockquote>
 <p>The problem is that &quot;The set of physical source file characters accepted is 
-implementation-defined&quot; (2.2 Phases of translation [lex.phases] paragraph 1). So 
-even though the above program&#39;s code is portable, the file that contains it is not.</p>
+implementation-defined&quot; (2.2 Phases of translation [lex.phases] paragraph 
+1). So even though the above program&#39;s code is portable, to actually compile 
+it the file may require a cumbersome encoding conversion plus conversion of all 
+characters not available in the compiler accepted physical character set to the 
+appropriate universal character names, alternate tokens, digraphs, and trigraphs.</p>
 <p>This creates two problems:</p>
 <ul>
   <li>It plays into the stereotype of C++ being unfriendly to Unicode, 
   particularly UTF-8.</li>
   <li>It can create problems for widely portable programs. Boost source files, for example, cannot use the copyright sign (©) or the names of 
-  some developers even in comments because there have been reports of compilation failures.</li>
+  some Boost developers even in comments because they cause some compilers to 
+  reject the source file.</li>
 </ul>
-<p>The fix is simple; continue to allow implementations their current latitude, 
-but also require that the UTF-8 character set be accepted.</p>
+<p>The fix is simple; continue to allow implementations their current latitude 
+with regard to physical source file character sets, 
+but add a requirement that the UTF-8 character set be accepted.</p>
+<p>The proposed wording below is intended to require no changes to any existing 
+source files.</p>
 <h2>Proposed change to the standard</h2>
-<p><i>Change 2.2 Phases of translation [lex.phases] as indicated:</i></p>
+<p><i>Change 2.2 Phases of translation [lex.phases] paragraph 1, bullet 1 as indicated:</i></p>
   <blockquote>
 <p>The precedence among the syntax rules of translation is specified by the 
-following phases.11 </p>
-<p>1. <ins>An implementation  accepts one or more sets of physical source file characters. 
-One of the physical source file character sets accepted shall be UTF-8 with or without 
-byte-order marker. Any other physical source file character sets accepted 
+following phases.<sup>11</sup> </p>
+<p>1. <ins>An implementation  accepts one or more physical source file character 
+sets. 
+One of the physical source file character sets accepted shall be UTF-8 with 0xEFBBBF 
+byte-order marker. Any additional physical source file character sets accepted 
 are implementation-defined. A source file shall contain only one physical source 
 file character set; how that character set is determined is implementation defined.</ins> Physical source file characters are mapped, in an 
 implementation-defined manner, to the basic source character set (introducing 
@@ -89,14 +97,26 @@ because it is an ISO standard (ISO/IEC 10646 annex D), is the de facto
 standard for byte-oriented character set encodings, and is already supported by several C++ compilers. </p>
 <h3>Byte-order marker</h3>
 <p>The Unicode Technical Committee says of a 0xEFBBBF byte-order marker that 
+although 
 &quot;Its usage at the beginning of a UTF-8 data stream is neither required nor 
-recommended by the Unicode Standard&quot; although &quot;its presence does not affect 
-conformance to the UTF-8 encoding scheme.&quot; The proposed wording chose &quot;with or 
-without&quot; for maximum flexibility.</p>
+recommended by the Unicode Standard&quot;, &quot;its presence does not affect 
+conformance to the UTF-8 encoding scheme.&quot; The proposed wording require a 
+byte-order marker to assist compilers that wish to auto-detect the presence of 
+UTF-8. Compilers are still permitted to accept UTF-8 source files without 
+byte-order markers.</p>
 <p>The committee may wish to query compiler vendors to better understand 
-existing practice as regards byte-order markers. </p>
+existing practice as regards byte-order markers.</p>
+<h3>Digraphs and Trigraphs</h3>
+<p>Jeremiah Willcock asks &quot;would it make sense to disable digraphs and trigraphs 
+in UTF-8 files...&quot;? This proposal makes no changes in the handling of digraph 
+and trigraph sequences to avoid possible breakage of existing source files. 
+But if the number of existing C++ source files that are UTF-8 encoded with BOM
+<b>and</b> use digraphs or trigraphs is believed to be very small, the committee may wish to 
+consider such a change.</p>
 <h2>Acknowledgements</h2>
-<p>Thanks to Clark Nelson for reviewing a draft of this proposal.</p>
+<p>Thanks to Clark Nelson for reviewing a draft of this proposal. 
+Further improvements were made in response to comments from Lawrence Crowl and 
+Jeremiah Willcock</p>
 <hr>
 <p>&nbsp;</p>
 
