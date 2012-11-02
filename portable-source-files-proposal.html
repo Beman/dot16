@@ -23,7 +23,7 @@
   <table border="0">
     <tr>
       <td>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF99">D3463=12-0153</span></td>
+      <td>N3463=12-0153</td>
     </tr>
     <tr>
       <td>Date:</td>
@@ -41,8 +41,7 @@
   </table>
 
 
-<h1>Portable Program Source Files <span style="background-color: #FFFF99">
-(Draft)</span></h1>
+<h1>Portable Program Source Files</h1>
 <p>Even this simple program cannot be written portably in C++ and may fail to 
 compile:</p>
 <blockquote>
@@ -50,10 +49,10 @@ compile:</p>
 </blockquote>
 <p>The problem is that &quot;The set of physical source file characters accepted is 
 implementation-defined&quot; (2.2 Phases of translation [lex.phases] paragraph 
-1). So even though the above program&#39;s code is portable, to actually compile 
-it the file may require a cumbersome encoding conversion plus conversion of all 
+1). So even though the above program&#39;s code is portable, to actually compile the file may require 
+the user to do a cumbersome encoding conversion plus conversion of all 
 characters not available in the compiler accepted physical character set to the 
-appropriate universal character names, alternate tokens, digraphs, and trigraphs.</p>
+appropriate universal character names, alternate tokens, and trigraphs.</p>
 <p>This creates two problems:</p>
 <ul>
   <li>It plays into the stereotype of C++ being unfriendly to Unicode, 
@@ -64,7 +63,7 @@ appropriate universal character names, alternate tokens, digraphs, and trigraphs
 </ul>
 <p>The proposed fix is simple; continue to allow implementations their current latitude 
 with regard to physical source file character sets, 
-but add a requirement that the UTF-8 character set be accepted.</p>
+but add a requirement that the UTF-8 character encoding be accepted.</p>
 <p>This ensures that a UTF-8 encoded source file is acceptable to all compilers 
 on all systems. It does not address other character set related challenges in 
 writing truly portable code, such the effect of conversion of character or 
@@ -81,7 +80,8 @@ files with byte-order marker.</p>
 following phases.<sup>11</sup> </p>
 <p>1. <ins>An implementation  accepts one or more physical source file character 
 sets. 
-One of the physical source file character sets accepted shall be UTF-8 with 0xEFBBBF 
+One of the physical source file character sets accepted shall be the UTF-8 
+character encoding form of the Unicode character set with 0xEFBBBF 
 byte-order marker. Any additional physical source file character sets accepted 
 are implementation-defined. A source file shall contain only one physical source 
 file character set; how that character set is determined is implementation defined.</ins> Physical source file characters are mapped, in an 
@@ -100,8 +100,8 @@ replacement is reverted in a raw string literal.)</p>
 <h2>Rationale</h2>
 <h3>UTF-8</h3>
 <p>UTF-8 is recommended as the required physical source file character set 
-because it is an ISO standard (ISO/IEC 10646 annex D), is the de facto 
-standard for byte-oriented character set encodings, and is already supported by several C++ compilers. </p>
+encoding form of the Unicode character set because Unicode is an ISO standard (ISO/IEC 10646 annex D), is the de facto 
+standard for such encodings, and is already supported by several C++ compilers. </p>
 <h3>Byte-order marker</h3>
 <p>The proposed wording requires a 
 byte-order marker to assist compilers that wish to auto-detect  
@@ -118,8 +118,10 @@ But if the number of existing C++ source files that are UTF-8 encoded with BOM
 consider such a change.</p>
 <h2>Acknowledgements</h2>
 <p>Thanks to Clark Nelson for reviewing a draft of this proposal. 
-Further improvements were made in response to comments from Lawrence Crowl and 
-Jeremiah Willcock</p>
+Further improvements were made in response to comments from Lawrence Crowl, 
+Jeremiah Willcock, and <span class="gI">
+<span email="ganesh@barbati.net" name="Alberto Ganesh Barbati" class="gD">
+Alberto Ganesh Barbati.</span></span></p>
 <hr>
 <p>&nbsp;</p>
 
