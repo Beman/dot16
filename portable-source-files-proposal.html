@@ -28,7 +28,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-29<!--webbot bot="Timestamp" endspan i-checksum="12026" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-11-02<!--webbot bot="Timestamp" endspan i-checksum="12074" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -62,11 +62,18 @@ appropriate universal character names, alternate tokens, digraphs, and trigraphs
   some Boost developers even in comments because they cause some compilers to 
   reject the source file.</li>
 </ul>
-<p>The fix is simple; continue to allow implementations their current latitude 
+<p>The proposed fix is simple; continue to allow implementations their current latitude 
 with regard to physical source file character sets, 
 but add a requirement that the UTF-8 character set be accepted.</p>
+<p>This ensures that a UTF-8 encoded source file is acceptable to all compilers 
+on all systems. It does not address other character set related challenges in 
+writing truly portable code, such the effect of conversion of character or 
+string literals of source character set members to the execution character set 
+([lex.phases], paragraph 5). Every journey begins with a single step, and that&#39;s 
+all this proposal provides; the first step.</p>
 <p>The proposed wording below is intended to require no changes to any existing 
-source files.</p>
+source files and no changes to compilers that already recognize UTF-8 source 
+files with byte-order marker.</p>
 <h2>Proposed change to the standard</h2>
 <p><i>Change 2.2 Phases of translation [lex.phases] paragraph 1, bullet 1 as indicated:</i></p>
   <blockquote>
@@ -96,16 +103,12 @@ replacement is reverted in a raw string literal.)</p>
 because it is an ISO standard (ISO/IEC 10646 annex D), is the de facto 
 standard for byte-oriented character set encodings, and is already supported by several C++ compilers. </p>
 <h3>Byte-order marker</h3>
-<p>The Unicode Technical Committee says of a 0xEFBBBF byte-order marker that 
-although 
-&quot;Its usage at the beginning of a UTF-8 data stream is neither required nor 
-recommended by the Unicode Standard&quot;, &quot;its presence does not affect 
-conformance to the UTF-8 encoding scheme.&quot; The proposed wording require a 
-byte-order marker to assist compilers that wish to auto-detect the presence of 
-UTF-8. Compilers are still permitted to accept UTF-8 source files without 
-byte-order markers.</p>
-<p>The committee may wish to query compiler vendors to better understand 
-existing practice as regards byte-order markers.</p>
+<p>The proposed wording requires a 
+byte-order marker to assist compilers that wish to auto-detect  
+UTF-8 encoding. Compilers are still permitted to accept UTF-8 source files without 
+byte-order markers. The Unicode Technical Committee says of a 0xEFBBBF 
+byte-order marker that &quot;its presence does not affect conformance to the UTF-8 
+encoding scheme.&quot;</p>
 <h3>Digraphs and Trigraphs</h3>
 <p>Jeremiah Willcock asks &quot;would it make sense to disable digraphs and trigraphs 
 in UTF-8 files...&quot;? This proposal makes no changes in the handling of digraph 
