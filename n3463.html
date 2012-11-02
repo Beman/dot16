@@ -1,0 +1,130 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Portable Source Files</title>
+<style type="text/css">
+  body  {
+        margin: 1em;
+        max-width : 7.5in;
+          }
+
+
+  ins   { color:#006300 }
+  del   { color:#FF0000 }
+
+</style>
+</head>
+
+<body>
+
+  <table border="0">
+    <tr>
+      <td>Document number:&nbsp;&nbsp; </td>
+      <td>N3463=12-0153</td>
+    </tr>
+    <tr>
+      <td>Date:</td>
+      <td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-11-02<!--webbot bot="Timestamp" endspan i-checksum="12074" --></td>
+    </tr>
+    <tr>
+      <td>Project:</td>
+      <td>Programming Language C++</td>
+    </tr>
+    <tr>
+      <td valign="top">Reply-to:</td>
+      <td>Beman Dawes &lt;bdawes at acm dot org&gt;</td>
+    </tr>
+  </table>
+
+
+<h1>Portable Program Source Files</h1>
+<p>Even this simple program cannot be written portably in C++ and may fail to 
+compile:</p>
+<blockquote>
+  <pre>int main() {}</pre>
+</blockquote>
+<p>The problem is that &quot;The set of physical source file characters accepted is 
+implementation-defined&quot; (2.2 Phases of translation [lex.phases] paragraph 
+1). So even though the above program&#39;s code is portable, to actually compile the file may require 
+the user to do a cumbersome encoding conversion plus conversion of all 
+characters not available in the compiler accepted physical character set to the 
+appropriate universal character names, alternate tokens, and trigraphs.</p>
+<p>This creates two problems:</p>
+<ul>
+  <li>It plays into the stereotype of C++ being unfriendly to Unicode, 
+  particularly UTF-8.</li>
+  <li>It can create problems for widely portable programs. Boost source files, for example, cannot use the copyright sign (©) or the names of 
+  some Boost developers even in comments because they cause some compilers to 
+  reject the source file.</li>
+</ul>
+<p>The proposed fix is simple; continue to allow implementations their current latitude 
+with regard to physical source file character sets, 
+but add a requirement that the UTF-8 character encoding be accepted.</p>
+<p>This ensures that a UTF-8 encoded source file is acceptable to all compilers 
+on all systems. It does not address other character set related challenges in 
+writing truly portable code, such the effect of conversion of character or 
+string literals of source character set members to the execution character set 
+([lex.phases], paragraph 5). Every journey begins with a single step, and that&#39;s 
+all this proposal provides; the first step.</p>
+<p>The proposed wording below is intended to require no changes to any existing 
+source files and no changes to compilers that already recognize UTF-8 source 
+files with byte-order marker.</p>
+<h2>Proposed change to the standard</h2>
+<p><i>Change 2.2 Phases of translation [lex.phases] paragraph 1, bullet 1 as indicated:</i></p>
+  <blockquote>
+<p>The precedence among the syntax rules of translation is specified by the 
+following phases.<sup>11</sup> </p>
+<p>1. <ins>An implementation  accepts one or more physical source file character 
+sets. 
+One of the physical source file character sets accepted shall be the UTF-8 
+character encoding form of the Unicode character set with 0xEFBBBF 
+byte-order marker. Any additional physical source file character sets accepted 
+are implementation-defined. A source file shall contain only one physical source 
+file character set; how that character set is determined is implementation defined.</ins> Physical source file characters are mapped, in an 
+implementation-defined manner, to the basic source character set (introducing 
+new-line characters for end-of-line indicators) if necessary. <del>The set of 
+physical source file characters accepted is implementation-defined.</del> Trigraph 
+sequences (2.4) are replaced by corresponding single-character internal 
+representations. Any source file character not in the basic source character set 
+(2.3) is replaced by the universal-character-name that designates that 
+character. (An implementation may use any internal encoding, so long as an 
+actual extended character encountered in the source file, and the same extended 
+character expressed in the source file as a universal-character-name (i.e., 
+using the \uXXXX notation), are handled equivalently except where this 
+replacement is reverted in a raw string literal.)</p>
+  </blockquote>
+<h2>Rationale</h2>
+<h3>UTF-8</h3>
+<p>UTF-8 is recommended as the required physical source file character set 
+encoding form of the Unicode character set because Unicode is an ISO standard (ISO/IEC 10646 annex D), is the de facto 
+standard for such encodings, and is already supported by several C++ compilers. </p>
+<h3>Byte-order marker</h3>
+<p>The proposed wording requires a 
+byte-order marker to assist compilers that wish to auto-detect  
+UTF-8 encoding. Compilers are still permitted to accept UTF-8 source files without 
+byte-order markers. The Unicode Technical Committee says of a 0xEFBBBF 
+byte-order marker that &quot;its presence does not affect conformance to the UTF-8 
+encoding scheme.&quot;</p>
+<h3>Digraphs and Trigraphs</h3>
+<p>Jeremiah Willcock asks &quot;would it make sense to disable digraphs and trigraphs 
+in UTF-8 files...&quot;? This proposal makes no changes in the handling of digraph 
+and trigraph sequences to avoid possible breakage of existing source files. 
+But if the number of existing C++ source files that are UTF-8 encoded with BOM
+<b>and</b> use digraphs or trigraphs is believed to be very small, the committee may wish to 
+consider such a change.</p>
+<h2>Acknowledgements</h2>
+<p>Thanks to Clark Nelson for reviewing a draft of this proposal. 
+Further improvements were made in response to comments from Lawrence Crowl, 
+Jeremiah Willcock, and <span class="gI">
+<span email="ganesh@barbati.net" name="Alberto Ganesh Barbati" class="gD">
+Alberto Ganesh Barbati.</span></span></p>
+<hr>
+<p>&nbsp;</p>
+
+</body>
+
+</html>
