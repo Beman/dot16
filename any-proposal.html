@@ -23,7 +23,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-12<!--webbot bot="Timestamp" endspan i-checksum="12011" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-12-18<!--webbot bot="Timestamp" endspan i-checksum="12151" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -53,15 +53,20 @@ Requirements</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Class-any">Class <code>any</code></a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Non-member">Non-member functions</a></p>
 <h2><a name="Introduction">Introduction</a></h2>
-<p>This paper proposes a type-safe container for single values of value types 
-that is suitable for a Technical Specification (TS), the C++ Standard itself 
-(C++1Y), or a new International Standard (IS). </p>
+<p>This paper proposes a type-safe container for single values of value types. 
+The C++ standards committee's Library Working Group reviewed the proposal at the 
+October, 2012, meeting and is tentatively targeting the proposal for the C++ Standard 
+update referred to as C++14. The proposal would also be suitable for a Library Technical
+Specification (TS).</p>
 <p>The proposal is based on the Boost Any Library (see
-<a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost version of the library 
-has been in wide use for over a decade. The 
+<a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost 
+version of library 
+has been in wide use for over a decade, and the library has been implemented 
+at least twice in addition to the Boost implementation. The 
 proposal is a pure 
-addition to the standard library, requires no modifications of existing headers, and, 
-modulo the usual namespace caveats, will have no effect on existing code.</p>
+addition to the standard library, requires no modifications to any C++11 
+standard library components, requires no compiler support, and will have no effect on existing 
+namespace-disciplined code.</p>
 <h2><a name="Motivation">Motivation</a> and Design</h2>
 <p>There are times when a generic (in the sense of <span class="emphasis"><em>
 general</em></span> as opposed to <span class="emphasis"><em>template-based 
@@ -104,7 +109,7 @@ object types that need uniform runtime treatment but support only compile-time
 template parameter conformance. Such components are not proposed here.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3460.html">
-N3460</a> - Revision 2</p>
+<span style="background-color: #FFFF00">N3460</span></a> - Revision 2</p>
 <p>Thanks to Daniel <span class="gI">
 <span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler 
 for these changes:</span></span></p>
@@ -116,8 +121,13 @@ for these changes:</span></span></p>
     <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
     to standard library practice.</li>
     <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
-    exception is thrown&quot;, to conform to the usual standard library approach to 
+    exception is thrown&quot;, conforming to the usual standard library approach to 
     specifying the strong exception-safety guarantee.</li>
+  </ul>
+  <p>Other changes:</p>
+  <ul>
+    <li>Updated to reflect LWG decision to target C++14.</li>
+    <li>Fix (()) typo in example.</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">N3390</a> - Revision 1</p>
   <ul>
@@ -187,10 +197,10 @@ void append_any(many&amp; values, const <code class="computeroutput">any</code>&
 
 void append_nothing(many&amp; values)
 {
-    values.push_back(());
+    values.push_back(any());
 }</pre>
 </blockquote>
-<p>The following predicates follow on from the previous definitions and 
+<p>The following predicates follow from the previous definitions and 
 demonstrate the use of queries on any objects:</p>
 <blockquote>
   <pre class="programlisting">bool is_empty(const <code class="computeroutput">any</code>&amp; operand)
@@ -272,8 +282,13 @@ union&quot;.</p>
 
 <h2><a name="Proposed-Wording">Proposed Wording</a></h2>
 
-<p>This clause describes components that C++ programs may use to perform 
-operations on objects of a discriminated type.</p>
+<p><i>Add the following section to the working paper at a location to be 
+determined by the project editor:</i></p>
+
+<h2>Any</h2>
+
+<p><span style="background-color: #FFFF00">This clause describes components that C++ programs may use to perform 
+operations on objects of a discriminated type.</span></p>
 
 <blockquote>
 
@@ -290,8 +305,8 @@ values, with no scope for surprises from ambiguous conversions. <i>-- end note.<
 <h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
 
 <p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
-[copyconstructible].&nbsp; The strong exception-safety guarantee is required for all 
-forms of assignment. </p>
+[copyconstructible].&nbsp; <span style="background-color: #FFFF00">The strong exception-safety guarantee is required for all 
+forms of assignment. </span> </p>
 
 <blockquote>
 
@@ -316,7 +331,7 @@ identity and indirection. <i>--end note</i>]</p>
 <p><i>Synopsis additions from the prior version are in <ins>green with 
 underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 <blockquote>
-  <pre>namespace std { namespace tbd {
+  <pre>namespace std { <del>namespace tbd {</del>
   class bad_any_cast : public std::bad_cast
   {
   public:
@@ -366,7 +381,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
   template&lt;typename ValueType&gt;
     ValueType any_cast(any* operand) noexcept;
 
-}}</pre>
+}<del>}</del></pre>
 </blockquote>
 <h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
@@ -469,10 +484,10 @@ template&lt;typename ValueType&gt;
   const</code> qualified for the signature with a <code>const</code> argument.</p>
 </blockquote>
 <hr>
-<p>© Copyright 2001 Kevlin Henney<br>
+<p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-10-12<!--webbot bot="Timestamp" endspan i-checksum="12011" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-12-18<!--webbot bot="Timestamp" endspan i-checksum="12151" --></p>
 
 </body>
 
