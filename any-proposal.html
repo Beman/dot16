@@ -17,13 +17,14 @@
 <body>
   <table border="0">
     <tr>
-      <td>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">D3460=12-0150</span></td>
+      <td>
+      <p dir="ltr">Document number:&nbsp;&nbsp; </td>
+      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-12-18<!--webbot bot="Timestamp" endspan i-checksum="12151" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-07<!--webbot bot="Timestamp" endspan i-checksum="12060" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -40,9 +41,9 @@
 <span style="background-color: #FFFF00">Draft</span></h1>
 
 <p><a href="#Introduction">Introduction</a><br>
+<a href="#Revision-History">Revision History</a><br>
 <a href="#Motivation">Motivation and Design</a><br>
 <a href="#Design-paths-not-taken">Design paths not taken</a><br>
-<a href="#Revision-History">Revision History</a><br>
 <a href="#Examples">Examples</a><br>
 <a href="#FAQ">FAQ</a><br>
 <a href="#Proposed-Wording">Proposed Wording</a><br>
@@ -67,6 +68,58 @@ proposal is a pure
 addition to the standard library, requires no modifications to any C++11 
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
+<h2><a name="Revision-History">Revision History</a></h2>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3460.html">
+<span style="background-color: #FFFF00">Dxxxx</span></a> - Revision 2</p>
+  <ul>
+    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; typos. 
+    (Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
+    standard library practice for member <code>swap</code> function return 
+    values. (Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
+    to standard library practice. (Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
+    exception is thrown&quot;, conforming to the usual standard library approach to 
+    specifying the strong exception-safety guarantee. (Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    <li>Eliminate mentions assignment - CopyConstructible is sufficient. (Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    <li>Add type erased allocator constructors. (Suggested by Daniel <span class="gI">
+<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler)</span></span></li>
+    <li>Updated to reflect LWG decision to target C++14.</li>
+    <li>Fix (()) typo in example.</li>
+  </ul>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">N3390</a> - Revision 1</p>
+  <ul>
+    <li>Text updated to reflect target is could be a TS, C++1Y, or a new IS.</li>
+    <li><code>noexcept</code> applied where appropriate.</li>
+    <li><code>any</code> copy assignment interface updated to match Boost.</li>
+    <li>Added non-member <code>swap</code> function.</li>
+    <li>
+    <p dir="ltr">Added missing <code>any_cast</code> overload.</li>
+    <li>
+    <p dir="ltr">Added <code>any</code> move constructor (Sean Parent).</li>
+    <li>
+    <p dir="ltr">Added <code>any</code> move assignment (Sean Parent).</li>
+    <li dir="ltr">
+    <p dir="ltr">Changed constructor from ValueType to pass by 
+    value instead of const reference (Sean Parent).</li>
+    <li dir="ltr">
+    <p dir="ltr">Changed <code>any</code> assignment from ValueType to pass by 
+    value instead of const reference (Sean Parent).</li>
+    <li dir="ltr">
+    <p dir="ltr">Changed <code>any_cast</code> with pointer argument to require 
+    that the template parameter itself be a pointer, to match <code>dynamic_cast</code>. 
+    (Thanks to Sean for catching this.) The Boost interface added <code>*</code> 
+    to the return type solely to cope with historical compiler issues, and this 
+    workaround had crept into the proposal. </li>
+    <li dir="ltr">
+    <p dir="ltr">Made several small editorial changes to improve standardese.</li>
+  </ul>
 <h2><a name="Motivation">Motivation</a> and Design</h2>
 <p>There are times when a generic (in the sense of <span class="emphasis"><em>
 general</em></span> as opposed to <span class="emphasis"><em>template-based 
@@ -107,55 +160,6 @@ strictly against its type.</p>
 generalized function adaptor, a generalized iterator adaptor,&nbsp;and other 
 object types that need uniform runtime treatment but support only compile-time 
 template parameter conformance. Such components are not proposed here.</p>
-<h2><a name="Revision-History">Revision History</a></h2>
-<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3460.html">
-<span style="background-color: #FFFF00">N3460</span></a> - Revision 2</p>
-<p>Thanks to Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler 
-for these changes:</span></span></p>
-  <ul>
-    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; typos.</li>
-    <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
-    standard library practice for member <code>swap</code> function return 
-    values.</li>
-    <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
-    to standard library practice.</li>
-    <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
-    exception is thrown&quot;, conforming to the usual standard library approach to 
-    specifying the strong exception-safety guarantee.</li>
-  </ul>
-  <p>Other changes:</p>
-  <ul>
-    <li>Updated to reflect LWG decision to target C++14.</li>
-    <li>Fix (()) typo in example.</li>
-  </ul>
-<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">N3390</a> - Revision 1</p>
-  <ul>
-    <li>Text updated to reflect target is could be a TS, C++1Y, or a new IS.</li>
-    <li><code>noexcept</code> applied where appropriate.</li>
-    <li><code>any</code> copy assignment interface updated to match Boost.</li>
-    <li>Added non-member <code>swap</code> function.</li>
-    <li>
-    <p dir="ltr">Added missing <code>any_cast</code> overload.</li>
-    <li>
-    <p dir="ltr">Added <code>any</code> move constructor (Sean Parent).</li>
-    <li>
-    <p dir="ltr">Added <code>any</code> move assignment (Sean Parent).</li>
-    <li dir="ltr">
-    <p dir="ltr">Changed constructor from ValueType to pass by 
-    value instead of const reference (Sean Parent).</li>
-    <li dir="ltr">
-    <p dir="ltr">Changed <code>any</code> assignment from ValueType to pass by 
-    value instead of const reference (Sean Parent).</li>
-    <li dir="ltr">
-    <p dir="ltr">Changed <code>any_cast</code> with pointer argument to require 
-    that the template parameter itself be a pointer, to match <code>dynamic_cast</code>. 
-    (Thanks to Sean for catching this.) The Boost interface added <code>*</code> 
-    to the return type solely to cope with historical compiler issues, and this 
-    workaround had crept into the proposal. </li>
-    <li dir="ltr">
-    <p dir="ltr">Made several small editorial changes to improve standardese.</li>
-  </ul>
 <p dir="ltr">Sean Parent of Adobe Systems kindly provided his C++11 version of 
 the <code>any</code> interface to aid in preparing this proposal. Sean has done 
 extensive experiments with real C++11 compilers on issues such as pass-by-value 
@@ -305,8 +309,8 @@ values, with no scope for surprises from ambiguous conversions. <i>-- end note.<
 <h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
 
 <p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
-[copyconstructible].&nbsp; <span style="background-color: #FFFF00">The strong exception-safety guarantee is required for all 
-forms of assignment. </span> </p>
+[copyconstructible].&nbsp; <del>The strong exception-safety guarantee is 
+required for all forms of assignment. </del> </p>
 
 <blockquote>
 
@@ -318,7 +322,7 @@ quantities.</p>
 
 <p>As the emphasis of a value lies in its state not its identity, values can be 
 copied and typically assigned one to another, requiring the explicit or implicit 
-definition of a public copy constructor and public assignment operator. Values 
+definition of a public copy constructor <del>and public assignment operator</del>. Values 
 typically live within other scopes, i.e. within objects or blocks, rather than 
 on the heap. Values are therefore normally passed around and manipulated 
 directly as variables or through references, but not as pointers that emphasize 
@@ -347,8 +351,14 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     any(const any&amp; other);
     any(any&amp;&amp; x) noexcept;
 
-    template&lt;typename ValueType&gt;
+    template &lt;typename ValueType&gt;
       any(ValueType value);
+
+    <ins>template &lt;class Allocator&gt;</ins>
+      <ins>any(allocator_arg_t, const Allocator&amp; a);</ins>
+
+    <ins>template &lt;class Allocator, typename ValueType&gt;</ins>
+      <ins>any(allocator_arg_t, const Allocator&amp; a, ValueType value);</ins>
 
    ~any() <del>noexcept</del>;
   
@@ -356,7 +366,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     any&amp; operator=(any rhs);
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
-    template&lt;typename ValueType&gt;
+    template &lt;typename ValueType&gt;
       any&amp; operator=(ValueType rhs);
 
     // modifiers
@@ -414,6 +424,21 @@ satisfies the <code>ValueType</code> requirements.</p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
+  <pre>template &lt;class Allocator&gt;
+  any(allocator_arg_t, const Allocator&amp; a);
+template &lt;class Allocator, typename ValueType&gt;
+  any(allocator_arg_t, const Allocator&amp; a, ValueType value);</pre>
+  <blockquote>
+    <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
+    an <b>Allocator</b> ([allocator.requirements]).</p>
+    <p><i>Effects: </i>Equivalent to the preceding constructors except that the 
+    stored value is constructed with uses-allocator construction ([allocator.uses.construction]).</p>
+    <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  copy constructor of the contained type.</p>
+    <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
+    dynamically allocated memory for small contained types, for example, where 
+    the object constructed is holding only an int. <i>—end note</i> ]</p>
+  </blockquote>
 <pre>~any();</pre>
 <blockquote>
   <p><i>Effects:</i> Releases resources.</p>
@@ -487,7 +512,7 @@ template&lt;typename ValueType&gt;
 <p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-12-18<!--webbot bot="Timestamp" endspan i-checksum="12151" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-07<!--webbot bot="Timestamp" endspan i-checksum="12060" --></p>
 
 </body>
 
