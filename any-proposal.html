@@ -46,13 +46,15 @@
 <a href="#Design-paths-not-taken">Design paths not taken</a><br>
 <a href="#Examples">Examples</a><br>
 <a href="#FAQ">FAQ</a><br>
+<a href="#Acknowledgements">Acknowledgements</a><br>
 <a href="#Proposed-Wording">Proposed Wording</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#ValueType-Requirements"><code>ValueType</code> 
 Requirements</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#synopsis">Header <code>&lt;any&gt;</code> synopsis</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Class-bad_any_cast">Class <code>bad_any_cast</code></a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Class-any">Class <code>any</code></a><br>
-&nbsp;&nbsp;&nbsp; <a href="#Non-member">Non-member functions</a></p>
+&nbsp;&nbsp;&nbsp; <a href="#Non-member">Non-member functions</a><br>
+&nbsp;</p>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>This paper proposes a type-safe container for single values of value types. 
 The C++ standards committee's Library Working Group reviewed the proposal at the 
@@ -72,26 +74,22 @@ namespace-disciplined code.</p>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3460.html">
 <span style="background-color: #FFFF00">Dxxxx</span></a> - Revision 2</p>
   <ul>
-    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; typos. 
-    (Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
+    typos. (Daniel Krügler)</li>
     <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
     standard library practice for member <code>swap</code> function return 
-    values. (Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    values. (Daniel Krügler)</li>
     <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
-    to standard library practice. (Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
+    to standard library practice. (Daniel Krügler)</li>
     <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
     exception is thrown&quot;, conforming to the usual standard library approach to 
-    specifying the strong exception-safety guarantee. (Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
-    <li>Eliminate mentions assignment - CopyConstructible is sufficient. (Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler</span></span>)</li>
-    <li>Add type erased allocator constructors. (Suggested by Daniel <span class="gI">
-<span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">Krügler)</span></span></li>
+    specifying the strong exception-safety guarantee. (Daniel Krügler)</li>
+    <li>Eliminate mentions of assignment - CopyConstructible is sufficient. 
+    (Daniel Krügler)</li>
+    <li>Add type erased allocator constructors. (Daniel Krügler)</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
+    <li>Added Acknowledgements</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">N3390</a> - Revision 1</p>
   <ul>
@@ -283,6 +281,12 @@ public:
 
 <p>Boost::any is like a &quot;typesafe void*&quot;, while Boost::variant is a &quot;typesafe 
 union&quot;.</p>
+
+<h2><a name="Acknowledgements">Acknowledgements</a></h2>
+
+<p>Sean Parent and Daniel Krügler provided numerous comments, corrections, and 
+suggestions, and were particularly helpful applying C++11 features to the 
+library. Sean also provided a copy of his C++ implementation.</p>
 
 <h2><a name="Proposed-Wording">Proposed Wording</a></h2>
 
