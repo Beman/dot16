@@ -24,7 +24,7 @@
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-07<!--webbot bot="Timestamp" endspan i-checksum="12060" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-09<!--webbot bot="Timestamp" endspan i-checksum="12064" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -118,6 +118,7 @@ namespace-disciplined code.</p>
     <li dir="ltr">
     <p dir="ltr">Made several small editorial changes to improve standardese.</li>
   </ul>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">N1939</a> - Initial paper</p>
 <h2><a name="Motivation">Motivation</a> and Design</h2>
 <p>There are times when a generic (in the sense of <span class="emphasis"><em>
 general</em></span> as opposed to <span class="emphasis"><em>template-based 
@@ -158,12 +159,6 @@ strictly against its type.</p>
 generalized function adaptor, a generalized iterator adaptor,&nbsp;and other 
 object types that need uniform runtime treatment but support only compile-time 
 template parameter conformance. Such components are not proposed here.</p>
-<p dir="ltr">Sean Parent of Adobe Systems kindly provided his C++11 version of 
-the <code>any</code> interface to aid in preparing this proposal. Sean has done 
-extensive experiments with real C++11 compilers on issues such as pass-by-value 
-versus pass-by-reference. Changes annotated above are strongly influenced by his 
-suggestions. </p>
-<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">N1939</a> - Initial paper</p>
 <h2><a name="Examples">Examples</a></h2>
 <p>The following code demonstrates the syntax for using implicit conversions to 
 and copying of any objects:</p>
@@ -286,7 +281,10 @@ union&quot;.</p>
 
 <p>Sean Parent and Daniel Krügler provided numerous comments, corrections, and 
 suggestions, and were particularly helpful applying C++11 features to the 
-library. Sean also provided a copy of his C++ implementation.</p>
+library. Sean also provided a copy of his C++ implementation. Sean has done 
+extensive experiments with real C++11 compilers on issues such as pass-by-value 
+versus pass-by-reference. Daniel's expertise with library standardese markedly 
+improved the proposed wording.</p>
 
 <h2><a name="Proposed-Wording">Proposed Wording</a></h2>
 
@@ -295,8 +293,8 @@ determined by the project editor:</i></p>
 
 <h2>Any</h2>
 
-<p><span style="background-color: #FFFF00">This clause describes components that C++ programs may use to perform 
-operations on objects of a discriminated type.</span></p>
+<p>This clause describes components that C++ programs may use to perform 
+operations on objects of a discriminated type.</p>
 
 <blockquote>
 
@@ -313,8 +311,7 @@ values, with no scope for surprises from ambiguous conversions. <i>-- end note.<
 <h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
 
 <p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
-[copyconstructible].&nbsp; <del>The strong exception-safety guarantee is 
-required for all forms of assignment. </del> </p>
+[copyconstructible].&nbsp; </p>
 
 <blockquote>
 
@@ -326,7 +323,7 @@ quantities.</p>
 
 <p>As the emphasis of a value lies in its state not its identity, values can be 
 copied and typically assigned one to another, requiring the explicit or implicit 
-definition of a public copy constructor <del>and public assignment operator</del>. Values 
+definition of a public copy constructor. Values 
 typically live within other scopes, i.e. within objects or blocks, rather than 
 on the heap. Values are therefore normally passed around and manipulated 
 directly as variables or through references, but not as pointers that emphasize 
@@ -516,7 +513,7 @@ template&lt;typename ValueType&gt;
 <p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-07<!--webbot bot="Timestamp" endspan i-checksum="12060" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-09<!--webbot bot="Timestamp" endspan i-checksum="12064" --></p>
 
 </body>
 
