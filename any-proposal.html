@@ -79,7 +79,8 @@ namespace-disciplined code.</p>
     <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
     standard library practice for member <code>swap</code> function return 
     values. (Daniel Krügler)</li>
-    <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
+    <li dir="ltr">
+    <p dir="ltr">Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
     to standard library practice. (Daniel Krügler)</li>
     <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
     exception is thrown&quot;, conforming to the usual standard library approach to 
@@ -87,6 +88,19 @@ namespace-disciplined code.</p>
     <li>Eliminate mentions of assignment - CopyConstructible is sufficient. 
     (Daniel Krügler)</li>
     <li>Add type erased allocator constructors. (Daniel Krügler)</li>
+    <li>
+    <p dir="ltr">Change the <code>any</code> default constructor to <code>
+    noexcept</code>. (Daniel Krügler)</li>
+    <li>
+    <p dir="ltr">Change <code>any&amp; operator=(any rhs)</code> to <code>any&amp; operator=(const any&amp; rhs)</code>, 
+    and change the effects accordingly. (Daniel Krügler) This avoids an 
+    ambiguity with the default generated <code>any&amp; operator=(const any&amp; rhs)</code> 
+    caused by the move assignment operator. Test case:<br>
+&nbsp;&nbsp;&nbsp; any a;<br>
+&nbsp;&nbsp;&nbsp; a = any{};</li>
+    <li>
+    <p dir="ltr">Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
+    operator=(any&amp;&amp; rhs) noexcept</code>. (Daniel Krügler)</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
     <li>Added Acknowledgements</li>
@@ -347,7 +361,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
   {
   public:
     // construct/destruct
-    any();
+    any() noexcept;
 
     any(const any&amp; other);
     any(any&amp;&amp; x) noexcept;
@@ -364,7 +378,8 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
    ~any() <del>noexcept</del>;
   
     // assignments
-    any&amp; operator=(any rhs);
+    <del>any&amp; operator=(any rhs);</del>
+    <ins>any&amp; operator=(const any&amp; rhs);</ins>
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template &lt;typename ValueType&gt;
@@ -401,7 +416,7 @@ any_cast</code>.</p>
 <p>Objects of class <code>any</code> hold instances of any type that 
 satisfies the <code>ValueType</code> requirements.</p>
 <h4><code>any</code> construct/destruct</h4>
-<pre>any();</pre>
+<pre>any() noexcept;</pre>
 <blockquote>
   <p><i>Postconditions:</i> <code>this-&gt;empty()</code></p>
 </blockquote>
@@ -445,9 +460,9 @@ template &lt;class Allocator, typename ValueType&gt;
   <p><i>Effects:</i> Releases resources.</p>
 </blockquote>
 <h4><code>any</code> assignments</h4>
-<pre>any&amp; operator=(any rhs);</pre>
+<pre>any&amp; operator=(const any&amp; rhs);</pre>
 <blockquote>
-  <p><i>Effects:</i> <code>rhs.swap(*this)</code>, however, no effects if an 
+  <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
   <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
   copy constructor of the contained type.</p>
@@ -456,6 +471,7 @@ template &lt;class Allocator, typename ValueType&gt;
 <blockquote>
   <p><i>Effects:</i> Moves content of <code>rhs</code> to <code>*this</code>, so that any content is equivalent in both type and value to 
   the original content of <code>rhs</code>, or empty if <code>rhs</code> is empty.</p>
+  <p><i>Postconditions:</i> <code>rhs.empty()</code>.</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
   any&amp; operator=(ValueType rhs);</pre>
