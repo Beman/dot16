@@ -19,12 +19,12 @@
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
+      <td><span style="background-color: #FFFF00">D3508</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-09<!--webbot bot="Timestamp" endspan i-checksum="12064" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-10<!--webbot bot="Timestamp" endspan i-checksum="12047" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -72,7 +72,7 @@ standard library components, requires no compiler support, and will have no effe
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3460.html">
-<span style="background-color: #FFFF00">Dxxxx</span></a> - Revision 2</p>
+<span style="background-color: #FFFF00">D3508</span></a> - Revision 2</p>
   <ul>
     <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
     typos. (Daniel Krügler)</li>
@@ -90,12 +90,21 @@ namespace-disciplined code.</p>
     <li>Change the <code>any</code> default constructor to <code>
     noexcept</code>. (Daniel Krügler)</li>
     <li>Change <code>any&amp; operator=(any rhs)</code> to <code>any&amp; operator=(const any&amp; rhs)</code>, 
-    and change the effects accordingly. (Daniel Krügler) This avoids an 
-    ambiguity - test case:<br>
-&nbsp;&nbsp;&nbsp; <code>any a;</code><br>
-&nbsp;&nbsp;&nbsp; <code>a = any{};</code></li>
-    <li>Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
+    and change the effects accordingly. This avoids an ambiguity. (Daniel Krügler, 
+    Sean Parent)</li>
+    <li dir="ltr">
+    <p dir="ltr">Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
     operator=(any&amp;&amp; rhs) noexcept</code>. (Daniel Krügler)</li>
+    <li>
+    <p dir="ltr">Replace &quot;successful&quot; and &quot;unsuccessful&quot; in <code>any_cast</code> 
+    with explicit specification. (<span class="gI"><span email="chris@bubblescope.net" name="Chris Jefferson" class="gD">Chris 
+    Jefferson)</span></span></li>
+    <li>
+    <p dir="ltr">Change name of template parameter for pointer flavor of&nbsp; 
+    from <code>ValueType</code> to <code>ValueTypePtr</code>. (<span class="gI"><span email="s.hesp@oisyn.nl" name="Sylvester Hesp" class="gD">Sylvester 
+    Hesp</span></span>)</li>
+    <li>
+    <p dir="ltr">Add <code>any_cast</code> examples.</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
     <li>Added Acknowledgements</li>
@@ -389,11 +398,11 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
   template&lt;typename ValueType&gt;
     ValueType any_cast(any&amp; operand);
 
-  template&lt;typename ValueType&gt;
-    ValueType any_cast(const any* operand) noexcept;
+  template&lt;typename <del>ValueType</del> <ins>ValueTypePtr</ins>&gt;
+    <del>ValueType</del> <ins>ValueTypePtr</ins> any_cast(const any* operand) noexcept;
 
-  template&lt;typename ValueType&gt;
-    ValueType any_cast(any* operand) noexcept;
+  template&lt;typename <del>ValueType</del> <ins>ValueTypePtr</ins>&gt;
+    <del>ValueTypePtr</del> <ins>ValueType</ins> any_cast(any* operand) noexcept;
 
 }<del>}</del></pre>
 </blockquote>
@@ -500,24 +509,42 @@ template&lt;typename ValueType&gt;
   ValueType any_cast(any&amp; operand);</pre>
 <blockquote>
   <p><i>Returns:</i> The value contained by <code>operand</code>.</p>
-  <p><i>Throws:</i> <code>bad_any_cast</code> if unsuccessful.</p>
+  <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
+  typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
   <p>[<i>Note: </i>For consistency with the C++ keyword casts, a copy is 
   returned.<i>--end note.</i>]</p>
+  <p>[<i>Example:</i></p>
+  <blockquote>
+    <pre>any x;
+
+x = 51;
+any_cast&lt;int&amp;&gt;(x) = 42;</pre>
+  </blockquote>
+  <p><i>--end example</i>]</p>
 </blockquote>
-<pre>template&lt;typename ValueType&gt;
-  ValueType any_cast(const any* operand) noexcept;
-template&lt;typename ValueType&gt;
-  ValueType any_cast(any* operand) noexcept;</pre>
+<pre>template&lt;typename ValueTypePtr&gt;
+  ValueTypePtr any_cast(const any* operand) noexcept;
+template&lt;typename ValueTypePtr&gt;
+  ValueTypePtr any_cast(any* operand) noexcept;</pre>
 <blockquote>
-  <p><i>Returns: </i>A pointer to the value contained by <code>operand</code> if 
-  successful, otherwise <code>nullptr</code>. The returned pointer is <code>
+  <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
+  typeid(remove_pointer&lt;ValueTypePtr&gt;::type)</code>, a pointer to the value contained by <code>operand</code>, otherwise 
+  a null pointer. The returned pointer is <code>
   const</code> qualified for the signature with a <code>const</code> argument.</p>
+  <p>[<i>Example:</i></p>
+  <blockquote>
+    <pre>bool is_string(const any&amp; operand)
+{
+  return any_cast&lt;std::string*&gt;(&amp;operand);
+}</pre>
+  </blockquote>
+  <p><i>--end example</i>]</p>
 </blockquote>
 <hr>
 <p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-09<!--webbot bot="Timestamp" endspan i-checksum="12064" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-10<!--webbot bot="Timestamp" endspan i-checksum="12047" --></p>
 
 </body>
 
