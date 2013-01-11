@@ -7,10 +7,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 <title>Any Library Proposal</title>
 <style type="text/css">
- ins {background-color:#AAFFD5}
- del {background-color:#FFD0D0}
- body { width:7.5in; font-family:sans-serif; }
- pre { background-color:#D7EEFF }
+body  {
+        font-family: sans-serif;
+        margin: 1em;
+        max-width : 7.5in;
+      }
+
+table { margin: 0.5em; }
+
+pre   { background-color:#D7EEFF }
+
+ins   { background-color:#E8FFE8 }
+del   { background-color:#FFD7D7 }
 </style>
 </head>
 
@@ -19,12 +27,12 @@
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">D3508</span></td>
+      <td>N3508</td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-10<!--webbot bot="Timestamp" endspan i-checksum="12047" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-11<!--webbot bot="Timestamp" endspan i-checksum="12049" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -37,8 +45,7 @@
     </tr>
   </table>
 
-<h1><i>Any</i> Library Proposal (Revision 2)
-<span style="background-color: #FFFF00">Draft</span></h1>
+<h1><i>Any</i> Library Proposal (Revision 2)</h1>
 
 <p><a href="#Introduction">Introduction</a><br>
 <a href="#Revision-History">Revision History</a><br>
@@ -46,6 +53,7 @@
 <a href="#Design-paths-not-taken">Design paths not taken</a><br>
 <a href="#Examples">Examples</a><br>
 <a href="#FAQ">FAQ</a><br>
+<a href="#Do-list">Do list</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
 <a href="#Proposed-Wording">Proposed Wording</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#ValueType-Requirements"><code>ValueType</code> 
@@ -71,8 +79,8 @@ addition to the standard library, requires no modifications to any C++11
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
-<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3460.html">
-<span style="background-color: #FFFF00">D3508</span></a> - Revision 2</p>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
+N3508</a> - Revision 2</p>
   <ul>
     <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
     typos. (Daniel Krügler)</li>
@@ -107,7 +115,8 @@ namespace-disciplined code.</p>
     <p dir="ltr">Add <code>any_cast</code> examples.</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
-    <li>Added Acknowledgements</li>
+    <li>Added Acknowledgements.</li>
+    <li>Added To do list.</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3390.html">N3390</a> - Revision 1</p>
   <ul>
@@ -287,6 +296,19 @@ public:
 
 <p>Boost::any is like a &quot;typesafe void*&quot;, while Boost::variant is a &quot;typesafe 
 union&quot;.</p>
+
+<h2><a name="Do-list">Do list</a></h2>
+
+  <ul>
+    <li>Replace &quot;[Note: For consistency with the C++ keyword casts, a copy is 
+    returned.--end note.]&quot; with clearer wording or examples. The note is 
+    confusing people.</li>
+    <li>Add more examples in the proposed wording.</li>
+    <li>Are const volatile qualifiers valid for the <code>any_cast</code> 
+    template parameter? Do they have any effect?</li>
+    <li>Evaluate Paul Smith's proposal for <code>emplace</code> member 
+    functions.</li>
+  </ul>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 
@@ -544,7 +566,7 @@ template&lt;typename ValueTypePtr&gt;
 <p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
 <p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-10<!--webbot bot="Timestamp" endspan i-checksum="12047" --></p>
+<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-11<!--webbot bot="Timestamp" endspan i-checksum="12049" --></p>
 
 </body>
 
