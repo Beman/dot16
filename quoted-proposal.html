@@ -28,12 +28,12 @@ del   { background-color:#FFA0A0 }
   <table border="0">
     <tr>
       <td>Document number:&nbsp;&nbsp; </td>
-      <td>N3431=12-0121</td>
+      <td><span style="background-color: #FFFF00">Draft</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2012-09-21<!--webbot bot="Timestamp" endspan i-checksum="12554" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-11<!--webbot bot="Timestamp" endspan i-checksum="12177" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -46,7 +46,7 @@ del   { background-color:#FFA0A0 }
   </table>
 
 
-<h1>Quoted Strings Library Proposal</h1>
+<h1>Quoted Strings Library Proposal (Revision 1)</h1>
 
 
 <p>This proposal is suitable for a standard library Technical Specification. It 
@@ -54,6 +54,16 @@ is a pure addition that changes no current standard library headers and will
 break no existing code, assuming disciplined use of namespaces. It has based on 
 Boost code that has been shipping for approximately two years, but has not been 
 formally reviewed.</p>
+
+
+<h2>Revision history</h2>
+
+
+<p><span style="background-color: #FFFF00">Nxxxx</span> (Revision 1)</p>
+  <ul>
+    <li>Remove unnecessary backslash from character literals in default args.</li>
+    <li>Add semantics for non-member functions.</li>
+  </ul>
 
 
 <h2>Problem description</h2>
@@ -102,25 +112,29 @@ be preceded by an escape character, default to backslash (<code>\</code>), as wi
   namespace tbd
   {
     template &lt;class charT, class traits, class Allocator&gt;
-    <b><i>unspecified-type1</i></b> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                             charT delim='\&quot;', charT escape='\\');
+    <b><i>implementation-type1</i></b> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                                charT delim='&quot;', charT escape='\\');
 
     template &lt;class charT&gt;
-    <b><i>unspecified-type2</i></b> quoted(const charT* s,
-                             charT delim='\&quot;', charT escape='\\');
+    <b><i>implementation-type2</i></b> quoted(const charT* s,
+                                charT delim='&quot;', charT escape='\\');
 
     template &lt;class charT, class traits, class Allocator&gt;
-    <b><i>unspecified-type3</i></b> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                             charT delim='\&quot;', charT escape='\\');
+    <b><i>implementation-type3</i></b> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                                charT delim='&quot;', charT escape='\\');
   }
 }</pre>
-<p><i><b><code>unspecified_type1</code></b></i> 
-and <i><b><code>unspecified_type</code></b></i><code><b><i>2</i></b></code> are implementation supplied 
+<h3>Requirements for implementation supplied types [quoted.imp]</h3>
+<p>[<i>Note:</i> The implementation supplied types serve as proxies for the
+<code>quoted</code> function arguments, allowing implementations to avoid 
+construction of temporary strings. <i>-- end note</i>] </p>
+<p><i><b><code>implementation-type1</code></b></i> 
+and <i><b><code>implementation-type</code></b></i><code><b><i>2</i></b></code> are implementation supplied 
 types with implementation supplied <code>operator&lt;&lt;</code>:</p>
 <blockquote>
   <pre>template &lt;class charT, class traits&gt;
   std::basic_ostream&lt;charT, traits&gt;&amp;
-    operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const <i><b><code>unspecified_typeN</code></b></i>&amp; proxy);</pre>
+    operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const <i><b><code>implementation-typeN</code></b></i>&amp; proxy);</pre>
 <p><i>Effects:</i> Inserts characters into <code>os</code>:</p>
   <ul>
     <li><code>delim</code>.</li>
@@ -134,19 +148,20 @@ have the type and value of the corresponding arguments of the call to the <code>
 quoted</code> function that constructed <code>proxy</code>.</p>
 <p><i>Returns:</i> <code>os</code>. </p>
 </blockquote>
-<p><i><b><code>unspecified_type3</code></b></i> is an implementation supplied 
+<p><i><b><code>implementation-type3</code></b></i> is an implementation supplied 
 type with an implementation supplied <code>operator&gt;&gt;</code>:</p>
 <blockquote>
   <pre>template &lt;class charT, class traits&gt;
   std::basic_istream&lt;charT, traits&gt;&amp;
-    operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, const <i><b><code>unspecified_type3</code></b></i>&amp; proxy);</pre>
+    operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, const <i><b><code>implementation-type3</code></b></i>&amp; proxy);</pre>
 <p><i>Effects:</i> Extracts characters from <code>os</code>:</p>
   <ul>
     <li>If the first character extracted is equal to delim, as determined by
     <code>operator==</code>, then:<ul>
       <li>Turn off the <code>skipws</code> flag.</li>
       <li><code>string.clear()</code></li>
-      <li>Until an unescaped <code>delim</code> character is reached or <code>
+      <li dir="ltr">
+      <p dir="ltr">Until an unescaped <code>delim</code> character is reached or <code>
       is.not_good()</code>, extract 
       characters from <code>os</code> and append them to <code>string</code>, 
       except that if an <code>escape</code> is reached, ignore it and append the 
@@ -162,7 +177,23 @@ have the type and value of the corresponding arguments of the call to the <code>
 quoted</code> function that constructed <code>proxy</code>.</p>
 <p><i>Returns:</i> <code>is</code>. </p>
 </blockquote>
-<h2>Acknowledgements</h2>
+<h3>Non-member functions</h3>
+  <pre>template &lt;class charT, class traits, class Allocator&gt;
+<b><i>implementation-type1</i></b> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                         charT delim='&quot;', charT escape='\\');
+template &lt;class charT, class traits, class Allocator&gt;
+<b><i>implementation-type2</i></b> quoted(const charT* s,
+                            charT delim='&quot;', charT escape='\\');
+template &lt;class charT, class traits, class Allocator&gt;
+<b><i>implementation-type3</i></b> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                            charT delim='&quot;', charT escape='\\');</pre>
+  <blockquote>
+    <p><i>Returns:</i> An object of an implementation supplied type that meets 
+    the requirements of [quoted.imp].</p>
+    <p dir="ltr"><i>Remarks:</i> The returned object encapsulates the <code>s</code>,
+    <code>delim</code>, and <code>escape</code> argument values.</p>
+  </blockquote>
+  <h2>Acknowledgements</h2>
 <p>The <code>quoted()</code> stream manipulator emerged from discussions on the 
 Boost developers mailing list. Participants included Beman Dawes, Rob Stewart, 
 Alexander Lamaison, Eric Niebler, Vicente Botet, Andrey Semashev, Phil Richards, 
