@@ -17,31 +17,31 @@ table { margin: 0.5em; }
 
 pre   { background-color:#D7EEFF }
 
-ins   { background-color:#A0FFA0 }
-del   { background-color:#FFA0A0 }
+ins   { background-color:#CCFFCC }
+del   { background-color:#FFCACA }
 
   </style>
 </head>
 
 <body>
 
-  <table border="0">
+  <table border="0" height="107">
     <tr>
-      <td>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">Draft</span></td>
+      <td height="23">Document number:&nbsp;&nbsp; </td>
+      <td height="23"><span style="background-color: #FFFF8C">Draft</span></td>
     </tr>
     <tr>
-      <td>Date:</td>
-      <td>
+      <td height="23">Date:</td>
+      <td height="23">
       <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-11<!--webbot bot="Timestamp" endspan i-checksum="12177" --></td>
     </tr>
     <tr>
-      <td>Project:</td>
-      <td>Programming Language C++</td>
+      <td height="23">Project:</td>
+      <td height="23">Programming Language C++</td>
     </tr>
     <tr>
-      <td valign="top">Reply-to:</td>
-      <td>Beman Dawes &lt;bdawes at acm dot org&gt;</td>
+      <td valign="top" height="22">Reply-to:</td>
+      <td height="22">Beman Dawes &lt;bdawes at acm dot org&gt;</td>
     </tr>
   </table>
 
@@ -59,10 +59,12 @@ formally reviewed.</p>
 <h2>Revision history</h2>
 
 
-<p><span style="background-color: #FFFF00">Nxxxx</span> (Revision 1)</p>
+<p><span style="background-color: #FFFF8C">Nxxxx</span> (Revision 1)</p>
   <ul>
     <li>Remove unnecessary backslash from character literals in default args.</li>
     <li>Add semantics for non-member functions.</li>
+    <li>So that error handling is well-specified, add specifics of stream 
+    insertion and extraction, with reference to standard.</li>
   </ul>
 
 
@@ -135,7 +137,8 @@ types with implementation supplied <code>operator&lt;&lt;</code>:</p>
   <pre>template &lt;class charT, class traits&gt;
   std::basic_ostream&lt;charT, traits&gt;&amp;
     operator&lt;&lt;(std::basic_ostream&lt;charT, traits&gt;&amp; os, const <i><b><code>implementation-typeN</code></b></i>&amp; proxy);</pre>
-<p><i>Effects:</i> Inserts characters into <code>os</code>:</p>
+<p><i>Effects:</i> <ins>Using character inserter function templates ([ostream.inserters.character]), 
+which may throw <code>ios_base::failure</code> ([ios::failure]),</ins> inserts characters into <code>os</code>:</p>
   <ul>
     <li><code>delim</code>.</li>
     <li>Each character in <code>string</code>. If the character to be output is 
@@ -154,7 +157,9 @@ type with an implementation supplied <code>operator&gt;&gt;</code>:</p>
   <pre>template &lt;class charT, class traits&gt;
   std::basic_istream&lt;charT, traits&gt;&amp;
     operator&gt;&gt;(std::basic_istream&lt;charT, traits&gt;&amp; is, const <i><b><code>implementation-type3</code></b></i>&amp; proxy);</pre>
-<p><i>Effects:</i> Extracts characters from <code>os</code>:</p>
+<p><i>Effects:</i> <ins>Using basic_istream::operator&gt;&gt; ([istream::extractors]), 
+which may throw <code>ios_base::failure</code> ([ios::failure]),</ins> extracts 
+characters from <code>os</code>:</p>
   <ul>
     <li>If the first character extracted is equal to delim, as determined by
     <code>operator==</code>, then:<ul>
@@ -180,7 +185,7 @@ quoted</code> function that constructed <code>proxy</code>.</p>
 <h3>Non-member functions</h3>
   <pre>template &lt;class charT, class traits, class Allocator&gt;
 <b><i>implementation-type1</i></b> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                         charT delim='&quot;', charT escape='\\');
+                            charT delim='&quot;', charT escape='\\');
 template &lt;class charT, class traits, class Allocator&gt;
 <b><i>implementation-type2</i></b> quoted(const charT* s,
                             charT delim='&quot;', charT escape='\\');
