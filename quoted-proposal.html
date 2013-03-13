@@ -33,7 +33,7 @@ del   { background-color:#FFCACA }
     <tr>
       <td height="23">Date:</td>
       <td height="23">
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-11<!--webbot bot="Timestamp" endspan i-checksum="12177" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-13<!--webbot bot="Timestamp" endspan i-checksum="12181" --></td>
     </tr>
     <tr>
       <td height="23">Project:</td>
@@ -49,32 +49,30 @@ del   { background-color:#FFCACA }
 <h1>Quoted Strings Library Proposal (Revision 1)</h1>
 
 
-<p>This proposal is suitable for a standard library Technical Specification. It 
-is a pure addition that changes no current standard library headers and will 
-break no existing code, assuming disciplined use of namespaces. It has based on 
-Boost code that has been shipping for approximately two years, but has not been 
-formally reviewed.</p>
+<h2><a name="Introduction">Introduction</a></h2>
 
 
-<h2>Revision history</h2>
+<p>Character strings enclosed in quotation marks are a common data format (e.g. 
+XML, CSV), yet C++ standard library stream I/O offers no direct support and has 
+a problem with strings that can trip the unwary. The proposed solution provides 
+direct support for quoted strings, and does so in a more efficient manner than 
+is likely with roll-your-own solutions</p>
 
 
-<p><span style="background-color: #FFFF8C">Nxxxx</span> - Revision 1 
-(pre-Bristol mailing)</p>
-  <ul>
-    <li>Remove unnecessary backslash from character literals in default arguments.</li>
-    <li>Add semantics for non-member functions.</li>
-    <li>Add specifics of stream insertion and extraction, with reference to the 
-    standard, so that error handling is well-specified.</li>
-  </ul>
+<p>The proposed is suitable for either C++1y or a standard library Technical Specification 
+(TS). It 
+is a pure addition that will 
+break no existing user code, assuming disciplined use of namespaces. It is based on 
+Boost code that has been shipping for several years, but has not yet been 
+formally reviewed. The declarations of new functions can go in a new header, or 
+in an existing header.</p>
 
 
-  <p>
-  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3431.html">
-  N3431</a> Initial paper (pre-Portland mailing)</p>
+<p>The proposed wording below assumes the target is C++1y and places the 
+function declarations in &lt;iomanip&gt;.</p>
 
 
-<h2>Problem description</h2>
+<h2><a name="Problem">Problem</a> description</h2>
 <p>C++ standard library stream I/O for strings that contain embedded spaces 
 can produce unexpected results. For example,</p>
 <blockquote>
@@ -113,25 +111,82 @@ be preceded by an escape character, default to backslash (<code>\</code>), as wi
 <blockquote>
   <pre>std::cout &lt;&lt; quoted(&quot;She said \&quot;Hi!\&quot;&quot;);  // outputs: &quot;She said \&quot;Hi!\&quot;&quot;</pre>
 </blockquote>
-<h2>Proposed Wording</h2>
-<h2>Header &lt;to-be-decided&gt; synopsis</h2>
-<pre>namespace std
-{
-  namespace tbd
-  {
-    template &lt;class charT, class traits, class Allocator&gt;
-    <b><i>implementation-type1</i></b> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                                charT delim='&quot;', charT escape='\\');
 
-    template &lt;class charT&gt;
-    <b><i>implementation-type2</i></b> quoted(const charT* s,
-                                charT delim='&quot;', charT escape='\\');
 
-    template &lt;class charT, class traits, class Allocator&gt;
-    <b><i>implementation-type3</i></b> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                                charT delim='&quot;', charT escape='\\');
-  }
+<h2><a name="Revision-history">Revision history</a></h2>
+
+
+<p><span style="background-color: #FFFF8C">Nxxxx</span> - Revision 1 
+(pre-Bristol mailing)</p>
+  <ul>
+    <li>Remove unnecessary backslash from character literals in default arguments.</li>
+    <li>Add semantics for non-member functions.</li>
+    <li>Add specifics of stream insertion and extraction, with reference to the 
+    standard, so that error handling is well-specified.</li>
+  </ul>
+
+
+  <p>
+  <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3431.html">
+  N3431</a> Initial paper (pre-Portland mailing)</p>
+<h2><a name="Proposed-wording">Proposed wording</a></h2>
+<p><i>Change 27.7.1 Overview [iostream.format.overview], &quot;Header &lt;iomanip&gt; 
+synopsis&quot; as indicated:</i></p>
+  <blockquote>
+    <pre>namespace std {
+// <i>types</i> T1, T2, ... <i>are unspecified implementation types</i>
+<i>T1</i> resetiosflags(ios_base::fmtflags mask);
+<i>T2</i> setiosflags (ios_base::fmtflags mask);
+<i>T3</i> setbase(int base);
+template&lt;charT&gt; <i>T4</i> setfill(charT c);
+<i>T5</i> setprecision(int n);
+<i>T6</i> setw(int n);
+template &lt;class moneyT&gt; <i>T7</i> get_money(moneyT&amp; mon, bool intl = false);
+template &lt;class moneyT&gt; <i>T8</i> put_money(const moneyT&amp; mon, bool intl = false);
+template &lt;class charT&gt; <i>T9</i> get_time(struct tm* tmb, const charT* fmt);
+template &lt;class charT&gt; <i>T10</i> put_time(const struct tm* tmb, const charT* fmt);
+
+<ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
+  <ins><i>T11</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
+             <ins>charT delim='&quot;', charT escape='\\');</ins>
+
+<ins>template &lt;class charT&gt;</ins>
+  <ins><i>T12</i> quoted(const charT* s, charT delim='&quot;', charT escape='\\');</ins>
+
+<ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
+  <ins><i>T13</i> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
+             <ins>charT delim='&quot;', charT escape='\\');</ins>
 }</pre>
+  </blockquote>
+<p>After 27.7.5 Extended manipulators [ext.manip], add a new sub-section:</p>
+  <blockquote>
+<p>27.7.6 Quoted manipulators [quoted.manip]</p>
+    <pre>template &lt;class charT, class traits, class Allocator&gt;
+<i>unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                   charT delim='&quot;', charT escape='\\');
+template &lt;class charT, class traits, class Allocator&gt;
+<i>unspecified</i> quoted(const charT* s, charT delim='&quot;', charT escape='\\');</pre>
+    <blockquote>
+<p><i>Returns:</i> An object of unspecified type such that if <code>out</code> 
+is an instance of <code>basic_ostream&lt;charT,<br>
+traits&gt;</code>, <code>s</code> is an instance of a type convertible to <code>std::basic_string&lt;charT, traits, Allocator&gt;</code>, 
+or <code>const char*</code>, respectively,
+<code>delim</code> and <code>escape</code> are instances of types convertible to
+<code>charT</code>, then the expression <code>out &lt;&lt; quoted(s, delim, escape)</code> 
+behaves as if it inserts the following characters into <code>out</code> using character inserter function templates ([ostream.inserters.character]), 
+which may throw <code>ios_base::failure</code> ([ios::failure])</p>
+  <ul>
+    <li><code>delim</code>.</li>
+    <li>Each character in <code>s</code>. If the character to be output is 
+    equal to <code>escape</code> or <code>delim</code>, as determined by <code>
+    operator==</code>, first output <code>escape</code>. </li>
+    <li><code>delim</code>.</li>
+  </ul>
+<p>and then returns a reference to <code>out</code>.</p>
+<p>The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have type
+<code>basic_ostream&lt;charT, traits&gt;&amp;</code> and value <code>out</code>.</p>
+    </blockquote>
+  </blockquote>
 <h3>Requirements for implementation supplied types [quoted.imp]</h3>
 <p>[<i>Note:</i> The implementation supplied types serve as proxies for the
 <code>quoted</code> function arguments, allowing implementations to avoid 
@@ -190,13 +245,13 @@ quoted</code> function that constructed <code>proxy</code>.</p>
 </blockquote>
 <h3>Non-member functions</h3>
   <pre>template &lt;class charT, class traits, class Allocator&gt;
-<b><i>implementation-type1</i></b> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+<i>unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
                             charT delim='&quot;', charT escape='\\');
 template &lt;class charT, class traits, class Allocator&gt;
-<b><i>implementation-type2</i></b> quoted(const charT* s,
+<i>unspecified</i> quoted(const charT* s,
                             charT delim='&quot;', charT escape='\\');
 template &lt;class charT, class traits, class Allocator&gt;
-<b><i>implementation-type3</i></b> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+<i>unspecified</i> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
                             charT delim='&quot;', charT escape='\\');</pre>
   <blockquote>
     <p><i>Returns:</i> An object of an implementation supplied type that meets 
@@ -205,7 +260,7 @@ template &lt;class charT, class traits, class Allocator&gt;
     <code>delim</code>, and <code>escape</code> argument values.</p>
   </blockquote>
   <h2>Acknowledgements</h2>
-<p>The <code>quoted()</code> stream manipulator emerged from discussions on the 
+<p>The <code>quoted()</code> stream manipulators emerged from discussions on the 
 Boost developers mailing list. Participants included Beman Dawes, Rob Stewart, 
 Alexander Lamaison, Eric Niebler, Vicente Botet, Andrey Semashev, Phil Richards, 
 and Rob Murray. Eric Niebler's suggestions provided the basis for the name and 
