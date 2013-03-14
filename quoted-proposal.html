@@ -25,15 +25,15 @@ del   { background-color:#FFCACA }
 
 <body>
 
-  <table border="0" height="107">
+  <table border="0" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0">
     <tr>
       <td height="23">Document number:&nbsp;&nbsp; </td>
-      <td height="23"><span style="background-color: #FFFF8C">Draft</span></td>
+      <td height="23">N3570</td>
     </tr>
     <tr>
       <td height="23">Date:</td>
       <td height="23">
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-13<!--webbot bot="Timestamp" endspan i-checksum="12181" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-14<!--webbot bot="Timestamp" endspan i-checksum="12183" --></td>
     </tr>
     <tr>
       <td height="23">Project:</td>
@@ -52,20 +52,21 @@ del   { background-color:#FFCACA }
 <h2><a name="Introduction">Introduction</a></h2>
 
 
-<p>Character strings enclosed in quotation marks are a common data format (e.g. 
-XML, CSV), yet C++ standard library stream I/O offers no direct support and has 
-a problem with strings that can trip the unwary. The proposed solution provides 
-direct support for quoted strings, and does so in a more efficient manner than 
-is likely with roll-your-own solutions</p>
+<p>Character strings enclosed in quotation marks are an element of numerous common data formats (e.g. 
+XML, CSV), yet C++ standard library stream I/O offers no direct support. 
+Furthermore, standard library stream I/O has 
+a problem with embedded spaces in strings that can trip the unwary. The proposed solution provides 
+direct support for quoted strings, avoids embedded spaces problems and is more 
+efficient than likely user provided solutions.</p>
 
 
-<p>The proposed is suitable for either C++1y or a standard library Technical Specification 
+<p>The proposal is suitable for either C++1y or a standard library Technical Specification 
 (TS). It 
 is a pure addition that will 
-break no existing user code, assuming disciplined use of namespaces. It is based on 
-Boost code that has been shipping for several years, but has not yet been 
-formally reviewed. The declarations of new functions can go in a new header, or 
-in an existing header.</p>
+break no existing standard-conforming user code. It is based on 
+a <a href="http://www.boost.org/libs/io/doc/quoted_manip.html">Boost component</a> that has been shipping for several years. The declarations 
+for the proposed functions can go in a new header or 
+an existing header.</p>
 
 
 <p>The proposed wording below assumes the target is C++1y and places the 
@@ -116,13 +117,15 @@ be preceded by an escape character, default to backslash (<code>\</code>), as wi
 <h2><a name="Revision-history">Revision history</a></h2>
 
 
-<p><span style="background-color: #FFFF8C">Nxxxx</span> - Revision 1 
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3570.html">
+N3570</a> - Revision 1 
 (pre-Bristol mailing)</p>
   <ul>
     <li>Remove unnecessary backslash from character literals in default arguments.</li>
     <li>Rewrite the proposed wording to follow the standard library's form for 
     iomanip functions. Note that this has the effect of making error handling 
     well-specified, as requested by the LWG at the Portland meeting.</li>
+    <li>Editorial cleanup.</li>
   </ul>
 
 
@@ -162,8 +165,9 @@ template &lt;class charT&gt; <i>T10</i> put_time(const struct tm* tmb, const cha
   <blockquote>
 <p>27.7.6 Quoted manipulators [quoted.manip]</p>
 <p>[<i>Note</i>: Quoted manipulators provide string insertion and extraction of 
-quoted strings (for example, XML and CSV formats). They are useful in ensuring 
-that strings with embedded spaces can be inserted and then extracted correctly.
+quoted strings (for example, XML and CSV formats). Quoted manipulators are useful in ensuring 
+that the content of a string with embedded spaces remains unchanged if inserted and then extracted 
+via stream I/O.
 <i>--end note</i>]</p>
     <pre>template &lt;class charT, class traits, class Allocator&gt;
 <i>unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
@@ -174,11 +178,11 @@ template &lt;class charT, class traits, class Allocator&gt;
 <p><i>Returns:</i> An object of unspecified type such that if <code>out</code> 
 is an instance of <code>basic_ostream&lt;charT,<br>
 traits&gt;</code>, <code>s</code> is an instance of a type convertible to <code>std::basic_string&lt;charT, traits, Allocator&gt;</code>, 
-or <code>const char*</code>, respectively,
+or <code>const char*</code>, respectively, and
 <code>delim</code> and <code>escape</code> are instances of
 <code>charT</code>, then the expression <code>out &lt;&lt; quoted(s, delim, escape)</code> 
 behaves as if it inserts the following characters into <code>out</code> using character inserter function templates ([ostream.inserters.character]), 
-which may throw <code>ios_base::failure</code> ([ios::failure])</p>
+which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
   <ul>
     <li><code>delim</code>.</li>
     <li>Each character in <code>s</code>. If the character to be output is 
@@ -186,7 +190,6 @@ which may throw <code>ios_base::failure</code> ([ios::failure])</p>
     operator==</code>, first output <code>escape</code>. </li>
     <li><code>delim</code>.</li>
   </ul>
-<p>and then returns a reference to <code>out</code>.</p>
 <p>The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have type
 <code>basic_ostream&lt;charT, traits&gt;&amp;</code> and value <code>out</code>.</p>
     </blockquote>
@@ -197,7 +200,8 @@ which may throw <code>ios_base::failure</code> ([ios::failure])</p>
     <blockquote>
 <p><i>Returns:</i> An object of unspecified type such that if <code>in</code> 
 is an instance of <code>basic_istream&lt;charT,<br>
-traits&gt;</code>, <code>s</code> is an instance of <code>basic_string&lt;charT, traits, Allocator&gt;</code>,
+traits&gt;</code>, <code>s</code> is an instance of <code>basic_string&lt;charT, traits, Allocator&gt;</code>, 
+and
 <code>delim</code> and <code>escape</code> are instances of types
 <code>charT</code>, then the expression <code>in &gt;&gt; quoted(s, delim, escape)</code> 
 behaves as if it extracts the following characters from <code>in</code> 
@@ -220,7 +224,6 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
     </li>
     <li>Otherwise, <code>os &gt;&gt; s</code>.</li>
   </ul>
-<p>and then returns a reference to <code>in</code>.</p>
 <p>The expression <code>in &gt;&gt; quoted(s, delim, escape)</code> shall have type
 <code>basic_istream&lt;charT, traits&gt;&amp;</code> and value <code>in</code>.</p>
     </blockquote>
