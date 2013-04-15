@@ -28,12 +28,12 @@ del   { background-color:#FFCACA }
   <table border="0" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0">
     <tr>
       <td height="23">Document number:&nbsp;&nbsp; </td>
-      <td height="23">N3570</td>
+      <td height="23"><span style="background-color: #FFFF00">Dxxxx</span></td>
     </tr>
     <tr>
       <td height="23">Date:</td>
       <td height="23">
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-03-14<!--webbot bot="Timestamp" endspan i-checksum="12183" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-15<!--webbot bot="Timestamp" endspan i-checksum="12249" --></td>
     </tr>
     <tr>
       <td height="23">Project:</td>
@@ -46,7 +46,7 @@ del   { background-color:#FFCACA }
   </table>
 
 
-<h1>Quoted Strings Library Proposal (Revision 1)</h1>
+<h1>Quoted Strings Library Proposal (Revision 2)</h1>
 
 
 <h2><a name="Introduction">Introduction</a></h2>
@@ -117,6 +117,38 @@ be preceded by an escape character, default to backslash (<code>\</code>), as wi
 <h2><a name="Revision-history">Revision history</a></h2>
 
 
+<p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 2 
+(post-Bristol mailing)</p>
+
+
+  <ul>
+    <li>Swap order of <code>const basic_string&amp;</code> and <code>const char*</code> 
+    quoted functions in synopsis per Bristol LWG.</li>
+    <li>Change <code>charT delim='&quot;'</code> to <code>charT delim=charT('&quot;')</code> 
+    per Bristol LWG.</li>
+    <li>Ditto for <code>escape</code>. This wasn't asked for, but seems 
+    inconsistent to change for <code>delim</code> without also changing for
+    <code>escape</code>.</li>
+    <li>Strike unnecessary verbiage from Returns per Bristol LWG.</li>
+    <li dir="ltr">
+    <p dir="ltr">Removed unneeded template parameters <code>traits</code> and
+    <code>Allocator</code> from the <code>const char*</code> signature per 
+    Bristol LWG.</li>
+    <li>Strike incorrect <code>const</code> from extractor signature per Bristol 
+    LWG.</li>
+    <li>
+    <p dir="ltr">In two <i>Returns:</i>, clarify as indicated below that the 
+    stream's <code>char_type</code> and the <code>charT</code> template 
+    parameter must be the same type, as requested by the Bristol LWG.</li>
+    <li>
+    <p dir="ltr">No change has been made in response the Bristol LWG query 
+    &quot;should the operator== actually be the eq from some character traits?&quot; It 
+    seems harmless and very clear to leave the operator== spec wording 
+    unchanged. But the LWG has the most expertise to answer the question; I'll 
+    defer to them if they want a change.</li>
+  </ul>
+
+
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3570.html">
 N3570</a> - Revision 1 
 (pre-Bristol mailing)</p>
@@ -149,16 +181,16 @@ template &lt;class moneyT&gt; <i>T8</i> put_money(const moneyT&amp; mon, bool in
 template &lt;class charT&gt; <i>T9</i> get_time(struct tm* tmb, const charT* fmt);
 template &lt;class charT&gt; <i>T10</i> put_time(const struct tm* tmb, const charT* fmt);
 
-<ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
-  <ins><i>T11</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
-             <ins>charT delim='&quot;', charT escape='\\');</ins>
-
 <ins>template &lt;class charT&gt;</ins>
-  <ins><i>T12</i> quoted(const charT* s, charT delim='&quot;', charT escape='\\');</ins>
+  <ins><i>T11</i> quoted(const charT* s, charT delim=charT('&quot;'), charT escape=charT('\\'));</ins>
+
+<ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
+  <ins><i>T12</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
+             <ins>charT delim=charT('&quot;'), charT escape=charT('\\'));</ins>
 
 <ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
   <ins><i>T13</i> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
-             <ins>charT delim='&quot;', charT escape='\\');</ins>
+             <ins>charT delim=charT('&quot;'), charT escape=charT('\\'));</ins>
 }</pre>
   </blockquote>
 <p><i>After 27.7.5 Extended manipulators [ext.manip], add a new sub-section:</i></p>
@@ -169,18 +201,18 @@ quoted strings (for example, XML and CSV formats). Quoted manipulators are usefu
 that the content of a string with embedded spaces remains unchanged if inserted and then extracted 
 via stream I/O.
 <i>--end note</i>]</p>
-    <pre>template &lt;class charT, class traits, class Allocator&gt;
-<i>unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                   charT delim='&quot;', charT escape='\\');
+    <pre>template &lt;class charT&gt;
+<i>  unspecified</i> quoted(const charT* s, charT delim=charT('&quot;'), charT escape=charT('\\'));
 template &lt;class charT, class traits, class Allocator&gt;
-<i>unspecified</i> quoted(const charT* s, charT delim='&quot;', charT escape='\\');</pre>
+<i>  unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                   charT delim=charT('&quot;'), charT escape=charT('\\'));</pre>
     <blockquote>
 <p><i>Returns:</i> An object of unspecified type such that if <code>out</code> 
-is an instance of <code>basic_ostream&lt;charT,<br>
-traits&gt;</code>, <code>s</code> is an instance of a type convertible to <code>std::basic_string&lt;charT, traits, Allocator&gt;</code>, 
+is an instance of <code>basic_ostream</code> <ins>with <code>char_type</code> the same as
+<code>charT</code>,</ins><code> <del>&lt;charT, traits&gt;, </del></code> <del><code>s</code> is an instance of a type convertible to <code>std::basic_string&lt;charT, traits, Allocator&gt;</code>, 
 or <code>const char*</code>, respectively, and
 <code>delim</code> and <code>escape</code> are instances of
-<code>charT</code>, then the expression <code>out &lt;&lt; quoted(s, delim, escape)</code> 
+<code>charT</code>,</del> then the expression <code>out &lt;&lt; quoted(s, delim, escape)</code> 
 behaves as if it inserts the following characters into <code>out</code> using character inserter function templates ([ostream.inserters.character]), 
 which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
   <ul>
@@ -190,20 +222,22 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
     operator==</code>, first output <code>escape</code>. </li>
     <li><code>delim</code>.</li>
   </ul>
-<p>The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have type
-<code>basic_ostream&lt;charT, traits&gt;&amp;</code> and value <code>out</code>.</p>
+<p>The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have <ins>the same 
+reference</ins> type
+<del><code>basic_ostream&lt;charT, traits&gt;&amp;</code></del> and value <ins>as</ins> <code>out</code>.</p>
     </blockquote>
     <pre>template &lt;class charT, class traits, class Allocator&gt;
-<i>unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
-                   charT delim='&quot;', charT escape='\\');
+<i>  unspecified</i> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+                   charT delim=charT('&quot;'), charT escape=charT('\\'));
 </pre>
     <blockquote>
 <p><i>Returns:</i> An object of unspecified type such that if <code>in</code> 
-is an instance of <code>basic_istream&lt;charT,<br>
-traits&gt;</code>, <code>s</code> is an instance of <code>basic_string&lt;charT, traits, Allocator&gt;</code>, 
+is an instance of <code>basic_istream</code> <ins>with <code>char_type</code> the same as
+<code>charT</code></ins><code>&nbsp; <del>&lt;charT,
+traits&gt;</del></code><del>, <code>s</code> is an instance of <code>basic_string&lt;charT, traits, Allocator&gt;</code>, 
 and
 <code>delim</code> and <code>escape</code> are instances of types
-<code>charT</code>, then the expression <code>in &gt;&gt; quoted(s, delim, escape)</code> 
+<code>charT</code></del>, then the expression <code>in &gt;&gt; quoted(s, delim, escape)</code> 
 behaves as if it extracts the following characters from <code>in</code> 
 using basic_istream::operator&gt;&gt; ([istream::extractors]) 
 which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
@@ -211,7 +245,7 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
     <li>If the first character extracted is equal to <code>delim</code>, as determined by
     <code>operator==</code>, then:<ul>
       <li>Turn off the <code>skipws</code> flag.</li>
-      <li><code>string.clear()</code></li>
+      <li><code>s.clear()</code></li>
       <li dir="ltr">
       <p dir="ltr">Until an unescaped <code>delim</code> character is reached or <code>
       is.not_good()</code>, extract 
@@ -224,8 +258,9 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
     </li>
     <li>Otherwise, <code>os &gt;&gt; s</code>.</li>
   </ul>
-<p>The expression <code>in &gt;&gt; quoted(s, delim, escape)</code> shall have type
-<code>basic_istream&lt;charT, traits&gt;&amp;</code> and value <code>in</code>.</p>
+<p>The expression <code>in &gt;&gt; quoted(s, delim, escape)</code> shall have <ins>the same 
+reference</ins> type
+<code><del>basic_istream&lt;charT, traits&gt;&amp;</del></code> and value <ins>as</ins> <code>in</code>.</p>
     </blockquote>
   </blockquote>
   <h2><a name="Acknowledgements">Acknowledgements</a></h2>
@@ -233,7 +268,8 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
 Boost developers mailing list. Participants included Beman Dawes, Rob Stewart, 
 Alexander Lamaison, Eric Niebler, Vicente Botet, Andrey Semashev, Phil Richards, 
 and Rob Murray. Eric Niebler's suggestions provided the basis for the name and 
-form of the templates. </p>
+form of the templates. Thanks to the LWG in Portland and Bristol for additional 
+improvements.</p>
 <hr>
 
 </body>
