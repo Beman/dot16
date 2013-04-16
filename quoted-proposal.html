@@ -146,6 +146,22 @@ be preceded by an escape character, default to backslash (<code>\</code>), as wi
     seems harmless and very clear to leave the operator== spec wording 
     unchanged. But the LWG has the most expertise to answer the question; I'll 
     defer to them if they want a change.</li>
+    <li>
+    <p dir="ltr">Remove unnecessary <code>std::</code> in several places. 
+    (Daniel
+    <span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">
+    Krügler)</span></li>
+    <li>
+    <p dir="ltr"><span class="gD">Add &quot;member type&quot; in two places for improved 
+    clarity. </span>(Daniel
+    <span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">
+    Krügler)</span></li>
+    <li>
+    <p dir="ltr"><span class="gD">Revert a clarity &quot;fix&quot; and add comment in two 
+    places indicating the awkward wording comes from the current working paper. 
+    (</span>Daniel
+    <span email="daniel.kruegler@gmail.com" name="Daniel Krügler" class="gD">
+    Krügler)</span></li>
   </ul>
 
 
@@ -165,8 +181,10 @@ N3570</a> - Revision 1
   <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2012/n3431.html">
   N3431</a> Initial paper (pre-Portland mailing)</p>
 <h2><a name="Proposed-wording">Proposed wording</a></h2>
-<p><i>Change 27.7.1 Overview [iostream.format.overview], &quot;Header &lt;iomanip&gt; 
-synopsis&quot; as indicated:</i></p>
+<p><span style="background-color: #DBDBDB"><i>Gray shaded italic text is 
+commentary, and not to be added to the working paper</i>.</span></p>
+<p><i><span style="background-color: #DBDBDB">Change 27.7.1 Overview [iostream.format.overview], &quot;Header &lt;iomanip&gt; 
+synopsis&quot; as indicated:</span></i></p>
   <blockquote>
     <pre>namespace std {
 // <i>types</i> T1, T2, ... <i>are unspecified implementation types</i>
@@ -185,15 +203,15 @@ template &lt;class charT&gt; <i>T10</i> put_time(const struct tm* tmb, const cha
   <ins><i>T11</i> quoted(const charT* s, charT delim=charT('&quot;'), charT escape=charT('\\'));</ins>
 
 <ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
-  <ins><i>T12</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
+  <ins><i>T12</i> quoted(const basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
              <ins>charT delim=charT('&quot;'), charT escape=charT('\\'));</ins>
 
 <ins>template &lt;class charT, class traits, class Allocator&gt;</ins>
-  <ins><i>T13</i> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
+  <ins><i>T13</i> quoted(basic_string&lt;charT, traits, Allocator&gt;&amp; s,</ins>
              <ins>charT delim=charT('&quot;'), charT escape=charT('\\'));</ins>
 }</pre>
   </blockquote>
-<p><i>After 27.7.5 Extended manipulators [ext.manip], add a new sub-section:</i></p>
+<p><i><span style="background-color: #DBDBDB">After 27.7.5 Extended manipulators [ext.manip], add a new sub-section:</span></i></p>
   <blockquote>
 <p>27.7.6 Quoted manipulators [quoted.manip]</p>
 <p>[<i>Note</i>: Quoted manipulators provide string insertion and extraction of 
@@ -204,12 +222,12 @@ via stream I/O.
     <pre>template &lt;class charT&gt;
 <i>  unspecified</i> quoted(const charT* s, charT delim=charT('&quot;'), charT escape=charT('\\'));
 template &lt;class charT, class traits, class Allocator&gt;
-<i>  unspecified</i> quoted(const std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+<i>  unspecified</i> quoted(const basic_string&lt;charT, traits, Allocator&gt;&amp; s,
                    charT delim=charT('&quot;'), charT escape=charT('\\'));</pre>
     <blockquote>
 <p><i>Returns:</i> An object of unspecified type such that if <code>out</code> 
-is an instance of <code>basic_ostream</code> <ins>with <code>char_type</code> the same as
-<code>charT</code>,</ins><code> <del>&lt;charT, traits&gt;, </del></code> <del><code>s</code> is an instance of a type convertible to <code>std::basic_string&lt;charT, traits, Allocator&gt;</code>, 
+is an instance of <code>basic_ostream</code> <ins>with member type <code>char_type</code> the same as
+<code>charT</code>,</ins><code> <del>&lt;charT, traits&gt;, </del></code> <del><code>s</code> is an instance of a type convertible to<code> basic_string&lt;charT, traits, Allocator&gt;</code>, 
 or <code>const char*</code>, respectively, and
 <code>delim</code> and <code>escape</code> are instances of
 <code>charT</code>,</del> then the expression <code>out &lt;&lt; quoted(s, delim, escape)</code> 
@@ -222,17 +240,17 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
     operator==</code>, first output <code>escape</code>. </li>
     <li><code>delim</code>.</li>
   </ul>
-<p>The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have <ins>the same 
-reference</ins> type
-<del><code>basic_ostream&lt;charT, traits&gt;&amp;</code></del> and value <ins>as</ins> <code>out</code>.</p>
+<p>The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have type <code>basic_ostream&lt;charT, traits&gt;&amp;</code> and value <code>out</code>.
+<span style="font-style: italic; background-color: #DBDBDB">This wording is the 
+form for such statements in the current wording paper [std.manip].</span></p>
     </blockquote>
     <pre>template &lt;class charT, class traits, class Allocator&gt;
-<i>  unspecified</i> quoted(std::basic_string&lt;charT, traits, Allocator&gt;&amp; s,
+<i>  unspecified</i> quoted(basic_string&lt;charT, traits, Allocator&gt;&amp; s,
                    charT delim=charT('&quot;'), charT escape=charT('\\'));
 </pre>
     <blockquote>
 <p><i>Returns:</i> An object of unspecified type such that if <code>in</code> 
-is an instance of <code>basic_istream</code> <ins>with <code>char_type</code> the same as
+is an instance of <code>basic_istream</code> <ins>with member type <code>char_type</code> the same as
 <code>charT</code></ins><code>&nbsp; <del>&lt;charT,
 traits&gt;</del></code><del>, <code>s</code> is an instance of <code>basic_string&lt;charT, traits, Allocator&gt;</code>, 
 and
@@ -258,9 +276,10 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
     </li>
     <li>Otherwise, <code>os &gt;&gt; s</code>.</li>
   </ul>
-<p>The expression <code>in &gt;&gt; quoted(s, delim, escape)</code> shall have <ins>the same 
-reference</ins> type
-<code><del>basic_istream&lt;charT, traits&gt;&amp;</del></code> and value <ins>as</ins> <code>in</code>.</p>
+<p>The expression <code>in &gt;&gt; quoted(s, delim, escape)</code> shall have type
+<code>basic_istream&lt;charT, traits&gt;&amp;</code> and value <code>in</code>.
+<span style="font-style: italic; background-color: #DBDBDB">This wording is the 
+form for such statements in the current wording paper [std.manip].</span></p>
     </blockquote>
   </blockquote>
   <h2><a name="Acknowledgements">Acknowledgements</a></h2>
