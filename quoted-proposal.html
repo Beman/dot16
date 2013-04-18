@@ -28,7 +28,7 @@ del   { background-color:#FFCACA }
   <table border="0" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0">
     <tr>
       <td height="23">Document number:&nbsp;&nbsp; </td>
-      <td height="23"><span style="background-color: #FFFF00">D3654draft2</span></td>
+      <td height="23"><span style="background-color: #FFFF00">D3654draft3</span></td>
     </tr>
     <tr>
       <td height="23">Date:</td>
@@ -166,6 +166,9 @@ N3654</a> - Revision 2
     <li>
     <p dir="ltr"><span class="gD">Fix the spec for missing case of insertion via 
     the T13 overload. (Nice catch from Alisdair Meredith)</span></li>
+    <li>
+    <p dir="ltr"><span class="gD">Fix </span><code>!in</code><span class="gD"> 
+    and </span><code>in &gt;&gt; s</code><span class="gD"> typos. (Jonathan Wakely)</span></li>
   </ul>
 
 
@@ -272,7 +275,7 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):<br>
       <li><code>s.clear()</code></li>
       <li dir="ltr">
       <p dir="ltr">Until an unescaped <code>delim</code> character is reached or <code>
-      is.not_good()</code>, extract 
+      !in</code>, extract 
       characters from <code>in</code> and append them to <code>s</code>, 
       except that if an <code>escape</code> is reached, ignore it and append the 
       next character to <code>s</code>.</li>
@@ -280,7 +283,7 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):<br>
       <li>Restore the <code>skipws</code> flag to its original value.</li>
     </ul>
       </li>
-      <li>Otherwise, <code>os &gt;&gt; s</code>.<br>
+      <li>Otherwise, <code>in &gt;&gt; s</code>.<br>
 &nbsp;</li>
     </ul>
     </li>
