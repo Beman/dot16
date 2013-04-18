@@ -28,12 +28,12 @@ del   { background-color:#FFCACA }
   <table border="0" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0">
     <tr>
       <td height="23">Document number:&nbsp;&nbsp; </td>
-      <td height="23"><span style="background-color: #FFFF00">D</span>3654</td>
+      <td height="23"><span style="background-color: #FFFF00">D3654draft2</span></td>
     </tr>
     <tr>
       <td height="23">Date:</td>
       <td height="23">
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-17<!--webbot bot="Timestamp" endspan i-checksum="12253" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-18<!--webbot bot="Timestamp" endspan i-checksum="12255" --></td>
     </tr>
     <tr>
       <td height="23">Project:</td>
@@ -250,7 +250,9 @@ form for such statements in the current wording paper [std.manip].</span></p>
                    charT delim=charT('&quot;'), charT escape=charT('\\'));
 </pre>
     <blockquote>
-<p><i>Returns:</i> An object of unspecified type such that if <code>in</code> 
+<p><i>Returns:</i> An object of unspecified type such that:</p>
+  <ul>
+    <li>If <code>in</code> 
 is an instance of <code>basic_istream</code> <ins>with member type <code>char_type</code> the same as
 <code>charT</code></ins><code>&nbsp; <del>&lt;charT,
 traits&gt;</del></code><del>, <code>s</code> is an instance of <code>basic_string&lt;charT, traits, Allocator&gt;</code>, 
@@ -259,9 +261,9 @@ and
 <code>charT</code></del>, then the expression <code>in &gt;&gt; quoted(s, delim, escape)</code> 
 behaves as if it extracts the following characters from <code>in</code> 
 using basic_istream::operator&gt;&gt; ([istream::extractors]) 
-which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
-  <ul>
-    <li>If the first character extracted is equal to <code>delim</code>, as determined by
+which may throw <code>ios_base::failure</code> ([ios::failure]):<br>
+&nbsp;<ul>
+      <li>If the first character extracted is equal to <code>delim</code>, as determined by
     <code>operator==</code>, then:<ul>
       <li>Turn off the <code>skipws</code> flag.</li>
       <li><code>s.clear()</code></li>
@@ -274,11 +276,23 @@ which may throw <code>ios_base::failure</code> ([ios::failure]):</p>
       <li>Discard the final <code>delim</code> character.</li>
       <li>Restore the <code>skipws</code> flag to its original value.</li>
     </ul>
+      </li>
+      <li>Otherwise, <code>os &gt;&gt; s</code>.<br>
+&nbsp;</li>
+    </ul>
     </li>
-    <li>Otherwise, <code>os &gt;&gt; s</code>.</li>
-  </ul>
+    <li><ins><span style="background-color: #FFFF00">If <code>out</code> 
+is an instance of <code>basic_ostream</code> with member type <code>char_type</code> the same as
+<code>charT</code>, then the expression <code>out &lt;&lt; quoted(s, delim, escape)</code> 
+    behaves as specified for the <code>const basic_string&lt;charT, traits, Allocator&gt;&amp;</code> 
+    overload of the <code>quoted</code> function.</span></ins></li>
+</ul>
 <p>The expression <code>in &gt;&gt; quoted(s, delim, escape)</code> shall have type
-<code>basic_istream&lt;charT, traits&gt;&amp;</code> and value <code>in</code>.
+<code>basic_istream&lt;charT, traits&gt;&amp;</code> and value <code>in</code>.<span style="background-color: #FFFF00">
+</span>
+<ins><span style="background-color: #FFFF00">The expression <code>out &lt;&lt; quoted(s, delim, escape)</code> shall have type
+<code>basic_ostream&lt;charT, traits&gt;&amp;</code> and value <code>out</code>.</span></ins><span style="background-color: #FFFF00">
+</span>
 <span style="font-style: italic; background-color: #DBDBDB">This wording is the 
 form for such statements in the current wording paper [std.manip].</span></p>
     </blockquote>
