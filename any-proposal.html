@@ -89,6 +89,10 @@ is ill-formed, as requested in Bristol. Note: These cases have always been
 ill-formed and rejected by implementations, but explicit wording makes that much 
 more obvious.</p>
     </li>
+    <li>
+<p dir="ltr">Remove &quot;[Note: For consistency with the C++ keyword casts, a copy 
+is returned.--end note.]&quot;. The note is confusing people.</p>
+    </li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
@@ -312,9 +316,6 @@ union&quot;.</p>
 <h2><a name="Do-list">Do list</a></h2>
 
   <ul>
-    <li>Replace &quot;[Note: For consistency with the C++ keyword casts, a copy is 
-    returned.--end note.]&quot; with clearer wording or examples. The note is 
-    confusing people.</li>
     <li>Add more examples in the proposed wording.</li>
     <li>Evaluate Paul Smith's proposal for <code>emplace</code> member 
     functions.</li>
@@ -543,8 +544,6 @@ template&lt;typename ValueType&gt;
   instantiated with a pointer type, the program is ill-formed.</p>
   <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
-  <p>[<i>Note: </i>For consistency with the C++ keyword casts, a copy is 
-  returned.<i>--end note.</i>]</p>
   <p>[<i>Example:</i></p>
   <blockquote>
     <pre>any x;
