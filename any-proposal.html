@@ -27,12 +27,12 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td>N3508</td>
+      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-19<!--webbot bot="Timestamp" endspan i-checksum="12257" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-22<!--webbot bot="Timestamp" endspan i-checksum="12244" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -45,7 +45,8 @@ del   { background-color:#FFD7D7 }
     </tr>
   </table>
 
-<h1><i>Any</i> Library Proposal (Revision 2)</h1>
+<h1><i>Any</i> Library Proposal (Revision 3)
+<span style="background-color: #FFFF00">Draft</span></h1>
 
 <p><a href="#Introduction">Introduction</a><br>
 <a href="#Revision-History">Revision History</a><br>
@@ -79,10 +80,21 @@ addition to the standard library, requires no modifications to any C++11
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
+<p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
+  <ul>
+    <li>Correct ValueTypePtr markup snafu.</li>
+    <li>
+<p dir="ltr">Add explicit <code>any_cast</code> wording describing cases program 
+is ill-formed, as requested in Bristol. Note: These cases have always been 
+ill-formed and rejected by implementations, but explicit wording makes that much 
+more obvious.</p>
+    </li>
+  </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
   <ul>
-    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
+    <li dir="ltr">
+    <p dir="ltr">Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
     typos. (Daniel Krügler)</li>
     <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
     standard library practice for member <code>swap</code> function return 
@@ -304,8 +316,6 @@ union&quot;.</p>
     returned.--end note.]&quot; with clearer wording or examples. The note is 
     confusing people.</li>
     <li>Add more examples in the proposed wording.</li>
-    <li>Are const volatile qualifiers valid for the <code>any_cast</code> 
-    template parameter? Do they have any effect?</li>
     <li>Evaluate Paul Smith's proposal for <code>emplace</code> member 
     functions.</li>
   </ul>
@@ -369,7 +379,7 @@ identity and indirection. <i>--end note</i>]</p>
 <p><i>Synopsis additions from the prior version are in <ins>green with 
 underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 <blockquote>
-  <pre>namespace std { <del>namespace tbd {</del>
+  <pre>namespace std {
   class bad_any_cast : public std::bad_cast
   {
   public:
@@ -388,24 +398,23 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     template &lt;typename ValueType&gt;
       any(ValueType value);
 
-    <ins>template &lt;class Allocator&gt;</ins>
-      <ins>any(allocator_arg_t, const Allocator&amp; a);</ins>
+    template &lt;class Allocator&gt;
+      any(allocator_arg_t, const Allocator&amp; a);
 
-    <ins>template &lt;class Allocator, typename ValueType&gt;</ins>
-      <ins>any(allocator_arg_t, const Allocator&amp; a, ValueType value);</ins>
+    template &lt;class Allocator, typename ValueType&gt;
+      any(allocator_arg_t, const Allocator&amp; a, ValueType value);
 
-   ~any() <del>noexcept</del>;
+   ~any();
   
     // assignments
-    <del>any&amp; operator=(any rhs);</del>
-    <ins>any&amp; operator=(const any&amp; rhs);</ins>
+    any&amp; operator=(const any&amp; rhs);
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template &lt;typename ValueType&gt;
       any&amp; operator=(ValueType rhs);
 
     // modifiers
-    <del>any&amp;</del> <ins>void</ins> swap(any&amp; rhs) noexcept;
+    void swap(any&amp; rhs) noexcept;
 
     // observers
     bool empty() const noexcept;
@@ -420,13 +429,12 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
   template&lt;typename ValueType&gt;
     ValueType any_cast(any&amp; operand);
 
-  template&lt;typename <del>ValueType</del> <ins>ValueTypePtr</ins>&gt;
-    <del>ValueType</del> <ins>ValueTypePtr</ins> any_cast(const any* operand) noexcept;
+  template&lt;typename ValueTypePtr&gt;
+    ValueTypePtr any_cast(const any* operand) noexcept;
 
-  template&lt;typename <del>ValueType</del> <ins>ValueTypePtr</ins>&gt;
-    <del>ValueType</del> <ins>ValueTypePtr</ins> any_cast(any* operand) noexcept;
-
-}<del>}</del></pre>
+  template&lt;typename ValueTypePtr&gt;
+    ValueTypePtr any_cast(any* operand) noexcept;
+}</pre>
 </blockquote>
 <h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
@@ -530,7 +538,9 @@ template &lt;class Allocator, typename ValueType&gt;
 template&lt;typename ValueType&gt;
   ValueType any_cast(any&amp; operand);</pre>
 <blockquote>
-  <p><i>Returns:</i> The value contained by <code>operand</code>.</p>
+  <p><i>Returns:</i> The value contained by <code>operand</code>. If the first 
+  form is instantiated with an non-const reference type or either form is 
+  instantiated with a pointer type, the program is ill-formed.</p>
   <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
   <p>[<i>Note: </i>For consistency with the C++ keyword casts, a copy is 
@@ -552,7 +562,8 @@ template&lt;typename ValueTypePtr&gt;
   <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
   typeid(remove_pointer&lt;ValueTypePtr&gt;::type)</code>, a pointer to the value contained by <code>operand</code>, otherwise 
   a null pointer. The returned pointer is <code>
-  const</code> qualified for the signature with a <code>const</code> argument.</p>
+  const</code> qualified for the first form. If either form is instantiated with 
+  a non-pointer type, the program is ill-formed.</p>
   <p>[<i>Example:</i></p>
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
@@ -565,8 +576,6 @@ template&lt;typename ValueTypePtr&gt;
 <hr>
 <p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
-<p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-19<!--webbot bot="Timestamp" endspan i-checksum="12257" --></p>
 
 </body>
 
