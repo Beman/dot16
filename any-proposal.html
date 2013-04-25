@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-22<!--webbot bot="Timestamp" endspan i-checksum="12244" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-25<!--webbot bot="Timestamp" endspan i-checksum="12250" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -540,17 +540,30 @@ template &lt;class Allocator, typename ValueType&gt;
 template&lt;typename ValueType&gt;
   ValueType any_cast(any&amp; operand);</pre>
 <blockquote>
-  <p><i>Returns:</i> The value contained by <code>operand</code>. If the first 
-  form is instantiated with an non-const reference type or either form is 
-  instantiated with a pointer type, the program is ill-formed.</p>
+  <p><i>Returns:</i> <del>The value contained by <code>operand</code></del> <u>
+  <span style="background-color: #E8FFE8">For the first form, <code>*any_cast&lt;typename 
+  add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></span></u>.
+  <u><span style="background-color: #E8FFE8">For the second form, <code>*any_cast&lt;typename 
+  remove_reference&lt;ValueType&gt;::type&gt;(&amp;operand)</code></span></u>.</p>
   <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
   <p>[<i>Example:</i></p>
   <blockquote>
-    <pre>any x;
+    <pre>any x(5);
+assert(any_cast&lt;int&gt;(x) == 5);
+any_cast&lt;int&amp;&gt;(x) = 10;
+assert(any_cast&lt;int&gt;(x) == 10);
 
-x = 51;
-any_cast&lt;int&amp;&gt;(x) = 42;</pre>
+x = &quot;Meow&quot;;
+assert(std::strcmp(any_cast&lt;const char*&gt;(x), &quot;Meow&quot;) == 0);
+any_cast&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;;
+assert(std::strcmp(any_cast&lt;const char*&gt;(x), &quot;Harry&quot;) == 0);
+
+std::string cat(&quot;Meow&quot;);
+const any y(cat);
+assert(any_cast&lt;std::string&gt;(y) == cat);
+assert(any_cast&lt;const std::string&amp;&gt;(y) == cat);;
+any_cast&lt;std::string&amp;&gt;(y); // error, conversion loses qualifiers</pre>
   </blockquote>
   <p><i>--end example</i>]</p>
 </blockquote>
@@ -562,8 +575,7 @@ template&lt;typename ValueTypePtr&gt;
   <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
   typeid(remove_pointer&lt;ValueTypePtr&gt;::type)</code>, a pointer to the value contained by <code>operand</code>, otherwise 
   a null pointer. The returned pointer is <code>
-  const</code> qualified for the first form. If either form is instantiated with 
-  a non-pointer type, the program is ill-formed.</p>
+  const</code> qualified for the first form.</p>
   <p>[<i>Example:</i></p>
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
