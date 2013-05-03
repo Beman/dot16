@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-04-28<!--webbot bot="Timestamp" endspan i-checksum="12256" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-02<!--webbot bot="Timestamp" endspan i-checksum="12306" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -445,8 +445,9 @@ identity and indirection. <i>--end note</i>]</p>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
 any_cast</code>.</p>
 <h3><a name="Class-any">Class <code>any</code></a></h3>
-<p>Objects of class <code>any</code> hold instances of any type that 
-satisfies the <code>ValueType</code> requirements.</p>
+<p>An object of class <code>any</code> stores an instance of any type that 
+satisfies the <code>ValueType</code> requirements or is empty. <ins>The non-member <code>any_cast</code> 
+functions provide type-safe access to the stored value.</ins></p>
 <h4><code>any</code> construct/destruct</h4>
 <pre>any() noexcept;</pre>
 <blockquote>
@@ -456,7 +457,7 @@ satisfies the <code>ValueType</code> requirements.</p>
 <blockquote>
   <p><i>Effects:</i> Copies content of <code>other</code> into a new 
   instance, so that any content is equivalent in both type and value to <code>other</code>, or empty if <code>other</code> is empty.</p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any 
   exceptions arising from the copy constructor of the contained type.</p>
 </blockquote>
 <pre>any(any&amp;&amp; other) noexcept;</pre>
@@ -469,7 +470,7 @@ satisfies the <code>ValueType</code> requirements.</p>
 <blockquote>
   <p><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
   content equivalent in both type and value to <code>value</code>.</p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
@@ -481,7 +482,7 @@ template &lt;class Allocator, typename ValueType&gt;
     an <b>Allocator</b> ([allocator.requirements]).</p>
     <p><i>Effects: </i>Equivalent to the preceding constructors except that the 
     stored value is constructed with uses-allocator construction ([allocator.uses.construction]).</p>
-    <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
     dynamically allocated memory for small contained types, for example, where 
@@ -496,7 +497,7 @@ template &lt;class Allocator, typename ValueType&gt;
 <blockquote>
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
@@ -511,7 +512,7 @@ template &lt;class Allocator, typename ValueType&gt;
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if 
   an exception is thrown.</p>
   <p><i>Returns:</i> <code>*this</code></p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
@@ -546,15 +547,15 @@ template &lt;class Allocator, typename ValueType&gt;
       <span style="background-color: #DBDBDB">These are changes to exposition 
       only. The actual behavior is intrinsic to the use of </span><code>
       <span style="background-color: #DBDBDB">any</span></code><span style="background-color: #DBDBDB"> 
-      and so has never changed since the inception of the library more than a 
+      and so has not changed since the inception of the library more than a 
       decade ago. C++11 required no changes to that behavior.</span></i></td>
     </tr>
   </table>
-  <p>&nbsp;template&lt;typename ValueType&gt;<br>
-&nbsp; ValueType any_cast(const any&amp; operand);<br>
-  template&lt;typename ValueType&gt;<br>
-&nbsp; ValueType any_cast(any&amp; operand);</p>
-<blockquote>
+  <pre>template&lt;typename ValueType&gt;
+  ValueType any_cast(const any&amp; operand);
+template&lt;typename ValueType&gt;
+  ValueType any_cast(any&amp; operand);</pre>
+  <blockquote>
   <p><i>Returns:</i> <del>The value contained by <code>operand</code></del> <u>
   <span style="background-color: #E8FFE8">For the first form, <code>*any_cast&lt;typename 
   add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></span></u>.
@@ -564,30 +565,38 @@ template &lt;class Allocator, typename ValueType&gt;
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
   <p><del>[<i>Note: </i>For consistency with the C++ keyword casts, a copy is 
   returned.<i>--end note.</i>]</del></p>
-  <p>[<i>Example:</i></p>
+  <p><ins>[<i>Example:</i></ins></p>
   <blockquote>
-    <pre>any x(5);
-assert(any_cast&lt;int&gt;(x) == 5);
-any_cast&lt;int&amp;&gt;(x) = 10;
-assert(any_cast&lt;int&gt;(x) == 10);
+    <pre><span style="background-color: #E8FFE8">any x(5);                                     // x holds </span><span style="background-color: #E8FFE8">int</span><span style="background-color: #E8FFE8">
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 5);                // cast to value
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;int&amp;&gt;(x) = 10;                       // cast to reference
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 10); 
 
-x = &quot;Meow&quot;;
-assert(std::strcmp(any_cast&lt;const char*&gt;(x), &quot;Meow&quot;) == 0);
-any_cast&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;; // replace value via copy
-assert(std::strcmp(any_cast&lt;const char*&gt;(x), &quot;Harry&quot;) == 0);
+x = &quot;Meow&quot;;                                   // x holds const char*
+</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
+  &quot;Meow&quot;) == 0);
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;;
+</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
+ &quot;Harry&quot;) == 0);
 
-std::string cat(&quot;Meow&quot;);
-const any y(cat);
-assert(any_cast&lt;std::string&gt;(y) == cat); // cast by value
-assert(any_cast&lt;const std::string&amp;&gt;(y) == cat); // cast by const reference
+x = </span><span style="background-color: #E8FFE8">std::string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                      // x holds string
+</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
+s = </span><span style="background-color: #E8FFE8">std::move(any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x));     // move from x 
+</span><span style="background-color: #E8FFE8">assert(s</span><span style="background-color: #E8FFE8"> == &quot;Meow&quot;);
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x) = std::move(s2);    // move to x
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(x)
+  == &quot;Jane&quot;);
 
-// demonstrate that using any_cast to cast away const is ill-formed
-any_cast&lt;std::string&amp;&gt;(y); // error, conversion loses qualifiers</pre>
-  <p><span style="background-color: #FFFF00">Add examples: replace value via 
-  move, extract value via move.</span></p>
+</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
+const any </span><span style="background-color: #E8FFE8">y(cat</span><span style="background-color: #E8FFE8">);                             // const y holds string
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(y)
+  == cat);
+
+any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(y);                    // error; cannot
+                                              //  any_cast away const</span></pre>
   </blockquote>
-  <p><i>--end example</i>]</p>
-</blockquote>
+  <p><ins><i>--end example</i>]</ins></p>
+  </blockquote>
 <pre>template&lt;typename ValueType<del>Ptr</del>&gt;
   <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
 template&lt;typename ValueType<del>Ptr</del>&gt;
