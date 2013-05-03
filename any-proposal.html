@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-02<!--webbot bot="Timestamp" endspan i-checksum="12306" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-03<!--webbot bot="Timestamp" endspan i-checksum="12308" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -54,7 +54,6 @@ del   { background-color:#FFD7D7 }
 <a href="#Design-paths-not-taken">Design paths not taken</a><br>
 <a href="#Examples">Examples</a><br>
 <a href="#FAQ">FAQ</a><br>
-<a href="#Do-list">Do list</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
 <a href="#Proposed-Wording">Proposed Wording</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#ValueType-Requirements"><code>ValueType</code> 
@@ -82,23 +81,51 @@ namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
   <ul>
-    <li>
-<p>For the reference versions of <code>any_cast</code>, replace <i>Returns:</i> 
+    <li>Remove the &quot;Do List&quot;.</li>
+    <li>Add wording to class <code>any</code> introduction to clarify that empty is a 
+valid state and to clarify the relationship with <code>any_cast</code>.</li>
+    <li>Remove <code>bad_alloc</code> from <i>Throws:</i> elements to conform with 
+standard library conventions.</li>
+    <li>For the reference overloads of <code>any_cast</code>, replace <i>Returns:</i> 
 wording with explicit formulation that distinguishes between const and non-const 
 cases, in response to Bristol LEWG concerns. The more explicit formulation also 
 leaves less room for misinterpretation by forwarding to the pointer versions of
-<code>any_cast.</code></p>
+<code>any_cast.</code></li>
+    <li>From the reference overloads of <code>any_cast</code>, remove &quot;[<i>Note:</i> For consistency with the C++ keyword casts, a copy 
+is returned.<i>--end note</i>]&quot;. The note was confusing people.</li>
+    <li>Add an example to the reference overloads of <code>any_cast</code>, 
+illustrating points that have caused questions:
+  <ul>
+    <li><code>any_cast</code> to value</li>
+    <li><code>any_cast</code> to non-const reference used to modify stored value 
+    in the <code>any</code> object.</li>
+    <li>Use of <code>any</code> to store a <code>const char*</code>, and then 
+    access it by value and by reference.</li>
+    <li>Use of <code>any</code> to store a <code>std::string</code>, as an 
+    example of a movable type, and then move from and to the <code>any</code> 
+    object.</li>
+    <li>Correct access to <code>const any</code> object holding a <code>
+    std::string</code>.</li>
+    <li>Ill-formed attempt to modify the <code>const any</code> object.</li>
+  </ul>
     </li>
-    <li>
-<p dir="ltr">Remove &quot;[<i>Note:</i> For consistency with the C++ keyword casts, a copy 
-is returned.<i>--end note</i>]&quot;. The note is confusing people.</p>
-    </li>
+    <li>For the pointer overloads of <code>any_cast</code>, revise the 
+    signatures to make explicit that the return type is a pointer and that 
+    return type constness is determined by argument constness. </li>
+    <li>For the pointer overloads of <code>any_cast</code>, add an explicit 
+    requirement that the const argument form return a const qualified pointer, 
+    as requested by the LEWG in Bristol.</li>
+    <li>For the pointer overloads of <code>any_cast</code>, change &quot;a null 
+    pointer&quot; to <code>nullptr</code>, and make <code>nullptr</code> comparison 
+    explicit in the example.</li>
+    <li>In the <code>any_cast</code> pointer overload example, remove <code>*</code> 
+    from the cast type. This was a nasty bug that compiled OK but caused the 
+    example function to return the wrong result.</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
   <ul>
-    <li dir="ltr">
-    <p dir="ltr">Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
+    <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
     typos. (Daniel Krügler)</li>
     <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
     standard library practice for member <code>swap</code> function return 
@@ -116,19 +143,15 @@ N3508</a> - Revision 2</p>
     <li>Change <code>any&amp; operator=(any rhs)</code> to <code>any&amp; operator=(const any&amp; rhs)</code>, 
     and change the effects accordingly. This avoids an ambiguity. (Daniel Krügler, 
     Sean Parent)</li>
-    <li dir="ltr">
-    <p dir="ltr">Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
+    <li>Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
     operator=(any&amp;&amp; rhs) noexcept</code>. (Daniel Krügler)</li>
-    <li>
-    <p dir="ltr">Replace &quot;successful&quot; and &quot;unsuccessful&quot; in <code>any_cast</code> 
+    <li>Replace &quot;successful&quot; and &quot;unsuccessful&quot; in <code>any_cast</code> 
     with explicit specification. (<span class="gI"><span email="chris@bubblescope.net" name="Chris Jefferson" class="gD">Chris 
     Jefferson)</span></span></li>
-    <li>
-    <p dir="ltr">Change name of template parameter for pointer flavor of&nbsp; 
+    <li>Change name of template parameter for pointer flavor of&nbsp; 
     from <code>ValueType</code> to <code>ValueTypePtr</code>. (<span class="gI"><span email="s.hesp@oisyn.nl" name="Sylvester Hesp" class="gD">Sylvester 
     Hesp</span></span>)</li>
-    <li>
-    <p dir="ltr">Add <code>any_cast</code> examples.</li>
+    <li>Add <code>any_cast</code> examples.</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
     <li>Added Acknowledgements.</li>
@@ -312,14 +335,6 @@ public:
 
 <p>Boost::any is like a &quot;typesafe void*&quot;, while Boost::variant is a &quot;typesafe 
 union&quot;.</p>
-
-<h2><a name="Do-list">Do list</a></h2>
-
-  <ul>
-    <li>Add more examples in the proposed wording.</li>
-    <li>Evaluate Paul Smith's proposal for <code>emplace</code> member 
-    functions.</li>
-  </ul>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 
@@ -545,10 +560,12 @@ template &lt;class Allocator, typename ValueType&gt;
       any_cast</span></code><span style="background-color: #DBDBDB"> have been 
       revised to increase clarity.</span></i><p><i>
       <span style="background-color: #DBDBDB">These are changes to exposition 
-      only. The actual behavior is intrinsic to the use of </span><code>
+      only. The actual behavior is intrinsic to the type-safe use of </span><code>
       <span style="background-color: #DBDBDB">any</span></code><span style="background-color: #DBDBDB"> 
       and so has not changed since the inception of the library more than a 
-      decade ago. C++11 required no changes to that behavior.</span></i></td>
+      decade ago. C++11 required no changes to that behavior.</span></i><p>
+      <span style="background-color: #DBDBDB"><i>The examples have been compiled 
+      and tested with GCC and VC++.</i></span></td>
     </tr>
   </table>
   <pre>template&lt;typename ValueType&gt;
@@ -605,7 +622,7 @@ template&lt;typename ValueType<del>Ptr</del>&gt;
   <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
   typeid(<del>remove_pointer&lt;ValueTypePtr&gt;::type</del> <ins>ValueType</ins>)</code>,
   a pointer to the value contained by <code>operand</code>, otherwise 
-  a null pointer. <ins>For the first form, the returned pointer shall be <code>const</code> 
+  <del>a null pointer</del> <ins><code>nullptr</code></ins>. <ins>For the first form, the returned pointer shall be <code>const</code> 
   qualified.</ins></p>
   <p>[<i>Example:</i></p>
   <blockquote>
