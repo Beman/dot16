@@ -27,12 +27,12 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td>N3508</td>
+      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-11<!--webbot bot="Timestamp" endspan i-checksum="12049" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-03<!--webbot bot="Timestamp" endspan i-checksum="12308" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -45,7 +45,8 @@ del   { background-color:#FFD7D7 }
     </tr>
   </table>
 
-<h1><i>Any</i> Library Proposal (Revision 2)</h1>
+<h1><i>Any</i> Library Proposal (Revision 3)
+<span style="background-color: #FFFF00">Draft</span></h1>
 
 <p><a href="#Introduction">Introduction</a><br>
 <a href="#Revision-History">Revision History</a><br>
@@ -53,7 +54,6 @@ del   { background-color:#FFD7D7 }
 <a href="#Design-paths-not-taken">Design paths not taken</a><br>
 <a href="#Examples">Examples</a><br>
 <a href="#FAQ">FAQ</a><br>
-<a href="#Do-list">Do list</a><br>
 <a href="#Acknowledgements">Acknowledgements</a><br>
 <a href="#Proposed-Wording">Proposed Wording</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#ValueType-Requirements"><code>ValueType</code> 
@@ -79,6 +79,49 @@ addition to the standard library, requires no modifications to any C++11
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
+<p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
+  <ul>
+    <li>Remove the &quot;Do List&quot;.</li>
+    <li>Add wording to class <code>any</code> introduction to clarify that empty is a 
+valid state and to clarify the relationship with <code>any_cast</code>.</li>
+    <li>Remove <code>bad_alloc</code> from <i>Throws:</i> elements to conform with 
+standard library conventions.</li>
+    <li>For the reference overloads of <code>any_cast</code>, replace <i>Returns:</i> 
+wording with explicit formulation that distinguishes between const and non-const 
+cases, in response to Bristol LEWG concerns. The more explicit formulation also 
+leaves less room for misinterpretation by forwarding to the pointer versions of
+<code>any_cast.</code></li>
+    <li>From the reference overloads of <code>any_cast</code>, remove &quot;[<i>Note:</i> For consistency with the C++ keyword casts, a copy 
+is returned.<i>--end note</i>]&quot;. The note was confusing people.</li>
+    <li>Add an example to the reference overloads of <code>any_cast</code>, 
+illustrating points that have caused questions:
+  <ul>
+    <li><code>any_cast</code> to value</li>
+    <li><code>any_cast</code> to non-const reference used to modify stored value 
+    in the <code>any</code> object.</li>
+    <li>Use of <code>any</code> to store a <code>const char*</code>, and then 
+    access it by value and by reference.</li>
+    <li>Use of <code>any</code> to store a <code>std::string</code>, as an 
+    example of a movable type, and then move from and to the <code>any</code> 
+    object.</li>
+    <li>Correct access to <code>const any</code> object holding a <code>
+    std::string</code>.</li>
+    <li>Ill-formed attempt to modify the <code>const any</code> object.</li>
+  </ul>
+    </li>
+    <li>For the pointer overloads of <code>any_cast</code>, revise the 
+    signatures to make explicit that the return type is a pointer and that 
+    return type constness is determined by argument constness. </li>
+    <li>For the pointer overloads of <code>any_cast</code>, add an explicit 
+    requirement that the const argument form return a const qualified pointer, 
+    as requested by the LEWG in Bristol.</li>
+    <li>For the pointer overloads of <code>any_cast</code>, change &quot;a null 
+    pointer&quot; to <code>nullptr</code>, and make <code>nullptr</code> comparison 
+    explicit in the example.</li>
+    <li>In the <code>any_cast</code> pointer overload example, remove <code>*</code> 
+    from the cast type. This was a nasty bug that compiled OK but caused the 
+    example function to return the wrong result.</li>
+  </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
   <ul>
@@ -100,19 +143,15 @@ N3508</a> - Revision 2</p>
     <li>Change <code>any&amp; operator=(any rhs)</code> to <code>any&amp; operator=(const any&amp; rhs)</code>, 
     and change the effects accordingly. This avoids an ambiguity. (Daniel Krügler, 
     Sean Parent)</li>
-    <li dir="ltr">
-    <p dir="ltr">Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
+    <li>Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
     operator=(any&amp;&amp; rhs) noexcept</code>. (Daniel Krügler)</li>
-    <li>
-    <p dir="ltr">Replace &quot;successful&quot; and &quot;unsuccessful&quot; in <code>any_cast</code> 
+    <li>Replace &quot;successful&quot; and &quot;unsuccessful&quot; in <code>any_cast</code> 
     with explicit specification. (<span class="gI"><span email="chris@bubblescope.net" name="Chris Jefferson" class="gD">Chris 
     Jefferson)</span></span></li>
-    <li>
-    <p dir="ltr">Change name of template parameter for pointer flavor of&nbsp; 
+    <li>Change name of template parameter for pointer flavor of&nbsp; 
     from <code>ValueType</code> to <code>ValueTypePtr</code>. (<span class="gI"><span email="s.hesp@oisyn.nl" name="Sylvester Hesp" class="gD">Sylvester 
     Hesp</span></span>)</li>
-    <li>
-    <p dir="ltr">Add <code>any_cast</code> examples.</li>
+    <li>Add <code>any_cast</code> examples.</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
     <li>Added Acknowledgements.</li>
@@ -186,8 +225,8 @@ and copying of any objects:</p>
   <pre class="programlisting">#include &lt;list&gt;
 #include &lt;any&gt;
 
-using <code>std::tbd</code><code class="computeroutput">::any_cast</code>;
-using std::tbd::any;
+using <code>std::</code><code class="computeroutput">any_cast</code>;
+using std::any;
 
 typedef std::list&lt;<code class="computeroutput">any</code>&gt; many;
 
@@ -297,19 +336,6 @@ public:
 <p>Boost::any is like a &quot;typesafe void*&quot;, while Boost::variant is a &quot;typesafe 
 union&quot;.</p>
 
-<h2><a name="Do-list">Do list</a></h2>
-
-  <ul>
-    <li>Replace &quot;[Note: For consistency with the C++ keyword casts, a copy is 
-    returned.--end note.]&quot; with clearer wording or examples. The note is 
-    confusing people.</li>
-    <li>Add more examples in the proposed wording.</li>
-    <li>Are const volatile qualifiers valid for the <code>any_cast</code> 
-    template parameter? Do they have any effect?</li>
-    <li>Evaluate Paul Smith's proposal for <code>emplace</code> member 
-    functions.</li>
-  </ul>
-
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 
 <p>Sean Parent and Daniel Krügler provided numerous comments, corrections, and 
@@ -320,6 +346,12 @@ versus pass-by-reference. Daniel's expertise with library standardese markedly
 improved the proposed wording.</p>
 
 <h2><a name="Proposed-Wording">Proposed Wording</a></h2>
+
+<p><i>Additions from the prior version are in <ins>green with 
+underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
+
+<p><i>Commentary that is not part of the proposed wording is
+<span style="background-color: #DBDBDB">shaded in gray</span>. </i></p>
 
 <p><i>Add the following section to the working paper at a location to be 
 determined by the project editor:</i></p>
@@ -366,10 +398,8 @@ identity and indirection. <i>--end note</i>]</p>
 
 <h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
 
-<p><i>Synopsis additions from the prior version are in <ins>green with 
-underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 <blockquote>
-  <pre>namespace std { <del>namespace tbd {</del>
+  <pre>namespace std {
   class bad_any_cast : public std::bad_cast
   {
   public:
@@ -388,24 +418,23 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
     template &lt;typename ValueType&gt;
       any(ValueType value);
 
-    <ins>template &lt;class Allocator&gt;</ins>
-      <ins>any(allocator_arg_t, const Allocator&amp; a);</ins>
+    template &lt;class Allocator&gt;
+      any(allocator_arg_t, const Allocator&amp; a);
 
-    <ins>template &lt;class Allocator, typename ValueType&gt;</ins>
-      <ins>any(allocator_arg_t, const Allocator&amp; a, ValueType value);</ins>
+    template &lt;class Allocator, typename ValueType&gt;
+      any(allocator_arg_t, const Allocator&amp; a, ValueType value);
 
-   ~any() <del>noexcept</del>;
+   ~any();
   
     // assignments
-    <del>any&amp; operator=(any rhs);</del>
-    <ins>any&amp; operator=(const any&amp; rhs);</ins>
+    any&amp; operator=(const any&amp; rhs);
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template &lt;typename ValueType&gt;
       any&amp; operator=(ValueType rhs);
 
     // modifiers
-    <del>any&amp;</del> <ins>void</ins> swap(any&amp; rhs) noexcept;
+    void swap(any&amp; rhs) noexcept;
 
     // observers
     bool empty() const noexcept;
@@ -420,20 +449,20 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
   template&lt;typename ValueType&gt;
     ValueType any_cast(any&amp; operand);
 
-  template&lt;typename <del>ValueType</del> <ins>ValueTypePtr</ins>&gt;
-    <del>ValueType</del> <ins>ValueTypePtr</ins> any_cast(const any* operand) noexcept;
+  template&lt;typename ValueType<del>Ptr</del>&gt;
+    <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
 
-  template&lt;typename <del>ValueType</del> <ins>ValueTypePtr</ins>&gt;
-    <del>ValueTypePtr</del> <ins>ValueType</ins> any_cast(any* operand) noexcept;
-
-}<del>}</del></pre>
+  template&lt;typename ValueType<del>Ptr</del>&gt;
+    ValueType<del>Ptr</del><ins>*</ins> any_cast(any* operand) noexcept;
+}</pre>
 </blockquote>
 <h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
 any_cast</code>.</p>
 <h3><a name="Class-any">Class <code>any</code></a></h3>
-<p>Objects of class <code>any</code> hold instances of any type that 
-satisfies the <code>ValueType</code> requirements.</p>
+<p>An object of class <code>any</code> stores an instance of any type that 
+satisfies the <code>ValueType</code> requirements or is empty. <ins>The non-member <code>any_cast</code> 
+functions provide type-safe access to the stored value.</ins></p>
 <h4><code>any</code> construct/destruct</h4>
 <pre>any() noexcept;</pre>
 <blockquote>
@@ -443,7 +472,7 @@ satisfies the <code>ValueType</code> requirements.</p>
 <blockquote>
   <p><i>Effects:</i> Copies content of <code>other</code> into a new 
   instance, so that any content is equivalent in both type and value to <code>other</code>, or empty if <code>other</code> is empty.</p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any 
   exceptions arising from the copy constructor of the contained type.</p>
 </blockquote>
 <pre>any(any&amp;&amp; other) noexcept;</pre>
@@ -456,7 +485,7 @@ satisfies the <code>ValueType</code> requirements.</p>
 <blockquote>
   <p><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
   content equivalent in both type and value to <code>value</code>.</p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
@@ -468,7 +497,7 @@ template &lt;class Allocator, typename ValueType&gt;
     an <b>Allocator</b> ([allocator.requirements]).</p>
     <p><i>Effects: </i>Equivalent to the preceding constructors except that the 
     stored value is constructed with uses-allocator construction ([allocator.uses.construction]).</p>
-    <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
     dynamically allocated memory for small contained types, for example, where 
@@ -483,7 +512,7 @@ template &lt;class Allocator, typename ValueType&gt;
 <blockquote>
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
@@ -498,7 +527,7 @@ template &lt;class Allocator, typename ValueType&gt;
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if 
   an exception is thrown.</p>
   <p><i>Returns:</i> <code>*this</code></p>
-  <p><i>Throws:</i> <code>bad_alloc</code> or any exceptions arising from the 
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
@@ -523,41 +552,81 @@ template &lt;class Allocator, typename ValueType&gt;
 <h3><a name="Non-member">Non-member</a> functions</h3>
   <pre><code>void swap(any&amp; x, any&amp; y) noexcept;</code> </pre>
   <blockquote>
-    <i>Effects:</i> <code>x.swap(y)</code>. 
-  </blockquote>
-<pre>template&lt;typename ValueType&gt;
+    <i>Effects:</i> <code>x.swap(y)</code>.</blockquote>
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%">
+    <tr>
+      <td width="100%"><i><span style="background-color: #DBDBDB">The following 
+      specifications for </span><code><span style="background-color: #DBDBDB">
+      any_cast</span></code><span style="background-color: #DBDBDB"> have been 
+      revised to increase clarity.</span></i><p><i>
+      <span style="background-color: #DBDBDB">These are changes to exposition 
+      only. The actual behavior is </span></i>
+      <span style="background-color: #DBDBDB"><i>unchanged from prior revisions.</i></span><p>
+      <span style="background-color: #DBDBDB"><i>The examples have been compiled 
+      and tested with GCC and VC++.</i></span></td>
+    </tr>
+  </table>
+  <pre>template&lt;typename ValueType&gt;
   ValueType any_cast(const any&amp; operand);
 template&lt;typename ValueType&gt;
   ValueType any_cast(any&amp; operand);</pre>
-<blockquote>
-  <p><i>Returns:</i> The value contained by <code>operand</code>.</p>
+  <blockquote>
+  <p><i>Returns:</i> <del>The value contained by <code>operand</code></del> <u>
+  <span style="background-color: #E8FFE8">For the first form, <code>*any_cast&lt;typename 
+  add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></span></u>.
+  <u><span style="background-color: #E8FFE8">For the second form, <code>*any_cast&lt;typename 
+  remove_reference&lt;ValueType&gt;::type&gt;(&amp;operand)</code></span></u>.</p>
   <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
-  <p>[<i>Note: </i>For consistency with the C++ keyword casts, a copy is 
-  returned.<i>--end note.</i>]</p>
-  <p>[<i>Example:</i></p>
+  <p><del>[<i>Note: </i>For consistency with the C++ keyword casts, a copy is 
+  returned.<i>--end note.</i>]</del></p>
+  <p><ins>[<i>Example:</i></ins></p>
   <blockquote>
-    <pre>any x;
+    <pre><span style="background-color: #E8FFE8">any x(5);                                     // x holds </span><span style="background-color: #E8FFE8">int</span><span style="background-color: #E8FFE8">
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 5);                // cast to value
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;int&amp;&gt;(x) = 10;                       // cast to reference
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 10); 
 
-x = 51;
-any_cast&lt;int&amp;&gt;(x) = 42;</pre>
+x = &quot;Meow&quot;;                                   // x holds const char*
+</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
+  &quot;Meow&quot;) == 0);
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;;
+</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
+ &quot;Harry&quot;) == 0);
+
+x = </span><span style="background-color: #E8FFE8">std::string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                      // x holds string
+</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
+s = </span><span style="background-color: #E8FFE8">std::move(any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x));     // move from x 
+</span><span style="background-color: #E8FFE8">assert(s</span><span style="background-color: #E8FFE8"> == &quot;Meow&quot;);
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x) = std::move(s2);    // move to x
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(x)
+  == &quot;Jane&quot;);
+
+</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
+const any </span><span style="background-color: #E8FFE8">y(cat</span><span style="background-color: #E8FFE8">);                             // const y holds string
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(y)
+  == cat);
+
+any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(y);                    // error; cannot
+                                              //  any_cast away const</span></pre>
   </blockquote>
-  <p><i>--end example</i>]</p>
-</blockquote>
-<pre>template&lt;typename ValueTypePtr&gt;
-  ValueTypePtr any_cast(const any* operand) noexcept;
-template&lt;typename ValueTypePtr&gt;
-  ValueTypePtr any_cast(any* operand) noexcept;</pre>
+  <p><ins><i>--end example</i>]</ins></p>
+  </blockquote>
+<pre>template&lt;typename ValueType<del>Ptr</del>&gt;
+  <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
+template&lt;typename ValueType<del>Ptr</del>&gt;
+  ValueType<del>Ptr</del><ins>*</ins> any_cast(any* operand) noexcept;</pre>
 <blockquote>
   <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
-  typeid(remove_pointer&lt;ValueTypePtr&gt;::type)</code>, a pointer to the value contained by <code>operand</code>, otherwise 
-  a null pointer. The returned pointer is <code>
-  const</code> qualified for the signature with a <code>const</code> argument.</p>
+  typeid(<del>remove_pointer&lt;ValueTypePtr&gt;::type</del> <ins>ValueType</ins>)</code>,
+  a pointer to the value contained by <code>operand</code>, otherwise 
+  <del>a null pointer</del> <ins><code>nullptr</code></ins>. <ins>For the first form, the returned pointer shall be <code>const</code> 
+  qualified.</ins></p>
   <p>[<i>Example:</i></p>
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
 {
-  return any_cast&lt;std::string*&gt;(&amp;operand);
+  return any_cast&lt;std::string<del>*</del>&gt;(&amp;operand) <ins>!= nullptr</ins>;
 }</pre>
   </blockquote>
   <p><i>--end example</i>]</p>
@@ -565,8 +634,6 @@ template&lt;typename ValueTypePtr&gt;
 <hr>
 <p>© Copyright 2001, 2012 Kevlin Henney<br>
 © Copyright 2006, 2012 Beman Dawes</p>
-<p>Revised
-<!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-01-11<!--webbot bot="Timestamp" endspan i-checksum="12049" --></p>
 
 </body>
 
