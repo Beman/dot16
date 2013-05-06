@@ -1,5 +1,7 @@
 #ifdef USE_ADOBE
 # include "adobe_any.hpp"
+  using adobe::any;
+  using adobe::any_cast;
 #else
 # include <boost/any.hpp>
   using boost::any;
@@ -54,7 +56,12 @@ int main()
   std::cout << "copy assign from any contents by const reference" << std::endl;
   m = any_cast<const movable&>(x1);
   
-  std::cout << "move assign from any contents" << std::endl;
+  std::cout << "move assign from any contents by reference" << std::endl;
   m = std::move(any_cast<movable&>(x1));
+
+#ifndef SKIP_ANYCAST_REF_REF
+  std::cout << "move assign from any contents by rvalue reference" << std::endl;
+  m = any_cast<movable&&>(x1);
+#endif
 
 }

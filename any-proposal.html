@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-03<!--webbot bot="Timestamp" endspan i-checksum="12308" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-04<!--webbot bot="Timestamp" endspan i-checksum="12310" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -121,6 +121,9 @@ illustrating points that have caused questions:
     <li>In the <code>any_cast</code> pointer overload example, remove <code>*</code> 
     from the cast type. This was a nasty bug that compiled OK but caused the 
     example function to return the wrong result.</li>
+    <li>Added missing <code>noexcept</code> to <code>bad_any_cast::what</code>. 
+    (<span class="gI"><span email="antoshkka@gmail.com" name="Antony Polukhin" class="gD">Antony 
+    Polukhin)</span></span></li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
@@ -403,7 +406,7 @@ identity and indirection. <i>--end note</i>]</p>
   class bad_any_cast : public std::bad_cast
   {
   public:
-    virtual const char* what() const;
+    virtual const char* what() const <ins>noexcept</ins>;
   };
 
   class any

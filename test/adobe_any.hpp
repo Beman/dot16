@@ -22,7 +22,7 @@
 # define ADOBE_NOEXCEPT noexcept
 #endif
 
-//namespace adobe {
+namespace adobe {
 
 /**************************************************************************************************/
 
@@ -191,74 +191,69 @@ template <typename T>
 T any_cast(any& x) {
     typedef typename std::remove_reference<T>::type type;
     type* result = any_cast<type>(&x);
-    if (!result)
-      throw bad_any_cast(x.type(), typeid(type));
+    if (!result) throw bad_any_cast(x.type(), typeid(type));
     return *result;
 }
 template <typename T>
 T any_cast(const any& x) {
     typedef typename std::remove_reference<T>::type type;
     const type* result = any_cast<type>(&x);
-    if (!result)
-      throw bad_any_cast(x.type(), typeid(type));
+    if (!result) throw bad_any_cast(x.type(), typeid(type));
     return *result;
+}
+
+template <typename T>
+T dynamic_cast_(any& x) {
+    static_assert(std::is_reference<T>::value, "T must be a reference type");
+    return any_cast<T>(x);
+}
+
+template <typename T>
+T dynamic_cast_(const any& x) {
+    static_assert(std::is_reference<T>::value, "T must be a reference type");
+    return any_cast<T>(x);
+}
+
+template <typename T>
+T dynamic_cast_(any* x) {
+    static_assert(std::is_pointer<T>::value, "T must be a pointer type");
+    return any_cast<typename std::remove_pointer<T>::type>(x);
+}
+
+template <typename T>
+T dynamic_cast_(const any* x) {
+    static_assert(std::is_pointer<T>::value, "T must be a pointer type");
+    return any_cast<typename std::remove_pointer<T>::type>(x);
+}
+
+template <typename T>
+T static_cast_(any* x) {
+    typedef typename std::remove_pointer<T>::type type;
+    typedef typename any::model<type>::type model_type;
+    return static_cast<model_type*>(x->storage())->data();
+}
+
+template <typename T>
+T static_cast_(const any* x) {
+    typedef typename std::remove_pointer<T>::type type;
+    typedef typename any::model<type>::type model_type;
+    return static_cast<const model_type*>(x->storage())->data();
+}
+
+template <typename T>
+T static_cast_(any& x) {
+    typedef typename std::remove_reference<T>::type type;
+    return *static_cast_<type*>(&x);
+}
+
+template <typename T>
+T static_cast_(const any& x) {
+    typedef typename std::remove_reference<T>::type type;
+    return *static_cast_<type*>(&x);
 }
 
 /**************************************************************************************************/
 
-// Extensions
-//template <typename T>
-//T dynamic_cast_(any& x) {
-//    static_assert(std::is_reference<T>::value, "T must be a reference type");
-//    return any_cast<T>(x);
-//}
-//
-//template <typename T>
-//T dynamic_cast_(const any& x) {
-//    static_assert(std::is_reference<T>::value, "T must be a reference type");
-//    return any_cast<T>(x);
-//}
-//
-//template <typename T>
-//T dynamic_cast_(any* x) {
-//    static_assert(std::is_pointer<T>::value, "T must be a pointer type");
-//    return any_cast<typename std::remove_pointer<T>::type>(x);
-//}
-//
-//template <typename T>
-//T dynamic_cast_(const any* x) {
-//    static_assert(std::is_pointer<T>::value, "T must be a pointer type");
-//    return any_cast<typename std::remove_pointer<T>::type>(x);
-//}
-//
-//template <typename T>
-//T static_cast_(any* x) {
-//    typedef typename std::remove_pointer<T>::type type;
-//    typedef typename any::model<type>::type model_type;
-//    return static_cast<model_type*>(x->storage())->data();
-//}
-//
-//template <typename T>
-//T static_cast_(const any* x) {
-//    typedef typename std::remove_pointer<T>::type type;
-//    typedef typename any::model<type>::type model_type;
-//    return static_cast<const model_type*>(x->storage())->data();
-//}
-//
-//template <typename T>
-//T static_cast_(any& x) {
-//    typedef typename std::remove_reference<T>::type type;
-//    return *static_cast_<type*>(&x);
-//}
-//
-//template <typename T>
-//T static_cast_(const any& x) {
-//    typedef typename std::remove_reference<T>::type type;
-//    return *static_cast_<type*>(&x);
-//}
-
-/**************************************************************************************************/
-
-//} // namespace adobe
+} // namespace adobe
 
 #endif

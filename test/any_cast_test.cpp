@@ -169,12 +169,7 @@ int main()
   any_cast<const int&>(x);
   //any_cast<const int*>(x);    // throws bad_any_cast
 
-#ifndef USE_BOOST
   x = "Meow";
-#else
-  const char* meow = "Meow";
-  x = meow;
-#endif
   cout << x.type().name() << endl;
   //any_cast<char>(x);  // throws bad_any_cast
   //any_cast<char&>(x);  // throws bad_any_cast
