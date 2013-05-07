@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-04<!--webbot bot="Timestamp" endspan i-checksum="12310" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-06<!--webbot bot="Timestamp" endspan i-checksum="12314" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -121,9 +121,8 @@ illustrating points that have caused questions:
     <li>In the <code>any_cast</code> pointer overload example, remove <code>*</code> 
     from the cast type. This was a nasty bug that compiled OK but caused the 
     example function to return the wrong result.</li>
-    <li>Added missing <code>noexcept</code> to <code>bad_any_cast::what</code>. 
-    (<span class="gI"><span email="antoshkka@gmail.com" name="Antony Polukhin" class="gD">Antony 
-    Polukhin)</span></span></li>
+    <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
+    <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
@@ -437,6 +436,7 @@ identity and indirection. <i>--end note</i>]</p>
       any&amp; operator=(ValueType rhs);
 
     // modifiers
+    <ins>void clear() noexcept;</ins>
     void swap(any&amp; rhs) noexcept;
 
     // observers
@@ -508,7 +508,7 @@ template &lt;class Allocator, typename ValueType&gt;
   </blockquote>
 <pre>~any();</pre>
 <blockquote>
-  <p><i>Effects:</i> Releases resources.</p>
+  <p><i>Effects:</i> <ins>If not empty, deletes content.</ins> <del>Releases resources.</del></p>
 </blockquote>
 <h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(const any&amp; rhs);</pre>
@@ -534,11 +534,19 @@ template &lt;class Allocator, typename ValueType&gt;
   copy constructor of the contained type.</p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
+
+  <pre><ins>void clear() noexcept;</ins></pre>
+  <blockquote>
+  <p><ins><i>Effects: </i>If not empty, deletes content.</ins></p>
+  <p><ins><i>Postconditions:</i> <code>empty() == true</code>.<ins></p>
+  </blockquote>
+  
   <pre>void swap(any&amp; rhs) noexcept;</pre>
   <blockquote>
   <p><i>Effects:</i> Exchange of the contents of <code>*this</code> and <code>
   rhs</code>.</p>
   </blockquote>
+  
 <h4><code>any</code> observers</h4>
 <pre>bool empty() const noexcept;</pre>
 <blockquote>
@@ -599,9 +607,9 @@ x = &quot;Meow&quot;;                                   // x holds const char*
 
 x = </span><span style="background-color: #E8FFE8">std::string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                      // x holds string
 </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
-s = </span><span style="background-color: #E8FFE8">std::move(any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x));     // move from x 
+s = </span><span style="background-color: #E8FFE8">std::move(any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x));     // move from any 
 </span><span style="background-color: #E8FFE8">assert(s</span><span style="background-color: #E8FFE8"> == &quot;Meow&quot;);
-</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x) = std::move(s2);    // move to x
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x) = std::move(s2);    // move to any
 </span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(x)
   == &quot;Jane&quot;);
 
