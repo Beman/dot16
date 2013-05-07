@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-06<!--webbot bot="Timestamp" endspan i-checksum="12314" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-07<!--webbot bot="Timestamp" endspan i-checksum="12316" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -122,7 +122,18 @@ illustrating points that have caused questions:
     from the cast type. This was a nasty bug that compiled OK but caused the 
     example function to return the wrong result.</li>
     <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
-    <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
+    <li dir="ltr">
+    <p dir="ltr">Add <code>clear()</code> function. (Antony Polukhin)</li>
+    <li>
+    <p dir="ltr">Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
+    arguments work properly, as requested by the LEWG in Bristol and Antony Polukhin's 
+    Boost.Any analysis.</li>
+    <li>
+    <p dir="ltr">Change <code>any</code> construction and assignment of <code>
+    ValueType</code> from a single pass-by-value overload to separate const 
+    pass-by-reference and non-const pass-by-rvalue-reference overloads. 
+    Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
+    Boost.Any analysis.</li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
@@ -342,10 +353,10 @@ union&quot;.</p>
 
 <p>Sean Parent and Daniel Krügler provided numerous comments, corrections, and 
 suggestions, and were particularly helpful applying C++11 features to the 
-library. Sean also provided a copy of his C++ implementation. Sean has done 
-extensive experiments with real C++11 compilers on issues such as pass-by-value 
-versus pass-by-reference. Daniel's expertise with library standardese markedly 
-improved the proposed wording.</p>
+library. Sean also provided a copy of his Adobe C++ implementation.&nbsp; Daniel's expertise with library standardese markedly 
+improved the proposed wording. Antony Polukhin, the maintainer of the Boost 
+implementation, provided a helpful analysis of differences between the Boost 
+implementation and the proposal. </p>
 
 <h2><a name="Proposed-Wording">Proposed Wording</a></h2>
 
@@ -418,7 +429,9 @@ identity and indirection. <i>--end note</i>]</p>
     any(any&amp;&amp; x) noexcept;
 
     template &lt;typename ValueType&gt;
-      any(ValueType value);
+      any(<ins>const</ins> ValueType<ins>&amp;</ins> value);
+    <ins>template &lt;typename ValueType&gt;</ins>
+      <ins>any(ValueType&amp;&amp; value);</ins>
 
     template &lt;class Allocator&gt;
       any(allocator_arg_t, const Allocator&amp; a);
@@ -433,7 +446,9 @@ identity and indirection. <i>--end note</i>]</p>
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template &lt;typename ValueType&gt;
-      any&amp; operator=(ValueType rhs);
+      any&amp; operator=(<ins>const</ins> ValueType<ins>&amp;</ins> rhs);
+    <ins>template &lt;typename ValueType&gt;</ins>
+      <ins>any&amp; operator=(ValueType&amp;&amp; rhs);</ins>
 
     // modifiers
     <ins>void clear() noexcept;</ins>
@@ -448,13 +463,13 @@ identity and indirection. <i>--end note</i>]</p>
 
   template&lt;typename ValueType&gt;
     ValueType any_cast(const any&amp; operand);
-
   template&lt;typename ValueType&gt;
     ValueType any_cast(any&amp; operand);
+  <ins>template&lt;typename ValueType&gt;</ins>
+    <ins>ValueType any_cast(any&amp;&amp; operand);</ins>
 
   template&lt;typename ValueType<del>Ptr</del>&gt;
     <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
-
   template&lt;typename ValueType<del>Ptr</del>&gt;
     ValueType<del>Ptr</del><ins>*</ins> any_cast(any* operand) noexcept;
 }</pre>
@@ -484,12 +499,20 @@ functions provide type-safe access to the stored value.</ins></p>
   the original content of <code>other</code>, or empty if <code>other</code> is empty.</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
-  any(ValueType value);</pre>
+  any(<ins>const</ins> ValueType<ins>&amp;</ins> value);</pre>
 <blockquote>
   <p><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
   content equivalent in both type and value to <code>value</code>.</p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
+</blockquote>
+<pre><ins>template&lt;typename ValueType&gt;</ins>
+  <ins>any(ValueType&amp;&amp; value);</ins></pre>
+<blockquote>
+  <p><ins><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
+  content equivalent in both type and value to <code>value</code>.</ins></p>
+  <p><ins><i>Throws:</i> Any exceptions arising from the 
+  move constructor of the contained type.</ins></p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
   any(allocator_arg_t, const Allocator&amp; a);
@@ -580,12 +603,14 @@ template &lt;class Allocator, typename ValueType&gt;
   <pre>template&lt;typename ValueType&gt;
   ValueType any_cast(const any&amp; operand);
 template&lt;typename ValueType&gt;
-  ValueType any_cast(any&amp; operand);</pre>
+  ValueType any_cast(any&amp; operand);
+<ins>template&lt;typename ValueType&gt;</ins>
+  <ins>ValueType any_cast(any&amp;&amp; operand);</ins></pre>
   <blockquote>
   <p><i>Returns:</i> <del>The value contained by <code>operand</code></del> <u>
   <span style="background-color: #E8FFE8">For the first form, <code>*any_cast&lt;typename 
   add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></span></u>.
-  <u><span style="background-color: #E8FFE8">For the second form, <code>*any_cast&lt;typename 
+  <u><span style="background-color: #E8FFE8">For the second and third forms, <code>*any_cast&lt;typename 
   remove_reference&lt;ValueType&gt;::type&gt;(&amp;operand)</code></span></u>.</p>
   <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
