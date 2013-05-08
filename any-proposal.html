@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-07<!--webbot bot="Timestamp" endspan i-checksum="12316" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-08<!--webbot bot="Timestamp" endspan i-checksum="12318" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -122,14 +122,10 @@ illustrating points that have caused questions:
     from the cast type. This was a nasty bug that compiled OK but caused the 
     example function to return the wrong result.</li>
     <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
-    <li dir="ltr">
-    <p dir="ltr">Add <code>clear()</code> function. (Antony Polukhin)</li>
-    <li>
-    <p dir="ltr">Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
-    arguments work properly, as requested by the LEWG in Bristol and Antony Polukhin's 
-    Boost.Any analysis.</li>
-    <li>
-    <p dir="ltr">Change <code>any</code> construction and assignment of <code>
+    <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
+    <li>Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
+    arguments work properly, as requested by the LEWG in Bristol.</li>
+    <li>Change <code>any</code> construction and assignment of <code>
     ValueType</code> from a single pass-by-value overload to separate const 
     pass-by-reference and non-const pass-by-rvalue-reference overloads. 
     Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
