@@ -132,11 +132,22 @@ illustrating points that have caused questions:
     ValueType</code> from  pass-by-value to pass-by-rvalue-reference. 
     Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
     Boost.Any analysis. Daniel Krügler pointed out that a single 
-    perfect-forwarding function copes with both const and non-const arguments.</li>
+    perfect-forwarding function copes with both const and non-const arguments, 
+    and both template pass-by-rvalue-reference constructor and <code>operator=</code> 
+    follow his advice.</li>
     <li>Add a <i>Remarks:</i> constraint to the <code>template&lt;typename 
-    ValueType&gt; any(ValueType&amp;&amp; value)</code> constructor because otherwise it 
+    ValueType&gt; any(ValueType&amp;&amp; value)</code> constructor, constructor 
+    with allocator, and <code>operator=</code> because otherwise these functions 
     would catch too much (including non-const values of type <code>any</code>). 
     (Daniel Krügler)</li>
+    <li>Fix an &quot;any assignment&quot; discrepancy between the synopsis and semantics 
+    sections. (Daniel Krügler)</li>
+    <li>Add <code>noexcept</code> to the first of the allocator constructors. 
+    (Daniel Krügler)</li>
+    <li>Change the destructor's effects to call <code>clear()</code>, and 
+    specify <code>clear()</code> effects such that any contained value is 
+    destroyed. The wording is such that it is still correct in the presence of 
+    small-value optimization. (Daniel Krügler)</li>
   </ul>
   <p>As part of the work on revision 3, Daniel Krügler did a detailed analysis, 
   including implementation, of what would be required for <code>any</code> to 
@@ -442,7 +453,7 @@ identity and indirection. <i>--end note</i>]</p>
       any(ValueType<ins>&amp;&amp;</ins> value);
 
     template &lt;class Allocator&gt;
-      any(allocator_arg_t, const Allocator&amp; a);
+      any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
 
     template &lt;class Allocator, typename ValueType&gt;
       any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);
@@ -454,9 +465,7 @@ identity and indirection. <i>--end note</i>]</p>
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template &lt;typename ValueType&gt;
-      any&amp; operator=(<ins>const</ins> ValueType<ins>&amp;</ins> rhs);
-    <ins>template &lt;typename ValueType&gt;</ins>
-      <ins>any&amp; operator=(ValueType&amp;&amp; rhs);</ins>
+      any&amp; operator=(ValueType<ins>&amp;&amp;</ins> rhs);
 
     // modifiers
     <ins>void clear() noexcept;</ins>
@@ -518,7 +527,7 @@ functions provide type-safe access to the stored value.</ins></p>
   copy constructor of the contained type.</p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
-  any(allocator_arg_t, const Allocator&amp; a);
+  any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
 template &lt;class Allocator, typename ValueType&gt;
   any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);</pre>
   <blockquote>
@@ -529,7 +538,8 @@ template &lt;class Allocator, typename ValueType&gt;
   <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
   The second constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
   is the same type as <code>std::any</code>.</ins></p>
-    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
+    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> <ins>The second form 
+    throws</ins> any exceptions arising from the 
   copy constructor of the contained type.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
     dynamically allocated memory for small contained types, for example, where 
@@ -537,7 +547,7 @@ template &lt;class Allocator, typename ValueType&gt;
   </blockquote>
 <pre>~any();</pre>
 <blockquote>
-  <p><i>Effects:</i> <ins>If not empty, deletes content.</ins> <del>Releases resources.</del></p>
+  <p><i>Effects:</i> <ins><code>clear()</code>.</ins> <del>Releases resources.</del></p>
 </blockquote>
 <h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(const any&amp; rhs);</pre>
@@ -554,11 +564,17 @@ template &lt;class Allocator, typename ValueType&gt;
   <p><i>Postconditions:</i> <code>rhs.empty()</code>.</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
-  any&amp; operator=(ValueType rhs);</pre>
+  any&amp; operator=(ValueType<ins>&amp;&amp;</ins> rhs);</pre>
 <blockquote>
-  <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if 
-  an exception is thrown.</p>
+  <p><i>Effects:</i> <del><code>any(rhs).swap(*this)</code>, however, no effects if 
+  an exception is thrown.</del> <ins>Moves content of <code>rhs</code> to <code>*this</code>, 
+  so that any content is equivalent in both type and value to the original 
+  content of <code>rhs</code>, or empty if <code>rhs</code> is empty.</ins></p>
+  <p><ins><i>Postconditions:</i> <code>rhs.empty()</code>.</ins></p>
   <p><i>Returns:</i> <code>*this</code></p>
+  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
+  This operator shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
+  is the same type as <code>std::any</code>.</ins></p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
 </blockquote>
@@ -566,7 +582,7 @@ template &lt;class Allocator, typename ValueType&gt;
 
   <pre><ins>void clear() noexcept;</ins></pre>
   <blockquote>
-  <p><ins><i>Effects: </i>If not empty, deletes content.</ins></p>
+  <p><ins><i>Effects: </i>If not empty, destroys the contained object.</ins></p>
   <p><ins><i>Postconditions:</i> <code>empty() == true</code>.</ins></p>
   </blockquote>
   
