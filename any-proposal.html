@@ -151,6 +151,13 @@ illustrating points that have caused questions:
     <li>Introduce a definition for <i>contained object</i>, and then 
     consistently use that term in places that previously spoke of &quot;contents&quot; or 
     &quot;contained value&quot;. (Daniel Krügler)</li>
+    <li>Clarified the <i>Effects</i> of <code>empty()</code> to avoid a near 
+    recursive definition. (Daniel Krügler)</li>
+    <li>Clarified the <code>type()</code> <i>Returns</i> non-empty case as it 
+    was somewhat blurry in that it could be read to mean <code>typeid(this.value)</code> 
+    where <code>value</code> is the contained object and could mean that <code>
+    typeid</code> is used as in a polymorphic operation when the value type is a 
+    polymorphic type.&nbsp; (Daniel Krügler)</li>
   </ul>
   <p>As part of the work on revision 3, Daniel Krügler did a detailed analysis, 
   including implementation, of what would be required for <code>any</code> to 
@@ -594,19 +601,21 @@ template &lt;class Allocator, typename ValueType&gt;
   
   <pre>void swap(any&amp; rhs) noexcept;</pre>
   <blockquote>
-  <p><i>Effects:</i> Exchange of the <del>content</del> <ins>contained object</ins>s of <code>*this</code> and <code>
+  <p><i>Effects:</i> Exchange <del>of</del> the <del>contents</del> <ins>states</ins> of <code>*this</code> and <code>
   rhs</code>.</p>
   </blockquote>
   
 <h4><code>any</code> observers</h4>
 <pre>bool empty() const noexcept;</pre>
 <blockquote>
-  <p><i>Returns:</i> <code>true</code> if instance is empty, otherwise <code>
+  <p><i>Returns:</i> <code>true</code> if <del>instance is empty</del> <ins>
+  <code>*this</code> has no contained object</ins>, otherwise <code>
   false</code>.</p>
 </blockquote>
   <pre><code>const type_info&amp; type() const</code> noexcept<code>;</code></pre>
   <blockquote>
-  <p><i>Returns:</i> The <code>typeid</code> of the contained <del>value</del> <ins>object</ins> if instance is non-empty, 
+  <p><i>Returns:</i> <del>The <code>typeid</code> of the contained value if instance is non-empty</del> 
+  <ins>If *this has a contained object of type T, <code>typeid(T)</code>;</ins> 
   otherwise <code>typeid(void)</code>. </p>
   <p>[<i>Note:</i> Useful for querying against types known either at compile 
   time or only at runtime. <i>--end note</i>]</p>
@@ -617,9 +626,10 @@ template &lt;class Allocator, typename ValueType&gt;
     <i>Effects:</i> <code>x.swap(y)</code>.</blockquote>
   <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%">
     <tr>
-      <td width="100%"><i>The following 
+      <td width="100%" bgcolor="#DBDBDB"><i>The following 
       specifications for <code>any_cast</code> have been 
-      revised to increase clarity. For the existing two signatures these changes to exposition 
+      revised to increase clarity. For the existing two signatures these changes 
+      were to exposition 
       only. The actual behavior is unchanged from prior revisions.</i><p>
       <i>The examples have been compiled 
       and tested with GCC and VC++.</i></td>
@@ -677,8 +687,7 @@ template&lt;typename ValueType<del>Ptr</del>&gt;
   <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
   typeid(<del>remove_pointer&lt;ValueTypePtr&gt;::type</del> <ins>ValueType</ins>)</code>,
   a pointer to the <del>value</del> <ins>object</ins> contained by <code>operand</code>, otherwise 
-  <del>a null pointer</del> <ins><code>nullptr</code></ins>. <ins>For the first form, the returned pointer shall be <code>const</code> 
-  qualified.</ins></p>
+  <del>a null pointer</del> <ins><code>nullptr</code></ins>.</p>
   <p>[<i>Example:</i></p>
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
