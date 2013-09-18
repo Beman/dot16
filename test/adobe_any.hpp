@@ -194,6 +194,15 @@ T any_cast(any& x) {
     if (!result) throw bad_any_cast(x.type(), typeid(type));
     return *result;
 }
+
+// experimental added by Beman
+template <typename T>
+T any_cast(any&& x) {
+    typedef typename std::remove_reference<T>::type type;
+    type* result = any_cast<type>(&x);
+    if (!result) throw bad_any_cast(x.type(), typeid(type));
+    return *result;
+}
 template <typename T>
 T any_cast(const any& x) {
     typedef typename std::remove_reference<T>::type type;

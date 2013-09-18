@@ -71,6 +71,8 @@ void example()
 {
   std::cout << "Test example from proposal" << std::endl;
 
+  
+
   any x(5);                                      // x holds int
   assert(any_cast<int>(x) == 5);                 // cast to value
   any_cast<int&>(x) = 10;                        // cast to reference
