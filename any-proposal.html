@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-08<!--webbot bot="Timestamp" endspan i-checksum="12318" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-18<!--webbot bot="Timestamp" endspan i-checksum="12575" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -65,9 +65,7 @@ Requirements</a><br>
 &nbsp;</p>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>This paper proposes a type-safe container for single values of value types. 
-The C++ standards committee's Library Working Group reviewed the proposal at the 
-October, 2012, meeting and is tentatively targeting the proposal for the C++ Standard 
-update referred to as C++14. The proposal would also be suitable for a Library Technical
+The C++ standards committee is planning to include the proposal in a library Technical
 Specification (TS).</p>
 <p>The proposal is based on the Boost Any Library (see
 <a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost 
@@ -75,12 +73,14 @@ version of library
 has been in wide use for over a decade, and the library has been implemented 
 at least twice in addition to the Boost implementation. The 
 proposal is a pure 
-addition to the standard library, requires no modifications to any C++11 
+addition to the standard library, requires no modifications to any C++14 
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
   <ul>
+    <li>Change target to a library TS, per Bristol LEWG decision. Namespace to 
+    be decided.</li>
     <li>Remove the &quot;Do List&quot;.</li>
     <li>Add wording to class <code>any</code> introduction to clarify that empty is a 
 valid state and to clarify the relationship with <code>any_cast</code>.</li>
@@ -131,6 +131,13 @@ illustrating points that have caused questions:
     Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
     Boost.Any analysis.</li>
   </ul>
+  <p>As part of the work on revision 3, Daniel Krügler did a detailed analysis, 
+  including implementation, of what would be required for <code>any</code> to 
+  support move-only types. Based on his analysis, it appears that supporting 
+  move-only types is doable, but more complex than initially hoped for. The 
+  recommendation is not to support move-only types for the TS. If anyone cares 
+  enough to open an issue, move-only types can be tackled before full 
+  standardization.</p>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
   <ul>
@@ -408,7 +415,7 @@ identity and indirection. <i>--end note</i>]</p>
 <h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
 
 <blockquote>
-  <pre>namespace std {
+  <pre>namespace std { <ins>namespace <b><i>to-be-decided</i></b> {</ins>
   class bad_any_cast : public std::bad_cast
   {
   public:
@@ -468,7 +475,7 @@ identity and indirection. <i>--end note</i>]</p>
     <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
   template&lt;typename ValueType<del>Ptr</del>&gt;
     ValueType<del>Ptr</del><ins>*</ins> any_cast(any* operand) noexcept;
-}</pre>
+}<ins>}</ins></pre>
 </blockquote>
 <h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
