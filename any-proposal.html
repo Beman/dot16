@@ -79,9 +79,9 @@ namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
   <ul>
+    <li>Remove the &quot;Do List&quot;.</li>
     <li>Change target to a library TS, per Bristol LEWG decision. Namespace to 
     be decided.</li>
-    <li>Remove the &quot;Do List&quot;.</li>
     <li>Add wording to class <code>any</code> introduction to clarify that empty is a 
 valid state and to clarify the relationship with <code>any_cast</code>.</li>
     <li>Remove <code>bad_alloc</code> from <i>Throws:</i> elements to conform with 
@@ -123,13 +123,20 @@ illustrating points that have caused questions:
     example function to return the wrong result.</li>
     <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
     <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
-    <li>Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
+    <li dir="ltr">
+    <p dir="ltr">Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
     arguments work properly, as requested by the LEWG in Bristol.</li>
+    <li>
+    <p dir="ltr">Removed unneeded <code>std::</code>. (Daniel Krügler)</li>
     <li>Change <code>any</code> construction and assignment of <code>
-    ValueType</code> from a single pass-by-value overload to separate const 
-    pass-by-reference and non-const pass-by-rvalue-reference overloads. 
+    ValueType</code> from  pass-by-value to pass-by-rvalue-reference. 
     Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
-    Boost.Any analysis.</li>
+    Boost.Any analysis. Daniel Krügler pointed out that a single 
+    perfect-forwarding function copes with both const and non-const arguments.</li>
+    <li>Add a <i>Remarks:</i> constraint to the <code>template&lt;typename 
+    ValueType&gt; any(ValueType&amp;&amp; value)</code> constructor because otherwise it 
+    would catch too much (including non-const values of type <code>any</code>). 
+    (Daniel Krügler)</li>
   </ul>
   <p>As part of the work on revision 3, Daniel Krügler did a detailed analysis, 
   including implementation, of what would be required for <code>any</code> to 
@@ -416,7 +423,7 @@ identity and indirection. <i>--end note</i>]</p>
 
 <blockquote>
   <pre>namespace std { <ins>namespace <b><i>to-be-decided</i></b> {</ins>
-  class bad_any_cast : public std::bad_cast
+  class bad_any_cast : public <del>std::</del>bad_cast
   {
   public:
     virtual const char* what() const <ins>noexcept</ins>;
@@ -432,15 +439,13 @@ identity and indirection. <i>--end note</i>]</p>
     any(any&amp;&amp; x) noexcept;
 
     template &lt;typename ValueType&gt;
-      any(<ins>const</ins> ValueType<ins>&amp;</ins> value);
-    <ins>template &lt;typename ValueType&gt;</ins>
-      <ins>any(ValueType&amp;&amp; value);</ins>
+      any(ValueType<ins>&amp;&amp;</ins> value);
 
     template &lt;class Allocator&gt;
       any(allocator_arg_t, const Allocator&amp; a);
 
     template &lt;class Allocator, typename ValueType&gt;
-      any(allocator_arg_t, const Allocator&amp; a, ValueType value);
+      any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);
 
    ~any();
   
@@ -502,30 +507,28 @@ functions provide type-safe access to the stored value.</ins></p>
   the original content of <code>other</code>, or empty if <code>other</code> is empty.</p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
-  any(<ins>const</ins> ValueType<ins>&amp;</ins> value);</pre>
+  any(ValueType<ins>&amp;&amp;</ins> value);</pre>
 <blockquote>
   <p><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
   content equivalent in both type and value to <code>value</code>.</p>
+  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
+  This constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
+  is the same type as <code>std::any</code>.</ins></p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
-</blockquote>
-<pre><ins>template&lt;typename ValueType&gt;</ins>
-  <ins>any(ValueType&amp;&amp; value);</ins></pre>
-<blockquote>
-  <p><ins><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
-  content equivalent in both type and value to <code>value</code>.</ins></p>
-  <p><ins><i>Throws:</i> Any exceptions arising from the 
-  move constructor of the contained type.</ins></p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
   any(allocator_arg_t, const Allocator&amp; a);
 template &lt;class Allocator, typename ValueType&gt;
-  any(allocator_arg_t, const Allocator&amp; a, ValueType value);</pre>
+  any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);</pre>
   <blockquote>
     <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
     an <b>Allocator</b> ([allocator.requirements]).</p>
     <p><i>Effects: </i>Equivalent to the preceding constructors except that the 
     stored value is constructed with uses-allocator construction ([allocator.uses.construction]).</p>
+  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
+  The second constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
+  is the same type as <code>std::any</code>.</ins></p>
     <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
   copy constructor of the contained type.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
@@ -627,26 +630,22 @@ template&lt;typename ValueType&gt;
 </span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 10); 
 
 x = &quot;Meow&quot;;                                   // x holds const char*
-</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
-  &quot;Meow&quot;) == 0);
+</span><span style="background-color: #E8FFE8">assert(strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x), &quot;Meow&quot;) == 0);
 </span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;;
-</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
- &quot;Harry&quot;) == 0);
+</span><span style="background-color: #E8FFE8">assert(strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x), &quot;Harry&quot;) == 0);
 
-x = </span><span style="background-color: #E8FFE8">std::string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                      // x holds string
-</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
-s = </span><span style="background-color: #E8FFE8">std::move(any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x));     // move from any 
+x = string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                           // x holds string
+string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
+s = move(any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x));               // move from any 
 </span><span style="background-color: #E8FFE8">assert(s</span><span style="background-color: #E8FFE8"> == &quot;Meow&quot;);
-</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x) = std::move(s2);    // move to any
-</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(x)
-  == &quot;Jane&quot;);
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x) = move(s2);              // move to any
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const string</span><span style="background-color: #E8FFE8">&amp;&gt;(x) == &quot;Jane&quot;);
 
-</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
+string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
 const any </span><span style="background-color: #E8FFE8">y(cat</span><span style="background-color: #E8FFE8">);                             // const y holds string
-</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(y)
-  == cat);
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const string</span><span style="background-color: #E8FFE8">&amp;&gt;(y) == cat);
 
-any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(y);                    // error; cannot
+any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(y);                         // error; cannot
                                               //  any_cast away const</span></pre>
   </blockquote>
   <p><ins><i>--end example</i>]</ins></p>
@@ -665,7 +664,7 @@ template&lt;typename ValueType<del>Ptr</del>&gt;
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
 {
-  return any_cast&lt;std::string<del>*</del>&gt;(&amp;operand) <ins>!= nullptr</ins>;
+  return any_cast&lt;string<del>*</del>&gt;(&amp;operand) <ins>!= nullptr</ins>;
 }</pre>
   </blockquote>
   <p><i>--end example</i>]</p>
