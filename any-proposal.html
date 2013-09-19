@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-18<!--webbot bot="Timestamp" endspan i-checksum="12575" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-19<!--webbot bot="Timestamp" endspan i-checksum="12577" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -41,7 +41,9 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td valign="top">Reply-to:</td>
       <td>Beman Dawes &lt;bdawes at acm dot org&gt;<br>
-      Kevlin Henney &lt;kevlin at curbralan dot com&gt;</td>
+      Kevlin Henney &lt;kevlin at curbralan dot com&gt;<br>
+      Daniel Krügler <span class="gI"><span class="go">&lt;daniel dot kruegler at 
+      gmail dot com&gt;</span></span></td>
     </tr>
   </table>
 
@@ -79,6 +81,9 @@ namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
   <ul>
+    <li>Added Daniel Krügler to the list of authors. Daniel has worked 
+    tirelessly to improve the standardese, and has also implemented the 
+    proposal.</li>
     <li>Remove the &quot;Do List&quot;.</li>
     <li>Change target to a library TS, per Bristol LEWG decision. Namespace to 
     be decided.</li>
@@ -519,7 +524,7 @@ functions provide type-safe access to the contained object.</ins></p>
   <p><i>Effects:</i> Copies <del>content</del> <ins>contained object</ins> of <code>other</code> into a new 
   instance, so that any <del>content</del> <ins>contained object</ins> is equivalent in both type and value to <code>other</code>, or empty if <code>other</code> is empty.</p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any 
-  exceptions arising from the copy constructor of the contained type.</p>
+  exceptions arising from the copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any(any&amp;&amp; other) noexcept;</pre>
 <blockquote>
@@ -536,7 +541,7 @@ functions provide type-safe access to the contained object.</ins></p>
   This constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
   is the same type as <code>std::any</code>.</ins></p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
   any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
@@ -552,10 +557,10 @@ template &lt;class Allocator, typename ValueType&gt;
   is the same type as <code>std::any</code>.</ins></p>
     <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> <ins>The second form 
     throws</ins> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
-    dynamically allocated memory for small contained types, for example, where 
-    the object constructed is holding only an int. <i>â€”end note</i> ]</p>
+    dynamically allocated memory for small contained <del>types</del> <ins>objects</ins>, for example, where 
+    the object constructed is holding only an <code>int</code>. <i>--end note</i> ]</p>
   </blockquote>
 <pre>~any();</pre>
 <blockquote>
@@ -567,7 +572,7 @@ template &lt;class Allocator, typename ValueType&gt;
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
 <blockquote>
@@ -589,7 +594,7 @@ template &lt;class Allocator, typename ValueType&gt;
   This operator shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
   is the same type as <code>std::any</code>.</ins></p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
 
