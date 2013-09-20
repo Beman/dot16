@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-19<!--webbot bot="Timestamp" endspan i-checksum="12577" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-20<!--webbot bot="Timestamp" endspan i-checksum="12560" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -163,6 +163,17 @@ illustrating points that have caused questions:
     where <code>value</code> is the contained object and could mean that <code>
     typeid</code> is used as in a polymorphic operation when the value type is a 
     polymorphic type.&nbsp; (Daniel Krügler)</li>
+    <li>Remove a lengthy note from <code>ValueType</code> requirements as 
+    tutorial in nature and thus beyond the scope of the standard library or a 
+    library TS.</li>
+    <li>Rework the specifications for construction from <code>ValueType</code> 
+    and assignment from <code>ValueType</code> to be more precise and to 
+    eliminate errors that had crept in as C++11 features were applied. (Daniel 
+    Krügler private email 2013/05/09)</li>
+    <li>Remove the <code>ValueType</code> requirements section, and add a <i>
+    Requires</i> element to the signatures that actually require 
+    CopyConstructible or MoveConstructible, following current practice of the 
+    standard library for containers. </li>
   </ul>
   <p>As part of the work on revision 3, Daniel Krügler did a detailed analysis, 
   including implementation, of what would be required for <code>any</code> to 
@@ -422,26 +433,26 @@ values, with no scope for surprises from ambiguous conversions. <i>-- end note.<
 
 </blockquote>
 
-<h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
+<h3><del><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></del></h3>
 
-<p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
-[copyconstructible].&nbsp; </p>
+<p><del>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
+[copyconstructible].</del></p>
 
 <blockquote>
 
-<p>[<i>Note:</i> Values are strongly informational objects for which identity is not significant, 
+<p><del>[<i>Note:</i> Values are strongly informational objects for which identity is not significant, 
 i.e. the focus is principally on their state content and any behavior organized 
 around that. Another distinguishing feature of values is their granularity: 
 normally fine-grained objects representing simple concepts in the system such as 
-quantities.</p>
+quantities.</del></p>
 
-<p>As the emphasis of a value lies in its state not its identity, values can be 
+<p><del>As the emphasis of a value lies in its state not its identity, values can be 
 copied and typically assigned one to another, requiring the explicit or implicit 
 definition of a public copy constructor. Values 
 typically live within other scopes, i.e. within objects or blocks, rather than 
 on the heap. Values are therefore normally passed around and manipulated 
 directly as variables or through references, but not as pointers that emphasize 
-identity and indirection. <i>--end note</i>]</p>
+identity and indirection. <i>--end note</i>]</del></p>
 
 </blockquote>
 
@@ -511,7 +522,8 @@ identity and indirection. <i>--end note</i>]</p>
 any_cast</code>.</p>
 <h3><a name="Class-any">Class <code>any</code></a></h3>
 <p>An object of class <code>any</code> stores an instance of any type that 
-satisfies the <code>ValueType</code> requirements or is empty. <ins>The stored 
+satisfies the <del><code>ValueType</code></del> <ins>constructor</ins> requirements or is empty, <ins>and this is referred to as 
+the <i>state</i> of the class  <code>any</code> object. The stored 
 instance is called the <i>contained object</i>. The non-member <code>any_cast</code> 
 functions provide type-safe access to the contained object.</ins></p>
 <h4><code>any</code> construct/destruct</h4>
@@ -521,27 +533,41 @@ functions provide type-safe access to the contained object.</ins></p>
 </blockquote>
 <pre>any(const any&amp; other);</pre>
 <blockquote>
-  <p><i>Effects:</i> Copies <del>content</del> <ins>contained object</ins> of <code>other</code> into a new 
-  instance, so that any <del>content</del> <ins>contained object</ins> is equivalent in both type and value to <code>other</code>, or empty if <code>other</code> is empty.</p>
+  <p>
+  <ins><i>Requires:</i> 
+  <code>other</code> is empty or <code>is_copy_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by 
+  <code>other</code>.</ins></p>
+  <p><i>Effects:</i> <del>Copies content of <code>other</code> into a new 
+  instance, so that any content is equivalent in both type and value to <code>other</code>,
+  or empty if <code>other</code> is empty.</del> 
+  <ins>Constructs an object of type <code>any</code> with the same state as <code>other</code>.</del></p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any 
   exceptions arising from the copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any(any&amp;&amp; other) noexcept;</pre>
 <blockquote>
-  <p><i>Effects:</i> Moves <del>content</del> <ins>contained object</ins> of <code>other</code> into a new instance,
-  so that any <del>content</del> <ins>contained object</ins> is equivalent in both type and value to 
-  the original <del>content</del> <ins>contained object</ins> of <code>other</code>, or empty if <code>other</code> is empty.</p>
+  <p><ins><i>Requires:</i> 
+  <code>other</code> is empty or <code>is_move_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by 
+  <code>other</code>.</ins></p>
+  <p><ins><i>Effects:</i> Constructs an object of type <code>any</code> with the 
+  original state of <code>other</code>.</ins></p>
+  <p><ins><i>Postconditions: </i> <code>other</code> is left in a 
+  valid but otherwise unspecified state.</ins></p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
   any(ValueType<ins>&amp;&amp;</ins> value);</pre>
 <blockquote>
-  <p><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
-  <del>content</del> <ins>contained object</ins> equivalent in both type and value to <code>value</code>.</p>
-  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
+  <ins><p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</ins></p>
+  <p><ins><i>Requires:</i> <code>is_move_constructible&lt;T&gt;::value</code> is true.</ins></p>
+  <p><ins><i>Effects:</i>
+  Constructs an object of type <code>any</code> that contains an 
+  object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(value)</code>.</ins></p>
+  <p><ins><i>Remarks:</i> 
   This constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
   is the same type as <code>std::any</code>.</ins></p>
-  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
+  <p><ins><i>Throws:</i> Any exception thrown by the selected constructor of <code>T</code>.</ins></p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
   any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
@@ -549,9 +575,11 @@ template &lt;class Allocator, typename ValueType&gt;
   any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);</pre>
   <blockquote>
     <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
-    an <b>Allocator</b> ([allocator.requirements]).</p>
-    <p><i>Effects: </i>Equivalent to the preceding constructors except that the 
-    stored value is constructed with uses-allocator construction ([allocator.uses.construction]).</p>
+    an Allocator ([allocator.requirements]).
+  <ins>For the second form, <code>is_copy_constructible&lt;ValueType&gt;::value</code> 
+    is true.</ins></p>
+    <p><i>Effects: </i>Equivalent to the preceding constructors except that the contained object is constructed with uses-allocator construction ([allocator.uses.construction]) 
+    if memory allocation is performed.</p>
   <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
   The second constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
   is the same type as <code>std::any</code>.</ins></p>
@@ -559,7 +587,8 @@ template &lt;class Allocator, typename ValueType&gt;
     throws</ins> any exceptions arising from the 
   copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
-    dynamically allocated memory for small contained <del>types</del> <ins>objects</ins>, for example, where 
+    dynamically allocated memory for a small contained <del>types</del> <ins>
+    object</ins>, for example, where 
     the object constructed is holding only an <code>int</code>. <i>--end note</i> ]</p>
   </blockquote>
 <pre>~any();</pre>
@@ -569,6 +598,9 @@ template &lt;class Allocator, typename ValueType&gt;
 <h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(const any&amp; rhs);</pre>
 <blockquote>
+  <p>
+  <ins><i>Requires:</i> <code>rhs</code> is empty or <code>is_copy_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by <code>rhs</code>.</ins></p>
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
@@ -576,25 +608,28 @@ template &lt;class Allocator, typename ValueType&gt;
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
 <blockquote>
-  <p><i>Effects:</i> Moves <del>content</del> <ins>contained object</ins> of <code>rhs</code> to <code>*this</code>,
-  so that any <del>content</del> <ins>contained object</ins> is equivalent in both type and value to 
-  the original <del>content</del> <ins>contained object</ins> of <code>rhs</code>, or empty if <code>rhs</code> is empty.</p>
-  <p><i>Postconditions:</i> <code>rhs.empty()</code>.</p>
+  <p>
+  <ins><i>Requires:</i> <code>rhs</code> is empty or <code>is_move_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by <code>rhs</code>.</ins></p>
+  <p><ins><i>Postconditions:</i> The state of <code>*this</code> is the same as the original state 
+  of <code>rhs</code> and <code>rhs</code> is left in a valid but otherwise 
+  unspecified state</code>.</ins></p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
   any&amp; operator=(ValueType<ins>&amp;&amp;</ins> rhs);</pre>
 <blockquote>
-  <p><i>Effects:</i> <del><code>any(rhs).swap(*this)</code>, however, no effects if 
-  an exception is thrown.</del> <ins>Moves <del>content</del> <ins>contained object</ins> of <code>rhs</code> to <code>*this</code>, 
-  so that any <del>content</del> <ins>contained object</ins> is equivalent in both type and value to the original 
-  <del>content</del> <ins>contained object</ins> of <code>rhs</code>, or empty if <code>rhs</code> is empty.</ins></p>
-  <p><ins><i>Postconditions:</i> <code>rhs.empty()</code>.</ins></p>
-  <p><i>Returns:</i> <code>*this</code></p>
-  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
+  <p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code></ins>.</p>
+  <p><ins><i>Requires:</i> <code>is_move_constructible&lt;T&gt;::value</code> is true.</ins></p>
+  <p><ins><i>Effects:</i>
+  Constructs an object <code>tmp</code> of type <code>any</code> that contains an 
+  object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(rhs)</code>, and 
+  <code>tmp.swap(*this)</code>; however, no effects if an exception is 
+  thrown.</ins></p>
+  <p><ins><i>Returns:</i> <code>*this</code></ins></p>
+  <p><ins><i>Remarks:</i> 
   This operator shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
   is the same type as <code>std::any</code>.</ins></p>
-  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
+  <p><ins><i>Throws:</i> Any exception thrown by the selected constructor of <code>T</code>.</ins></p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
 
@@ -620,7 +655,7 @@ template &lt;class Allocator, typename ValueType&gt;
   <pre><code>const type_info&amp; type() const</code> noexcept<code>;</code></pre>
   <blockquote>
   <p><i>Returns:</i> <del>The <code>typeid</code> of the contained value if instance is non-empty</del> 
-  <ins>If *this has a contained object of type T, <code>typeid(T)</code>;</ins> 
+  <ins>If <code>*this</code> has a contained object of type T, <code>typeid(T)</code>;</ins> 
   otherwise <code>typeid(void)</code>. </p>
   <p>[<i>Note:</i> Useful for querying against types known either at compile 
   time or only at runtime. <i>--end note</i>]</p>
@@ -647,6 +682,9 @@ template&lt;typename ValueType&gt;
 <ins>template&lt;typename ValueType&gt;</ins>
   <ins>ValueType any_cast(any&amp;&amp; operand);</ins></pre>
   <blockquote>
+  <p>
+  <ins><i>Requires:</i> <code>is_reference&lt;ValueType&gt;::value</code> is 
+  true or <code>is_copy_constructible&lt;ValueType&gt;::value</code> is true.</ins></p>
   <p><i>Returns:</i> <del>The value contained by <code>operand</code></del> <u>
   <span style="background-color: #E8FFE8">For the first form, <code>*any_cast&lt;typename 
   add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></span></u>.
