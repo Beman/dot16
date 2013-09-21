@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Language" content="en-us">
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Any Library Proposal</title>
 <style type="text/css">
 body  {
@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-05-04<!--webbot bot="Timestamp" endspan i-checksum="12310" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-21<!--webbot bot="Timestamp" endspan i-checksum="12562" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -41,7 +41,9 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td valign="top">Reply-to:</td>
       <td>Beman Dawes &lt;bdawes at acm dot org&gt;<br>
-      Kevlin Henney &lt;kevlin at curbralan dot com&gt;</td>
+      Kevlin Henney &lt;kevlin at curbralan dot com&gt;<br>
+      Daniel KrÃ¼gler &lt;daniel dot kruegler at 
+      gmail dot com&gt;</td>
     </tr>
   </table>
 
@@ -65,9 +67,7 @@ Requirements</a><br>
 &nbsp;</p>
 <h2><a name="Introduction">Introduction</a></h2>
 <p>This paper proposes a type-safe container for single values of value types. 
-The C++ standards committee's Library Working Group reviewed the proposal at the 
-October, 2012, meeting and is tentatively targeting the proposal for the C++ Standard 
-update referred to as C++14. The proposal would also be suitable for a Library Technical
+The C++ standards committee is planning to include the proposal in a library Technical
 Specification (TS).</p>
 <p>The proposal is based on the Boost Any Library (see
 <a href="http://www.boost.org/libs/any">www.boost.org/libs/any</a>). The Boost 
@@ -75,13 +75,18 @@ version of library
 has been in wide use for over a decade, and the library has been implemented 
 at least twice in addition to the Boost implementation. The 
 proposal is a pure 
-addition to the standard library, requires no modifications to any C++11 
+addition to the standard library, requires no modifications to any C++14 
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
 <p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
   <ul>
+    <li>Added Daniel KrÃ¼gler to the list of authors. Daniel has worked 
+    tirelessly to improve the standardese, and has also implemented the 
+    proposal.</li>
     <li>Remove the &quot;Do List&quot;.</li>
+    <li>Change target to a library TS, per Bristol LEWG decision. Namespace to 
+    be decided.</li>
     <li>Add wording to class <code>any</code> introduction to clarify that empty is a 
 valid state and to clarify the relationship with <code>any_cast</code>.</li>
     <li>Remove <code>bad_alloc</code> from <i>Throws:</i> elements to conform with 
@@ -121,39 +126,91 @@ illustrating points that have caused questions:
     <li>In the <code>any_cast</code> pointer overload example, remove <code>*</code> 
     from the cast type. This was a nasty bug that compiled OK but caused the 
     example function to return the wrong result.</li>
-    <li>Added missing <code>noexcept</code> to <code>bad_any_cast::what</code>. 
-    (<span class="gI"><span email="antoshkka@gmail.com" name="Antony Polukhin" class="gD">Antony 
-    Polukhin)</span></span></li>
+    <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
+    <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
+    <li dir="ltr">
+    <p dir="ltr">Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
+    arguments work properly, as requested by the LEWG in Bristol.</li>
+    <li>
+    <p dir="ltr">Removed unneeded <code>std::</code>. (Daniel KrÃ¼gler)</li>
+    <li>Change <code>any</code> construction and assignment of <code>
+    ValueType</code> from  pass-by-value to pass-by-rvalue-reference. 
+    Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
+    Boost.Any analysis. Daniel KrÃ¼gler pointed out that a single 
+    perfect-forwarding function copes with both const and non-const arguments, 
+    and both template pass-by-rvalue-reference constructor and <code>operator=</code> 
+    follow his advice.</li>
+    <li>Add a <i>Remarks:</i> constraint to the <code>template&lt;typename 
+    ValueType&gt; any(ValueType&amp;&amp; value)</code> constructor, constructor 
+    with allocator, and <code>operator=</code> because otherwise these functions 
+    would catch too much (including non-const values of type <code>any</code>). 
+    (Daniel KrÃ¼gler)</li>
+    <li>Fix an &quot;any assignment&quot; discrepancy between the synopsis and semantics 
+    sections. (Daniel KrÃ¼gler)</li>
+    <li>Add <code>noexcept</code> to the first of the allocator constructors. 
+    (Daniel KrÃ¼gler)</li>
+    <li>Change the destructor's effects to call <code>clear()</code>, and 
+    specify <code>clear()</code> effects such that any contained value is 
+    destroyed. The wording is such that it is still correct in the presence of 
+    small-value optimization. (Daniel KrÃ¼gler)</li>
+    <li>Introduce a definition for <i>contained object</i>, and then 
+    consistently use that term in places that previously spoke of &quot;contents&quot; or 
+    &quot;contained value&quot;. (Daniel KrÃ¼gler)</li>
+    <li>Clarified the <i>Effects</i> of <code>empty()</code> to avoid a near 
+    recursive definition. (Daniel KrÃ¼gler)</li>
+    <li>Clarified the <code>type()</code> <i>Returns</i> non-empty case as it 
+    was somewhat blurry in that it could be read to mean <code>typeid(this.value)</code> 
+    where <code>value</code> is the contained object and could mean that <code>
+    typeid</code> is used as in a polymorphic operation when the value type is a 
+    polymorphic type.&nbsp; (Daniel KrÃ¼gler)</li>
+    <li>Remove a lengthy note from <code>ValueType</code> requirements as 
+    tutorial in nature and thus beyond the scope of the standard library or a 
+    library TS.</li>
+    <li>Rework the specifications for construction from <code>ValueType</code> 
+    and assignment from <code>ValueType</code> to be more precise and to 
+    eliminate errors that had crept in as C++11 features were applied. (Daniel 
+    KrÃ¼gler private email 2013/05/09)</li>
+    <li>Remove the <code>ValueType</code> requirements section, and add a <i>
+    Requires</i> element to the signatures that actually require 
+    CopyConstructible or MoveConstructible, following current practice of the 
+    standard library for containers. </li>
   </ul>
+  <p>As part of the work on revision 3, Daniel KrÃ¼gler did a detailed analysis, 
+  including implementation, of what would be required for <code>any</code> to 
+  support move-only types. Based on his analysis, it appears that supporting 
+  move-only types is doable, but more complex than initially hoped for. The 
+  recommendation is not to support move-only types for the TS. If anyone cares 
+  enough to open an issue, move-only types can be tackled before full 
+  standardization.</p>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
   <ul>
     <li>Fix &quot;<code>swap(swap(</code>&quot; and &quot;<code>tr2</code>&quot; 
-    typos. (Daniel Krügler)</li>
+    typos. (Daniel KrÃ¼gler)</li>
     <li>Change <code>any::swap</code> to return <code>void</code>, to conform to 
     standard library practice for member <code>swap</code> function return 
-    values. (Daniel Krügler)</li>
+    values. (Daniel KrÃ¼gler)</li>
     <li>Remove <code>noexcept</code> from <code>any::~any();</code>, to conform 
-    to standard library practice. (Daniel Krügler)</li>
+    to standard library practice. (Daniel KrÃ¼gler)</li>
     <li>Change uses of &quot;strong exception-safety guarantee&quot; to &quot;no effects if an 
     exception is thrown&quot;, conforming to the usual standard library approach to 
-    specifying the strong exception-safety guarantee. (Daniel Krügler)</li>
+    specifying the strong exception-safety guarantee. (Daniel KrÃ¼gler)</li>
     <li>Eliminate mentions of assignment - CopyConstructible is sufficient. 
-    (Daniel Krügler)</li>
-    <li>Add type erased allocator constructors. (Daniel Krügler)</li>
+    (Daniel KrÃ¼gler)</li>
+    <li>Add type erased allocator constructors. (Daniel KrÃ¼gler)</li>
     <li>Change the <code>any</code> default constructor to <code>
-    noexcept</code>. (Daniel Krügler)</li>
+    noexcept</code>. (Daniel KrÃ¼gler)</li>
     <li>Change <code>any&amp; operator=(any rhs)</code> to <code>any&amp; operator=(const any&amp; rhs)</code>, 
-    and change the effects accordingly. This avoids an ambiguity. (Daniel Krügler, 
+    and change the effects accordingly. This avoids an ambiguity. (Daniel KrÃ¼gler, 
     Sean Parent)</li>
     <li>Add <code>rhs.empty()</code> postcondition to <code>any&amp; 
-    operator=(any&amp;&amp; rhs) noexcept</code>. (Daniel Krügler)</li>
+    operator=(any&amp;&amp; rhs) noexcept</code>. (Daniel KrÃ¼gler)</li>
     <li>Replace &quot;successful&quot; and &quot;unsuccessful&quot; in <code>any_cast</code> 
-    with explicit specification. (<span class="gI"><span email="chris@bubblescope.net" name="Chris Jefferson" class="gD">Chris 
-    Jefferson)</span></span></li>
+    with explicit specification. (Chris 
+    Jefferson)</li>
     <li>Change name of template parameter for pointer flavor of&nbsp; 
-    from <code>ValueType</code> to <code>ValueTypePtr</code>. (<span class="gI"><span email="s.hesp@oisyn.nl" name="Sylvester Hesp" class="gD">Sylvester 
-    Hesp</span></span>)</li>
+    from <code>ValueType</code> to <code>ValueTypePtr</code>. (Sylvester 
+    Hesp)</li>
     <li>Add <code>any_cast</code> examples.</li>
     <li>Updated to reflect LWG decision to target C++14.</li>
     <li>Fix (()) typo in example.</li>
@@ -341,12 +398,12 @@ union&quot;.</p>
 
 <h2><a name="Acknowledgements">Acknowledgements</a></h2>
 
-<p>Sean Parent and Daniel Krügler provided numerous comments, corrections, and 
+<p>Sean Parent and Daniel KrÃ¼gler provided numerous comments, corrections, and 
 suggestions, and were particularly helpful applying C++11 features to the 
-library. Sean also provided a copy of his C++ implementation. Sean has done 
-extensive experiments with real C++11 compilers on issues such as pass-by-value 
-versus pass-by-reference. Daniel's expertise with library standardese markedly 
-improved the proposed wording.</p>
+library. Sean also provided a copy of his Adobe C++ implementation.&nbsp; Daniel's expertise with library standardese markedly 
+improved the proposed wording. Antony Polukhin, the maintainer of the Boost 
+implementation, provided a helpful analysis of differences between the Boost 
+implementation and the proposal. </p>
 
 <h2><a name="Proposed-Wording">Proposed Wording</a></h2>
 
@@ -356,7 +413,7 @@ underscores</ins>, deletions are in <del>red with strikethroughs</del>.</i></p>
 <p><i>Commentary that is not part of the proposed wording is
 <span style="background-color: #DBDBDB">shaded in gray</span>. </i></p>
 
-<p><i>Add the following section to the working paper at a location to be 
+<p><i>Add the following section to the library TS working paper at a location to be 
 determined by the project editor:</i></p>
 
 <h2>Any</h2>
@@ -376,34 +433,34 @@ values, with no scope for surprises from ambiguous conversions. <i>-- end note.<
 
 </blockquote>
 
-<h3><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></h3>
+<h3><del><a name="ValueType-Requirements"><code>ValueType</code> Requirements</a></del></h3>
 
-<p>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
-[copyconstructible].&nbsp; </p>
+<p><del>A <code>ValueType</code> type shall meet the requirements for <code>CopyConstructible</code> 
+[copyconstructible].</del></p>
 
 <blockquote>
 
-<p>[<i>Note:</i> Values are strongly informational objects for which identity is not significant, 
+<p><del>[<i>Note:</i> Values are strongly informational objects for which identity is not significant, 
 i.e. the focus is principally on their state content and any behavior organized 
 around that. Another distinguishing feature of values is their granularity: 
 normally fine-grained objects representing simple concepts in the system such as 
-quantities.</p>
+quantities.</del></p>
 
-<p>As the emphasis of a value lies in its state not its identity, values can be 
+<p><del>As the emphasis of a value lies in its state not its identity, values can be 
 copied and typically assigned one to another, requiring the explicit or implicit 
 definition of a public copy constructor. Values 
 typically live within other scopes, i.e. within objects or blocks, rather than 
 on the heap. Values are therefore normally passed around and manipulated 
 directly as variables or through references, but not as pointers that emphasize 
-identity and indirection. <i>--end note</i>]</p>
+identity and indirection. <i>--end note</i>]</del></p>
 
 </blockquote>
 
 <h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
 
 <blockquote>
-  <pre>namespace std {
-  class bad_any_cast : public std::bad_cast
+  <pre>namespace std { <ins>namespace <b><i>to-be-decided</i></b> {</ins>
+  class bad_any_cast : public <del>std::</del>bad_cast
   {
   public:
     virtual const char* what() const <ins>noexcept</ins>;
@@ -419,13 +476,13 @@ identity and indirection. <i>--end note</i>]</p>
     any(any&amp;&amp; x) noexcept;
 
     template &lt;typename ValueType&gt;
-      any(ValueType value);
+      any(ValueType<ins>&amp;&amp;</ins> value);
 
     template &lt;class Allocator&gt;
-      any(allocator_arg_t, const Allocator&amp; a);
+      any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
 
     template &lt;class Allocator, typename ValueType&gt;
-      any(allocator_arg_t, const Allocator&amp; a, ValueType value);
+      any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);
 
    ~any();
   
@@ -434,9 +491,10 @@ identity and indirection. <i>--end note</i>]</p>
     any&amp; operator=(any&amp;&amp; rhs) noexcept;
 
     template &lt;typename ValueType&gt;
-      any&amp; operator=(ValueType rhs);
+      any&amp; operator=(ValueType<ins>&amp;&amp;</ins> rhs);
 
     // modifiers
+    <ins>void clear() noexcept;</ins>
     void swap(any&amp; rhs) noexcept;
 
     // observers
@@ -448,24 +506,26 @@ identity and indirection. <i>--end note</i>]</p>
 
   template&lt;typename ValueType&gt;
     ValueType any_cast(const any&amp; operand);
-
   template&lt;typename ValueType&gt;
     ValueType any_cast(any&amp; operand);
+  <ins>template&lt;typename ValueType&gt;</ins>
+    <ins>ValueType any_cast(any&amp;&amp; operand);</ins>
 
   template&lt;typename ValueType<del>Ptr</del>&gt;
     <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
-
   template&lt;typename ValueType<del>Ptr</del>&gt;
     ValueType<del>Ptr</del><ins>*</ins> any_cast(any* operand) noexcept;
-}</pre>
+}<ins>}</ins></pre>
 </blockquote>
 <h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
 any_cast</code>.</p>
 <h3><a name="Class-any">Class <code>any</code></a></h3>
 <p>An object of class <code>any</code> stores an instance of any type that 
-satisfies the <code>ValueType</code> requirements or is empty. <ins>The non-member <code>any_cast</code> 
-functions provide type-safe access to the stored value.</ins></p>
+satisfies the <del><code>ValueType</code></del> <ins>constructor</ins> requirements or is empty, <ins>and this is referred to as 
+the <i>state</i> of the class  <code>any</code> object. The stored 
+instance is called the <i>contained object</i>. The non-member <code>any_cast</code> 
+functions provide type-safe access to the contained object.</ins></p>
 <h4><code>any</code> construct/destruct</h4>
 <pre>any() noexcept;</pre>
 <blockquote>
@@ -473,81 +533,129 @@ functions provide type-safe access to the stored value.</ins></p>
 </blockquote>
 <pre>any(const any&amp; other);</pre>
 <blockquote>
-  <p><i>Effects:</i> Copies content of <code>other</code> into a new 
-  instance, so that any content is equivalent in both type and value to <code>other</code>, or empty if <code>other</code> is empty.</p>
+  <p>
+  <ins><i>Requires:</i> 
+  <code>other</code> is empty or <code>is_copy_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by 
+  <code>other</code>.</ins></p>
+  <p><i>Effects:</i> <del>Copies content of <code>other</code> into a new 
+  instance, so that any content is equivalent in both type and value to <code>other</code>,
+  or empty if <code>other</code> is empty.</del> 
+  <ins>Constructs an object of type <code>any</code> with the same state as <code>other</code>.</del></p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any 
-  exceptions arising from the copy constructor of the contained type.</p>
+  exceptions arising from the copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any(any&amp;&amp; other) noexcept;</pre>
 <blockquote>
-  <p><i>Effects:</i> Moves content of <code>other</code> into a new instance, so that any content is equivalent in both type and value to 
-  the original content of <code>other</code>, or empty if <code>other</code> is empty.</p>
+  <p><ins><i>Requires:</i> 
+  <code>other</code> is empty or <code>is_move_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by 
+  <code>other</code>.</ins></p>
+  <p><ins><i>Effects:</i> Constructs an object of type <code>any</code> with the 
+  original state of <code>other</code>.</ins></p>
+  <p><ins><i>Postconditions: </i> <code>other</code> is left in a 
+  valid but otherwise unspecified state.</ins></p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
-  any(ValueType value);</pre>
+  any(ValueType<ins>&amp;&amp;</ins> value);</pre>
 <blockquote>
-  <p><i>Effects:</i> Constructs an object of type <code>any</code> with initial 
-  content equivalent in both type and value to <code>value</code>.</p>
-  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  <ins><p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</ins></p>
+  <p><ins><i>Requires:</i> <code>is_move_constructible&lt;T&gt;::value</code> is true.</ins></p>
+  <p><ins><i>Effects:</i>
+  Constructs an object of type <code>any</code> that contains an 
+  object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(value)</code>.</ins></p>
+  <p><ins><i>Remarks:</i> 
+  This constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
+  is the same type as <code>std::any</code>.</ins></p>
+  <p><ins><i>Throws:</i> Any exception thrown by the selected constructor of <code>T</code>.</ins></p>
 </blockquote>
   <pre>template &lt;class Allocator&gt;
-  any(allocator_arg_t, const Allocator&amp; a);
+  any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
 template &lt;class Allocator, typename ValueType&gt;
-  any(allocator_arg_t, const Allocator&amp; a, ValueType value);</pre>
+  any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);</pre>
   <blockquote>
     <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
-    an <b>Allocator</b> ([allocator.requirements]).</p>
-    <p><i>Effects: </i>Equivalent to the preceding constructors except that the 
-    stored value is constructed with uses-allocator construction ([allocator.uses.construction]).</p>
-    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+    an Allocator ([allocator.requirements]).
+  <ins>For the second form, <code>is_copy_constructible&lt;ValueType&gt;::value</code> 
+    is true.</ins></p>
+    <p><i>Effects: </i>Equivalent to the preceding constructors except that the contained object is constructed with uses-allocator construction ([allocator.uses.construction]) 
+    if memory allocation is performed.</p>
+  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
+  The second constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
+  is the same type as <code>std::any</code>.</ins></p>
+    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> <ins>The second form 
+    throws</ins> any exceptions arising from the 
+  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
     <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
-    dynamically allocated memory for small contained types, for example, where 
-    the object constructed is holding only an int. <i>—end note</i> ]</p>
+    dynamically allocated memory for a small contained <del>types</del> <ins>
+    object</ins>, for example, where 
+    the object constructed is holding only an <code>int</code>. <i>--end note</i> ]</p>
   </blockquote>
 <pre>~any();</pre>
 <blockquote>
-  <p><i>Effects:</i> Releases resources.</p>
+  <p><i>Effects:</i> <ins><code>clear()</code>.</ins> <del>Releases resources.</del></p>
 </blockquote>
 <h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(const any&amp; rhs);</pre>
 <blockquote>
+  <p>
+  <ins><i>Requires:</i> <code>rhs</code> is empty or <code>is_copy_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by <code>rhs</code>.</ins></p>
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
   <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
 <blockquote>
-  <p><i>Effects:</i> Moves content of <code>rhs</code> to <code>*this</code>, so that any content is equivalent in both type and value to 
-  the original content of <code>rhs</code>, or empty if <code>rhs</code> is empty.</p>
-  <p><i>Postconditions:</i> <code>rhs.empty()</code>.</p>
+  <p>
+  <ins><i>Requires:</i> <code>rhs</code> is empty or <code>is_move_constructible&lt;T&gt;::value</code> 
+  is true, where <code>T</code> is the type of the object contained by <code>rhs</code>.</ins></p>
+  <p><ins><i>Postconditions:</i> The state of <code>*this</code> is the same as the original state 
+  of <code>rhs</code> and <code>rhs</code> is left in a valid but otherwise 
+  unspecified state</code>.</ins></p>
 </blockquote>
 <pre>template&lt;typename ValueType&gt;
-  any&amp; operator=(ValueType rhs);</pre>
+  any&amp; operator=(ValueType<ins>&amp;&amp;</ins> rhs);</pre>
 <blockquote>
-  <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if 
-  an exception is thrown.</p>
-  <p><i>Returns:</i> <code>*this</code></p>
-  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
-  copy constructor of the contained type.</p>
+  <p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code></ins>.</p>
+  <p><ins><i>Requires:</i> <code>is_move_constructible&lt;T&gt;::value</code> is true.</ins></p>
+  <p><ins><i>Effects:</i>
+  Constructs an object <code>tmp</code> of type <code>any</code> that contains an 
+  object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(rhs)</code>, and 
+  <code>tmp.swap(*this)</code>; however, no effects if an exception is 
+  thrown.</ins></p>
+  <p><ins><i>Returns:</i> <code>*this</code></ins></p>
+  <p><ins><i>Remarks:</i> 
+  This operator shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
+  is the same type as <code>std::any</code>.</ins></p>
+  <p><ins><i>Throws:</i> Any exception thrown by the selected constructor of <code>T</code>.</ins></p>
 </blockquote>
 <h4><code>any</code> modifiers</h4>
+
+  <pre><ins>void clear() noexcept;</ins></pre>
+  <blockquote>
+  <p><ins><i>Effects: </i>If not empty, destroys the contained object.</ins></p>
+  <p><ins><i>Postconditions:</i> <code>empty() == true</code>.</ins></p>
+  </blockquote>
+  
   <pre>void swap(any&amp; rhs) noexcept;</pre>
   <blockquote>
-  <p><i>Effects:</i> Exchange of the contents of <code>*this</code> and <code>
+  <p><i>Effects:</i> Exchange <del>of</del> the <del>contents</del> <ins>states</ins> of <code>*this</code> and <code>
   rhs</code>.</p>
   </blockquote>
+  
 <h4><code>any</code> observers</h4>
 <pre>bool empty() const noexcept;</pre>
 <blockquote>
-  <p><i>Returns:</i> <code>true</code> if instance is empty, otherwise <code>
+  <p><i>Returns:</i> <code>true</code> if <del>instance is empty</del> <ins>
+  <code>*this</code> has no contained object</ins>, otherwise <code>
   false</code>.</p>
 </blockquote>
   <pre><code>const type_info&amp; type() const</code> noexcept<code>;</code></pre>
   <blockquote>
-  <p><i>Returns:</i> The <code>typeid</code> of the contained value if instance is non-empty, 
+  <p><i>Returns:</i> <del>The <code>typeid</code> of the contained value if instance is non-empty</del> 
+  <ins>If <code>*this</code> has a contained object of type T, <code>typeid(T)</code>;</ins> 
   otherwise <code>typeid(void)</code>. </p>
   <p>[<i>Note:</i> Useful for querying against types known either at compile 
   time or only at runtime. <i>--end note</i>]</p>
@@ -558,26 +666,29 @@ template &lt;class Allocator, typename ValueType&gt;
     <i>Effects:</i> <code>x.swap(y)</code>.</blockquote>
   <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" width="95%">
     <tr>
-      <td width="100%"><i><span style="background-color: #DBDBDB">The following 
-      specifications for </span><code><span style="background-color: #DBDBDB">
-      any_cast</span></code><span style="background-color: #DBDBDB"> have been 
-      revised to increase clarity.</span></i><p><i>
-      <span style="background-color: #DBDBDB">These are changes to exposition 
-      only. The actual behavior is </span></i>
-      <span style="background-color: #DBDBDB"><i>unchanged from prior revisions.</i></span><p>
-      <span style="background-color: #DBDBDB"><i>The examples have been compiled 
-      and tested with GCC and VC++.</i></span></td>
+      <td width="100%" bgcolor="#DBDBDB"><i>The following 
+      specifications for <code>any_cast</code> have been 
+      revised to increase clarity. For the existing two signatures these changes 
+      were to exposition 
+      only. The actual behavior is unchanged from prior revisions.</i><p>
+      <i>The examples have been compiled 
+      and tested with GCC and VC++.</i></td>
     </tr>
   </table>
   <pre>template&lt;typename ValueType&gt;
   ValueType any_cast(const any&amp; operand);
 template&lt;typename ValueType&gt;
-  ValueType any_cast(any&amp; operand);</pre>
+  ValueType any_cast(any&amp; operand);
+<ins>template&lt;typename ValueType&gt;</ins>
+  <ins>ValueType any_cast(any&amp;&amp; operand);</ins></pre>
   <blockquote>
+  <p>
+  <ins><i>Requires:</i> <code>is_reference&lt;ValueType&gt;::value</code> is 
+  true or <code>is_copy_constructible&lt;ValueType&gt;::value</code> is true.</ins></p>
   <p><i>Returns:</i> <del>The value contained by <code>operand</code></del> <u>
   <span style="background-color: #E8FFE8">For the first form, <code>*any_cast&lt;typename 
   add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></span></u>.
-  <u><span style="background-color: #E8FFE8">For the second form, <code>*any_cast&lt;typename 
+  <u><span style="background-color: #E8FFE8">For the second and third forms, <code>*any_cast&lt;typename 
   remove_reference&lt;ValueType&gt;::type&gt;(&amp;operand)</code></span></u>.</p>
   <p><i>Throws:</i> <code>bad_any_cast</code> if <code>operand.type() != 
   typeid(remove_reference&lt;ValueType&gt;::type)</code>.</p>
@@ -591,26 +702,22 @@ template&lt;typename ValueType&gt;
 </span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 10); 
 
 x = &quot;Meow&quot;;                                   // x holds const char*
-</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
-  &quot;Meow&quot;) == 0);
+</span><span style="background-color: #E8FFE8">assert(strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x), &quot;Meow&quot;) == 0);
 </span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;;
-</span><span style="background-color: #E8FFE8">assert(std::strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x),
- &quot;Harry&quot;) == 0);
+</span><span style="background-color: #E8FFE8">assert(strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x), &quot;Harry&quot;) == 0);
 
-x = </span><span style="background-color: #E8FFE8">std::string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                      // x holds string
-</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
-s = </span><span style="background-color: #E8FFE8">std::move(any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x));     // move from x 
+x = string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                           // x holds string
+string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
+s = move(any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x));               // move from any 
 </span><span style="background-color: #E8FFE8">assert(s</span><span style="background-color: #E8FFE8"> == &quot;Meow&quot;);
-</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(x) = std::move(s2);    // move to x
-</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(x)
-  == &quot;Jane&quot;);
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x) = move(s2);              // move to any
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const string</span><span style="background-color: #E8FFE8">&amp;&gt;(x) == &quot;Jane&quot;);
 
-</span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
+string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
 const any </span><span style="background-color: #E8FFE8">y(cat</span><span style="background-color: #E8FFE8">);                             // const y holds string
-</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const </span><span style="background-color: #E8FFE8">std::string</span><span style="background-color: #E8FFE8">&amp;&gt;(y)
-  == cat);
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const string</span><span style="background-color: #E8FFE8">&amp;&gt;(y) == cat);
 
-any_cast</span><span style="background-color: #E8FFE8">&lt;std::string&amp;&gt;(y);                    // error; cannot
+any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(y);                         // error; cannot
                                               //  any_cast away const</span></pre>
   </blockquote>
   <p><ins><i>--end example</i>]</ins></p>
@@ -622,21 +729,20 @@ template&lt;typename ValueType<del>Ptr</del>&gt;
 <blockquote>
   <p><i>Returns: </i>If <code>operand != nullptr &amp;&amp; operand-&gt;type() == 
   typeid(<del>remove_pointer&lt;ValueTypePtr&gt;::type</del> <ins>ValueType</ins>)</code>,
-  a pointer to the value contained by <code>operand</code>, otherwise 
-  <del>a null pointer</del> <ins><code>nullptr</code></ins>. <ins>For the first form, the returned pointer shall be <code>const</code> 
-  qualified.</ins></p>
+  a pointer to the <del>value</del> <ins>object</ins> contained by <code>operand</code>, otherwise 
+  <del>a null pointer</del> <ins><code>nullptr</code></ins>.</p>
   <p>[<i>Example:</i></p>
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
 {
-  return any_cast&lt;std::string<del>*</del>&gt;(&amp;operand) <ins>!= nullptr</ins>;
+  return any_cast&lt;string<del>*</del>&gt;(&amp;operand) <ins>!= nullptr</ins>;
 }</pre>
   </blockquote>
   <p><i>--end example</i>]</p>
 </blockquote>
 <hr>
-<p>© Copyright 2001, 2012 Kevlin Henney<br>
-© Copyright 2006, 2012 Beman Dawes</p>
+<p>Â© Copyright 2001, 2012 Kevlin Henney<br>
+Â© Copyright 2006, 2012 Beman Dawes</p>
 
 </body>
 
