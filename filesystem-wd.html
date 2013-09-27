@@ -28,17 +28,17 @@ del     { background-color:#FFD7D7 }
   <table border="0">
     <tr>
       <td>Document number:&nbsp;&nbsp; </td>
-      <td>N3693</td>
+      <td><span style="background-color: #FFFF00">Dnnnn</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-06-28<!--webbot bot="Timestamp" endspan i-checksum="12384" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-27<!--webbot bot="Timestamp" endspan i-checksum="12574" --></td>
     </tr>
     <tr>
       <td>Revises:</td>
       <td>
-      <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3505.html">N3505</a></td>
+      N3693</td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -549,11 +549,14 @@ implied encoding, they are not included as permitted types. <i>--end note</i>]</
 
     void         <a href="#copy">copy</a>(const path&amp; from, const path&amp; to);
     void         <a href="#copy">copy</a>(const path&amp; from, const path&amp; to, error_code&amp; ec) noexcept;
+    void         copy(const path&amp; from, const path&amp; to, copy_options options);
+    void         copy(const path&amp; from, const path&amp; to, copy_options options,  
+                   error_code&amp; ec) noexcept;
 
-    void         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to);
-    void         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to, error_code&amp; ec) noexcept;
-    void         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to, <a href="#copy_option">copy_options</a> option);
-    void         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to, <a href="#copy_option">copy_options</a> option,
+    bool         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to);
+    bool         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to, error_code&amp; ec) noexcept;
+    bool         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to, <a href="#copy_option">copy_options</a> option);
+    bool         <a href="#copy_file">copy_file</a>(const path&amp; from, const path&amp; to, <a href="#copy_option">copy_options</a> option,
                            error_code&amp; ec) noexcept;
 
     void         <a href="#copy_symlink">copy_symlink</a>(const path&amp; existing_symlink, const path&amp; new_symlink);
@@ -600,11 +603,11 @@ implied encoding, they are not included as permitted types. <i>--end note</i>]</
     uintmax_t    <a href="#hard_link_count">hard_link_count</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_block_file">is_block_file</a>(file_status s) noexcept;
-    bool         <a href="#is_block_file">is_block_file</a>(const path&amp; p,);
+    bool         <a href="#is_block_file">is_block_file</a>(const path&amp; p);
     bool         <a href="#is_block_file">is_block_file</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_character_file">is_character_file</a>(file_status s) noexcept;
-    bool         <a href="#is_character_file">is_character_file</a>(const path&amp; p,);
+    bool         <a href="#is_character_file">is_character_file</a>(const path&amp; p);
     bool         <a href="#is_character_file">is_character_file</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_directory">is_directory</a>(file_status s) noexcept;
@@ -615,11 +618,11 @@ implied encoding, they are not included as permitted types. <i>--end note</i>]</
     bool         <a href="#is_empty">is_empty</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_fifo">is_fifo</a>(file_status s) noexcept;
-    bool         <a href="#is_fifo">is_fifo</a>(const path&amp; p,);
+    bool         <a href="#is_fifo">is_fifo</a>(const path&amp; p);
     bool         <a href="#is_fifo">is_fifo</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_other">is_other</a>(file_status s) noexcept;
-    bool         <a href="#is_other2">is_other</a>(const path&amp; p,);
+    bool         <a href="#is_other2">is_other</a>(const path&amp; p);
     bool         <a href="#is_other2">is_other</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_regular_file">is_regular_file</a>(file_status s) noexcept; 
@@ -627,7 +630,7 @@ implied encoding, they are not included as permitted types. <i>--end note</i>]</
     bool         i<a href="#is_regular_file2">s_regular_file</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_socket">is_socket</a>(file_status s) noexcept;
-    bool         <a href="#is_socket">is_socket</a>(const path&amp; p,);
+    bool         <a href="#is_socket">is_socket</a>(const path&amp; p);
     bool         <a href="#is_socket">is_socket</a>(const path&amp; p, error_code&amp; ec) noexcept;
 
     bool         <a href="#is_symlink">is_symlink</a>(file_status s) noexcept;
@@ -2143,7 +2146,7 @@ involved. Input from security experts is needed.</span></i></p>
 
         // <a href="#file_status-constructors">constructors</a>
         explicit file_status(<a href="#file_type">file_type</a> ft = file_type::none,
-                             <a href="#Enum.perms">perms</a> prms = perms_not_known) noexcept;
+                             <a href="#Enum.perms">perms</a> prms = perms::unknown) noexcept;
         file_status(const file_status&amp;) noexcept = default;
         file_status(file_status&amp;&amp;) noexcept = default;
        ~file_status() = default;
@@ -2223,7 +2226,6 @@ and permissions of a file.</p>
         bool operator&lt; (const directory_entry&amp; rhs) const noexcept;
         bool operator==(const directory_entry&amp; rhs) const noexcept; 
         bool operator!=(const directory_entry&amp; rhs) const noexcept; 
-        bool operator&lt; (const directory_entry&amp; rhs) const noexcept;
         bool operator&lt;=(const directory_entry&amp; rhs) const noexcept;
         bool operator&gt; (const directory_entry&amp; rhs) const noexcept;
         bool operator&gt;=(const directory_entry&amp; rhs) const noexcept;
@@ -2303,7 +2305,7 @@ non-cached results may differ in the presence of file system races. <i>-- end no
     </tr>
     <tr>
       <td width="18%"><code>path()</code></td>
-      <td width="82%"><code>path().branch() / s</code></td>
+      <td width="82%"><code>path().parent_path() / s</code></td>
     </tr>
     <tr>
       <td width="18%"><code>status()</code></td>
@@ -2515,7 +2517,7 @@ directory and its sub-directories.</p>
         recursive_directory_iterator(const path&amp; p,
           <a href="#symlink_option">directory_options</a> options, error_code&amp; ec) noexcept;
         recursive_directory_iterator(const path&amp; p, error_code&amp; ec) noexcept;
-        recursive_directory_iterator(directory_iterator&amp;&amp;) = default;
+        recursive_directory_iterator(recursive_directory_iterator&amp;&amp;) = default;
        ~recursive_directory_iterator() = default;
 
         // observers
@@ -2524,8 +2526,8 @@ directory and its sub-directories.</p>
         bool               recursion<code>_pending</code>() const;
 
         // modifiers
-        recursive_directory_iterator&amp; operator=(const directory_iterator&amp;) = default;
-        recursive_directory_iterator&amp; operator=(directory_iterator&amp;&amp;) = default;
+        recursive_directory_iterator&amp; operator=(const recursive_directory_iterator&amp;) = default;
+        recursive_directory_iterator&amp; operator=(recursive_directory_iterator&amp;&amp;) = default;
 
         recursive_directory_iterator&amp; operator++();
         recursive_directory_iterator&amp; increment(error_code&amp; ec);
@@ -2739,7 +2741,7 @@ void copy(const path&amp; from, const path&amp; to, <a href="#copy_option">copy_
       <li><code>is_other(f) || is_other(t)</code>.</li>
       <li><code>is_directory(f) &amp;&amp; is_regular_file(t)</code>.</li>
     </ul>
-  <p>If <code>is_symlink_file(f)</code>, then:</p>
+  <p>If <code>is_symlink(f)</code>, then:</p>
   
     <ul>
       <li>If <code>options &amp; copy_options::skip_symlinks</code>, then return.</li>
@@ -2840,12 +2842,12 @@ bool <a name="copy_file2">copy_file</a>(const path&amp; from, const path&amp; to
   in <code>options</code>.</p>
   <p><i>Effects:</i></p>
   <blockquote>
-  <p>If&nbsp; <code>exists(to) &amp;&amp;</code> <code>!(options &amp; (copy_options::skip 
-  | copy_options::overwrite | copy_options::update))</code> report a 
+  <p>If&nbsp; <code>exists(to) &amp;&amp;</code> <code>!(options &amp; (copy_options::skip_existing 
+  | copy_options::overwrite_existing | copy_options::update_existing))</code> report a 
       file already exists error as specified in <a href="#Error-reporting">Error reporting</a>.</p>
-  <p>If <code>!exists(to) || (options &amp; copy_options::overwrite) || ((options &amp; copy_options::update) 
-  &amp;&amp; last_write_time(from) &gt; last_write_time(to)) || !(options &amp; (copy_options::skip 
-  | copy_options::overwrite | copy_options::update))</code> copy the contents and attributes of the file <code>from</code> resolves to  the file <code>to</code> resolves to.</p>
+  <p>If <code>!exists(to) || (options &amp; copy_options::overwrite_existing) || ((options &amp; copy_options::update_existing) 
+  &amp;&amp; last_write_time(from) &gt; last_write_time(to)) || !(options &amp; (copy_options::skip_existing 
+  | copy_options::overwrite_existing | copy_options::update_existing))</code> copy the contents and attributes of the file <code>from</code> resolves to  the file <code>to</code> resolves to.</p>
   </blockquote>
   <p><i>Returns</i>: <code>true</code> if the <code>from</code> file 
   was copied, otherwise <code>false</code>. The signature with argument <code>ec</code> return
