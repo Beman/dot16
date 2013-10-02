@@ -61,73 +61,87 @@ del   { background-color: #FFD7D7 }
   widely as soon as we start talking about a graphical interface TS.</p>
   <p align="left">A strategy to defuse concern about undue competition and to 
   calibrate expectations is to put &quot;lightweight&quot; or a synonym in the title of 
-  both the SG and the TS. Examples include &quot;Concepts Lite&quot; and some internal 
-  Boost components that use &quot;Lightweight&quot; in the title and have successfully 
-  avoided conflicts and limited expectations.</p>
+  both the SG and the TS. Examples of this strategy include &quot;Concepts Lite&quot; and 
+  some internal Boost components that use &quot;Lightweight&quot; in the title to avoided 
+  conflicts and limited expectations.</p>
   <h2 align="left">Avoiding design by committee</h2>
   <p align="left">A lightweight graphical interface, even though far simpler 
   that a full-fledged GUI framework, is far too complex to be successfully 
   designed by a committee. Strategies are presented that taken together 
   addresses this concern.</p>
   <h2 align="left">Strategy: Ship in two years</h2>
-  <p align="left">That implies a major feature complete working draft in two 
-  meeting. I.E. There is no time for design by committee.</p>
-  <p align="left">Furthermore, there is a working implementation (on GitHub or 
-  similar) in sync with the working draft. That's the only way to have 
-  confidence that the WD is implementable and useful to users.</p>
-  <h2 align="left">Strategy: WD starting point is an existing successful library 
+  <p align="left">That implies a major feature complete working draft in one or 
+  two meetings. I.E. There is no time for design by committee.</p>
+  <p align="left">Furthermore, we need a working implementation (on GitHub or 
+  similar) that is kept in sync with the working draft. That's the only way to 
+  have confidence that the WD is implementable and useful to users.</p>
+  <h2 align="left">Strategy: Starting point is an existing successful library 
   already in wide use</h2>
   <p align="left">Starting with an existing successful library that is already 
   in wide use avoids design by committee and gives the SG and standards 
   committee enough confidence that we can move forward quickly.</p>
   <p align="left">The strategy for accepting the STL into the standard is a 
   useful role model. The whole STL proposal was put in the standard working 
-  draft, and only then were changes allowed. </p>
+  draft, and only then were changes allowed. This had the effect of moving the 
+  STL forward quickly and limiting design by committee related problems.</p>
   <p align="left">Once SG13 has a working draft, we can accept changes of any 
-  magnitude based on their merits. If someone comes forward with a proposal to 
-  completely replace the library as specified in the WD, that proposal obviously 
-  would have to be very strong to make progress. Smaller proposals, particularly 
-  those that have been implemented (presumably as a branch of the GitHub 
-  implementation), might well be accepted, and small tweak proposals will 
-  certainly be accepted.\</p>
+  magnitude based on the merits of their proposals. If someone comes forward 
+  with a proposal to completely replace the library as specified in the WD, that 
+  proposal obviously would have to be very strong to make progress. Smaller 
+  proposals, particularly those that have been implemented (presumably as a 
+  branch of the GitHub implementation), might well be accepted, and small tweak 
+  proposals will certainly be accepted. But at each step of the way, we have a 
+  complete WD and reference implementation.</p>
   <h2 align="left">Requirements for a starting point library</h2>
   <ul>
     <li>
     <p align="left">Existing successful library already in wide use.<br>
 &nbsp;</li>
     <li>
-    <p align="left">Modern C++ that uses the C++ standard library where 
-    applicable, modulo naming conventions and C++11/14 features. (Dependencies 
-    hidden from users are exempt from this requirement.)<br>
+    <p align="left">Modern C++, modulo naming conventions and C++11/14 features. 
+    (Dependencies hidden from users are exempt from this requirement.)<br>
 &nbsp;</li>
     <li>
-    <p align="left">Extendible by third-parties. An initial library TS in a 
-    short time frame will be quite limited. That's much more acceptable if the 
-    library is extendible by third parties.<br>
+    <p align="left">Extendible by third-parties. An initial library TS completed 
+    in a short time frame may be quite limited. That will be much more acceptable if 
+    the library is extendible by third parties.<br>
 &nbsp;</li>
     <li>
-    <p align="left">Owner willing to meet ISO intellectual property 
-    requirements. It would also be helpful if the original developers were 
-    willing to get involved in SG work.<br>
+    <p align="left">Copyright or other intellectual property holder willing to 
+    meet ISO intellectual property requirements. It would also be helpful if the 
+    original developers were willing to get involved in SG work.<br>
 &nbsp;</li>
     <li>
-    <p align="left">Meets Beman's &quot;Hello C++ World&quot; challenge; displaying that 
-    text in a window and being able to drag it around inside the window is only 
-    slightly more complex that the traditional Hello world program.<br>
+    <p align="left">Meets Beman's challenge: &quot;Display <i>Hello C++ World</i> in 
+    a window and allow the user to drag that text around inside the window with 
+    a program that is only slightly more complex that the traditional hello 
+    world program.&quot;<br>
 &nbsp;</li>
     <li>
-    <p align="left">Meets Herb's &quot;Learn the library basics and build an 
-    interesting app in four hours&quot; challenge.<br>
+    <p align="left">Meets Herb's challenge: &quot;Learn the library basics and build 
+    an interesting app in four hours or less.&quot;<br>
 &nbsp;</li>
     <li>
-    <p align="left">There may be some other challenges or requirements, as long 
-    as they don't eliminate all candidates.</li>
+    <p align="left">Some other challenges or requirements may evolve, as long as 
+    they don't eliminate all candidates.</li>
   </ul>
   <h2 align="left">Does any existing library meet these requirements?</h2>
-  <p align="left">&nbsp;</p>
-  <p align="left">&nbsp;</p>
-  <p align="left">&nbsp;</p>
-  <p align="left">&nbsp;</p>
+  <p align="left">Cinder (<a href="http://libcinder.org/">libcinder.org/</a>) 
+  seems to come reasonably close, although there has been no in-depth analysis 
+  yet. Presumably there are other existing lightweight libraries that SG9 can 
+  investigate.</p>
+  <p align="left">Here are two videos showing the Cinder results for Herb's 
+  challenge at the Going Native 2013 conference:</p>
+  <ul>
+    <li>
+    <p align="left">
+    <a href="http://channel9.msdn.com/Events/GoingNative/2013/Herb-s-UI-Challenge">channel9.msdn.com/Events/GoingNative/2013/Herb-s-UI-Challenge</a></li>
+    <li>
+    <p align="left">
+    <a href="http://channel9/msdn.com/Events/GoingNative/2013/My-Favorite-Cpp-10-Liner#time=0h8m22s">
+    channel9/msdn.com/Events/GoingNative/2013/My-Favorite-Cpp-10-Liner#time=0h8m22s</a></li>
+  </ul>
+  <hr>
 
 </body>
 
