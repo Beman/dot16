@@ -1,0 +1,134 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Lightweight Graphical Interface</title>
+<style type="text/css">
+body  {
+        font-family: sans-serif;
+        width : 52em;
+        margin: auto;
+      }
+
+pre   { padding: .5em; background-color: #D7EEFF }
+
+ins   { background-color: #E8FFE8; text-decoration: none; }
+del   { background-color: #FFD7D7 }
+</style>
+</head>
+
+<body>
+  <table border="0">
+    <tr>
+      <td>
+      <p>Document number:&nbsp;&nbsp; </td>
+      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
+    </tr>
+    <tr>
+      <td>Date:</td>
+      <td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-02<!--webbot bot="Timestamp" endspan i-checksum="12018" --></td>
+    </tr>
+    <tr>
+      <td>Project:</td>
+      <td>Programming Language C++</td>
+    </tr>
+    <tr>
+      <td valign="top">Reply-to:</td>
+      <td>Beman Dawes &lt;bdawes at acm dot org&gt;<br>
+      &nbsp;</td>
+    </tr>
+  </table>
+
+<h1 align="center">Lightweight Graphical Interface</h1>
+
+<p align="center"><b><font size="4">Objectives, Requirements, Strategies</font></b></p>
+
+  <p align="left">This paper represents thoughts about the objectives, 
+  requirements, and strategies I presented at the initial meeting of the SG13 
+  Study Group in Chicago, 2013-Sept-28. These are my personal views and do not 
+  necessarily represent the views of other SG13 members.</p>
+  <h2 align="left">Objective: Success</h2>
+  <p align="left">This paper isn't about the technical aspects of a library 
+  Technical Specification (TS) for lightweight graphical interface - rather it 
+  presents an approach to creating such a TS in a way that maximizes the chance 
+  of success by avoiding minefields.</p>
+  <h2 align="left">Elephants in the room and differing expectations</h2>
+  <p align="left">There are major players in the problem domain - Microsoft, 
+  Apple, Open GL, QT, and the list goes on and on. Also, expectations differ 
+  widely as soon as we start talking about a graphical interface TS.</p>
+  <p align="left">A strategy to defuse concern about undue competition and to 
+  calibrate expectations is to put &quot;lightweight&quot; or a synonym in the title of 
+  both the SG and the TS. Examples include &quot;Concepts Lite&quot; and some internal 
+  Boost components that use &quot;Lightweight&quot; in the title and have successfully 
+  avoided conflicts and limited expectations.</p>
+  <h2 align="left">Avoiding design by committee</h2>
+  <p align="left">A lightweight graphical interface, even though far simpler 
+  that a full-fledged GUI framework, is far too complex to be successfully 
+  designed by a committee. Strategies are presented that taken together 
+  addresses this concern.</p>
+  <h2 align="left">Strategy: Ship in two years</h2>
+  <p align="left">That implies a major feature complete working draft in two 
+  meeting. I.E. There is no time for design by committee.</p>
+  <p align="left">Furthermore, there is a working implementation (on GitHub or 
+  similar) in sync with the working draft. That's the only way to have 
+  confidence that the WD is implementable and useful to users.</p>
+  <h2 align="left">Strategy: WD starting point is an existing successful library 
+  already in wide use</h2>
+  <p align="left">Starting with an existing successful library that is already 
+  in wide use avoids design by committee and gives the SG and standards 
+  committee enough confidence that we can move forward quickly.</p>
+  <p align="left">The strategy for accepting the STL into the standard is a 
+  useful role model. The whole STL proposal was put in the standard working 
+  draft, and only then were changes allowed. </p>
+  <p align="left">Once SG13 has a working draft, we can accept changes of any 
+  magnitude based on their merits. If someone comes forward with a proposal to 
+  completely replace the library as specified in the WD, that proposal obviously 
+  would have to be very strong to make progress. Smaller proposals, particularly 
+  those that have been implemented (presumably as a branch of the GitHub 
+  implementation), might well be accepted, and small tweak proposals will 
+  certainly be accepted.\</p>
+  <h2 align="left">Requirements for a starting point library</h2>
+  <ul>
+    <li>
+    <p align="left">Existing successful library already in wide use.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Modern C++ that uses the C++ standard library where 
+    applicable, modulo naming conventions and C++11/14 features. (Dependencies 
+    hidden from users are exempt from this requirement.)<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Extendible by third-parties. An initial library TS in a 
+    short time frame will be quite limited. That's much more acceptable if the 
+    library is extendible by third parties.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Owner willing to meet ISO intellectual property 
+    requirements. It would also be helpful if the original developers were 
+    willing to get involved in SG work.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Meets Beman's &quot;Hello C++ World&quot; challenge; displaying that 
+    text in a window and being able to drag it around inside the window is only 
+    slightly more complex that the traditional Hello world program.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Meets Herb's &quot;Learn the library basics and build an 
+    interesting app in four hours&quot; challenge.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">There may be some other challenges or requirements, as long 
+    as they don't eliminate all candidates.</li>
+  </ul>
+  <h2 align="left">Does any existing library meet these requirements?</h2>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+  <p align="left">&nbsp;</p>
+
+</body>
+
+</html>
