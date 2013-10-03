@@ -24,12 +24,12 @@ del   { background-color: #FFD7D7 }
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
+      <td><span style="background-color: #FFFF00">D3791</span></td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-02<!--webbot bot="Timestamp" endspan i-checksum="12018" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-03<!--webbot bot="Timestamp" endspan i-checksum="12020" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -42,44 +42,51 @@ del   { background-color: #FFD7D7 }
     </tr>
   </table>
 
+<h1 align="center"><span style="background-color: #FFFF00">DRAFT</span></h1>
+
 <h1 align="center">Lightweight Graphical Interface</h1>
 
 <p align="center"><b><font size="4">Objectives, Requirements, Strategies</font></b></p>
 
-  <p align="left">This paper represents thoughts about the objectives, 
-  requirements, and strategies I presented at the initial meeting of the SG13 
-  Study Group in Chicago, 2013-Sept-28. These are my personal views and do not 
+  <p align="left">This paper suggests objectives, 
+  requirements, and strategies for SG13, the C++ committee's graphical interface 
+  study group. These ideas were presented to SG13 
+  at their organizational meeting in Chicago on September 28th. These are my personal views and do not 
   necessarily represent the views of other SG13 members.</p>
   <h2 align="left">Objective: Success</h2>
   <p align="left">This paper isn't about the technical aspects of a library 
-  Technical Specification (TS) for lightweight graphical interface - rather it 
+  technical specification (TS) for lightweight graphical interface - rather it 
   presents an approach to creating such a TS in a way that maximizes the chance 
-  of success by avoiding minefields.</p>
+  of success.</p>
   <h2 align="left">Elephants in the room and differing expectations</h2>
-  <p align="left">There are major players in the problem domain - Microsoft, 
-  Apple, Open GL, QT, and the list goes on and on. Also, expectations differ 
-  widely as soon as we start talking about a graphical interface TS.</p>
-  <p align="left">A strategy to defuse concern about undue competition and to 
-  calibrate expectations is to put &quot;lightweight&quot; or a synonym in the title of 
-  both the SG and the TS. Examples of this strategy include &quot;Concepts Lite&quot; and 
-  some internal Boost components that use &quot;Lightweight&quot; in the title to avoided 
-  conflicts and limited expectations.</p>
+  <p align="left">There are already heavyweights in the problem domain - Microsoft, 
+  Apple, Open GL, QT, and many others. SG3 needs to ensure that these interests 
+  understand that we are not trying to move in on their turf.</p>
+  <p align="left">A related problem is that discussions on the Boost mailing 
+  list and in other venues have show that it is hard go get agreement on 
+  technical issues because expectations differ widely with regard to graphical 
+  interfaces.</p>
+  <p align="left">One strategy to defuse these concern is to put &quot;Lightweight&quot;, or a synonym, in the title of 
+  both the SG and the TS. Examples of the effective use of this naming strategy 
+  to avoid conflicts and limited expectations include the committee's &quot;Concepts Lite&quot; 
+  SG and 
+  some internal Boost components that use &quot;Lightweight&quot; in their title.</p>
   <h2 align="left">Avoiding design by committee</h2>
   <p align="left">A lightweight graphical interface, even though far simpler 
-  that a full-fledged GUI framework, is far too complex to be successfully 
-  designed by a committee. Strategies are presented that taken together 
+  that a full-fledged GUI framework, is much too complex to be successfully 
+  designed by a committee. Two strategies are presented that taken together 
   addresses this concern.</p>
   <h2 align="left">Strategy: Ship in two years</h2>
-  <p align="left">That implies a major feature complete working draft in one or 
+  <p align="left">That implies a major feature complete working draft (WD) in one or 
   two meetings. I.E. There is no time for design by committee.</p>
-  <p align="left">Furthermore, we need a working implementation (on GitHub or 
-  similar) that is kept in sync with the working draft. That's the only way to 
-  have confidence that the WD is implementable and useful to users.</p>
-  <h2 align="left">Strategy: Starting point is an existing successful library 
+  <h2 align="left">Strategy: Start from an existing successful library 
   already in wide use</h2>
   <p align="left">Starting with an existing successful library that is already 
   in wide use avoids design by committee and gives the SG and standards 
-  committee enough confidence that we can move forward quickly.</p>
+  committee enough confidence that we can move forward quickly. It would also be 
+  helpful to have working implementation (on GitHub or 
+  similar) that is kept in sync with the working draft. That, coupled with 
+  starting from an existing library, would build confidence that the WD is implementable and useful to users.</p>
   <p align="left">The strategy for accepting the STL into the standard is a 
   useful role model. The whole STL proposal was put in the standard working 
   draft, and only then were changes allowed. This had the effect of moving the 
@@ -89,8 +96,8 @@ del   { background-color: #FFD7D7 }
   with a proposal to completely replace the library as specified in the WD, that 
   proposal obviously would have to be very strong to make progress. Smaller 
   proposals, particularly those that have been implemented (presumably as a 
-  branch of the GitHub implementation), might well be accepted, and small tweak 
-  proposals will certainly be accepted. But at each step of the way, we have a 
+  branch of the GitHub implementation), might well be accepted, and smaller tweaking 
+  proposals will certainly be accepted. But at each step of the way, the SG has a 
   complete WD and reference implementation.</p>
   <h2 align="left">Requirements for a starting point library</h2>
   <ul>
@@ -103,7 +110,7 @@ del   { background-color: #FFD7D7 }
 &nbsp;</li>
     <li>
     <p align="left">Extendible by third-parties. An initial library TS completed 
-    in a short time frame may be quite limited. That will be much more acceptable if 
+    in a short time frame will likely be quite limited. That will be much more acceptable if 
     the library is extendible by third parties.<br>
 &nbsp;</li>
     <li>
@@ -122,13 +129,13 @@ del   { background-color: #FFD7D7 }
     an interesting app in four hours or less.&quot;<br>
 &nbsp;</li>
     <li>
-    <p align="left">Some other challenges or requirements may evolve, as long as 
+    <p align="left">Other challenges or requirements may evolve, as long as 
     they don't eliminate all candidates.</li>
   </ul>
   <h2 align="left">Does any existing library meet these requirements?</h2>
   <p align="left">Cinder (<a href="http://libcinder.org/">libcinder.org/</a>) 
   seems to come reasonably close, although there has been no in-depth analysis 
-  yet. Presumably there are other existing lightweight libraries that SG9 can 
+  yet. Presumably there are other existing lightweight libraries that SG13 can 
   investigate.</p>
   <p align="left">Here are two videos showing the Cinder results for Herb's 
   challenge at the Going Native 2013 conference:</p>
