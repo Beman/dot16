@@ -709,7 +709,7 @@ template&lt;typename ValueType&gt;
   <blockquote>
     <pre>bool is_string(const any&amp; operand)
 {
-  return any_cast&lt;string<del>*</del>&gt;(&amp;operand) != nullptr;
+  return any_cast&lt;string&gt;(&amp;operand) != nullptr;
 }</pre>
   </blockquote>
   <p><i>--end example</i>]</p>
