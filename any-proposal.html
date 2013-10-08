@@ -128,11 +128,11 @@ illustrating points that have caused questions:
     example function to return the wrong result.</li>
     <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
     <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
-    <li dir="ltr">
-    <p dir="ltr">Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
+    <li>
+    <p>Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
     arguments work properly, as requested by the LEWG in Bristol.</li>
     <li>
-    <p dir="ltr">Removed unneeded <code>std::</code>. (Daniel Krügler)</li>
+    <p>Removed unneeded <code>std::</code>. (Daniel Krügler)</li>
     <li>Change <code>any</code> construction and assignment of <code>
     ValueType</code> from  pass-by-value to pass-by-rvalue-reference. 
     Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
@@ -557,25 +557,17 @@ only be applied to nothrow copyable types.</ins></p>
 </blockquote>
 <pre>any(const any&amp; other);</pre>
 <blockquote>
-  <p>
-  <ins><i>Requires:</i> 
-  <code>other</code> is empty or <code>is_copy_constructible&lt;T&gt;::value</code> 
-  is true, where <code>T</code> is the type of the object contained by 
-  <code>other</code>.</ins></p>
   <p><i>Effects:</i> <del>Copies content of <code>other</code> into a new 
   instance, so that any content is equivalent in both type and value to <code>other</code>,
   or empty if <code>other</code> is empty.</del> 
-  <ins>Constructs an object of type <code>any</code> with the same state as <code>other</code>.</del></p>
-  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any 
+  <ins>Constructs an object of type <code>any</code> with an equivalent state as <code>other</code>.</ins></p>
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> Any 
   exceptions arising from the copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any(any&amp;&amp; other) noexcept;</pre>
 <blockquote>
-  <p><ins><i>Requires:</i> 
-  <code>other</code> is empty or <code>is_move_constructible&lt;T&gt;::value</code> 
-  is true, where <code>T</code> is the type of the object contained by 
-  <code>other</code>.</ins></p>
-  <p><ins><i>Effects:</i> Constructs an object of type <code>any</code> with the 
+  <p><ins><i>Effects:</i> Constructs an object of type <code>any</code> with a 
+  state equivalent to the 
   original state of <code>other</code>.</ins></p>
   <p><ins><i>Postconditions: </i> <code>other</code> is left in a 
   valid but otherwise unspecified state.</ins></p>
@@ -584,7 +576,8 @@ only be applied to nothrow copyable types.</ins></p>
   any(ValueType<ins>&amp;&amp;</ins> value);</pre>
 <blockquote>
   <ins><p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</ins></p>
-  <p><ins><i>Requires:</i> <code>is_move_constructible&lt;T&gt;::value</code> is true.</ins></p>
+  <p><ins><i>Requires:</i> <code>T</code></ins> shall satisfy the
+  <code>CopyConstructible</code> requirements.</p>
   <p><ins><i>Effects:</i>
   Constructs an object of type <code>any</code> that contains an 
   object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(value)</code>.</ins></p>
@@ -596,7 +589,11 @@ only be applied to nothrow copyable types.</ins></p>
   <pre>template &lt;class Allocator&gt;
   any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
 template &lt;class Allocator, typename ValueType&gt;
-  any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);</pre>
+  any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);
+template &lt;class Allocator&gt;
+  any(allocator_arg_t, const Allocator&amp; a, const any&amp; other);
+template &lt;class Allocator&gt;
+  any(allocator_arg_t, const Allocator&amp; a, any&amp;&amp; other) noexcept;</pre>
   <blockquote>
     <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
     an Allocator ([allocator.requirements]).
