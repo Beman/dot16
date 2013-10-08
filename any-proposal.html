@@ -172,16 +172,12 @@ illustrating points that have caused questions:
     Krügler private email 2013/05/09)</li>
     <li>Remove the <code>ValueType</code> requirements section, and add a <i>
     Requires</i> element to the signatures that actually require 
-    CopyConstructible or MoveConstructible, following current practice of the 
-    standard library for containers. </li>
+    CopyConstructible, following current practice of the 
+    standard library for containers.</li>
+    <li>Merge suggested wording changes by Daniel Krügler and Antony Polukhin, 
+    and resolve any differences to the satisfaction of all concerned. (Daniel 
+    Krügler) </li>
   </ul>
-  <p>As part of the work on revision 3, Daniel Krügler did a detailed analysis, 
-  including implementation, of what would be required for <code>any</code> to 
-  support move-only types. Based on his analysis, it appears that supporting 
-  move-only types is doable, but more complex than initially hoped for. The 
-  recommendation is not to support move-only types for the TS. If anyone cares 
-  enough to open an issue, move-only types can be tackled before full 
-  standardization.</p>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
   <ul>
@@ -599,21 +595,9 @@ template &lt;class Allocator, typename ValueType&gt;
   <ins>any(allocator_arg_t, const Allocator&amp; a, any&amp;&amp; other) noexcept;</ins></pre>
   <blockquote>
     <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
-    an Allocator ([allocator.requirements]).
-  <ins>For the second form, <code>is_copy_constructible&lt;ValueType&gt;::value</code> 
-    is true.</ins></p>
+    an Allocator ([allocator.requirements]).</p>
     <p><i>Effects: </i>Equivalent to the preceding constructors except that the contained object is constructed with uses-allocator construction ([allocator.uses.construction]) 
     if memory allocation is performed.</p>
-  <p><u><span style="background-color: #E8FFE8"><i>Remarks</i></span></u><ins><i>:</i> 
-  The second constructor shall not participate in overload resolution if <code>decay&lt;ValueType&gt;::type</code> 
-  is the same type as <code>std::any</code>.</ins></p>
-    <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> <ins>The second form 
-    throws</ins> any exceptions arising from the 
-  copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
-    <p>[<i>Note:</i> Implementations are encouraged to avoid the use of 
-    dynamically allocated memory for a small contained <del>types</del> <ins>
-    object</ins>, for example, where 
-    the object constructed is holding only an <code>int</code>. <i>--end note</i> ]</p>
   </blockquote>
 <pre>~any();</pre>
 <blockquote>
@@ -622,20 +606,18 @@ template &lt;class Allocator, typename ValueType&gt;
 <h4><code>any</code> assignments</h4>
 <pre>any&amp; operator=(const any&amp; rhs);</pre>
 <blockquote>
-  <p>
-  <ins><i>Requires:</i> <code>rhs</code> is empty or <code>is_copy_constructible&lt;T&gt;::value</code> 
-  is true, where <code>T</code> is the type of the object contained by <code>rhs</code>.</ins></p>
   <p><i>Effects:</i> <code>any(rhs).swap(*this)</code>, however, no effects if an 
   exception is thrown.</p>
-  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> any exceptions arising from the 
+  <p><ins><i>Returns:</i> <code>*this</code></ins></p>
+  <p><i>Throws:</i> <del><code>bad_alloc</code> or</del> Any exceptions arising from the 
   copy constructor of the contained <del>type</del> <ins>object</ins>.</p>
 </blockquote>
 <pre>any&amp; operator=(any&amp;&amp; rhs) noexcept;</pre>
 <blockquote>
-  <p>
-  <ins><i>Requires:</i> <code>rhs</code> is empty or <code>is_move_constructible&lt;T&gt;::value</code> 
-  is true, where <code>T</code> is the type of the object contained by <code>rhs</code>.</ins></p>
-  <p><ins><i>Postconditions:</i> The state of <code>*this</code> is the same as the original state 
+  <p><ins><i>Effects:</i> <code>any(std::move(rhs)).swap(*this)</code>.</ins></p>
+  <p><ins><i>Returns:</i> <code>*this</code></ins></p>
+  <p><ins><i>Postconditions:</i> The state of <code>*this</code> is equivalent 
+  to the original state 
   of <code>rhs</code> and <code>rhs</code> is left in a valid but otherwise 
   unspecified state</code>.</ins></p>
 </blockquote>
@@ -643,7 +625,7 @@ template &lt;class Allocator, typename ValueType&gt;
   any&amp; operator=(ValueType<ins>&amp;&amp;</ins> rhs);</pre>
 <blockquote>
   <p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code></ins>.</p>
-  <p><ins><i>Requires:</i> <code>is_move_constructible&lt;T&gt;::value</code> is true.</ins></p>
+  <p><ins><i>Requires:</i> <code>T</code> shall satisfy the <code>CopyConstructible</code> requirements<ins>.</ins></p>
   <p><ins><i>Effects:</i>
   Constructs an object <code>tmp</code> of type <code>any</code> that contains an 
   object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(rhs)</code>, and 
