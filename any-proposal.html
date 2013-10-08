@@ -9,15 +9,15 @@
 <style type="text/css">
 body  {
         font-family: sans-serif;
-        margin: 1em;
-        max-width : 7.5in;
+        width : 50em;
+        margin: auto;
       }
 
 table { margin: 0.5em; }
 
 pre   { background-color:#D7EEFF }
 
-ins   { background-color:#E8FFE8 }
+ins   { background-color: #E8FFE8; text-decoration: none; }
 del   { background-color:#FFD7D7 }
 </style>
 </head>
@@ -128,11 +128,9 @@ illustrating points that have caused questions:
     example function to return the wrong result.</li>
     <li>Add missing <code>noexcept</code> to <code>bad_any_cast::what</code>. (Antony Polukhin)</li>
     <li>Add <code>clear()</code> function. (Antony Polukhin)</li>
-    <li>
-    <p>Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
+    <li>Add<code> any_cast(any&amp;&amp;)</code> overload, so that rvalue 
     arguments work properly, as requested by the LEWG in Bristol.</li>
-    <li>
-    <p>Removed unneeded <code>std::</code>. (Daniel Krügler)</li>
+    <li>Removed unneeded <code>std::</code>. (Daniel Krügler).</li>
     <li>Change <code>any</code> construction and assignment of <code>
     ValueType</code> from  pass-by-value to pass-by-rvalue-reference. 
     Suggested by Sean Parent as more in keeping with the standard library and by Antony Polukhin's 
@@ -704,29 +702,29 @@ template&lt;typename ValueType&gt;
   returned.<i>--end note.</i>]</del></p>
   <p><ins>[<i>Example:</i></ins></p>
   <blockquote>
-    <pre><span style="background-color: #E8FFE8">any x(5);                                     // x holds </span><span style="background-color: #E8FFE8">int</span><span style="background-color: #E8FFE8">
-</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 5);                // cast to value
-</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;int&amp;&gt;(x) = 10;                       // cast to reference
+    <pre><span style="background-color: #E8FFE8">any x(5);                                   // x holds </span><span style="background-color: #E8FFE8">int</span><span style="background-color: #E8FFE8">
+</span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 5);              // cast to value
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;int&amp;&gt;(x) = 10;                     // cast to reference
 </span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;int&gt;(x) == 10); 
 
-x = &quot;Meow&quot;;                                   // x holds const char*
+x = &quot;Meow&quot;;                                 // x holds const char*
 </span><span style="background-color: #E8FFE8">assert(strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x), &quot;Meow&quot;) == 0);
 </span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&amp;&gt;(x) = &quot;Harry&quot;;
 </span><span style="background-color: #E8FFE8">assert(strcmp(any_cast</span><span style="background-color: #E8FFE8">&lt;const char*&gt;(x), &quot;Harry&quot;) == 0);
 
-x = string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                           // x holds string
+x = string(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);                         // x holds string
 string</span><span style="background-color: #E8FFE8"> s, s2(&quot;Jane&quot;);
-s = move(any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x));               // move from any 
+s = move(any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x));             // move from any 
 </span><span style="background-color: #E8FFE8">assert(s</span><span style="background-color: #E8FFE8"> == &quot;Meow&quot;);
-</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x) = move(s2);              // move to any
+</span><span style="background-color: #E8FFE8">any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(x) = move(s2);            // move to any
 </span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const string</span><span style="background-color: #E8FFE8">&amp;&gt;(x) == &quot;Jane&quot;);
 
 string</span><span style="background-color: #E8FFE8"> </span><span style="background-color: #E8FFE8">cat(&quot;Meow</span><span style="background-color: #E8FFE8">&quot;);
-const any </span><span style="background-color: #E8FFE8">y(cat</span><span style="background-color: #E8FFE8">);                             // const y holds string
+const any </span><span style="background-color: #E8FFE8">y(cat</span><span style="background-color: #E8FFE8">);                           // const y holds string
 </span><span style="background-color: #E8FFE8">assert(any_cast</span><span style="background-color: #E8FFE8">&lt;const string</span><span style="background-color: #E8FFE8">&amp;&gt;(y) == cat);
 
-any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(y);                         // error; cannot
-                                              //  any_cast away const</span></pre>
+any_cast</span><span style="background-color: #E8FFE8">&lt;string&amp;&gt;(y);                       // error; cannot
+                                            //  any_cast away const</span></pre>
   </blockquote>
   <p><ins><i>--end example</i>]</ins></p>
   </blockquote>
@@ -749,8 +747,9 @@ template&lt;typename ValueType<del>Ptr</del>&gt;
   <p><i>--end example</i>]</p>
 </blockquote>
 <hr>
-<p>© Copyright 2001, 2012 Kevlin Henney<br>
-© Copyright 2006, 2012 Beman Dawes</p>
+<p>© Copyright 2001, 2012, 2013 Kevlin Henney<br>
+© Copyright 2006, 2012, 2013 Beman Dawes<br>
+© Copyright 2013 Daniel Krügler</p>
 
 </body>
 
