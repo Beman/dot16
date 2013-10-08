@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-09-21<!--webbot bot="Timestamp" endspan i-checksum="12562" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-08<!--webbot bot="Timestamp" endspan i-checksum="12030" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -239,6 +239,7 @@ N3508</a> - Revision 2</p>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1939.html">N1939</a> - Initial paper</p>
 <h2><a name="Motivation">Motivation</a> and Design</h2>
+<h3><ins>Original Boost design</ins></h3>
 <p>There are times when a generic (in the sense of <span class="emphasis"><em>
 general</em></span> as opposed to <span class="emphasis"><em>template-based 
 programming</em></span>) type is needed: variables that are truly variable, 
@@ -273,6 +274,16 @@ described in
 12(7), July/August 2000) is a variant value type based on the second category. 
 It supports copying of any value type and safe checked extraction of that value 
 strictly against its type.</p>
+<h3><ins>Design update for C++ 11/14</ins></h3>
+<p><ins>In several aspects, the design of <code>std::any</code> can be compared to
+<code>std::function</code>. This proposal differs from the specification of
+<code>std::function</code> type-erasure policy by emphasizing the worth of having
+guaranteed nothrow
+move-operations. While <code>std::function</code> imposes little restrictions upon
+the wrapped function object types where the small-object optimization
+can be applied, in this proposal <code>std::any</code> restricts these cases to
+those where the copy/move operations of the contained object cannot
+throw exceptions.</ins></p>
 <h2><a name="Design-paths-not-taken">Design paths not taken</a></h2>
 <p>A similar design, offering more appropriate operators, could be used for a 
 generalized function adaptor, a generalized iterator adaptor,&nbsp;and other 
@@ -524,8 +535,21 @@ any_cast</code>.</p>
 <p>An object of class <code>any</code> stores an instance of any type that 
 satisfies the <del><code>ValueType</code></del> <ins>constructor</ins> requirements or is empty, <ins>and this is referred to as 
 the <i>state</i> of the class  <code>any</code> object. The stored 
-instance is called the <i>contained object</i>. The non-member <code>any_cast</code> 
-functions provide type-safe access to the contained object.</ins></p>
+instance is called the <i>contained object</i>. Two states are equivalent if they are either both empty or if
+both are not empty and if the contained objects are equivalent.</p>
+<p>The non-member <code>any_cast</code> 
+functions provide type-safe access to the contained object.</p>
+<p>Implementations should avoid the use of dynamically
+allocated memory for a small contained object. [<i>Example:</i> where the
+object constructed is holding only an int. <i>-- end example</i>] Such small-object optimization 
+shall
+only be applied to nothrow copyable types.</ins></p>
+  <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#DBDBDB">
+    <tr>
+      <td><i>The use of &quot;should&quot; in the above paragraph provides ISO normative 
+      encouragement. This is a deliberate design choice.</i></td>
+    </tr>
+  </table>
 <h4><code>any</code> construct/destruct</h4>
 <pre>any() noexcept;</pre>
 <blockquote>
