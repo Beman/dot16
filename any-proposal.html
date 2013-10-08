@@ -27,7 +27,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">Dxxxx</span></td>
+      <td><span style="background-color: #FFFF00">D3804</span></td>
     </tr>
     <tr>
       <td>Date:</td>
@@ -60,7 +60,7 @@ del   { background-color:#FFD7D7 }
 <a href="#Proposed-Wording">Proposed Wording</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#ValueType-Requirements"><code>ValueType</code> 
 Requirements</a><br>
-&nbsp;&nbsp;&nbsp; <a href="#synopsis">Header <code>&lt;any&gt;</code> synopsis</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#synopsis">Header <code>&lt;experimental/any&gt;</code> synopsis</a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Class-bad_any_cast">Class <code>bad_any_cast</code></a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Class-any">Class <code>any</code></a><br>
 &nbsp;&nbsp;&nbsp; <a href="#Non-member">Non-member functions</a><br>
@@ -79,7 +79,7 @@ addition to the standard library, requires no modifications to any C++14
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
-<p><span style="background-color: #FFFF00">Nxxxx</span> - Revision 3</p>
+<p><span style="background-color: #FFFF00">D3804</span> - Revision 3</p>
   <ul>
     <li>Added Daniel Krügler to the list of authors. Daniel has worked 
     tirelessly to improve the standardese, and has also implemented the 
@@ -176,7 +176,9 @@ illustrating points that have caused questions:
     standard library for containers.</li>
     <li>Merge suggested wording changes by Daniel Krügler and Antony Polukhin, 
     and resolve any differences to the satisfaction of all concerned. (Daniel 
-    Krügler) </li>
+    Krügler)</li>
+    <li>Rename header &lt;experimental/any&gt; and place contents in inline namespace 
+    per LEWG/LWG direction in Chicago. </li>
   </ul>
 <p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3508.html">
 N3508</a> - Revision 2</p>
@@ -290,10 +292,10 @@ template parameter conformance. Such components are not proposed here.</p>
 and copying of any objects:</p>
 <blockquote>
   <pre class="programlisting">#include &lt;list&gt;
-#include &lt;any&gt;
+#include &lt;experimental/any&gt;
 
-using <code>std::</code><code class="computeroutput">any_cast</code>;
-using std::any;
+using <code>std::experimental::</code><code class="computeroutput">any_cast</code>;
+using std<code>::experimental::</code>any;
 
 typedef std::list&lt;<code class="computeroutput">any</code>&gt; many;
 
@@ -463,10 +465,10 @@ identity and indirection. <i>--end note</i>]</del></p>
 
 </blockquote>
 
-<h3>Header &lt;any&gt; <a name="synopsis">synopsis</a></h3>
+<h3>Header &lt;experimental/any&gt; <a name="synopsis">synopsis</a></h3>
 
 <blockquote>
-  <pre>namespace std { <ins>namespace <b><i>to-be-decided</i></b> {</ins>
+  <pre>namespace std { <ins>namespace experimental { inline namespace any_v1 {</ins>
   class bad_any_cast : public <del>std::</del>bad_cast
   {
   public:
@@ -525,7 +527,7 @@ identity and indirection. <i>--end note</i>]</del></p>
     <ins>const</ins> ValueType<del>Ptr</del><ins>*</ins> any_cast(const any* operand) noexcept;
   template&lt;typename ValueType<del>Ptr</del>&gt;
     ValueType<del>Ptr</del><ins>*</ins> any_cast(any* operand) noexcept;
-}<ins>}</ins></pre>
+}<ins>}}</ins></pre>
 </blockquote>
 <h3><a name="Class-bad_any_cast">Class <code>bad_any_cast</code></a></h3>
 <p>Objects of type <code>bad_any_cast</code> are thrown by a failed <code>
@@ -546,7 +548,7 @@ only be applied to nothrow copyable types.</ins></p>
   <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" bgcolor="#DBDBDB">
     <tr>
       <td><i>The use of &quot;should&quot; in the above paragraph provides ISO normative 
-      encouragement. This is a deliberate design choice.</i></td>
+      encouragement. This is a deliberate design decision.</i></td>
     </tr>
   </table>
 <h4><code>any</code> construct/destruct</h4>
