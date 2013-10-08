@@ -491,9 +491,12 @@ identity and indirection. <i>--end note</i>]</del></p>
 
     template &lt;class Allocator&gt;
       any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
-
     template &lt;class Allocator, typename ValueType&gt;
       any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);
+    <ins>template &lt;class Allocator&gt;</ins>
+      <ins>any(allocator_arg_t, const Allocator&amp; a, const any&amp; other);</ins>
+    <ins>template &lt;class Allocator&gt;</ins>
+      <ins>any(allocator_arg_t, const Allocator&amp; a, any&amp;&amp; other) noexcept;</ins>
 
    ~any();
   
@@ -575,7 +578,7 @@ only be applied to nothrow copyable types.</ins></p>
 <pre>template&lt;typename ValueType&gt;
   any(ValueType<ins>&amp;&amp;</ins> value);</pre>
 <blockquote>
-  <ins><p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</ins></p>
+  <p><ins>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</ins></p>
   <p><ins><i>Requires:</i> <code>T</code></ins> shall satisfy the
   <code>CopyConstructible</code> requirements.</p>
   <p><ins><i>Effects:</i>
@@ -590,10 +593,10 @@ only be applied to nothrow copyable types.</ins></p>
   any(allocator_arg_t, const Allocator&amp; a) <ins>noexcept</ins>;
 template &lt;class Allocator, typename ValueType&gt;
   any(allocator_arg_t, const Allocator&amp; a, ValueType<ins>&amp;&amp;</ins> value);
-template &lt;class Allocator&gt;
-  any(allocator_arg_t, const Allocator&amp; a, const any&amp; other);
-template &lt;class Allocator&gt;
-  any(allocator_arg_t, const Allocator&amp; a, any&amp;&amp; other) noexcept;</pre>
+<ins>template &lt;class Allocator&gt;</ins>
+  <ins>any(allocator_arg_t, const Allocator&amp; a, const any&amp; other);</ins>
+<ins>template &lt;class Allocator&gt;</ins>
+  <ins>any(allocator_arg_t, const Allocator&amp; a, any&amp;&amp; other) noexcept;</ins></pre>
   <blockquote>
     <p><i>Requires:</i> <code>Allocator</code> shall meet the requirements for 
     an Allocator ([allocator.requirements]).
