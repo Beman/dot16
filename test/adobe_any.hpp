@@ -87,7 +87,11 @@ public:
     
     template <typename T>
     any& operator=(T x)
-    { object().~concept_t(); new (storage()) typename model<T>::type(std::move(x)); return *this; }
+    {
+      object().~concept_t();
+      new (storage()) typename model<T>::type(std::move(x));
+      return *this;
+    }
     
     const std::type_info& type() const { return object().type(); }
     

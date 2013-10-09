@@ -1,6 +1,8 @@
 #define USE_BOOST
 #ifndef USE_BOOST
 # include "adobe_any.hpp"
+  using adobe::any;
+  using adobe::any_cast;
 #else
 # include <boost/any.hpp>
   using boost::any;
@@ -129,10 +131,10 @@ int main()
   assert(m4.state == moved_from);
   assert(m5.state == moved_to);
 
-  movable m6 = any_cast<movable>(f_any());
-  assert(m6.state == unmoved);
-  m6 = std::move(any_cast<movable>(f_any()));
-  assert(m6.state == moved_to);
+  //movable m6 = any_cast<movable>(f_any());
+  //assert(m6.state == unmoved);
+  //m6 = std::move(any_cast<movable>(f_any()));
+  //assert(m6.state == moved_to);
 
   f_any_ref() = movable();
   movable o;

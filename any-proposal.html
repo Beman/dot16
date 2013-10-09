@@ -546,7 +546,7 @@ only be applied to nothrow copyable types.</p>
 <pre>template&lt;typename ValueType&gt;
   any(ValueType&amp;&amp; value);</pre>
 <blockquote>
-  <p>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</p>
+  <p>Let <code>T</code> be equal to <code>decay&lt;<wbr />ValueType&gt;::type</code>.</p>
   <p><i>Requires:</i> <code>is_copy_constructible&lt;T&gt;::value</code> is true. 
   Otherwise the program is ill-formed.</p>
   <p><i>Effects:</i>
@@ -596,7 +596,7 @@ template &lt;class Allocator&gt;
 <pre>template&lt;typename ValueType&gt;
   any&amp; operator=(ValueType&amp;&amp; rhs);</pre>
 <blockquote>
-  <p>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</p>
+  <p>Let <code>T</code> be equal to <code>decay&lt;<wbr />ValueType&gt;::type</code>.</p>
   <p><i>Requires:</i> <code>is_copy_constructible&lt;T&gt;::value</code> is true. 
   Otherwise the program is ill-formed.</p>
   <p><i>Effects:</i>
