@@ -27,7 +27,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">D3804</span></td>
+      <td>N3804</td>
     </tr>
     <tr>
       <td>Date:</td>
@@ -47,8 +47,7 @@ del   { background-color:#FFD7D7 }
     </tr>
   </table>
 
-<h1><i>Any</i> Library Proposal (Revision 3)
-<span style="background-color: #FFFF00">Draft</span></h1>
+<h1><i>Any</i> Library Proposal (Revision 3)</h1>
 
 <p><a href="#Introduction">Introduction</a><br>
 <a href="#Revision-History">Revision History</a><br>
@@ -79,7 +78,8 @@ addition to the standard library, requires no modifications to any C++14
 standard library components, requires no compiler support, and will have no effect on existing 
 namespace-disciplined code.</p>
 <h2><a name="Revision-History">Revision History</a></h2>
-<p><span style="background-color: #FFFF00">D3804</span> - Revision 3</p>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3804.html">
+N3804</a> - Revision 3</p>
   <ul>
     <li>Added Daniel Krügler to the list of authors. Daniel has worked 
     tirelessly to improve the standardese, and has also implemented the 
@@ -547,8 +547,8 @@ only be applied to nothrow copyable types.</p>
   any(ValueType&amp;&amp; value);</pre>
 <blockquote>
   <p>Let <code>T</code> be equal to <code>decay&lt;<wbr />ValueType&gt;::type</code>.</p>
-  <p><i>Requires:</i> <code>is_copy_constructible&lt;T&gt;::value</code> is true. 
-  Otherwise the program is ill-formed.</p>
+  <p><i>Requires: </i><code>T</code> shall satisfy the CopyConstructible 
+  requirements. If <code>is_copy_constructible&lt;T&gt;::value</code> is false, the program is ill-formed.</p>
   <p><i>Effects:</i>
   Constructs an object of type <code>any</code> that contains an 
   object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(value)</code>.</p>
@@ -597,8 +597,8 @@ template &lt;class Allocator&gt;
   any&amp; operator=(ValueType&amp;&amp; rhs);</pre>
 <blockquote>
   <p>Let <code>T</code> be equal to <code>decay&lt;<wbr />ValueType&gt;::type</code>.</p>
-  <p><i>Requires:</i> <code>is_copy_constructible&lt;T&gt;::value</code> is true. 
-  Otherwise the program is ill-formed.</p>
+  <p><i>Requires:</i> <code>T</code> shall satisfy the CopyConstructible 
+  requirements. If <code>is_copy_constructible&lt;T&gt;::value</code> is false, the program is ill-formed.</p>
   <p><i>Effects:</i>
   Constructs an object <code>tmp</code> of type <code>any</code> that contains an 
   object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(rhs)</code>, and 
