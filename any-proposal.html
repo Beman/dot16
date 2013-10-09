@@ -32,7 +32,7 @@ del   { background-color:#FFD7D7 }
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-08<!--webbot bot="Timestamp" endspan i-checksum="12030" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-09<!--webbot bot="Timestamp" endspan i-checksum="12032" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -547,8 +547,8 @@ only be applied to nothrow copyable types.</p>
   any(ValueType&amp;&amp; value);</pre>
 <blockquote>
   <p>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</p>
-  <p><i>Requires:</i> <code>T</code> shall satisfy the
-  <code>CopyConstructible</code> requirements.</p>
+  <p><i>Requires:</i> <code>is_copy_constructible&lt;T&gt;::value</code> is true. 
+  Otherwise the program is ill-formed.</p>
   <p><i>Effects:</i>
   Constructs an object of type <code>any</code> that contains an 
   object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(value)</code>.</p>
@@ -597,7 +597,8 @@ template &lt;class Allocator&gt;
   any&amp; operator=(ValueType&amp;&amp; rhs);</pre>
 <blockquote>
   <p>Let <code>T</code> be equal to <code>remove_cv&lt;remove_reference&lt;ValueType&gt;::type&gt;::type</code>.</p>
-  <p><i>Requires:</i> <code>T</code> shall satisfy the <code>CopyConstructible</code> requirements.</p>
+  <p><i>Requires:</i> <code>is_copy_constructible&lt;T&gt;::value</code> is true. 
+  Otherwise the program is ill-formed.</p>
   <p><i>Effects:</i>
   Constructs an object <code>tmp</code> of type <code>any</code> that contains an 
   object of type <code>T</code> direct-initialized with <code>std::forward&lt;ValueType&gt;(rhs)</code>, and 
@@ -661,7 +662,8 @@ template&lt;typename ValueType&gt;
   <blockquote>
   <p>
   <i>Requires:</i> <code>is_reference&lt;ValueType&gt;::value</code> is 
-  true or <code>is_copy_constructible&lt;ValueType&gt;::value</code> is true.</p>
+  true or <code>is_copy_constructible&lt;ValueType&gt;::value</code> is true. 
+  Otherwise the program is ill-formed.</p>
   <p><i>Returns:</i> <u>
   For the first form, <code>*any_cast&lt;typename 
   add_const&lt;typename remove_reference&lt;ValueType&gt;::type&gt;::type &gt;(&amp;operand)</code></u>.
