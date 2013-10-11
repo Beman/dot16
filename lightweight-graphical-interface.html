@@ -24,12 +24,12 @@ del   { background-color: #FFD7D7 }
     <tr>
       <td>
       <p>Document number:&nbsp;&nbsp; </td>
-      <td><span style="background-color: #FFFF00">D3791</span></td>
+      <td>N3791</td>
     </tr>
     <tr>
       <td>Date:</td>
       <td>
-      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-03<!--webbot bot="Timestamp" endspan i-checksum="12020" --></td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-11<!--webbot bot="Timestamp" endspan i-checksum="12017" --></td>
     </tr>
     <tr>
       <td>Project:</td>
@@ -42,38 +42,44 @@ del   { background-color: #FFD7D7 }
     </tr>
   </table>
 
-<h1 align="center"><span style="background-color: #FFFF00">DRAFT</span></h1>
-
-<h1 align="center">Lightweight Graphical Interface</h1>
+<h1 align="center">Lightweight Drawing Library</h1>
 
 <p align="center"><b><font size="4">Objectives, Requirements, Strategies</font></b></p>
 
   <p align="left">This paper suggests objectives, 
-  requirements, and strategies for SG13, the C++ committee's graphical interface 
+  requirements, and strategies for SG13, the C++ committee's graphics 
   study group. These ideas were presented to SG13 
-  at their organizational meeting in Chicago on September 28th. These are my personal views and do not 
-  necessarily represent the views of other SG13 members.</p>
+  at their organizational meeting in Chicago on September 28th. They are my personal views and do not 
+  necessarily represent the views of other SG13 members. The general ideas 
+  presented here were developed over a number years watching endless discussions 
+  on the Boost developers list that never reached consensus, let alone produce a 
+  tangible library proposal.</p>
   <h2 align="left">Objective: Success</h2>
   <p align="left">This paper isn't about the technical aspects of a library 
-  technical specification (TS) for lightweight graphical interface - rather it 
+  technical specification (TS) for a lightweight drawing library - rather it 
   presents an approach to creating such a TS in a way that maximizes the chance 
   of success.</p>
   <h2 align="left">Elephants in the room and differing expectations</h2>
-  <p align="left">There are already heavyweights in the problem domain - Microsoft, 
+  <p align="left">There are already heavyweights in the general problem domain - Microsoft, 
   Apple, Open GL, QT, and many others. SG3 needs to ensure that these interests 
   understand that we are not trying to move in on their turf.</p>
-  <p align="left">A related problem is that discussions on the Boost mailing 
-  list and in other venues have show that it is hard go get agreement on 
-  technical issues because expectations differ widely with regard to graphical 
-  interfaces.</p>
-  <p align="left">One strategy to defuse these concern is to put &quot;Lightweight&quot;, or a synonym, in the title of 
-  both the SG and the TS. Examples of the effective use of this naming strategy 
-  to avoid conflicts and limited expectations include the committee's &quot;Concepts Lite&quot; 
-  SG and 
-  some internal Boost components that use &quot;Lightweight&quot; in their title.</p>
+  <p align="left">A related problem is that past discussions have shown that it is hard 
+  to get agreement on technical issues because expectations differ widely with 
+  regard to scope for broad topics like &quot;graphics interface&quot;.</p>
+  <p align="left">One strategy to defuse these concerns is to choose a title for 
+  both the SG and the TS that zeros in on the small portion of the larger domain 
+  under consideration, and then add an adjective to indicate small and simple 
+  rather than big and complex.</p>
+  <p align="left">A more limited name like &quot;drawing library&quot; best reflects the 
+  intended scope of the SG.</p>
+  <p align="left">Including an adjective like &quot;Lightweight&quot; or some 
+  synonym further reins in expectations and allows more rapid progress. The &quot;Concepts Lite&quot; 
+  SG is an excellent example of this.</p>
+  <p align="left">Suggested names: &quot;Lightweight Drawing Study Group&quot; and 
+  &quot;Lightweight Drawing Library Technical Specification&quot;.</p>
   <h2 align="left">Avoiding design by committee</h2>
-  <p align="left">A lightweight graphical interface, even though far simpler 
-  that a full-fledged GUI framework, is much too complex to be successfully 
+  <p align="left">A lightweight drawing library, even though far simpler 
+  that a full-fledged graphic framework, is much too complex to be successfully 
   designed by a committee. Two strategies are presented that taken together 
   addresses this concern.</p>
   <h2 align="left">Strategy: Ship in two years</h2>
@@ -83,10 +89,10 @@ del   { background-color: #FFD7D7 }
   already in wide use</h2>
   <p align="left">Starting with an existing successful library that is already 
   in wide use avoids design by committee and gives the SG and standards 
-  committee enough confidence that we can move forward quickly. It would also be 
-  helpful to have working implementation (on GitHub or 
-  similar) that is kept in sync with the working draft. That, coupled with 
-  starting from an existing library, would build confidence that the WD is implementable and useful to users.</p>
+  committee  confidence to move forward quickly. It will also help to have working implementation (on GitHub or 
+  similar) that is kept in sync with the working draft and can be experimented 
+  with both by participants and ordinary users. That, coupled with 
+  starting from an existing library, will build confidence that the WD is implementable and useful to users.</p>
   <p align="left">The strategy for accepting the STL into the standard is a 
   useful role model. The whole STL proposal was put in the standard working 
   draft, and only then were changes allowed. This had the effect of moving the 
@@ -114,9 +120,9 @@ del   { background-color: #FFD7D7 }
     the library is extendible by third parties.<br>
 &nbsp;</li>
     <li>
-    <p align="left">Copyright or other intellectual property holder willing to 
-    meet ISO intellectual property requirements. It would also be helpful if the 
-    original developers were willing to get involved in SG work.<br>
+    <p align="left">Copyright or other intellectual property holders willing to 
+    meet ISO intellectual property requirements. It will also be helpful if the 
+    original developers get involved in SG work.<br>
 &nbsp;</li>
     <li>
     <p align="left">Meets Beman's challenge: &quot;Display <i>Hello C++ World</i> in 
@@ -135,7 +141,7 @@ del   { background-color: #FFD7D7 }
   <h2 align="left">Does any existing library meet these requirements?</h2>
   <p align="left">Cinder (<a href="http://libcinder.org/">libcinder.org/</a>) 
   seems to come reasonably close, although there has been no in-depth analysis 
-  yet. Presumably there are other existing lightweight libraries that SG13 can 
+  yet. There are other existing lightweight libraries that SG13 can 
   investigate.</p>
   <p align="left">Here are two videos showing the Cinder results for Herb's 
   challenge at the Going Native 2013 conference:</p>
@@ -148,7 +154,11 @@ del   { background-color: #FFD7D7 }
     <a href="http://channel9/msdn.com/Events/GoingNative/2013/My-Favorite-Cpp-10-Liner#time=0h8m22s">
     channel9/msdn.com/Events/GoingNative/2013/My-Favorite-Cpp-10-Liner#time=0h8m22s</a></li>
   </ul>
-  <hr>
+    <h2 align="left">
+    Acknowledgements</h2>
+    <p align="left">
+    This paper is the result of numerous conversations and emails with Herb 
+    Sutter. &quot;Drawing&quot; is chosen for the titles at his suggestion.<hr>
 
 </body>
 
