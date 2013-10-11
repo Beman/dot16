@@ -1,0 +1,165 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Lightweight Graphical Interface</title>
+<style type="text/css">
+body  {
+        font-family: sans-serif;
+        width : 52em;
+        margin: auto;
+      }
+
+pre   { padding: .5em; background-color: #D7EEFF }
+
+ins   { background-color: #E8FFE8; text-decoration: none; }
+del   { background-color: #FFD7D7 }
+</style>
+</head>
+
+<body>
+  <table border="0">
+    <tr>
+      <td>
+      <p>Document number:&nbsp;&nbsp; </td>
+      <td>N3791</td>
+    </tr>
+    <tr>
+      <td>Date:</td>
+      <td>
+      <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2013-10-11<!--webbot bot="Timestamp" endspan i-checksum="12017" --></td>
+    </tr>
+    <tr>
+      <td>Project:</td>
+      <td>Programming Language C++</td>
+    </tr>
+    <tr>
+      <td valign="top">Reply-to:</td>
+      <td>Beman Dawes &lt;bdawes at acm dot org&gt;<br>
+      &nbsp;</td>
+    </tr>
+  </table>
+
+<h1 align="center">Lightweight Drawing Library</h1>
+
+<p align="center"><b><font size="4">Objectives, Requirements, Strategies</font></b></p>
+
+  <p align="left">This paper suggests objectives, 
+  requirements, and strategies for SG13, the C++ committee's graphics 
+  study group. These ideas were presented to SG13 
+  at their organizational meeting in Chicago on September 28th. They are my personal views and do not 
+  necessarily represent the views of other SG13 members. The general ideas 
+  presented here were developed over a number years watching endless discussions 
+  on the Boost developers list that never reached consensus, let alone produce a 
+  tangible library proposal.</p>
+  <h2 align="left">Objective: Success</h2>
+  <p align="left">This paper isn't about the technical aspects of a library 
+  technical specification (TS) for a lightweight drawing library - rather it 
+  presents an approach to creating such a TS in a way that maximizes the chance 
+  of success.</p>
+  <h2 align="left">Elephants in the room and differing expectations</h2>
+  <p align="left">There are already heavyweights in the general problem domain - Microsoft, 
+  Apple, Open GL, QT, and many others. SG3 needs to ensure that these interests 
+  understand that we are not trying to move in on their turf.</p>
+  <p align="left">A related problem is that past discussions have shown that it is hard 
+  to get agreement on technical issues because expectations differ widely with 
+  regard to scope for broad topics like &quot;graphics interface&quot;.</p>
+  <p align="left">One strategy to defuse these concerns is to choose a title for 
+  both the SG and the TS that zeros in on the small portion of the larger domain 
+  under consideration, and then add an adjective to indicate small and simple 
+  rather than big and complex.</p>
+  <p align="left">A more limited name like &quot;drawing library&quot; best reflects the 
+  intended scope of the SG.</p>
+  <p align="left">Including an adjective like &quot;Lightweight&quot; or some 
+  synonym further reins in expectations and allows more rapid progress. The &quot;Concepts Lite&quot; 
+  SG is an excellent example of this.</p>
+  <p align="left">Suggested names: &quot;Lightweight Drawing Study Group&quot; and 
+  &quot;Lightweight Drawing Library Technical Specification&quot;.</p>
+  <h2 align="left">Avoiding design by committee</h2>
+  <p align="left">A lightweight drawing library, even though far simpler 
+  that a full-fledged graphic framework, is much too complex to be successfully 
+  designed by a committee. Two strategies are presented that taken together 
+  addresses this concern.</p>
+  <h2 align="left">Strategy: Ship in two years</h2>
+  <p align="left">That implies a major feature complete working draft (WD) in one or 
+  two meetings. I.E. There is no time for design by committee.</p>
+  <h2 align="left">Strategy: Start from an existing successful library 
+  already in wide use</h2>
+  <p align="left">Starting with an existing successful library that is already 
+  in wide use avoids design by committee and gives the SG and standards 
+  committee  confidence to move forward quickly. It will also help to have working implementation (on GitHub or 
+  similar) that is kept in sync with the working draft and can be experimented 
+  with both by participants and ordinary users. That, coupled with 
+  starting from an existing library, will build confidence that the WD is implementable and useful to users.</p>
+  <p align="left">The strategy for accepting the STL into the standard is a 
+  useful role model. The whole STL proposal was put in the standard working 
+  draft, and only then were changes allowed. This had the effect of moving the 
+  STL forward quickly and limiting design by committee related problems.</p>
+  <p align="left">Once SG13 has a working draft, we can accept changes of any 
+  magnitude based on the merits of their proposals. If someone comes forward 
+  with a proposal to completely replace the library as specified in the WD, that 
+  proposal obviously would have to be very strong to make progress. Smaller 
+  proposals, particularly those that have been implemented (presumably as a 
+  branch of the GitHub implementation), might well be accepted, and smaller tweaking 
+  proposals will certainly be accepted. But at each step of the way, the SG has a 
+  complete WD and reference implementation.</p>
+  <h2 align="left">Requirements for a starting point library</h2>
+  <ul>
+    <li>
+    <p align="left">Existing successful library already in wide use.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Modern C++, modulo naming conventions and C++11/14 features. 
+    (Dependencies hidden from users are exempt from this requirement.)<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Extendible by third-parties. An initial library TS completed 
+    in a short time frame will likely be quite limited. That will be much more acceptable if 
+    the library is extendible by third parties.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Copyright or other intellectual property holders willing to 
+    meet ISO intellectual property requirements. It will also be helpful if the 
+    original developers get involved in SG work.<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Meets Beman's challenge: &quot;Display <i>Hello C++ World</i> in 
+    a window and allow the user to drag that text around inside the window with 
+    a program that is only slightly more complex that the traditional hello 
+    world program.&quot;<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Meets Herb's challenge: &quot;Learn the library basics and build 
+    an interesting app in four hours or less.&quot;<br>
+&nbsp;</li>
+    <li>
+    <p align="left">Other challenges or requirements may evolve, as long as 
+    they don't eliminate all candidates.</li>
+  </ul>
+  <h2 align="left">Does any existing library meet these requirements?</h2>
+  <p align="left">Cinder (<a href="http://libcinder.org/">libcinder.org/</a>) 
+  seems to come reasonably close, although there has been no in-depth analysis 
+  yet. There are other existing lightweight libraries that SG13 can 
+  investigate.</p>
+  <p align="left">Here are two videos showing the Cinder results for Herb's 
+  challenge at the Going Native 2013 conference:</p>
+  <ul>
+    <li>
+    <p align="left">
+    <a href="http://channel9.msdn.com/Events/GoingNative/2013/Herb-s-UI-Challenge">channel9.msdn.com/Events/GoingNative/2013/Herb-s-UI-Challenge</a></li>
+    <li>
+    <p align="left">
+    <a href="http://channel9/msdn.com/Events/GoingNative/2013/My-Favorite-Cpp-10-Liner#time=0h8m22s">
+    channel9/msdn.com/Events/GoingNative/2013/My-Favorite-Cpp-10-Liner#time=0h8m22s</a></li>
+  </ul>
+    <h2 align="left">
+    Acknowledgements</h2>
+    <p align="left">
+    This paper is the result of numerous conversations and emails with Herb 
+    Sutter. &quot;Drawing&quot; is chosen for the titles at his suggestion.<hr>
+
+</body>
+
+</html>
