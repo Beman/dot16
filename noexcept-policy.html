@@ -11,31 +11,51 @@
 <body>
 
 <h1>Policy for standard library use of noexcept</h1>
-<p>&gt;&gt; On Aug 31, 2012, at 8:05 PM, Dave Abrahams &lt;dave@boostpro.com&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; on Thu Aug 30 2012, Beman Dawes &lt;bdawes-AT-acm.org&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; I don't get it.<br>
-&gt;&gt;<br>
-&gt;&gt; We were told in Madrid to be conservative in the use of noexcept, and<br>
-&gt;&gt; in particular not to use noexcept on functions that have preconditions<br>
-&gt;&gt; (I.e. Requires elements.) See N3279.<br>
-&gt;&gt;<br>
-&gt;&gt; You should ignore this bad advice. Normally I'd say, &quot;IMO&quot; just to be<br>
-&gt;&gt; polite, but I don't feel I should do anything to soften this statement.<br>
-&gt;&gt; Preconditions and exceptions have no intrinsic relationship, and nothing<br>
-&gt;&gt; should be done to artificially connect them.<br>
-&gt;&gt;<br>
-&gt;&gt; In the wonderful world of well-formed programs, Dave is correct.<br>
-&gt;&gt; In the practical world of supporting potentially buggy software, we often<br>
-&gt;&gt; want to offer library modes that help users find their problems quickly.<br>
-&gt;<br>
-&gt; I know all the arguments. Such library modes are allowed as extensions<br>
-&gt; and shouldn't be written into the library spec.<br>
-<br>
-Strongly agree.<br>
-<br>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Peter Dimov:</p>
+<blockquote>
+  <p>In my opinion, the current wide/narrow practice is wrong. </p>
+  <p>It's wrong on a conceptual level, because (almost) no function is actually 
+  wide. All functions have implicit requirements that their arguments, *this, 
+  and everything else reachable from them be a valid object. (Or, in the case of 
+  a constructor, that 'this' points to storage suitable to hold an object.) </p>
+  <p>It's also wrong because it sets up a conflict. When specifying, say, 
+  operator*, we now need to make a choice between adding a Requires clause and a 
+  noexcept, the two being mutually exclusive under the wide/narrow theory. This 
+  does not improve the quality of the specification. </p>
+  <p>I understand the motivation for all that. The idea is that the requirements 
+  are asserted, and the fact that the requirements are asserted is tested by 
+  making the assertions throw. But somehow I don't find this sufficient cause to 
+  degrade the specification of the standard library for everyone.</p>
+</blockquote>
+<p>Dave Abrahams:</p>
+<blockquote>
+<p><span class="il">[As regards not marking narrow functions noexcept] You</span>
+<span class="il">should</span> <span class="il">ignore</span> <span class="il">
+this</span> <span class="il">bad</span> <span class="il">advice</span>. Normally 
+I'd say, &quot;IMO&quot; just to be polite, but I don't feel I <span class="il">should</span> 
+do anything to soften <span class="il">this</span> statement. Preconditions and 
+exceptions have no intrinsic relationship, and nothing <span class="il">should</span> 
+be done to artificially connect them.</p>
+</blockquote>
+<p>Alisdair Meredith replying to Dave:</p>
+<blockquote>
+<p>In the wonderful world of well-formed programs, Dave is correct. In the 
+practical world of supporting potentially buggy software, we often want to offer 
+library modes that help users find their problems quickly.</p>
+</blockquote>
+<p>Dave replying to Alisdair:</p>
+<blockquote>
+<p>Such library modes are allowed as extensions and shouldn't be written into 
+the library spec.</p>
+</blockquote>
+<p>Beman Dawes:</p>
+<blockquote>
+<p>In addition to the problems described by Peter and Dave, failing to mark a 
+function nothrow is expensive.<br>
 &nbsp;</p>
+</blockquote>
 <h2>The Problem</h2>
 <p>Clause 17 does not state overall policy for the use of noexcept in the 
 standard library, except to allow implementers to add noexcept to non-virtual 
