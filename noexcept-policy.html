@@ -5,13 +5,91 @@
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
-<title>New Page 1</title>
+<title>noexcept Policy</title>
 </head>
 
 <body>
 
 <h1>Policy for standard library use of noexcept</h1>
+
+<h2>Introduction</h2>
+<p><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/n3279.pdf">
+N3279</a>, <i>Conservative use of noexcept in the Library</i>, specifies the 
+current policy governing use of noexcept in the standard library. The portion of 
+that policy at issue here is the bullet item that reads:</p>
+<blockquote>
+<p>Each library function having a wide contract, that the LWG agree cannot 
+throw, should be marked as unconditionally noexcept.</p>
+</blockquote>
+<p>Wide contract functions are those that never specify behavior as undefined. 
+Narrow contract functions are those that may exhibit undefined behavior, such as 
+functions with <i>Requires</i> elements. Because narrow contract functions are 
+excluded from the policy, they are not allowed to be marked noexcept, even if 
+the LWG agrees the function cannot throw.</p>
+<h2>Problems with current wide/narrow policy</h2>
+<h3>Almost no function is actually wide</h3>
+<p>Peter Dimov: &quot;(almost) no function is actually wide. All functions have 
+implicit requirements that their arguments, *this, and everything else reachable 
+from them be a valid object. (Or, in the case of a constructor, that 'this' 
+points to storage suitable to hold an object.)&quot;</p>
+<h3>Creates creates conflict between Requires and noexcept</h3>
+<p>Peter Dimov: &quot;[The policy is] also wrong because it sets up a conflict. When 
+specifying, say, operator*, we now need to make a choice between adding a 
+Requires clause and a noexcept, the two being mutually exclusive under the wide/narrow theory. This 
+  does not improve the quality of the specification.&quot;</p>
+<p>Dave Abrahams: &quot;Preconditions and exceptions have no intrinsic relationship, 
+and nothing should be done to artificially connect them.&quot;</p>
+<h3>Forces users to pay for something they will not use</h3>
+<p>The motivation for the current policy is allow library implementations to 
+test their assertions of preconditions by throwing exceptions. Ordinary users of 
+the library will have pay the often considerable increased cost of a function 
+that is not marked noexcept even though they will see only assertions on 
+precondition failures and never exceptions.</p>
+<h3>Unnecessarily exposes implementation detail</h3>
+<p>How a library implementation tests itself is an implementation detail. 
+Allowing details of how a library tests itself to escape into the interface is a 
+poor design practice.</p>
+<h2>Proposed resolution</h2>
+<p>Jeffrey Yasskin: &quot;<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2011/n3279.pdf">N3279</a> 
+documents the current guidelines, but these aren't recorded anywhere more 
+official where we could apply patches.&quot;</p>
+<p>Beman Dawes: &quot;Because the policy guidelines are buried in a paper, rather 
+than a working document, they are not subject to sufficient review and 
+oversight.&quot;</p>
+<h2>Proposed wording</h2>
+<p><i>At a location to be determined, in a document to be determined, add:</i></p>
+<blockquote>
+<p>Wide Contracts</p>
+<p>A wide contract for a function or operation does not specify any undefined 
+behavior. Such a contract has no preconditions: A function with a wide contract 
+places no additional runtime constraints on its arguments, on any object state, 
+nor on any external global state. Examples of functions having wide contracts 
+would be vector&lt;T&gt;::begin() and vector&lt;T&gt;::at(size_type) . Examples of functions 
+not having a wide contract would be vector&lt;T&gt;::front() and vector&lt;T&gt;::operator[](size_type) 
+.</p>
+<p>Narrow Contracts</p>
+<p>A narrow contract is a contract which is not wide. Narrow contracts for a 
+functions or operations result in undefined behavior when called in a manner 
+that violates the documented contract. Such a contract specifies at least one 
+precondition involving its arguments, object state, or some external global 
+state, such as the initialization of</p>
+<p>Guidelines for noexcept:</p>
+<ul>
+  <li>No library destructor should throw. They shall use the implicitly supplied 
+  (non- throwing) exception specification. </li>
+  <li>Each library function <del>having a wide contract,</del> that the LWG agree cannot 
+  throw, should be marked as unconditionally noexcept.</li>
+  <li>If a library swap function, move-constructor, or move-assignment operator 
+  is conditionally-wide (i.e. can be proven to not throw by applying the 
+  noexcept operator) then it should be marked as conditionally noexcept. No 
+  other function should use a conditional noexcept specification.</li>
+  <li>Library functions designed for compatibility with “C” code (such as the 
+  atomics facility), may be marked as unconditionally noexcept.</li>
+</ul>
+</blockquote>
+<hr>
 <p>&nbsp;</p>
+<p>N3248 11-0018 noexcept Prevents Library Validation</p>
 <p>&nbsp;</p>
 <p>Peter Dimov:</p>
 <blockquote>
