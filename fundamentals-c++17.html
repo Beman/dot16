@@ -1,0 +1,378 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="Microsoft FrontPage 5.0" />
+  <title>C++17 Fundamentals - </title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link href="data:text/css;charset=utf-8,body%0A%7B%0Afont%2Dfamily%3A%20arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%206%2E75in%3B%0Amargin%3A%200px%20auto%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ains%20%7Bbackground%2Dcolor%3A%20%23CCFFCC%3B%20text%2Ddecoration%3A%20none%3B%7D%0Adel%20%7Bbackground%2Dcolor%3A%20%23FFCACA%3B%20text%2Ddecoration%3A%20none%3B%7D%0Apre%20%7Bbackground%2Dcolor%3A%20%23D7EEFF%3B%20font%2Dsize%3A%2095%25%3B%20font%2Dfamily%3A%20%22courier%20new%22%2C%20courier%2C%20serif%3B%7D%0Acode%20%7Bfont%2Dsize%3A%20110%25%3B%20font%2Dfamily%3A%20%22courier%20new%22%2C%20courier%2C%20serif%3B%7D%0Atable%20%7Bfont%2Dsize%3A%2090%25%3B%7D%0A%0A" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<table>
+<tr>
+  <td align="left">Doc. no.:</td>
+  <td align="left"><span style="background-color:yellow">D0220R0</span></td>
+</tr>
+<tr>
+  <td align="left">Date:</td>
+  <td align="left">016-02-12</td>
+</tr>
+<tr>
+  <td align="left">Reply to:</td>
+  <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;
+</tr>
+<tr>
+  <td align="left">Audience:</td>
+  <td align="left">Library, Library Evolution</td>
+</tr>
+</table>
+<h1>Adopt Library Fundamentals TS for C++17</h1>
+
+
+
+
+<ul>
+<li><span class="marker">2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#mods">Modifications 
+to the C++ Standard Library</a>
+<ul>
+  <li><span class="marker">2.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#mods.allocator.uses">Uses-allocator 
+  construction</a> </li>
+</ul>
+</li>
+<li><span class="marker">3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#utilities">General 
+utilities library</a>
+<ul>
+  <li><span class="marker">3.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#utility">Utility 
+  components</a>
+  <ul>
+    <li><span class="marker">3.1.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#utility.synop">Header 
+    &lt;experimental/utility&gt; synopsis</a> </li>
+    <li><span class="marker">3.1.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#utility.erased.type">Class 
+    erased_type</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">3.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#tuple">Tuples</a>
+  <ul>
+    <li><span class="marker">3.2.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.tuple.synop">Header 
+    &lt;experimental/tuple&gt; synopsis</a> </li>
+    <li><span class="marker">3.2.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#tuple.apply">Calling 
+    a function with a tuple of arguments</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">3.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#meta">Metaprogramming 
+  and type traits</a>
+  <ul>
+    <li><span class="marker">3.3.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#meta.type.synop">Header 
+    &lt;experimental/type_traits&gt; synopsis</a> </li>
+    <li><span class="marker">3.3.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#meta.trans.other">Other 
+    type transformations</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">3.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#ratio">Compile-time 
+  rational arithmetic</a>
+  <ul>
+    <li><span class="marker">3.4.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.ratio.synop">Header 
+    &lt;experimental/ratio&gt; synopsis</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">3.5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#time">Time 
+  utilities</a>
+  <ul>
+    <li><span class="marker">3.5.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.chrono.synop">Header 
+    &lt;experimental/chrono&gt; synopsis</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">3.6</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#syserror">System 
+  error support</a>
+  <ul>
+    <li><span class="marker">3.6.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.system_error.synop">Header 
+    &lt;experimental/system_error&gt; synopsis</a> </li>
+  </ul>
+  </li>
+</ul>
+</li>
+<li><span class="marker">4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func">Function 
+objects</a>
+<ul>
+  <li><span class="marker">4.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.functional.synop">Header 
+  &lt;experimental/functional&gt; synopsis</a> </li>
+  <li><span class="marker">4.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.wrap.func">Class 
+  template function</a>
+  <ul>
+    <li><span class="marker">4.2.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.wrap.func.con">function 
+    construct/copy/destroy</a> </li>
+    <li><span class="marker">4.2.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.wrap.func.mod">function 
+    modifiers</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">4.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers">Searchers</a>
+  <ul>
+    <li><span class="marker">4.3.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers.default">Class 
+    template default_searcher</a>
+    <ul>
+      <li><span class="marker">4.3.1.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers.default.creation">default_searcher 
+      creation functions</a> </li>
+    </ul>
+    </li>
+    <li><span class="marker">4.3.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers.boyer_moore">Class 
+    template boyer_moore_searcher</a>
+    <ul>
+      <li><span class="marker">4.3.2.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers.boyer_moore.creation">boyer_moore_searcher 
+      creation functions</a> </li>
+    </ul>
+    </li>
+    <li><span class="marker">4.3.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers.boyer_moore_horspool">Class 
+    template boyer_moore_horspool_searcher</a>
+    <ul>
+      <li><span class="marker">4.3.3.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#func.searchers.boyer_moore_horspool.creation">boyer_moore_horspool_searcher 
+      creation functions</a> </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+</ul>
+</li>
+<li><span class="marker">5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional">Optional 
+objects</a>
+<ul>
+  <li><span class="marker">5.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.general">In 
+  general</a> </li>
+  <li><span class="marker">5.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.synop">Header 
+  &lt;experimental/optional&gt; synopsis</a> </li>
+  <li><span class="marker">5.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.object">optional 
+  for object types</a>
+  <ul>
+    <li><span class="marker">5.3.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.object.ctor">Constructors</a>
+    </li>
+    <li><span class="marker">5.3.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.object.dtor">Destructor</a>
+    </li>
+    <li><span class="marker">5.3.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.object.assign">Assignment</a>
+    </li>
+    <li><span class="marker">5.3.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.object.swap">Swap</a>
+    </li>
+    <li><span class="marker">5.3.5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.object.observe">Observers</a>
+    </li>
+  </ul>
+  </li>
+  <li><span class="marker">5.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.inplace">In-place 
+  construction</a> </li>
+  <li><span class="marker">5.5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.nullopt">No-value 
+  state indicator</a> </li>
+  <li><span class="marker">5.6</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.bad_optional_access">Class 
+  bad_optional_access</a> </li>
+  <li><span class="marker">5.7</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.relops">Relational 
+  operators</a> </li>
+  <li><span class="marker">5.8</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.nullops">Comparison 
+  with nullopt</a> </li>
+  <li><span class="marker">5.9</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.comp_with_t">Comparison 
+  with T</a> </li>
+  <li><span class="marker">5.10</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.specalg">Specialized 
+  algorithms</a> </li>
+  <li><span class="marker">5.11</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#optional.hash">Hash 
+  support</a> </li>
+</ul>
+</li>
+<li><span class="marker">6</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any">Class 
+any</a>
+<ul>
+  <li><span class="marker">6.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.synop">Header 
+  &lt;experimental/any&gt; synopsis</a> </li>
+  <li><span class="marker">6.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.bad_any_cast">Class 
+  bad_any_cast</a> </li>
+  <li><span class="marker">6.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.class">Class 
+  any</a>
+  <ul>
+    <li><span class="marker">6.3.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.cons">any 
+    construct/destruct</a> </li>
+    <li><span class="marker">6.3.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.assign">any 
+    assignments</a> </li>
+    <li><span class="marker">6.3.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.modifiers">any 
+    modifiers</a> </li>
+    <li><span class="marker">6.3.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.observers">any 
+    observers</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">6.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#any.nonmembers">Non-member 
+  functions</a> </li>
+</ul>
+</li>
+<li><span class="marker">7</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view">string_view</a>
+<ul>
+  <li><span class="marker">7.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.synop">Header 
+  &lt;experimental/string_view&gt; synopsis</a> </li>
+  <li><span class="marker">7.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.template">Class 
+  template basic_string_view</a> </li>
+  <li><span class="marker">7.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.cons">basic_string_view 
+  constructors and assignment operators</a> </li>
+  <li><span class="marker">7.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.iterators">basic_string_view 
+  iterator support</a> </li>
+  <li><span class="marker">7.5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.capacity">basic_string_view 
+  capacity</a> </li>
+  <li><span class="marker">7.6</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.access">basic_string_view 
+  element access</a> </li>
+  <li><span class="marker">7.7</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.modifiers">basic_string_view 
+  modifiers</a> </li>
+  <li><span class="marker">7.8</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.ops">basic_string_view 
+  string operations</a>
+  <ul>
+    <li><span class="marker">7.8.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.find">Searching 
+    basic_string_view</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">7.9</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.comparison">basic_string_view 
+  non-member comparison functions</a> </li>
+  <li><span class="marker">7.10</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.io">Inserters 
+  and extractors</a> </li>
+  <li><span class="marker">7.11</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#string.view.hash">Hash 
+  support</a> </li>
+</ul>
+</li>
+<li><span class="marker">8</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory">Memory</a>
+<ul>
+  <li><span class="marker">8.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.memory.synop">Header 
+  &lt;experimental/memory&gt; synopsis</a> </li>
+  <li><span class="marker">8.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr">Shared-ownership 
+  pointers</a>
+  <ul>
+    <li><span class="marker">8.2.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr.shared">Class 
+    template shared_ptr</a>
+    <ul>
+      <li><span class="marker">8.2.1.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr.shared.const">shared_ptr 
+      constructors</a> </li>
+      <li><span class="marker">8.2.1.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr.shared.obs">shared_ptr 
+      observers</a> </li>
+      <li><span class="marker">8.2.1.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr.shared.cast">shared_ptr 
+      casts</a> </li>
+    </ul>
+    </li>
+    <li><span class="marker">8.2.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr.weak">Class 
+    template weak_ptr</a>
+    <ul>
+      <li><span class="marker">8.2.2.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.smartptr.weak.const">weak_ptr 
+      constructors</a> </li>
+    </ul>
+    </li>
+  </ul>
+  </li>
+  <li><span class="marker">8.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.type.erased.allocator">Type-erased 
+  allocator</a> </li>
+  <li><span class="marker">8.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.synop">Header 
+  &lt;experimental/memory_resource&gt; synopsis</a> </li>
+  <li><span class="marker">8.5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource">Class 
+  memory_resource</a>
+  <ul>
+    <li><span class="marker">8.5.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.overview">Class 
+    memory_resource overview</a> </li>
+    <li><span class="marker">8.5.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.public">memory_resource 
+    public member functions</a> </li>
+    <li><span class="marker">8.5.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.priv">memory_resource 
+    protected virtual member functions</a> </li>
+    <li><span class="marker">8.5.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.eq">memory_resource 
+    equality</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">8.6</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.polymorphic.allocator.class">Class 
+  template polymorphic_allocator</a>
+  <ul>
+    <li><span class="marker">8.6.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.polymorphic.allocator.overview">Class 
+    template polymorphic_allocator overview</a> </li>
+    <li><span class="marker">8.6.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.polymorphic.allocator.ctor">polymorphic_allocator 
+    constructors</a> </li>
+    <li><span class="marker">8.6.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.polymorphic.allocator.mem">polymorphic_allocator 
+    member functions</a> </li>
+    <li><span class="marker">8.6.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.polymorphic.allocator.eq">polymorphic_allocator 
+    equality</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">8.7</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.adaptor">template 
+  alias resource_adaptor</a>
+  <ul>
+    <li><span class="marker">8.7.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.adaptor.overview">resource_adaptor</a>
+    </li>
+    <li><span class="marker">8.7.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.adaptor.ctor">resource_adaptor_imp 
+    constructors</a> </li>
+    <li><span class="marker">8.7.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.adaptor.mem">resource_adaptor_imp 
+    member functions</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">8.8</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.global">Access 
+  to program-wide memory_resource objects</a> </li>
+  <li><span class="marker">8.9</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.pool">Pool 
+  resource classes</a>
+  <ul>
+    <li><span class="marker">8.9.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.pool.overview">Classes 
+    synchronized_pool_resource and unsynchronized_pool_resource</a> </li>
+    <li><span class="marker">8.9.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.pool.options">pool_options 
+    data members</a> </li>
+    <li><span class="marker">8.9.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.pool.ctor">pool 
+    resource constructors and destructors</a> </li>
+    <li><span class="marker">8.9.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.pool.mem">pool 
+    resource members</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">8.10</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.monotonic.buffer">Class 
+  monotonic_buffer_resource</a>
+  <ul>
+    <li><span class="marker">8.10.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.monotonic.buffer.overview">Class 
+    monotonic_buffer_resource overview</a> </li>
+    <li><span class="marker">8.10.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.monotonic.buffer.ctor">monotonic_buffer_resource 
+    constructor and destructor</a> </li>
+    <li><span class="marker">8.10.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.monotonic.buffer.mem">monotonic_buffer_resource 
+    members</a> </li>
+  </ul>
+  </li>
+  <li><span class="marker">8.11</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#memory.resource.aliases">Alias 
+  templates using polymorphic memory resources</a>
+  <ul>
+    <li><span class="marker">8.11.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.string.synop">Header 
+    &lt;experimental/string&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.deque.synop">Header 
+    &lt;experimental/deque&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.forward_list.synop">Header 
+    &lt;experimental/forward_list&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.4</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.list.synop">Header 
+    &lt;experimental/list&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.5</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.vector.synop">Header 
+    &lt;experimental/vector&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.6</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.map.synop">Header 
+    &lt;experimental/map&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.7</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.set.synop">Header 
+    &lt;experimental/set&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.8</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.unordered_map.synop">Header 
+    &lt;experimental/unordered_map&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.9</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.unordered_set.synop">Header 
+    &lt;experimental/unordered_set&gt; synopsis</a> </li>
+    <li><span class="marker">8.11.10</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.regex.synop">Header 
+    &lt;experimental/regex&gt; synopsis</a> </li>
+  </ul>
+  </li>
+</ul>
+</li>
+<li><span class="marker">9</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#futures">Futures</a>
+<ul>
+  <li><span class="marker">9.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.future.synop">Header 
+  &lt;experimental/future&gt; synopsis</a> </li>
+  <li><span class="marker">9.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#futures.promise">Class 
+  template promise</a> </li>
+  <li><span class="marker">9.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#futures.task">Class 
+  template packaged_task</a> </li>
+</ul>
+</li>
+<li><span class="marker">10</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#algorithms">Algorithms 
+library</a>
+<ul>
+  <li><span class="marker">10.1</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#header.algorithm.synop">Header 
+  &lt;experimental/algorithm&gt; synopsis</a> </li>
+  <li><span class="marker">10.2</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#alg.search">Search</a>
+  </li>
+  <li><span class="marker">10.3</span><a href="file:///C:/dot16/mailings/2015-04-pre-Lenexa/n4480.html#alg.random.sample">Shufﬂing 
+  and sampling</a> </li>
+</ul>
+</li>
+</ul>
+<p>&nbsp;</p>
+<hr>
+<p>&nbsp;</p>
+</body>
+</html>
