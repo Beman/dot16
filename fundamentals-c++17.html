@@ -6,9 +6,8 @@
   <meta name="generator" content="Microsoft FrontPage 5.0" />
   <title>C++17 Fundamentals - </title>
   <style type="text/css">code{white-space: pre;}</style>
-  <link href="data:text/css;charset=utf-8,body%0A%7B%0Afont%2Dfamily%3A%20arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%206%2E75in%3B%0Amargin%3A%200px%20auto%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ains%20%7Bbackground%2Dcolor%3A%20%23CCFFCC%3B%20text%2Ddecoration%3A%20none%3B%7D%0Adel%20%7Bbackground%2Dcolor%3A%20%23FFCACA%3B%20text%2Ddecoration%3A%20none%3B%7D%0Apre%20%7Bbackground%2Dcolor%3A%20%23D7EEFF%3B%20font%2Dsize%3A%2095%25%3B%20font%2Dfamily%3A%20%22courier%20new%22%2C%20courier%2C%20serif%3B%7D%0Acode%20%7Bfont%2Dsize%3A%20110%25%3B%20font%2Dfamily%3A%20%22courier%20new%22%2C%20courier%2C%20serif%3B%7D%0Atable%20%7Bfont%2Dsize%3A%2090%25%3B%7D%0A%0A" rel="stylesheet" type="text/css" />
-
-  <base href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4480.html" />
+  <link href="data:text/css;charset=utf-8,body%0A%7B%0Afont%2Dfamily%3A%20arial%2C%20sans%2Dserif%3B%0Amax%2Dwidth%3A%206%2E85in%3B%0Amargin%3A%200px%20auto%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ains%20%7Bbackground%2Dcolor%3A%20%23CCFFCC%3B%20text%2Ddecoration%3A%20none%3B%7D%0Adel%20%7Bbackground%2Dcolor%3A%20%23FFCACA%3B%20text%2Ddecoration%3A%20none%3B%7D%0Apre%20%7Bbackground%2Dcolor%3A%20%23D7EEFF%3B%20font%2Dsize%3A%2095%25%3B%20font%2Dfamily%3A%20%22courier%20new%22%2C%20courier%2C%20serif%3B%7D%0Acode%20%7Bfont%2Dsize%3A%20110%25%3B%20font%2Dfamily%3A%20%22courier%20new%22%2C%20courier%2C%20serif%3B%7D%0Atable%20%7Bfont%2Dsize%3A%2090%25%3B%7D%0A%0A" rel="stylesheet" type="text/css" />
+  <base href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4562.html" />
 </head>
 <body>
 <table>
@@ -18,8 +17,7 @@
 </tr>
 <tr>
   <td align="left">Date:</td>
-  <td align="left">2016-02-12</td>
-</tr>
+  <td align="left">2016-03-03
 <tr>
   <td align="left">Reply to:</td>
   <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;, Alisdair Meredith
@@ -32,12 +30,8 @@
 <h1>Adopt Library Fundamentals V1 TS Components for C++17 (R1)</h1>
 
 
-
-
 <p>There are currently several proposals in flight to adopt portions of the 
 Library Fundamentals Technical Specification for C++17.</p>
-
-
 
 
 <p>The difficulty of such a piecemeal approach is twofold. It adds a lot of 
@@ -47,76 +41,29 @@ no one notices or because no one is willing to go through the drudgery of
 writing yet another proposal and shepherding it through the committee.</p>
 
 
-
-
 <p>This paper proposes that the components of TS
 <cxx-project-number>19568, <i>C++ Extensions for Library Fundamentals</i>, 
 listed below be adopted into the C++17 working paper. </cxx-project-number>
 The list was initialized with all of the components from
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4480.html">
-N4480, the Library Fundamentals DTS</a>. The intent is that LWG/LEWG will strike 
-any components they do not want included in C++17 or wish to process as separate 
-proposals.</p>
-
-
-
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4562.html">
+N4562, the Library Fundamentals DTS</a>, <ins>and the LWG/LEWG then struck any
+components that should not be incorporated directly into C++17.  This most
+recent working paper has identical content to the PDTS, but has a format with
+HTML anchors that can be directly linked from this paper.</ins></p>
+<p><ins>
+As a follow-up edit, the update to several exisiting C++17 header synopses
+is provided directly in this paper, to more clearly specify edits for just
+the new components being incorporated.
+</ins></p>
 
 <ul>
-<li><del>2 <a href="#mods">Modifications 
-to the C++ Standard Library</del></a>
-<ul>
-  <li><del>2.1 <a href="#mods.allocator.uses">Uses-allocator 
-  construction</a></del></li>
-</ul>
-</li>
 <li>3 <a href="#utilities">General 
 utilities library</a>
 <ul>
-  <li><del>3.1 <a href="#utility">Utility 
-  components</a></del>
-  <ul>
-    <li><del>3.1.1 <a href="#utility.synop">Header 
-    &lt;experimental/utility&gt; synopsis</a></del></li>
-    <li><del>3.1.2 <a href="#utility.erased.type">Class 
-    erased_type</a></del></li>
-  </ul>
-  </li>
   <li>3.2 <a href="#tuple">Tuples</a>
   <ul>
-    <li>3.2.1 <a href="#header.tuple.synop">Header 
-    &lt;experimental/tuple&gt; synopsis</a> </li>
     <li>3.2.2 <a href="#tuple.apply">Calling 
     a function with a tuple of arguments</a> </li>
-  </ul>
-  </li>
-  <li><del>3.3 <a href="#meta">Metaprogramming 
-  and type traits</del></a>
-  <ul>
-    <li><del>3.3.1 <a href="#meta.type.synop">Header 
-    &lt;experimental/type_traits&gt; synopsis</a></del></li>
-    <li><del>3.3.2 <a href="#meta.trans.other">Other 
-    type transformations</a></del></li>
-  </ul>
-  </li>
-  <li><del>3.4 <a href="#ratio">Compile-time 
-  rational arithmetic</del></a>
-  <ul>
-    <li><del>3.4.1 <a href="#header.ratio.synop">Header 
-    &lt;experimental/ratio&gt; synopsis</a></del></li>
-  </ul>
-  </li>
-  <li><del>3.5 <a href="#time">Time 
-  utilities</del></a>
-  <ul>
-    <li><del>3.5.1 <a href="#header.chrono.synop">Header 
-    &lt;experimental/chrono&gt; synopsis</a></del></li>
-  </ul>
-  </li>
-  <li><del>3.6 <a href="#syserror">System 
-  error support</del></a>
-  <ul>
-    <li><del>3.6.1 <a href="#header.system_error.synop">Header 
-    &lt;experimental/system_error&gt; synopsis</a></del></li>
   </ul>
   </li>
 </ul>
@@ -124,17 +71,6 @@ utilities library</a>
 <li>4 <a href="#func">Function 
 objects</a>
 <ul>
-  <li>4.1 <a href="#header.functional.synop">Header 
-  &lt;experimental/functional&gt; synopsis</a> </li>
-  <li><del>4.2 <a href="#func.wrap.func">Class 
-  template function</del></a>
-  <ul>
-    <li><del>4.2.1 <a href="#func.wrap.func.con">function 
-    construct/copy/destroy</a></del></li>
-    <li><del>4.2.2 <a href="#func.wrap.func.mod">function 
-    modifiers</a></del></li>
-  </ul>
-  </li>
   <li>4.3 <a href="#func.searchers">Searchers</a>
   <ul>
     <li>4.3.1 <a href="#func.searchers.default">Class 
@@ -259,8 +195,6 @@ any</a>
 </li>
 <li>8 <a href="#memory">Memory</a>
 <ul>
-  <li>8.1 <a href="#header.memory.synop">Header 
-  &lt;experimental/memory&gt; synopsis</a> </li>
   <li>8.2 <a href="#memory.smartptr">Shared-ownership 
   pointers</a>
   <ul>
@@ -284,10 +218,6 @@ any</a>
     </li>
   </ul>
   </li>
-  <li><del>8.3 <a href="#memory.type.erased.allocator">Type-erased 
-  allocator</a></del></li>
-  <li>8.4 <a href="#memory.resource.synop">Header 
-  &lt;experimental/memory_resource&gt; synopsis</a> </li>
   <li>8.5 <a href="#memory.resource">Class 
   memory_resource</a>
   <ul>
@@ -312,17 +242,6 @@ any</a>
     member functions</a> </li>
     <li>8.6.4 <a href="#memory.polymorphic.allocator.eq">polymorphic_allocator 
     equality</a> </li>
-  </ul>
-  </li>
-  <li><del>8.7 <a href="#memory.resource.adaptor">template 
-  alias resource_adaptor</a></del>
-  <ul>
-    <li><del>8.7.1 <a href="#memory.resource.adaptor.overview">resource_adaptor</a>
-    </del></li>
-    <li><del>8.7.2 <a href="#memory.resource.adaptor.ctor">resource_adaptor_imp 
-    constructors</a></del></li>
-    <li><del>8.7.3 <a href="#memory.resource.adaptor.mem">resource_adaptor_imp 
-    member functions</a></del></li>
   </ul>
   </li>
   <li>8.8 <a href="#memory.resource.global">Access 
@@ -378,16 +297,6 @@ any</a>
   </li>
 </ul>
 </li>
-<li><del>11 <a href="#futures">Futures</a></del>
-<ul>
-  <li><del>11.1 <a href="#header.future.synop">Header 
-  &lt;experimental/future&gt; synopsis</a></del></li>
-  <li><del>11.2 <a href="#futures.promise">Class 
-  template promise</a></del></li>
-  <li><del>11.3 <a href="#futures.task">Class 
-  template packaged_task</a></del></li>
-</ul>
-</li>
 <li>12 <a href="#algorithms">Algorithms 
 library</a>
 <ul>
@@ -403,16 +312,110 @@ library</a>
 <section>
 <h2 id="directions">Directions to the C++ working paper project editor</h2>
 <p>Add the components in the above list to the <cite>C++ working paper</cite> 
-using the content for each component from the latest version of the Library 
-Fundamentals V2 working paper. Move this content from the
-<code>std::experimental::fundamentals_v2</code> namespace to the <code>std</code> 
-namespace. <ins>Strike <code>experimental/</code> from the header names.</ins></p>
+using the content for each component from
+<ins><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4562.html">
+N4562, the Library Fundamentals DTS</a></ins>. Move this content from the
+<code>std::experimental::fundamentals_v2</code> <ins>inline</ins> namespace to the <code>std</code> 
+namespace. <ins>Strike <code>experimental/</code> from the header names, and any
+additional <tt>#include</tt> directives in those header synopses.</ins></p>
 <p>Note: Although we are adopting only the specified Library Fundamentals V1 
 components into the C++ working paper, the wording from those components comes 
 from Library Fundamentals V2 to ensure the wording includes the latest 
 corrections.</p>
 </section>
+
+
+<p>
+<i>In addition, make the following changed to the header synposis clauses for
+the following standard headers, with wording changes relative to
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4567.pdf">
+N4567</a>, the current C++17 working draft.</i>
+</p>
+
+<h2>20.4 Tuples [tuple]</h2>
+<h3>20.4.1 In general [tuple.general]</h3>
+<p>2 <b>Header &lt;tuple&gt; synopsis</b></p>
+<pre>
+namespace std {
+  <i>// 20.4.2.9, specialized algorithms:</i>
+  template &lt;class... Types&gt;
+  void swap(tuple&lt;Types...&gt;&amp; x, tuple&lt;Types...&gt;&amp; y) noexcept(<i>see below</i>);
+  <ins><i>// 20.4.2.X, Calling a function with a tuple of arguments</i></ins>
+  <ins>template &lt;class F, class Tuple&gt;</ins>
+  <ins>constexpr decltype(auto) apply(F&amp;&amp; f, Tuple&amp;&amp; t);</ins>
+}
+</pre>
+<h2>20.9 Function objects [function.objects]</h2>
+<p>2 <b>Header <functional> synopsis</b></p>
+<pre>
+namespace std {
+  <ins><i>// 20.9.x, Searchers</i></ins>
+  <ins>template&lt;class ForwardIterator, class BinaryPredicate = equal_to&lt;&gt;&gt;</ins>
+    <ins>class default_searcher;</ins>
+  <ins>template&lt;class RandomAccessIterator,</ins>
+      <ins>class Hash = hash&lt;typename iterator_traits&lt;RandomAccessIterator&gt;::value_type&gt;,</ins>
+      <ins>class BinaryPredicate = equal_to&lt;&gt;&gt;</ins>
+    <ins>class boyer_moore_searcher;</ins>
+  <ins>template&lt;class RandomAccessIterator,</ins>
+      <ins>class Hash = hash&lt;typename iterator_traits&lt;RandomAccessIterator&gt;::value_type&gt;,</ins>
+      <ins>class BinaryPredicate = equal_to&lt;&gt;&gt;</ins>
+    <ins>class boyer_moore_horspool_searcher;</ins>
+
+  <ins>template&lt;class ForwardIterator, class BinaryPredicate = equal_to&lt;&gt;&gt;</ins>
+  <ins>default_searcher&lt;ForwardIterator, BinaryPredicate&gt;</ins>
+  <ins>make_default_searcher(ForwardIterator pat_first, ForwardIterator pat_last,</ins>
+                        <ins>BinaryPredicate pred = BinaryPredicate());</ins>
+  <ins>template&lt;class RandomAccessIterator,</ins>
+     <ins>class Hash = hash&lt;typename iterator_traits&lt;RandomAccessIterator&gt;::value_type&gt;,</ins>
+     <ins>class BinaryPredicate = equal_to&lt;&gt;&gt;</ins>
+  <ins>boyer_moore_searcher&lt;RandomAccessIterator, Hash, BinaryPredicate&gt;</ins>
+  <ins>make_boyer_moore_searcher(</ins>
+      <ins>RandomAccessIterator pat_first, RandomAccessIterator pat_last,</ins>
+      <ins>Hash hf = Hash(), BinaryPredicate pred = BinaryPredicate());</ins>
+  <ins>template&lt;class RandomAccessIterator,</ins>
+     <ins>class Hash = hash&lt;typename iterator_traits&lt;RandomAccessIterator&gt;::value_type&gt;,</ins>
+     <ins>class BinaryPredicate = equal_to&lt;&gt;&gt;</ins>
+  <ins>boyer_moore_horspool_searcher&lt;RandomAccessIterator, Hash, BinaryPredicate&gt;</ins>
+  <ins>make_boyer_moore_horspool_searcher(</ins>
+     <ins>RandomAccessIterator pat_first, RandomAccessIterator pat_last,</ins>
+     <ins>Hash hf = Hash(), BinaryPredicate pred = BinaryPredicate());</ins>
+}
+</pre>
+
+<p>
+<i>Add the following new header synopsis, immediately preceding the additions for
+<a href="#memory.resource">8.5 Class memory_resource</a></i>
+</p>
+
+<h2>20.9.x Polymorphic Memory Resources [memory.polymorphic.resource]</h2>
+<h3>20.9.X.1 Header <tt>&lt;memory_resource&gt;</tt> synopsis [memory.resource.synop]</h3>
+<pre>
+namespace std::pmr {
+  class memory_resource;
+  bool operator==(const memory_resource&amp; a,
+                  const memory_resource&amp; b) noexcept;
+  bool operator!=(const memory_resource&amp; a,
+                  const memory_resource&amp; b) noexcept;
+  template &lt;class Tp&gt; class polymorphic_allocator;
+  template &lt;class T1, class T2&gt;
+  bool operator==(const polymorphic_allocator&lt;T1&gt;&amp; a,
+                  const polymorphic_allocator&lt;T2&gt;&amp; b) noexcept;
+  template &lt;class T1, class T2&gt;
+  bool operator!=(const polymorphic_allocator&lt;T1&gt;&amp; a,
+                  const polymorphic_allocator&lt;T2&gt;&amp; b) noexcept;
+  <i>// Global memory resources</i>
+  memory_resource* new_delete_resource() noexcept;
+  memory_resource* null_memory_resource() noexcept;
+  <i>// The default memory resource</i>
+  memory_resource* set_default_resource(memory_resource* r) noexcept;
+  memory_resource* get_default_resource() noexcept;
+  <i>// Standard memory resources</i>
+  struct pool_options;
+  class synchronized_pool_resource;
+  class unsynchronized_pool_resource;
+  class monotonic_buffer_resource;
+} </i>// namespace std::pmr</i></pre>
+
 <hr>
-<p>&nbsp;</p>
 </body>
 </html>
