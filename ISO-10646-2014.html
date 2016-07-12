@@ -1,0 +1,127 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+body
+{
+  font-family: arial, sans-serif;
+  max-width: 6.75in;
+  margin: 0px auto;
+  font-size: 85%;
+}
+ ins  {background-color: #CCFFCC; text-decoration: none;}
+ del  {background-color: #FFCACA; text-decoration: none;}
+ pre  {background-color: #D7EEFF; font-size: 95%; font-family: "courier new", courier, serif;}
+ code {font-family: "courier new", courier, serif;}
+ table {font-size: 90%;}
+</style>
+<title>ISO 10646:2014</title>
+</head>
+
+<body>
+<table>
+<tr>
+  <td align="left">Doc. no.:</td>
+  <td align="left"><span style="background-color:yellow">D????R0</span></td>
+</tr>
+<tr>
+  <td align="left">Date:</td>
+  <td align="left">
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-07-12<!--webbot bot="Timestamp" endspan i-checksum="12459" --></td>
+</tr>
+<tr>
+  <td align="left">Reply to:</td>
+  <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;
+</tr>
+<tr>
+  <td align="left">Audience:</td>
+  <td align="left">Core, Library</td>
+</tr>
+</table>
+
+<h1 dir="ltr">C++17 should refer to ISO/IEC 10646:2014 instead of 1994</h1>
+
+<p dir="ltr">ISO standards are only supposed to have normative references to the 
+latest version of other ISO standards, yet the C++17 CD still refers to <i>ISO/IEC 10646-1:1993, Information 
+technology — Universal Multiple-Octet Coded Character Set (UCS)— Part 1: 
+Architecture and Basic Multilingual Plane</i>.</p>
+
+<p dir="ltr">There have been three revisions of 10646 since then, and the name 
+has also been changed. The current reference should be <i>ISO/IEC 10646:2014, 
+Information technology — Universal Coded Character Set (UCS)</i>.<br>
+<br>
+See 
+<a href="http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html">http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html</a> 
+for a copy of ISO/IEC 10646:2014.</p>
+
+<p dir="ltr">It is important to update this reference so that terms used in 
+C++17 based on that reference such as &quot;UTF-8&quot;, &quot;UTF-16&quot;, and &quot;UTF-32&quot; have their 
+latest meaning, deprecated terms like &quot;UCS2&quot; can be replaced by current 
+terminology, and dated terms like &quot;UCS4&quot; can be replaced by current forms.</p>
+
+<h2 dir="ltr">Proposed changes</h2>
+
+<h3 dir="ltr">1.2 Normative references [intro.refs]</h3>
+
+<p dir="ltr">...</p>
+
+<p dir="ltr">— ISO/IEC 10646<del>-1:1993, <i>Information technology — Universal 
+Multiple-Octet Coded Character Set (UCS)</i> — Part 1: Architecture and Basic 
+Multilingual Plane</del> <ins>:2014, <i>Information technology — Universal Coded 
+Character Set (UCS)</i></ins></p>
+
+<h3 dir="ltr">22.5 Standard code conversion facets [locale.stdcvt]</h3>
+
+<p dir="ltr">...</p>
+
+<p dir="ltr">For the facet <code>codecvt_utf8</code>:</p>
+
+<blockquote>
+
+<p dir="ltr">— The facet shall convert between UTF-8 multibyte sequences and 
+<del>UCS2</del> <ins>UTF-16</ins> or <del>UCS4</del> <ins>UTF-32</ins> (depending on the size
+of Elem) within the program.</p>
+
+</blockquote>
+
+<p dir="ltr">...</p>
+
+<p dir="ltr">For the facet codecvt_utf16:</p>
+
+<blockquote>
+
+<p dir="ltr">— The facet shall convert between UTF-16 multibyte sequences and 
+<del>UCS2</del> <ins>UTF-16</ins> or <del>UCS4</del> <ins>UTF-32</ins> 
+(depending on the size of Elem) within the program.</p>
+
+</blockquote>
+<hr>
+
+<p dir="ltr">&nbsp;</p>
+
+<p dir="ltr">As a result of changes to 10646, the WP's use of the terms &quot;UCS2&quot; and &quot;UCS4&quot; in 
+two places in [locale.stdcvt] should be changed to &quot;UTF-16&quot; and &quot;UTF-32&quot;, 
+respectively IMO.<br>
+<br>
+&quot;UCS2&quot; and &quot;UCS4&quot; don't even appear in 10646:2014, the forms used are &quot;UCS-2&quot; 
+and &quot;UCS-4&quot;. &quot;UCS-2&quot; is deprecated. Section 9.4 UTF-32 (UCS-4) says &quot;The terms 
+UTF-32 and UCS-4 can be used interchangeably to designate this encoding form.&quot; 
+IMO the WP should change to &quot;UTF-32&quot; since &quot;UCS-4&quot; sounds like something left 
+over from the dark ages.</p>
+
+<p dir="ltr">&nbsp;</p>
+
+<p dir="ltr">Are any changes needed in Annex E (normative) Universal character 
+names for identifier characters [charname]?</p>
+
+<hr>
+
+<p dir="ltr"><br>
+&nbsp;</p>
+
+</body>
+
+</html>
