@@ -1,0 +1,195 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+body
+{
+  font-family: arial, sans-serif;
+  max-width: 6.75in;
+  margin: 0px auto;
+  font-size: 85%;
+}
+ ins  {background-color: #CCFFCC; text-decoration: none;}
+ del  {background-color: #FFCACA; text-decoration: none;}
+ pre  {background-color: #D7EEFF; font-size: 95%; font-family: "courier new", courier, serif;}
+ code {font-family: "courier new", courier, serif;}
+ table {font-size: 90%;}
+</style>
+<title>Character encoding</title>
+</head>
+
+<body>
+
+<h2>Character Encoding</h2>
+<h3>2.13.3 Character literals [lex.ccon]</h3>
+<p><sup>2</sup> A character literal that does not begin with <code>u8</code>, 
+<code>u</code>, <code>U</code>, or 
+<code>L</code> is an <i>ordinary character literal</i>. An ordinary character literal that contains 
+a single <i>c-char</i> representable in the execution character set has type 
+<code>char</code>, with 
+value equal to the numerical value of the encoding of the <i>c-char</i> in the 
+execution character set. An ordinary character literal that contains more than 
+one <i>c-char</i> is a <i>multicharacter</i> literal. A multicharacter literal, 
+or an ordinary character literal containing a single <i>c-char</i> not 
+representable in the execution character set, is conditionally-supported, has 
+type <code>int</code>, and has an implementation-defined value.</p>
+<p><sup>3</sup> A character literal that begins with <code>u8</code>, such as
+<code>u8’w</code>’, is a character literal of type <code>char</code>, known as a
+<i>UTF-8<br>
+character literal</i>. The value of a UTF-8 character literal is equal to its 
+ISO 10646 code point value, provided<br>
+that the code point value is representable with a single UTF-8 code unit (that 
+is, provided it is in the C0<br>
+Controls and Basic Latin Unicode block). If the value is not representable with 
+a single UTF-8 code unit,<br>
+the program is ill-formed. A UTF-8 character literal containing multiple <i>
+c-chars</i> is ill-formed.\</p>
+<p><sup>4</sup> A character literal that begins with the letter <code>u</code>, 
+such as <code>u’x’</code>, is a character literal of type <code>char16_t</code>. 
+The<br>
+value of a <code>char16_t</code> literal containing a single <i>c-char</i> is 
+equal to its ISO 10646 code point value, provided that<br>
+the code point is representable with a single 16-bit code unit. (That is, 
+provided it is a basic multi-lingual<br>
+plane code point.) If the value is not representable within 16 bits, the program 
+is ill-formed. A <code>char16_t</code><br>
+literal containing multiple <i>c-chars</i> is ill-formed.</p>
+<p><sup>5</sup> A character literal that begins with the letter <code>U</code>, 
+such as <code>U’y’</code>, is a character literal of type <code>char32_t</code>. 
+The<br>
+value of a <code>char32_t</code> literal containing a single <i>c-char</i> is 
+equal to its ISO 10646 code point value. A <code>char32_t</code><br>
+literal containing multiple <i>c-chars</i> is ill-formed.</p>
+<p><sup>6</sup> A character literal that begins with the letter <code>L</code>, such as
+<code>L’z’</code>, is a wide-character literal. A wide-character literal has type
+<code>wchar_t</code>. 
+The value of a wide-character literal containing a single <i>c-char</i> has value equal 
+to the numerical value of the encoding of the <i>c-char</i> in the execution 
+wide-character set, unless the <i>c-char</i> has no representation in the execution 
+wide-character set, in which case the value is implementation-defined. [ Note: 
+The type <code>wchar_t </code>is able to represent all members of the execution 
+wide-character set (see 3.9.1). —end note ]. The value of a wide-character 
+literal containing multiple <i>c-chars</i> is implementation-defined.</p>
+<h3 dir="ltr">2.13.5 String literals [lex.string]</h3>
+<p dir="ltr"><sup>7</sup> A <i>string-literal</i> that begins with <code>u8</code>, 
+such as <code>u8&quot;asdf&quot;</code>, is a UTF-8 string literal.</p>
+<p dir="ltr"><sup>8</sup> Ordinary string literals and UTF-8 string literals are 
+also referred to as narrow string literals. A narrow string literal has type 
+“array of <i>n</i> <code>const char</code>”, where <i>n</i> is the size of the 
+string as defined below, and has static storage duration (3.7).</p>
+<p dir="ltr"><sup>9</sup> For a UTF-8 string literal, each successive element of 
+the object representation (3.9) has the value of the corresponding code unit of 
+the UTF-8 encoding of the string.</p>
+<p dir="ltr"><sup>10</sup> A <i>string-literal</i> that begins with <code>u</code>, 
+such as <code>u&quot;asdf&quot;</code>, is a <code>char16_t</code> string literal. A <code>
+char16_t</code> string literal has type “array of <i>n</i> <code>const char16_t</code>”, 
+where <i>n</i> is the size of the string as defined below; <del>it is initialized 
+with the given characters<del>. A single <i>c-char</i> may produce more than one
+<code>char16_t</code> character in the form of surrogate pairs.</p>
+<p dir="ltr"><sup>11</sup> A <i>string-literal</i> that begins with <code>U</code>, 
+such as <code>U&quot;asdf&quot;</code>, is a <code>char32_t</code> string literal. A <code>
+char32_t</code> string literal has type “array of <i>n</i> <code>const char32_t</code>”, 
+where <i>n</i> is the size of the string as defined below; it is initialized 
+with the given characters.</p>
+<p dir="ltr"><sup>12</sup> A <i>string-literal</i> that begins with <code>L</code>, 
+such as <code>L&quot;asdf&quot;</code>, is a wide string literal. A wide string literal 
+has type “array of <i>n</i> <code>const wchar_t</code>”, where <i>n</i> is the 
+size of the string as defined below; it is initialized with the given 
+characters.</p>
+<p dir="ltr"><sup>15</sup> Escape sequences and universal-character-names in 
+non-raw string literals have the same meaning as in character literals (2.13.3), 
+except that the single quote <code>’</code> is representable either by itself or 
+by the escape sequence <code>\’</code>, and the double quote <code>&quot;</code> 
+shall be preceded by a <code>\</code>, and except that a 
+universal-character-name in a <code>char16_t</code> string literal may yield a 
+surrogate pair. In a narrow string literal, a universal-character-name may map 
+to more than one char element due to multibyte encoding. The size of a <code>
+char32_t</code> or wide string literal is the total number of escape sequences, 
+universal-character-names, and other characters, plus one for the terminating
+<code>U’\0’</code> or <code>L’\0’</code>. The size of a <code>char16_t</code> 
+string literal is the total number of escape sequences, 
+universal-character-names, and other characters, plus one for each character 
+requiring a surrogate pair, plus one for the terminating <code>u’\0’</code>. [ 
+Note: The size of a <code>char16_t</code> string literal is the number of code 
+units, not the number of characters. —end note ] Within <code>char32_t</code> 
+and <code>char16_t</code> literals, any universal-character-names shall be 
+within the range <code>0x0</code> to <code>0x10FFFF</code>. The size of a narrow 
+string literal is the total number of escape sequences and other characters, 
+plus at least one for the multibyte encoding of each universal-character-name, 
+plus one for the terminating <code>’\0’</code>.</p>
+<h3>2.3 Character sets [lex.charset]</h3>
+<p><sup>3</sup> The <i>basic execution character set</i> and the <i>basic execution wide-character set</i> 
+shall each contain all the members of the basic source character set, plus 
+control characters representing alert, backspace, and carriage return, plus a 
+<i>null character </i>(respectively, <i>null wide character</i>), whose value is 0. For each 
+basic execution character set, the values of the members shall be non-negative 
+and distinct from one another. In both the source and execution basic character 
+sets, the value of each character after 0 in the above list of decimal digits 
+shall be one greater than the value of the previous. The <i>execution character set</i> 
+and the <i>execution wide-character set</i> are implementation-defined supersets of the 
+basic execution character set and the basic execution wide-character set, 
+respectively. The values of the members of the execution character sets and the 
+sets of additional members are locale-specific.</p>
+<h3>3.9.1 Fundamental types [basic.fundamental]</h3>
+<p><sup>5</sup> Type <code>wchar_t</code> is a distinct type whose values can represent 
+distinct codes for all members of the largest extended character set specified 
+among the supported locales (22.3.1). Type <code>wchar_t</code> shall have the 
+same size, signedness, and alignment requirements (3.11) as one of the other 
+integral types, called its underlying type. Types <code>char16_t</code> and
+<code>char32_t</code> denote distinct types with the same size, signedness, and 
+alignment as <code>uint_least16_t</code> and <code>uint_least32_t</code>, 
+respectively, in <code>&lt;cstdint&gt;</code>, called the underlying types.</p>
+<h3>16.8 Predefined macro names [cpp.predefined]</h3>
+<p><sup>2</sup> <code>__STDC_ISO_10646__</code><br>
+An integer literal of the form <code>yyyymmL</code> (for example, <code>199712L</code>). 
+If this symbol is defined, then every<br>
+character in the Unicode required set, when stored in an object of type <code>
+wchar_t</code>, has the same value as<br>
+the short identifier of that character. The <i>Unicode required set </i>consists 
+of all the characters that are<br>
+defined by ISO/IEC 10646, along with all amendments and technical corrigenda as 
+of the specified year<br>
+and month</p>
+<hr>
+<p>There is an ever increasing trend is for the execution wide-character set to 
+be Unicode, and thus the encoding of wide strings to be UTF-8, 16, or 32 
+depending on the size of <code>wchar_t</code>. </p>
+<p>Type <code>wchar_t</code> is a distinct type whose values can <b>possibly</b> represent 
+distinct <b>code units</b> for all <b>code points</b> of the largest extended character set 
+<b>(i.e. Unicode)</b> specified 
+among the supported locales (22.3.1). </p>
+<hr>
+<p><i>Problem: Does &quot;distinct codes&quot; mean &quot;distinct code points&quot; or &quot;distinct 
+code units&quot;? Existing implementations, such as Windows, where wchar_t is UTF-16 
+encoded assume &quot;distinct code units&quot;.</i></p>
+<p><i>Problem: There is no normative definition of &quot;extended 
+character set&quot;. There is only a non-normative note in 1.3.14 multibyte character [defns.multibyte] 
+that says &quot;[Note: The extended character set is a superset of the basic 
+character set (2.3).—end note ] and it is a stretch to understand how to apply 
+that &quot;</i></p>
+<p><i>Problem: Neither 22.3.1 nor anywhere else in 22 specifies what the 
+supported locals are. We can guess that the global local and the C locale are 
+supported, and perhaps any locale that can be constructed without error is 
+supported, but that is never stated.</i></p>
+<p><i>Problem: Even if supported locales were defined, locales do not appear to 
+have character sets specified, except perhaps by guessing based on the name.</i></p>
+
+<p><b><i>Problem: 2.13.5 String literals [lex.string] says what the encoding of 
+UTF-8 string literals is. It does not say what the encoding of char16_t string 
+literals, char32_string literals, or wchar_t string literals is or how it is 
+determined. (Although given the references to &quot;surrogate pairs&quot; and &quot;code units&quot; 
+it is hard to see how char16_t string literals could be anything other than 
+UTF-16.)</i></b></p>
+
+<p><i>Problem: The standard library has some components, such as class path 
+native format observers (27.10.8.4.6) that cannot be implemented without knowing 
+the encoding of various kinds of strings or, alternately, need to specify what 
+string encodings they assume.</i></p>
+
+</body>
+
+</html>
