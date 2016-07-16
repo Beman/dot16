@@ -78,7 +78,7 @@ literal containing multiple <i>c-chars</i> is implementation-defined.</del> <ins
 equal to its ISO 10646 code point value, provided that the code point value is 
 representable with a single UTF encoded code unit. If the value is not representable 
 with a single UTF encoded code unit, the program is ill-formed. The specific 
-UTF encoding is determined by the size of <code>wchar_t</code>. A <code>char16_t</code>&nbsp;literal 
+UTF encoding is determined by the size of <code>wchar_t</code>. A <code>wchar_t</code>&nbsp;literal 
 containing multiple <i>c-chars</i> is ill-formed.</ins></p>
 
 <h3>2.13.5 String literals [lex.string]</h3>
@@ -137,15 +137,16 @@ string literal is the total number of escape sequences and other characters,
 plus at least one for the multibyte encoding of each universal-character-name, 
 plus one for the terminating <code>’\0’</code>.</p>
 <h3>2.3 Character sets [lex.charset]</h3>
-<p><sup>3</sup> The <i>basic execution character set</i> and the <i>basic execution wide-character set</i> 
-shall each contain all the members of the basic source character set, plus 
+<p><sup>3</sup> The <i>basic execution character set</i> <del>and the <i>basic execution wide-character</i> set</del> 
+shall <del>each</del> contain all the members of the basic source character set, plus 
 control characters representing alert, backspace, and carriage return, plus a 
-<i>null character </i>(respectively, <i>null wide character</i>), whose value is 0. For each 
-basic execution character set, the values of the members shall be non-negative 
+<i>null character </i>(respectively, <i>null wide character</i>), whose value is 0. 
+<i><del>For each basic execution character set</del></i><del><i>, the</i></del>
+<ins>The</ins> values of the members<ins> of the basic execution character set</ins> shall be non-negative 
 and distinct from one another. In both the source and execution basic character 
 sets, the value of each character after 0 in the above list of decimal digits 
-shall be one greater than the value of the previous. The <i>execution character set</i> 
-and the <i>execution wide-character set</i> are implementation-defined supersets of the 
+shall be one greater than the value of the previous. The <i>execution character set</i>
+<del>and the execution wide-character set are</del> <ins>is an</ins> implementation-defined superset<del>s</del> of the 
 basic execution character set and the basic execution wide-character set, 
 respectively. The values of the members of the execution character sets and the 
 sets of additional members <del>are</del> <ins>may be</ins> locale-specific.</p>
@@ -169,6 +170,13 @@ of all the characters that are
 defined by ISO/IEC 10646, along with all amendments and technical corrigenda as 
 of the specified year
 and month</p>
+<h3><ins>17.6.3.6 Character sequence requirements [utility.req.encoding]</ins></h3>
+<p><ins>Unless otherwise specified, the encoding of strings and  
+sequences of narrow character types and types <code>char</code>, <code>char16_t</code>, <code>char32_t</code>, 
+and <code>wchar_t</code> shall be the same encoding as character literals of 
+those types ([lex.ccon]). [<i>Note</i>: those encodings are the encoding of the execution 
+character set, UTF-16, UTF-32, and a size-dependent UTF encoding, respectively. 
+&mdash;<i>end note</i>]</ins></p>
 <h3>22.3.3.2.2 string conversions [conversions.string]</h3>
 <p><sup><font face="Arial">1</font></sup> Class template <code>wstring_convert</code> 
 performs conversions between a wide string and a byte string. It lets you 
@@ -195,7 +203,13 @@ std::cout &lt;&lt; utf8(my_wstring);</ins></pre>
 <p><ins>This code is portable regardless of whether the encoding of <code>wchar_t</code> 
 strings is UTF-8, UTF-16, or UTF-32.</ins></p>
 <p><i>—end example</i> ]</p>
-<p>&nbsp;</p>
+<h3>27.10.4.10 native encoding [fs.def.native.encode]</h3>
+<p dir="ltr">For narrow character strings <ins>and sequences</ins>, the operating system dependent current encoding 
+for pathnames (27.10.4.17). <del>For wide character strings, the implementation 
+defined execution wide-character set encoding(2.3).</del> <ins>[<i>Note</i>: 
+For strings and sequences of types <code>char16_t</code>, <code>char32_t</code>, and 
+<code>wchar_t</code>, see [utility.req.encoding] 
+&mdash;end note]</ins></p>
 <hr>
 <p>&nbsp;</p>
 <p>Remove all references to <i>&quot;execution wide-character set&quot;</i></p>
