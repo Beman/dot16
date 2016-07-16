@@ -65,9 +65,9 @@ value of a <code>char32_t</code> literal containing a single <i>c-char</i> is
 equal to its ISO 10646 code point value. A <code>char32_t</code><br>
 literal containing multiple <i>c-chars</i> is ill-formed.</p>
 <p><sup>6</sup> A character literal that begins with the letter <code>L</code>, such as
-<code>L’z’</code>, is a wide-character literal <ins>of type <code>wchar_t</code></ins>. 
-<del>A wide-character literal has type <code>wchar_t</code>.</del> 
-The value of a <del>wide-character</del> <ins><code>wchar_t</code></ins> literal containing a single <i>c-char</i>
+<code>L’z’</code>, is a wide-character literal. A wide-character literal has type
+<code>wchar_t</code>. 
+The value of a wide-character literal containing a single <i>c-char</i>
 <del>has value equal 
 to the numerical value of the encoding of the <i>c-char</i> in the execution 
 wide-character set, unless the <i>c-char</i> has no representation in the execution 
@@ -75,11 +75,11 @@ wide-character set, in which case the value is implementation-defined. [ Note:
 The type <code>wchar_t </code>is able to represent all members of the execution 
 wide-character set (see 3.9.1). —end note ]. The value of a wide-character 
 literal containing multiple <i>c-chars</i> is implementation-defined.</del> <ins>is 
-equal to its ISO 10646 code point value, provided that the code point value is 
+equal to its ISO 10646 code point value, provided that code point value is 
 representable with a single UTF encoded code unit. If the value is not representable 
 with a single UTF encoded code unit, the program is ill-formed. The specific 
-UTF encoding is determined by the size of <code>wchar_t</code>. A <code>wchar_t</code>&nbsp;literal 
-containing multiple <i>c-chars</i> is ill-formed.</ins></p>
+UTF form is determined by the size of <code>wchar_t</code>. A 
+wide-character&nbsp;literal containing multiple <i>c-chars</i> is ill-formed.</ins></p>
 
 <h3>2.13.5 String literals [lex.string]</h3>
 <p><sup>7</sup> A <i>string-literal</i> that begins with <code>u8</code>, 
