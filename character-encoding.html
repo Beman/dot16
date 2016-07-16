@@ -77,7 +77,7 @@ wide-character set (see 3.9.1). —end note ]. The value of a wide-character
 literal containing multiple <i>c-chars</i> is implementation-defined.</del> <ins>is 
 equal to its ISO 10646 code point value, provided that the code point value is 
 representable with a single UTF encoded code unit. If the value is not representable 
-within a single UTF encoded code unit, the program is ill-formed. The specific 
+with a single UTF encoded code unit, the program is ill-formed. The specific 
 UTF encoding is determined by the size of <code>wchar_t</code>. A <code>char16_t</code>&nbsp;literal 
 containing multiple <i>c-chars</i> is ill-formed.</ins></p>
 
@@ -96,7 +96,7 @@ such as <code>u&quot;asdf&quot;</code>, is a <code>char16_t</code> string litera
 char16_t</code> string literal has type “array of <i>n</i> <code>const char16_t</code>”, 
 where <i>n</i> is the size of the string as defined below; <del>it is initialized 
 with the given characters</del> <ins>each successive element of 
-the object representation (3.9) has the value of the corresponding code unit of 
+the object representation  has the value of the corresponding code unit of 
 the UTF-16 encoding of the string</ins>. A single <i>c-char</i> may produce more than one
 <code>char16_t</code> character in the form of surrogate pairs.</p>
 <p><sup>11</sup> A <i>string-literal</i> that begins with <code>U</code>, 
@@ -104,15 +104,14 @@ such as <code>U&quot;asdf&quot;</code>, is a <code>char32_t</code> string litera
 char32_t</code> string literal has type “array of <i>n</i> <code>const char32_t</code>”, 
 where <i>n</i> is the size of the string as defined below; <del>it is initialized 
 with the given characters</del> <ins>each successive element of 
-the object representation (3.9) has the value of the corresponding code unit of 
+the object representation  has the value of the corresponding code unit of 
 the UTF-32 encoding of the string</ins>.</p>
 <p><sup>12</sup> A <i>string-literal</i> that begins with <code>L</code>, 
 such as <code>L&quot;asdf&quot;</code>, is a wide string literal. A wide string literal 
 has type “array of <i>n</i> <code>const wchar_t</code>”, where <i>n</i> is the 
 size of the string as defined below; <del>it is initialized 
 with the given characters</del> <ins>each successive element of the object 
-representation (3.9) has the value of the corresponding code unit of the 
-execution wide-character set encoding ([basic.fundamental]) of the 
+representation  has the value of the corresponding code unit of the UTF encoding of the 
 string.</ins></p>
 <p><sup>15</sup> Escape sequences and universal-character-names in 
 non-raw string literals have the same meaning as in character literals (2.13.3), 
@@ -122,13 +121,16 @@ shall be preceded by a <code>\</code>, and except that a
 universal-character-name in a <code>char16_t</code> string literal may yield a 
 surrogate pair. In a narrow string literal, a universal-character-name may map 
 to more than one char element due to multibyte encoding. The size of a <code>
-char32_t</code> or wide string literal is the total number of escape sequences, 
+char32_t</code> <del>or wide</del> string literal is the total number of escape sequences, 
 universal-character-names, and other characters, plus one for the terminating
-<code>U’\0’</code> or <code>L’\0’</code>. The size of a <code>char16_t</code> 
+<code>U’\0’</code><del> or L’\0’</del>. The size of a <code>char16_t</code> 
 string literal is the total number of escape sequences, 
 universal-character-names, and other characters, plus one for each character 
 requiring a surrogate pair, plus one for the terminating <code>u’\0’</code>. [ Note: The size of a <code>char16_t</code> string literal is the number of code 
-units, not the number of characters. —end note ] Within <code>char32_t</code> 
+units, not the number of characters. —end note ] <ins>The size of a <code>wchar_t</code> string literal is the total number of 
+code units necessary to represent the code points for all escape sequences, 
+universal-character-names, and other characters, plus one for the terminating
+<code>L’\0’</code>.</ins> Within <ins><code>wchar_t</code>,</ins> <code>char32_t</code> 
 and <code>char16_t</code> literals, any universal-character-names shall be 
 within the range <code>0x0</code> to <code>0x10FFFF</code>. The size of a narrow 
 string literal is the total number of escape sequences and other characters, 
@@ -150,8 +152,7 @@ sets of additional members <del>are</del> <ins>may be</ins> locale-specific.</p>
 <h3>3.9.1 Fundamental types [basic.fundamental]</h3>
 <p><sup>5</sup> Type <code>wchar_t</code> is a distinct type whose values can represent 
 distinct <del>codes</del> <ins>code units</ins> for all <del>members of the largest extended character set specified 
-among the supported locales (22.3.1).</del> <ins>code points defined by ISO/IEC 10646. 
-The size of type <code>wchar_t</code> is implementation-defined.</ins> Type <code>wchar_t</code> shall have the 
+among the supported locales (22.3.1).</del> <ins>code points defined by ISO/IEC 10646.</ins> Type <code>wchar_t</code> shall have the 
 same size, signedness, and alignment requirements (3.11) as one of the other 
 integral types, called its underlying type. Types <code>char16_t</code> and
 <code>char32_t</code> denote distinct types with the same size, signedness, and 
@@ -160,15 +161,44 @@ respectively, in <code>&lt;cstdint&gt;</code>, called the underlying types.</p>
 <h3>16.8 Predefined macro names [cpp.predefined]</h3>
 <p><sup>2</sup> <code>__STDC_ISO_10646__</code><br>
 An integer literal of the form <code>yyyymmL</code> (for example, <code>199712L</code>). 
-If this symbol is defined, then every<br>
+If this symbol is defined, then every
 character in the Unicode required set, when stored in an object of type <code>
-wchar_t</code>, has the same value as<br>
+wchar_t</code>, has the same value as
 the short identifier of that character. The <i>Unicode required set </i>consists 
-of all the characters that are<br>
+of all the characters that are
 defined by ISO/IEC 10646, along with all amendments and technical corrigenda as 
-of the specified year<br>
+of the specified year
 and month</p>
+<h3>22.3.3.2.2 string conversions [conversions.string]</h3>
+<p><sup><font face="Arial">1</font></sup> Class template <code>wstring_convert</code> 
+performs conversions between a wide string and a byte string. It lets you 
+specify a code conversion facet (like class template <code>codecvt</code>) to 
+perform the conversions, without affecting any streams or locales. [ <i>Example:</i> If 
+you <ins>often</ins> want to use the code conversion facet <code>codecvt_utf8</code> to output to
+<code>cout</code> a UTF-8 multibyte sequence corresponding to a wide string, but 
+you don’t want to alter the locale for <code>cout</code>, you can write 
+something like:</p>
+<blockquote>
+  <pre><del>wstring_convert&lt;std::codecvt_utf8&lt;wchar_t&gt;&gt; myconv;
+std::string mbstring = myconv.to_bytes(L&quot;Hello\n&quot;);
+std::cout &lt;&lt; mbstring;</del></pre>
+  <pre><ins>std::string utf8(std::wstring_view v) {
+  static std::wstring_convert&lt;std::codecvt_utf8&lt;wchar_t&gt;&gt; myconv;
+  return myconv.to_bytes(v.cbegin(), v.cend());
+}
+
+
+std:wstring my_wstring(L&quot;你好，世界&quot;);
+
+std::cout &lt;&lt; utf8(my_wstring);</ins></pre>
+</blockquote>
+<p><ins>This code is portable regardless of whether the encoding of <code>wchar_t</code> 
+strings is UTF-8, UTF-16, or UTF-32.</ins></p>
+<p><i>—end example</i> ]</p>
+<p>&nbsp;</p>
 <hr>
+<p>&nbsp;</p>
+<p>Remove all references to <i>&quot;execution wide-character set&quot;</i></p>
 <p><i>Problem: There is no normative definition of &quot;extended 
 character set&quot;. There is only a non-normative note in 1.3.14 multibyte character [defns.multibyte] 
 that says &quot;[Note: The extended character set is a superset of the basic 
