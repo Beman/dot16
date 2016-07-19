@@ -24,7 +24,55 @@ body
 
 <body>
 
-<h2>String Encoding</h2>
+<h1>Making C++2x Friendlier to Unicode</h1>
+
+<p>Proposes editorial, near-editorial, and substantive changes aimed at making 
+the specification of the standard friendlier to Unicode. Most of the changes are 
+in the core language, but the primary impact of the changes is to the current 
+standard library, and to Unicode-related standard library proposals in the pipeline. Users 
+benefit because certain library usage corner cases are eliminated, making 
+some currently non-portable uses of <code>wchar_t</code> portable.</p>
+
+<p>Only specifications are changed; no new functionality is proposed. C and C++ 
+compilers such as GCC, Clang, and VC++ already conform to the proposed changes. 
+So the impact of the proposed change to the encoding of <code>wchar_t</code> is 
+to bring the standard into alignment with what compilers already do; i.e. 
+standardize existing practice.</p>
+
+<h2>Motivation</h2>
+
+<p>&nbsp;</p>
+
+<h2>Summary of proposed changes</h2>
+<ul>
+  <li>Specify the value of a <code>wchar_t</code> character literal as a UTF encoded ISO 
+  10646 code point value. <i>Rationale:</i> Put a stop to the endless confusion, 
+  bikeshed arguments ,and internet criticism over corner cases that cause 
+  encoding conversions via <code>wchar_t</code> to be technically non-portable.</li>
+  <li>Synchronize the specification of all string literal types to use the same 
+  form.</li>
+  <li>Clarify the specification of the size of a <code>wchar_t</code> string literal by using 
+  the term &quot;code unit&quot;.</li>
+  <li>Simplify and clarify the specification type <code>wchar_t</code> by using the terms 
+  &quot;code point&quot; and &quot;code unit&quot;.</li>
+  <li>Remove the term &quot;basic execution wide-character set&quot; as 
+  confusing and not needed.</li>
+  <li>Add a new library section 17.6.3.6 Character sequence requirements [utility.req.encoding] 
+  specifying the library&#39;s default for determining the encoding of strings and 
+  other sequences of character types.</li>
+  <li>Change the example in [conversions.string] to focus on portably using
+  <code>wchar_t</code>.</li>
+  <li>Fix an incorrect use of &quot;basic execution wide-character set&quot; in [fs.def.native.encode].</li>
+</ul>
+
+<h2>Proposed Wording</h2>
+
+<p><i>This proposed wording assumes P0417,</i>C++17 should refer to ISO/IEC 
+10646 2014 instead of 1994<i>, has been accepted into the C++ working paper.</i></p>
+
+<p><i>Strike the wording <del>high-lighted in red</del> and add the wording <ins>high-lighted in 
+green</ins>. Some standard text that is not changed is show to ensure sufficient 
+context to evaluate the proposed changes.</i></p>
 <h3>2.13.3 Character literals [lex.ccon]</h3>
 <p><sup>2</sup> A character literal that does not begin with <code>u8</code>, 
 <code>u</code>, <code>U</code>, or 
@@ -137,7 +185,7 @@ string literal is the total number of escape sequences and other characters,
 plus at least one for the multibyte encoding of each universal-character-name, 
 plus one for the terminating <code>’\0’</code>.</p>
 <h3>2.3 Character sets [lex.charset]</h3>
-<p><sup>3</sup> The <i>basic execution character set</i> <del>and the <i>basic execution wide-character</i> set</del> 
+<p dir="ltr"><sup>3</sup> The <i>basic execution character set</i> <del>and the <i>basic execution wide-character</i> set</del> 
 shall <del>each</del> contain all the members of the basic source character set, plus 
 control characters representing alert, backspace, and carriage return, plus a 
 <i>null character </i>(respectively, <i>null wide character</i>), whose value is 0. 
@@ -147,8 +195,8 @@ and distinct from one another. In both the source and execution basic character
 sets, the value of each character after 0 in the above list of decimal digits 
 shall be one greater than the value of the previous. The <i>execution character set</i>
 <del>and the execution wide-character set are</del> <ins>is an</ins> implementation-defined superset<del>s</del> of the 
-basic execution character set and the basic execution wide-character set, 
-respectively. The values of the members of the execution character sets and the 
+basic execution character set <del>and the basic execution wide-character set, 
+respectively</del>. The values of the members of the execution character sets and the 
 sets of additional members <del>are</del> <ins>may be</ins> locale-specific.</p>
 <h3>3.9.1 Fundamental types [basic.fundamental]</h3>
 <p><sup>5</sup> Type <code>wchar_t</code> is a distinct type whose values can represent 
@@ -172,8 +220,8 @@ of the specified year
 and month</p>
 <h3><ins>17.6.3.6 Character sequence requirements [utility.req.encoding]</ins></h3>
 <p><ins>Unless otherwise specified, the encoding of strings and  
-sequences of narrow character types and types <code>char</code>, <code>char16_t</code>, <code>char32_t</code>, 
-and <code>wchar_t</code> shall be the same encoding as character literals of 
+sequences of narrow character types and types <code>char16_t</code>, <code>char32_t</code>, 
+and <code>wchar_t</code> shall be treated as having the same encoding as character literals of 
 those types ([lex.ccon]). [<i>Note</i>: those encodings are the encoding of the execution 
 character set, UTF-16, UTF-32, and a size-dependent UTF encoding, respectively. 
 &mdash;<i>end note</i>]</ins></p>
@@ -182,9 +230,9 @@ character set, UTF-16, UTF-32, and a size-dependent UTF encoding, respectively.
 performs conversions between a wide string and a byte string. It lets you 
 specify a code conversion facet (like class template <code>codecvt</code>) to 
 perform the conversions, without affecting any streams or locales. [ <i>Example:</i> If 
-you <ins>often</ins> want to use the code conversion facet <code>codecvt_utf8</code> to output to
-<code>cout</code> a UTF-8 multibyte sequence corresponding to a wide string, but 
-you don’t want to alter the locale for <code>cout</code>, you can write 
+you <ins>often</ins> want to use the code conversion facet <code>codecvt_utf8</code> to <del>output to
+<code>cout</code></del> <ins>create</ins> a UTF-8 multibyte sequence corresponding to a wide string<del>, but 
+you don’t want to alter the locale for <code>cout</code></del>, you can write 
 something like:</p>
 <blockquote>
   <pre><del>wstring_convert&lt;std::codecvt_utf8&lt;wchar_t&gt;&gt; myconv;
@@ -196,9 +244,11 @@ std::cout &lt;&lt; mbstring;</del></pre>
 }
 
 
-std:wstring my_wstring(L&quot;你好，世界&quot;);
+std:wstring my_wstr;
 
-std::cout &lt;&lt; utf8(my_wstring);</ins></pre>
+my_wstr = L&quot;你好，世界&quot;;
+
+std::cout &lt;&lt; utf8(my_wstr);</ins></pre>
 </blockquote>
 <p><ins>This code is portable regardless of whether the encoding of <code>wchar_t</code> 
 strings is UTF-8, UTF-16, or UTF-32.</ins></p>
@@ -211,7 +261,17 @@ For strings and sequences of types <code>char16_t</code>, <code>char32_t</code>,
 <code>wchar_t</code>, see [utility.req.encoding] 
 &mdash;end note]</ins></p>
 <hr>
-<p>&nbsp;</p>
+<blockquote>
+<p>Markus Kuhn:</p>
+<p>Unfortunately, <var>wchar_t</var> was already widely used for various Asian 
+16-bit encodings throughout the 1990s. Therefore, the ISO C 99 standard was 
+bound by backwards compatibility. It could not be changed to require <var>
+wchar_t</var> to be used with UCS, like Java and Ada95 managed to do.</p>
+<p>Starting with GNU glibc 2.2, the type <samp>wchar_t</samp> is officially 
+intended to be used only for 32-bit ISO 10646 values, independent of the 
+currently used locale.</p>
+<p>glibc 2.2 was released in November, 2000 </p>
+</blockquote>
 <p>Remove all references to <i>&quot;execution wide-character set&quot;</i></p>
 <p><i>Problem: There is no normative definition of &quot;extended 
 character set&quot;. There is only a non-normative note in 1.3.14 multibyte character [defns.multibyte] 
