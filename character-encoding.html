@@ -24,50 +24,158 @@ body
 
 <body>
 
+<table>
+<tr>
+  <td align="left">Doc. no.:</td>
+  <td align="left"><span style="background-color: #FFFF00">D0xxxR0</span></td>
+</tr>
+<tr>
+  <td align="left">Date:</td>
+  <td align="left">
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-07-19<!--webbot bot="Timestamp" endspan i-checksum="12473" --></td>
+</tr>
+<tr>
+  <td align="left">Reply to:</td>
+  <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;
+</tr>
+<tr>
+  <td align="left">Audience:</td>
+  <td align="left">Library, Core</td>
+</tr>
+</table>
+
 <h1>Making C++2x Friendlier to Unicode</h1>
 
 <p>Proposes editorial, near-editorial, and substantive changes aimed at making 
-the specification of the standard friendlier to Unicode. Most of the changes are 
-in the core language, but the primary impact of the changes is to the current 
-standard library, and to Unicode-related standard library proposals in the pipeline. Users 
-benefit because certain library usage corner cases are eliminated, making 
-some currently non-portable uses of <code>wchar_t</code> portable.</p>
+the specification of the standard friendlier to Unicode, and easier to 
+understand by human beings. Most of the proposed changes are 
+to the core language, but the primary impact of the changes is on the current 
+standard library, and on Unicode-related standard library proposals in the pipeline. Users 
+and implementors both benefit because sources of confusion are eliminated, some 
+possibly non-portable uses of <code>wchar_t</code> in the library become fully 
+portable.</p>
 
 <p>Only specifications are changed; no new functionality is proposed. C and C++ 
-compilers such as GCC, Clang, and VC++ already conform to the proposed changes. 
-So the impact of the proposed change to the encoding of <code>wchar_t</code> is 
-to bring the standard into alignment with what compilers already do; i.e. 
+compilers such as GCC, Clang, and VC++ have conformed to the proposed changes 
+for years. So the impact of the proposed is 
+to bring the standard into alignment with what compilers and libraries already do; i.e. 
 standardize existing practice.</p>
 
 <h2>Motivation</h2>
 
-<p>&nbsp;</p>
+<p>The motivation for this proposal is long-term irritation over the following 
+two concerns. Both are addressed together to ensure that sufficient context is 
+presented and to achieve overall consistency.</p>
+
+<p><b>Existing practice for the <code>wchar_t</code> 
+character set and encoding converged on ISO/IEC 10646, UTF encoded, years ago 
+but the C++ standard has not kept pace</b></p>
+
+<p>For almost twenty years, compilers such as Clang, GCC, and VC++ have treated 
+the character set of <code>wchar_t</code> as ISO/IEC 10646, UTF encoded. That&#39;s highly 
+desirable from both user and standard library perspectives.</p>
+
+<p>Some knowledgeable readers, however, believe that the standard allows an 
+implementation to treat <code>wchar_t</code> as having a much smaller character set and 
+use a much more limited encoding, such as EBCDIC. Indeed, IBM XL C/C++ for 
+the z/OS operating system does just that, although UTF encoded ISO/IEC 
+10646 is supported as an option.</p>
+
+<p>This divergence between existing practice and the standard has negative consequences:</p>
+
+<ul>
+  <li>Programs using <code>wchar_t</code> are seen by some as inherently 
+  non-portable.</li>
+  <li>Standard codecvt facets that traffic in <code>wchar_t</code> strings are seen as by some inherently non-portable.</li>
+  <li>It complicates Unicode related standard library proposals.</li>
+  <li>It runs up support costs for third-party libraries like Boost that use the 
+  standard library features in question.</li>
+</ul>
+
+<p>The proposed fix is to specify the <code>wchar_t</code> character set as ISO/IEC 
+10646t, UTF encoded. </p>
+
+<p><b>Even knowledgeable readers become confused or disagree about wide 
+character specifications</b></p>
+
+<p>The first sentence of [basic.fundamental] paragraph 5 is an example of why 
+knowledgeable readers can become confused:</p>
+
+<blockquote>
+
+<p>&quot;Type <code>wchar_t</code> is a distinct type whose values can represent 
+distinct codes for all members of the largest extended character set specified 
+among the supported locales (22.3.1).&quot;</p>
+
+  <ul>
+    <li>It is unclear if &quot;distinct codes&quot; means &quot;distinct code units&quot; or 
+    &quot;distinct code points&quot;.</li>
+    <li>The term &quot;extended character set&quot; is defined nowhere in the standard, 
+    although we do know from [defns.multibyte] that it is related to &quot;source or 
+    execution environment&quot; and a non-normative note says that it is a superset 
+    of the basic character set (2.3) .</li>
+    <li>The term &quot;supported locales&quot; is defined nowhere in the standard.</li>
+  </ul>
+</blockquote>
+
+<p>The proposed fix is to make a coherent set of editorial and near-editorial 
+changes to clarify the existing specification.</p>
 
 <h2>Summary of proposed changes</h2>
 <ul>
   <li>Specify the value of a <code>wchar_t</code> character literal as a UTF encoded ISO 
-  10646 code point value. <i>Rationale:</i> Put a stop to the endless confusion, 
-  bikeshed arguments ,and internet criticism over corner cases that cause 
-  encoding conversions via <code>wchar_t</code> to be technically non-portable.</li>
-  <li>Synchronize the specification of all string literal types to use the same 
+  10646 code point value.</li>
+  <li>Synchronize the specification of all string literal types to use wording 
+  in the same 
   form.</li>
   <li>Clarify the specification of the size of a <code>wchar_t</code> string literal by using 
   the term &quot;code unit&quot;.</li>
-  <li>Simplify and clarify the specification type <code>wchar_t</code> by using the terms 
+  <li>Simplify and clarify the specification of type <code>wchar_t</code> by using the terms 
   &quot;code point&quot; and &quot;code unit&quot;.</li>
   <li>Remove the term &quot;basic execution wide-character set&quot; as 
   confusing and not needed.</li>
   <li>Add a new library section 17.6.3.6 Character sequence requirements [utility.req.encoding] 
-  specifying the library&#39;s default for determining the encoding of strings and 
+  specifying the library&#39;s default for determining the presumed encoding of strings and 
   other sequences of character types.</li>
   <li>Change the example in [conversions.string] to focus on portably using
   <code>wchar_t</code>.</li>
   <li>Fix an incorrect use of &quot;basic execution wide-character set&quot; in [fs.def.native.encode].</li>
 </ul>
 
+<h2>History of wchar_t&nbsp; encoding</h2>
+
+<p><code>wchar_t</code> was introduced in ISO C90 standard. A specific character 
+set and encoding was not specified. </p>
+
+<p>Markus Kuhn&#39;s Unicode FAQ (<a href="https://www.cl.cam.ac.uk/~mgk25/unicode.html">www.cl.cam.ac.uk/~mgk25/unicode.html</a>)&nbsp; 
+describes what happened next:</p>
+
+<blockquote>
+<p>Unfortunately, <var>wchar_t</var> was already widely used for various Asian 
+16-bit encodings throughout the 1990s. Therefore, the ISO C 99 standard was 
+bound by backwards compatibility. It could not be changed to require <var>
+wchar_t</var> to be used with UCS, like Java and Ada95 managed to do.</p>
+<p>Starting with GNU glibc 2.2, the type <samp>wchar_t</samp> is officially 
+intended to be used only for 32-bit ISO 10646 values, independent of the 
+currently used locale.</p>
+</blockquote>
+
+<p>GNU glibc 2.2 shipped in 2000, so from that point on GCC treated <code>
+wchar_t</code> as the ISO 10646 (i.e. Unicode) character set encoded as UTF-32.</p>
+
+<p>Microsoft Visual C/C++ always treated&nbsp; <code>wchar_t</code> as ISO 
+10646. The encoding was initially UCS-2, later modernized to UTF-16.</p>
+
+<p>Clang always treated&nbsp; <code>wchar_t</code> as ISO 10646 encoded as 
+UTF-32.</p>
+
+<p>Some compilers, such as IBM XL C/C++ for the z/OS operating system, support 
+several character sets and encodings for&nbsp; <code>wchar_t</code>, including 
+ISO 10646 with UTF encoding. </p>
+
 <h2>Proposed Wording</h2>
 
-<p><i>This proposed wording assumes P0417,</i>C++17 should refer to ISO/IEC 
+<p><i>This proposed wording assumes P0417, </i>C++17 should refer to ISO/IEC 
 10646 2014 instead of 1994<i>, has been accepted into the C++ working paper.</i></p>
 
 <p><i>Strike the wording <del>high-lighted in red</del> and add the wording <ins>high-lighted in 
@@ -188,7 +296,7 @@ plus one for the terminating <code>’\0’</code>.</p>
 <p dir="ltr"><sup>3</sup> The <i>basic execution character set</i> <del>and the <i>basic execution wide-character</i> set</del> 
 shall <del>each</del> contain all the members of the basic source character set, plus 
 control characters representing alert, backspace, and carriage return, plus a 
-<i>null character </i>(respectively, <i>null wide character</i>), whose value is 0. 
+<i>null character </i><del>(respectively, null wide character)</del>, whose value is 0. 
 <i><del>For each basic execution character set</del></i><del><i>, the</i></del>
 <ins>The</ins> values of the members<ins> of the basic execution character set</ins> shall be non-negative 
 and distinct from one another. In both the source and execution basic character 
@@ -261,36 +369,6 @@ For strings and sequences of types <code>char16_t</code>, <code>char32_t</code>,
 <code>wchar_t</code>, see [utility.req.encoding] 
 &mdash;end note]</ins></p>
 <hr>
-<blockquote>
-<p>Markus Kuhn:</p>
-<p>Unfortunately, <var>wchar_t</var> was already widely used for various Asian 
-16-bit encodings throughout the 1990s. Therefore, the ISO C 99 standard was 
-bound by backwards compatibility. It could not be changed to require <var>
-wchar_t</var> to be used with UCS, like Java and Ada95 managed to do.</p>
-<p>Starting with GNU glibc 2.2, the type <samp>wchar_t</samp> is officially 
-intended to be used only for 32-bit ISO 10646 values, independent of the 
-currently used locale.</p>
-<p>glibc 2.2 was released in November, 2000 </p>
-</blockquote>
-<p>Remove all references to <i>&quot;execution wide-character set&quot;</i></p>
-<p><i>Problem: There is no normative definition of &quot;extended 
-character set&quot;. There is only a non-normative note in 1.3.14 multibyte character [defns.multibyte] 
-that says &quot;[Note: The extended character set is a superset of the basic 
-character set (2.3).—end note ] and it is a stretch to understand how to apply 
-that &quot;</i></p>
-<p><i>Problem: Neither 22.3.1 nor anywhere else in 22 specifies what the 
-supported locals are. We can guess that the global local and the C locale are 
-supported, and perhaps any locale that can be constructed without error is 
-supported, but that is never stated.</i></p>
-<p><i>Problem: Even if supported locales were defined, locales do not appear to 
-have character sets specified, except perhaps by guessing based on the name.</i></p>
-
-<p>&nbsp;</p>
-
-<p><i>Problem: The standard library has some components, such as class path 
-native format observers (27.10.8.4.6) that cannot be implemented without knowing 
-the encoding of various kinds of strings or, alternately, need to specify what 
-string encodings they assume.</i></p>
 
 </body>
 
