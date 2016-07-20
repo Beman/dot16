@@ -27,12 +27,12 @@ body
 <table>
 <tr>
   <td align="left">Doc. no.:</td>
-  <td align="left"><span style="background-color: #FFFF00">D0xxxR0</span></td>
+  <td align="left">D0420R0</td>
 </tr>
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-07-19<!--webbot bot="Timestamp" endspan i-checksum="12473" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-07-20<!--webbot bot="Timestamp" endspan i-checksum="12456" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -57,7 +57,7 @@ portable.</p>
 
 <p>Only specifications are changed; no new functionality is proposed. C and C++ 
 compilers such as GCC, Clang, and VC++ have conformed to the proposed changes 
-for years. So the impact of the proposed is 
+for years. So the impact of the proposal is 
 to bring the standard into alignment with what compilers and libraries already do; i.e. 
 standardize existing practice.</p>
 
@@ -68,18 +68,20 @@ two concerns. Both are addressed together to ensure that sufficient context is
 presented and to achieve overall consistency.</p>
 
 <p><b>Existing practice for the <code>wchar_t</code> 
-character set and encoding converged on ISO/IEC 10646, UTF encoded, years ago 
+character set and encoding converged on ISO/IEC 10646 (i.e. Unicode), UTF encoded, years ago 
 but the C++ standard has not kept pace</b></p>
 
-<p>For almost twenty years, compilers such as Clang, GCC, and VC++ have treated 
-the character set of <code>wchar_t</code> as ISO/IEC 10646, UTF encoded. That&#39;s highly 
+<p>GCC has treated 
+the character set of <code>wchar_t</code> as ISO/IEC 10646, UTF encoded, since 
+2000 or 2001. Microsoft did so even earlier, and Clang did so from its 
+inception. Other compilers followed their lead. UTF encoded ISO/IEC 10646 is highly 
 desirable from both user and standard library perspectives.</p>
 
 <p>Some knowledgeable readers, however, believe that the standard allows an 
 implementation to treat <code>wchar_t</code> as having a much smaller character set and 
 use a much more limited encoding, such as EBCDIC. Indeed, IBM XL C/C++ for 
 the z/OS operating system does just that, although UTF encoded ISO/IEC 
-10646 is supported as an option.</p>
+10646 is also supported.</p>
 
 <p>This divergence between existing practice and the standard has negative consequences:</p>
 
@@ -98,8 +100,8 @@ the z/OS operating system does just that, although UTF encoded ISO/IEC
 <p><b>Even knowledgeable readers become confused or disagree about wide 
 character specifications</b></p>
 
-<p>The first sentence of [basic.fundamental] paragraph 5 is an example of why 
-knowledgeable readers can become confused:</p>
+<p>The first sentence of [basic.fundamental] paragraph 5 is one example of why 
+knowledgeable readers can become confused or disagree:</p>
 
 <blockquote>
 
@@ -112,9 +114,10 @@ among the supported locales (22.3.1).&quot;</p>
     &quot;distinct code points&quot;.</li>
     <li>The term &quot;extended character set&quot; is defined nowhere in the standard, 
     although we do know from [defns.multibyte] that it is related to &quot;source or 
-    execution environment&quot; and a non-normative note says that it is a superset 
-    of the basic character set (2.3) .</li>
-    <li>The term &quot;supported locales&quot; is defined nowhere in the standard.</li>
+    execution environment&quot; and a non-normative note says that it &quot;is a superset 
+    of the basic character set (2.3)&quot; .</li>
+    <li>The term &quot;supported locales&quot; is neither defined nor used 
+    elsewhere in the standard.</li>
   </ul>
 </blockquote>
 
@@ -135,7 +138,7 @@ changes to clarify the existing specification.</p>
   <li>Remove the term &quot;basic execution wide-character set&quot; as 
   confusing and not needed.</li>
   <li>Add a new library section 17.6.3.6 Character sequence requirements [utility.req.encoding] 
-  specifying the library&#39;s default for determining the presumed encoding of strings and 
+  specifying the library&#39;s default treatment for the encoding of strings and 
   other sequences of character types.</li>
   <li>Change the example in [conversions.string] to focus on portably using
   <code>wchar_t</code>.</li>
@@ -179,7 +182,7 @@ ISO 10646 with UTF encoding. </p>
 10646 2014 instead of 1994<i>, has been accepted into the C++ working paper.</i></p>
 
 <p><i>Strike the wording <del>high-lighted in red</del> and add the wording <ins>high-lighted in 
-green</ins>. Some standard text that is not changed is show to ensure sufficient 
+green</ins>. Some standard text that is not changed is shown below to ensure sufficient 
 context to evaluate the proposed changes.</i></p>
 <h3>2.13.3 Character literals [lex.ccon]</h3>
 <p><sup>2</sup> A character literal that does not begin with <code>u8</code>, 
@@ -297,13 +300,14 @@ plus one for the terminating <code>’\0’</code>.</p>
 shall <del>each</del> contain all the members of the basic source character set, plus 
 control characters representing alert, backspace, and carriage return, plus a 
 <i>null character </i><del>(respectively, null wide character)</del>, whose value is 0. 
-<i><del>For each basic execution character set</del></i><del><i>, the</i></del>
-<ins>The</ins> values of the members<ins> of the basic execution character set</ins> shall be non-negative 
+<ins>There may be multiple basic execution character sets.</ins> For each basic execution character set, the
+values of the members of the basic execution character set shall be non-negative 
 and distinct from one another. In both the source and execution basic character 
 sets, the value of each character after 0 in the above list of decimal digits 
 shall be one greater than the value of the previous. The <i>execution character set</i>
 <del>and the execution wide-character set are</del> <ins>is an</ins> implementation-defined superset<del>s</del> of the 
-basic execution character set <del>and the basic execution wide-character set, 
+basic execution character <del>set</del> <ins>sets and may contain additional 
+members</ins> <del>and the basic execution wide-character set, 
 respectively</del>. The values of the members of the execution character sets and the 
 sets of additional members <del>are</del> <ins>may be</ins> locale-specific.</p>
 <h3>3.9.1 Fundamental types [basic.fundamental]</h3>
@@ -350,12 +354,11 @@ std::cout &lt;&lt; mbstring;</del></pre>
   static std::wstring_convert&lt;std::codecvt_utf8&lt;wchar_t&gt;&gt; myconv;
   return myconv.to_bytes(v.cbegin(), v.cend());
 }
-
-
+...
 std:wstring my_wstr;
-
+...
 my_wstr = L&quot;你好，世界&quot;;
-
+...
 std::cout &lt;&lt; utf8(my_wstr);</ins></pre>
 </blockquote>
 <p><ins>This code is portable regardless of whether the encoding of <code>wchar_t</code> 
