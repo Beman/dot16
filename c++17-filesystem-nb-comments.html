@@ -1,0 +1,120 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Filesystem NB Comments C++17</title>
+</head>
+
+<body>
+<h1>Proposed Disposition of C++17  National Body Comments on Filesystem</h1>
+
+<p>This document proposes disposition of C++17 National Body Comments from
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0488r0.pdf">
+P0488R0</a> and
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
+P0489R0</a> related to 27.10 [filesystems] in
+<a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4606.pdf">
+N4606</a>. </p>
+
+<p><a href="#not-yet">Comments not yet considered</a><br>
+Comments awaiting LWG action<br>
+Accept WP wording from comment&#39;s <i>Proposed change<br>
+</i>Accept comment with modified WP wording<br>
+Reject comment; no consensus for change</p>
+
+<h2><a name="not-yet"></a>Comments not yet considered</h2>
+
+<h2><a name="await-lwg"></a>Comments awaiting LWG action</h2>
+
+<h2><a name="accept-original"></a>Accept WP wording from comment&#39;s <i>Proposed 
+change</i></h2>
+
+<h2><a name="accept-modified"></a>Accept comment with modified WP wording</h2>
+
+<h2><a name="reject"></a>Reject comment; no consensus for change</h2>
+
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+  <tr>
+    <td>NB<br>
+    #</td>
+    <td>Clause /<br>
+    Subclause</td>
+    <td>¶</td>
+    <td>Comment</td>
+    <td>Proposed Change<br>
+    Proposed Wording</td>
+    <td>Status</td>
+  </tr>
+  <tr>
+    <td>US 61</td>
+    <td>27.10.8.4.9</td>
+    <td>8</td>
+    <td>Leading dots in filename() should not be taken to begin an extension 
+    (e.g., .bashrc).</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<h3>US 61 - 27.10.8.4.9 ¶ 8 [New] Leading dots in filename() should not begin an 
+extension&nbsp;&nbsp; </h3>
+
+<h4>Comments</h4>
+
+<p>Leading dots in filename() should not be taken to begin an extension (e.g., .bashrc).</p>
+
+<h4>Proposed change</h4>
+
+<p>Follow Python’s path.splitext() in ignoring them.</p>
+
+<h4>Discussion</h4>
+
+<p>BGD suggests additional cases to be considered:</p>
+
+<blockquote>
+
+<p><code>..abc<br>
+...abc<br>
+abc..def<br>
+abc...def</code></p>
+
+  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+    <tr>
+      <td><i><b><code>path p</code></b></i></td>
+      <td><i><b><code>p.stem()</code></b></i></td>
+      <td><i><b><code>p.extension()</code></b></i></td>
+    </tr>
+    <tr>
+      <td><code>&quot;..abc&quot;</code></td>
+      <td><code>&quot;..abc&quot;</code></td>
+      <td>&quot;&quot;</td>
+    </tr>
+    <tr>
+      <td>&quot;<code>...abc</code>&quot;</td>
+      <td>&quot;<code>...abc</code>&quot;</td>
+      <td>&quot;&quot;</td>
+    </tr>
+    <tr>
+      <td>&quot;<code>abc..def</code>&quot;</td>
+      <td>&quot;<code>abc</code>&quot;</td>
+      <td>&quot;<code>..def</code>&quot;</td>
+    </tr>
+    <tr>
+      <td>&quot;<code>abc...def</code>&quot;</td>
+      <td>&quot;<code>abc</code>&quot;</td>
+      <td>&quot;<code>...def</code>&quot;</td>
+    </tr>
+  </table>
+</blockquote>
+
+<h4>Proposed wording</h4>
+
+<p>&nbsp;</p>
+
+<hr>
+
+</body>
+
+</html>
