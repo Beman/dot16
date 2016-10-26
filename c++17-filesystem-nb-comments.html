@@ -4,10 +4,34 @@
 <meta name="GENERATOR" content="Microsoft FrontPage 5.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+ ins  {background-color: #CCFFCC; text-decoration: none;}
+ del  {background-color: #FFCACA; text-decoration: none;}
+</style>
 <title>Filesystem NB Comments C++17</title>
 </head>
 
 <body>
+<table>
+<tr>
+  <td align="left">Doc. no.:</td>
+  <td align="left">DxxxxR0</td>
+</tr>
+<tr>
+  <td align="left">Date:</td>
+  <td align="left">
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-26<!--webbot bot="Timestamp" endspan i-checksum="12052" --></td>
+</tr>
+<tr>
+  <td align="left">Reply to:</td>
+  <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;
+</tr>
+<tr>
+  <td align="left">Audience:</td>
+  <td align="left">Library</td>
+</tr>
+</table>
+
 <h1>Proposed Disposition of C++17  National Body Comments on Filesystem</h1>
 
 <p>This document proposes disposition of C++17 National Body Comments from
@@ -16,13 +40,22 @@ P0488R0</a> and
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
 P0489R0</a> related to 27.10 [filesystems] in
 <a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4606.pdf">
-N4606</a>. </p>
+N4606</a>.</p>
+
+<p>The proposed dispositions represent the author&#39;s proposals. They do not 
+necessarily represent the views of the C++ committee or the Library Working 
+Group (LWG). </p>
+
+<p>Following ISO procedures, the committee must respond to all national body 
+comments as being accepted, accepted with modifications, or rejected. This 
+document is organized into three sections of proposed dispositions corresponding 
+to those categories, and two sections corresponding to work-in-process.</p>
 
 <p><a href="#not-yet">Comments not yet considered</a><br>
-Comments awaiting LWG action<br>
-Accept WP wording from comment&#39;s <i>Proposed change<br>
-</i>Accept comment with modified WP wording<br>
-Reject comment; no consensus for change</p>
+<a href="#await-lwg">Comments awaiting LWG action</a><br>
+<a href="#accept-original">Accept WP wording from comment&#39;s <i>Proposed change</i></a><i><br>
+</i><a href="#accept-modified">Accept comment with modified WP wording</a><br>
+<a href="#reject">Reject comment; no consensus for change</a></p>
 
 <h2><a name="not-yet"></a>Comments not yet considered</h2>
 
@@ -33,58 +66,22 @@ change</i></h2>
 
 <h2><a name="accept-modified"></a>Accept comment with modified WP wording</h2>
 
-<h2><a name="reject"></a>Reject comment; no consensus for change</h2>
+<h3>US 61: Leading dots in filename() should not begin an extension</h3>
 
-<table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-  <tr>
-    <td>NB<br>
-    #</td>
-    <td>Clause /<br>
-    Subclause</td>
-    <td>¶</td>
-    <td>Comment</td>
-    <td>Proposed Change<br>
-    Proposed Wording</td>
-    <td>Status</td>
-  </tr>
-  <tr>
-    <td>US 61</td>
-    <td>27.10.8.4.9</td>
-    <td>8</td>
-    <td>Leading dots in filename() should not be taken to begin an extension 
-    (e.g., .bashrc).</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-</table>
-
-<h3>US 61 - 27.10.8.4.9 ¶ 8 [New] Leading dots in filename() should not begin an 
-extension&nbsp;&nbsp; </h3>
-
-<h4>Comments</h4>
-
-<p>Leading dots in filename() should not be taken to begin an extension (e.g., .bashrc).</p>
-
-<h4>Proposed change</h4>
-
-<p>Follow Python’s path.splitext() in ignoring them.</p>
-
-<h4>Discussion</h4>
-
-<p>BGD suggests additional cases to be considered:</p>
+<p>Cases worth considering, with suggested decompositions:</p>
 
 <blockquote>
-
-<p><code>..abc<br>
-...abc<br>
-abc..def<br>
-abc...def</code></p>
 
   <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
     <tr>
       <td><i><b><code>path p</code></b></i></td>
       <td><i><b><code>p.stem()</code></b></i></td>
       <td><i><b><code>p.extension()</code></b></i></td>
+    </tr>
+    <tr>
+      <td><code>&quot;.bashrc&quot;</code></td>
+      <td><code>&quot;.bashrc&quot;</code></td>
+      <td>&quot;&quot;</td>
     </tr>
     <tr>
       <td><code>&quot;..abc&quot;</code></td>
@@ -109,9 +106,42 @@ abc...def</code></p>
   </table>
 </blockquote>
 
-<h4>Proposed wording</h4>
+<p>Change 27.10.8.4.9 [path.decompose] ¶ 8:</p>
 
-<p>&nbsp;</p>
+<blockquote>
+
+<p><code>path stem() const;</code></p>
+
+  <blockquote>
+
+<p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
+consist solely of one or two periods</del> <ins>other than in a sequence of one or 
+more beginning periods</ins>, returns the substring of <code>filename()</code> 
+starting at its beginning and ending with the character before the <del>last period</del> <ins>
+first period of the last sequence of one or more periods</ins>.
+Otherwise, returns <code>filename()</code>.</p>
+
+  </blockquote>
+</blockquote>
+
+<p>Change 27.10.8.4.9 [path.decompose] ¶ 10:</p>
+
+<blockquote>
+
+<p><code>path extension() const;</code></p>
+
+  <blockquote>
+
+<p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
+consist solely of one or two periods</del> <ins>other than in a sequence of one or 
+more beginning periods</ins>, returns the substring of <code>filename()</code> 
+starting at <ins>the beginning of</ins> the rightmost <ins>sequence of</ins> period<ins>s</ins> and for the remainder of the path. Otherwise, 
+returns an empty <code>path</code> object.</p>
+
+  </blockquote>
+</blockquote>
+
+<h2><a name="reject"></a>Reject comment; no consensus for change</h2>
 
 <hr>
 
