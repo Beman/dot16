@@ -20,7 +20,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-26<!--webbot bot="Timestamp" endspan i-checksum="12052" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-28<!--webbot bot="Timestamp" endspan i-checksum="12056" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -53,69 +53,81 @@ to those categories, and two sections corresponding to work-in-process.</p>
 
 <p><a href="#not-yet">Comments not yet considered</a><br>
 <a href="#await-lwg">Comments awaiting LWG action</a><br>
+<a href="#editorial">Editorial</a><br>
 <a href="#accept-original">Accept WP wording from comment&#39;s <i>Proposed change</i></a><i><br>
 </i><a href="#accept-modified">Accept comment with modified WP wording</a><br>
 <a href="#reject">Reject comment; no consensus for change</a></p>
 
-<h2><a name="not-yet"></a>Comments not yet considered</h2>
+<h2><a name="not-yet"></a>NB Comments not yet considered</h2>
 
-<p>US 25<br>
-US 31<br>
-US 32<br>
-US 33<br>
-US 34<br>
-US 35<br>
-US 36<br>
-US 37<br>
-US 38<br>
-US 39<br>
-US 40<br>
-US 41<br>
-US 42<br>
-US 43<br>
-US 44<br>
-US 45<br>
-US 46<br>
-US 47<br>
-US 48<br>
-US 49<br>
-US 50<br>
-US 51<br>
-US 52<br>
-US 53<br>
-US 54<br>
-US 55<br>
-US 56<br>
-US 57<br>
-US 58<br>
-US 59<br>
-US 60<br>
-US 62<br>
-US 63<br>
-US 73<br>
-US 74<br>
-US 75<br>
-US 76<br>
-US 77<br>
-US 78<br>
-US 79<br>
-US 185<br>
-CA 2<br>
-CA 3<br>
-CA 4<br>
-CA 5<br>
-CA 6<br>
-CA 7<br>
-CA 8</p>
+<h4>US 25; 27.10.8.4.10: has_filename() is equivalent to just !empty()</h4>
+<p>Beman Dawes: Is the real issue a possibly incorrect post-condition for remove filename()?</p>
+<h4>US 31; 27.10: Everything is defined in terms of one implicit host system</h4>
+<p>Beman Dawes: Recommend rejection; That's by design, aimed at achieving portable behavior.
+There may be an issue with under specification of class path for non-POSIX/non-Windows
+operating systems, but that is best handled via CA 2-8 NB comments.</p>
+<h4>US 32; 27.10.2.1: Meaning of 27.10.2.1 unclear</h4>
+
+<p>Beman Dawes: US 33-40 deal with 27.10.4 Terms and definitions [fs.definitions].
+Providing correct, non-controversial definitions is difficult. Unless a definition is
+causing problems with interpretation of the library involved, it may be best to leave it alone.</p>
+<h4>US 33; 27.10.4.2: Definition of <i>canonical path</i> problematic</h4>
+<h4>US 34; 27.10.4.5: Are there attributes of a file that are not an aspect of the file system?</h4>
+<h4>US 35; 27.10.4.6: What synchronization is required to avoid a file system race?</h4>
+<h4>US 36; 27.10.4.9: Symbolic links themselves are attached to a directory via (hard) links</h4>
+<h4>US 37; 27.10.4.12: The term “redundant current directory (dot) elements” is not defined.</h4>
+<h4>US 40; 27.10.4.15: Not all directories have a parent.</h4>
+<h4>US 43; 27.10.5: Concerns about <i>encoded character types</i></h4>
+<h4>US 44; 27.10.8: Definition of path in terms of a string requires leaky abstraction</h4>
+<p>Beman Dawes: Recommend rejection at this time. The Proposed change amounts to a redesign and rewrite of the
+class path specification. Such an extensive change would require a separate paper that
+included proposed wording.</p>
+<h4>US 45; 27.10.8.1: Generic format portability compromised by unspecified root-name.</h4>
+<p>Beman Dawes: Recommend rejection at this time.</p>
+<h4>US 46; 27.10.8.1: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant.</h4>
+<p>Beman Dawes: Recommend rejection at this time. Such an extensive change would require a separate paper that
+included proposed wording.</p>
+<h4>US 48; 27.10.8.1: Multiple separators are often meaningful in a <i>root-name</i></h4>
+<p>Beman Dawes: Will provide proposed wording for the Proposed change "Limit the scope of the paragraph to the <i>relative-path</i>.".</p>
+<h4>US 49; 27.10.8.2.2: What does “method of conversion method” mean?</h4>
+<p>Beman Dawes: It is a mistake. Suggest fix is editorial; Change
+/method of conversion method/method of conversion/ in three places.</p>
+<h4>US 51: </h4>
+<h4>US 52: </h4>
+<h4>US 53: </h4>
+<h4>US 54: </h4>
+<h4>US 55: </h4>
+<h4>US 56: </h4>
+<h4>US 57: </h4>
+<h4>US 58: </h4>
+<h4>US 59: </h4>
+<h4>US 60: </h4>
+<h4>US 62: </h4>
+<h4>US 63: </h4>
+<h4>US 74: </h4>
+<h4>US 75: </h4>
+<h4>US 76: </h4>
+<h4>US 77: </h4>
+<h4>US 78: </h4>
+<h4>US 79: </h4>
+<h4>US 18: </h4>
+<h4>CA 3: </h4>
+<h4>CA 4: </h4>
+<h4>CA 5: </h4>
+<h4>CA 6: </h4>
+<h4>CA 7: </h4>
+<h4>CA 8: </h4>
+
 
 <h2><a name="await-lwg"></a>Comments awaiting LWG action</h2>
 
-<h2><a name="accept-original"></a>Accept WP wording from comment&#39;s <i>Proposed 
-change</i></h2>
+<h3>Recommend Accept</h3>
 
-<h2><a name="accept-modified"></a>Accept comment with modified WP wording</h2>
+<h3>Recommend Accept with modifications</h3>
 
-<h3>US 61: Leading dots in filename() should not begin an extension</h3>
+<h4>US 61: Leading dots in filename() should not begin an extension</h4>
+
+<blockquote>
 
 <p>Cases worth considering, with suggested decompositions:</p>
 
@@ -190,18 +202,105 @@ returns an empty <code>path</code> object.</p>
   </blockquote>
 </blockquote>
 
-<h2><a name="reject"></a>Reject comment; no consensus for change</h2>
+</blockquote>
 
-<p>&quot;Rationale:&quot; where present, provides rationale for rejection.</p>
+<h3>Recommend Reject</h3>
 
 <p><b>US 185</b> - Fold <code>error_code</code> and non-<code>error_code</code> 
-signatures into one signature. <b>Rationale:</b> Does not handle one being <code>
+signatures into one signature.</p>
+
+<blockquote>
+
+<p> <b>Rationale:</b> Does not handle one being <code>
 noexcept(true)</code> and the other <code>noexcept(false)</code>.</p>
+
+</blockquote>
 
 <p><b>FI 14</b> - AKA
 <a name="2761" href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761.</a>
-<tt>directory_entry</tt> comparisons are members.&nbsp; <b>Rationale:</b> 2761 
+<tt>directory_entry</tt> comparisons are members.&nbsp; </p>
+
+<blockquote>
+
+<p> <b>Rationale:</b> 2761 
 is NAD.</p>
+
+</blockquote>
+
+<h3>No recommendation</h3>
+
+<p><b>US 73, CA 2</b> - <i>root-name</i> is effectively implementation defined.</p>
+
+<blockquote>
+
+<p>Change under root-name in the grammar of subclause 27.10.8.1 [path.generic]:</p>
+
+<blockquote>
+
+<p>An <ins>implementation defined path prefix</ins> <del>operating system dependant name</del> that 
+identifies the starting location for absolute paths.</p>
+
+</blockquote>
+
+<p>Add a new paragraph before paragraph 1 of [path.generic]:</p>
+
+<blockquote>
+
+<p><ins>The <i>root-name</i> in a <i>pathname</i> is the longest sequence of 
+characters that could possibly form a <i>root-name</i>.</ins></p>
+
+</blockquote>
+
+</blockquote>
+
+<h2><a name="editorial"></a>Editorial</h2>
+
+<p>Editorial NB comments are processed by the Project Editor.</p>
+
+<p><b>US 38:</b>&nbsp; Duplicates §17.3.16.</p>
+
+<blockquote>
+
+<p> <b>Note:</b> Recommend rejection. 
+The comment is not correct. 27.10.4.13 provides additional wording&nbsp; not 
+present in 17.3.16. </p>
+
+</blockquote>
+
+<p><b>US 39:</b> Remove note: Dot and dot-dot are not directories. </p>
+
+<blockquote>
+
+<p> <b>Note:</b> 
+Recommend rejection. The note was added to resolve confusion over dot and 
+dot-dot.</p>
+
+</blockquote>
+
+<p><b>US 41:</b> The term “parent directory” for a (non-directory) file is 
+unusual. </p>
+
+<p><b>US 42:</b> Pathname resolution does not always resolve a symlink.</p>
+
+<p><b>US 47:</b> “.” and “..” already match the name production. </p>
+
+<blockquote>
+
+<p> <b>Note: </b>
+This may well be an issue, but likely substantive rather than editorial.</p>
+
+</blockquote>
+
+<p><b>US 50:</b> 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3.</p>
+
+<h2><a name="accept-original"></a>Accept WP wording from comment&#39;s <i>Proposed 
+change</i></h2>
+
+<h2><a name="accept-modified"></a>Accept comment with modified WP wording</h2>
+
+<h2><a name="reject"></a>Reject comment; no consensus for change</h2>
+
+<p>&quot;Rationale:&quot; where present, provides rationale for rejection.</p>
 
 <hr>
 
