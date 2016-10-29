@@ -20,7 +20,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-28<!--webbot bot="Timestamp" endspan i-checksum="12056" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-29<!--webbot bot="Timestamp" endspan i-checksum="12058" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -62,10 +62,12 @@ to those categories, and two sections corresponding to work-in-process.</p>
 
 <h4>US 25; 27.10.8.4.10: has_filename() is equivalent to just !empty()</h4>
 <p>Beman Dawes: Is the real issue a possibly incorrect post-condition for remove filename()?</p>
+
 <h4>US 31; 27.10: Everything is defined in terms of one implicit host system</h4>
 <p>Beman Dawes: Recommend rejection; That's by design, aimed at achieving portable behavior.
 There may be an issue with under specification of class path for non-POSIX/non-Windows
 operating systems, but that is best handled via CA 2-8 NB comments.</p>
+
 <h4>US 32; 27.10.2.1: Meaning of 27.10.2.1 unclear</h4>
 
 <p>Beman Dawes: US 33-40 deal with 27.10.4 Terms and definitions [fs.definitions].
@@ -77,27 +79,84 @@ causing problems with interpretation of the library involved, it may be best to 
 <h4>US 36; 27.10.4.9: Symbolic links themselves are attached to a directory via (hard) links</h4>
 <h4>US 37; 27.10.4.12: The term “redundant current directory (dot) elements” is not defined.</h4>
 <h4>US 40; 27.10.4.15: Not all directories have a parent.</h4>
+
 <h4>US 43; 27.10.5: Concerns about <i>encoded character types</i></h4>
+
 <h4>US 44; 27.10.8: Definition of path in terms of a string requires leaky abstraction</h4>
 <p>Beman Dawes: Recommend rejection at this time. The Proposed change amounts to a redesign and rewrite of the
 class path specification. Such an extensive change would require a separate paper that
 included proposed wording.</p>
+
 <h4>US 45; 27.10.8.1: Generic format portability compromised by unspecified root-name.</h4>
 <p>Beman Dawes: Recommend rejection at this time.</p>
+
 <h4>US 46; 27.10.8.1: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant.</h4>
 <p>Beman Dawes: Recommend rejection at this time. Such an extensive change would require a separate paper that
 included proposed wording.</p>
+
 <h4>US 48; 27.10.8.1: Multiple separators are often meaningful in a <i>root-name</i></h4>
 <p>Beman Dawes: Will provide proposed wording for the Proposed change "Limit the scope of the paragraph to the <i>relative-path</i>.".</p>
+
 <h4>US 49; 27.10.8.2.2: What does “method of conversion method” mean?</h4>
 <p>Beman Dawes: It is a mistake. Suggest fix is editorial; Change
 /method of conversion method/method of conversion/ in three places.</p>
-<h4>US 51: </h4>
-<h4>US 52: </h4>
-<h4>US 53: </h4>
-<h4>US 54: </h4>
-<h4>US 55: </h4>
-<h4>US 56: </h4>
+
+<h4>US 51; 27.10.8.4.3 ¶2.3: Failing to add / when appending empty string prevents useful applications</h4>
+<p>Beman Dawes: Not clear to me why <code>p /= "/"</code> would not be satisfactory,
+unless there is concern
+that code like <code>p /= some_string</code> might not work as intended. No proposed wording,
+so unless a volunteer provides wording, suggest "Reject; no consensus at this time" and open an issue.</p>
+
+<h4>US 52; 27.10.8.4.5 ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
+<p>Beman Dawes provides wording:</p>
+<blockquote>
+<i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i>
+<blockquote>
+<i>Postcondition:</i> <del><code>!has_filename()</code></del>
+<ins>For an object <code>p</code> of type <code>path</code>,
+<code>p.remove_filename().has_filename() == false</code></ins>.
+</blockquote>
+</blockquote>
+
+<h4>US 53; 27.10.8.4.5 ¶7: <code>remove_filename()</code>'s name does not correspond to
+its behavior</h4>
+
+<p>Beman Dawes: This issue needs to be resolved before C++17 ships.</p>
+<p>My initial reaction is that the name should be changed. Bikeshed:
+<code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.
+
+<h4>US 54; 27.10.8.4.5 ¶10: <code>remove_filename()</code> is broken</h4>
+
+<h4>US 55; 27.10.8.4.5 ¶11:
+<code>replace_extension()</code>'s use of <code>path</code> as parameter type is inappropriate</h4>
+
+<p>Beman Dawes:</p>
+<p>Very strongly recommend rejection. <code>path</code> is the filesystem
+library's vocabulary type for both fully formed paths and for path fragments. Changing
+the vocabulary type for path fragments to <code>string_type</code>, as suggested in this
+NB comment, would make it more difficult to write code that is portable between operating systems
+that use different <code>string_type</code>s (i.e. between POSIX and Windows).
+For example, <code>p.replace_extension(".txt")</code> would work on POSIX but fail to compile on Windows. 
+It would also make code more difficult that must deal with character encodings that differ
+from the operating system's expected encoding for <code>string_type</code>. As written, this is a
+"strongly against" issue for me.
+
+<p>An alternative view might be that there is a defect in the clarity of 27.10.8 [class.path] ¶1. Perhaps
+it should be changed something like this:</p>
+
+<blockquote>
+<p>An object of class path represents a path (27.10.4.17) <ins>or a portion of a path</ins>
+ and contains a pathname (27.10.4.18) <ins>or a portion of a pathname</ins>. Such an object
+is concerned only with the lexical and syntactic aspects of a path. The path does not necessarily exist in
+external storage, and the pathname is not necessarily valid for the current operating system or for a particular
+file system.</p>
+
+<p><ins>[<i>Note:</i> Class path is used to hide the difference between the string types
+ used to represent pathnames by different operating systems. &mdash; <i>end note</i>]</ins></p>
+
+</blockquote>
+ 
+<h4>US 56; 27.10.8.4.5 ¶11.2: </h4>
 <h4>US 57: </h4>
 <h4>US 58: </h4>
 <h4>US 59: </h4>
