@@ -127,7 +127,7 @@ its behavior</h4>
 
 <h4>US 54; 27.10.8.4.5 ¶10: <code>remove_filename()</code> is broken</h4>
 
-<h4>US 55; 27.10.8.4.5 ¶11:
+<h4><a name="US-55">US 55</a>; 27.10.8.4.5 ¶11:
 <code>replace_extension()</code>'s use of <code>path</code> as parameter type is inappropriate</h4>
 
 <p>Beman Dawes:</p>
@@ -156,37 +156,26 @@ file system.</p>
 
 </blockquote>
  
-<h4>US 56; 27.10.8.4.5 ¶11.2: </h4>
-<h4>US 57: </h4>
-<h4>US 58: </h4>
-<h4>US 59: </h4>
-<h4>US 60: </h4>
-<h4>US 62: </h4>
-<h4>US 63: </h4>
-<h4>US 74: </h4>
-<h4>US 75: </h4>
-<h4>US 76: </h4>
-<h4>US 77: </h4>
-<h4>US 78: </h4>
-<h4>US 79: </h4>
-<h4>US 18: </h4>
-<h4>CA 3: </h4>
-<h4>CA 4: </h4>
-<h4>CA 5: </h4>
-<h4>CA 6: </h4>
-<h4>CA 7: </h4>
-<h4>CA 8: </h4>
+<h4>US 56; 27.10.8.4.5 ¶11.2: Conditional addition of period is problematic</h4>
 
+<h4>US 57; 27.10.8.4.8 ¶2: On Windows, absolute paths will sort in among relative paths</h4>
 
-<h2><a name="await-lwg"></a>Comments awaiting LWG action</h2>
+<h4>US 58; 27.10.8.4.9 ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
 
-<h3>Recommend Accept</h3>
+<h4>US 59; 27.10.8.4.9 ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
 
-<h3>Recommend Accept with modifications</h3>
+<p>Beman Dawes: Recommend rejection. It may be "bizarre&quot;, but <code>path</code> is filesystem's
+vocabulary type for both full paths and for path components, in the same sense that
+<code>std::string</code> might be used as the vocabulary type for both sentences and words in the
+sentences. See <a href="#US-55">US 55</a> for further discussion.</p>
 
-<h4>US 61: Leading dots in filename() should not begin an extension</h4>
+<h4>US 60; 27.10.8.4.9 ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
+
+<h4>US 61; 27.10.8.4.9 ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
 
 <blockquote>
+
+<p>Beman Dawes: I'm weakly in favor, but would like to hear others opinion.</p>
 
 <p>Cases worth considering, with suggested decompositions:</p>
 
@@ -262,6 +251,61 @@ returns an empty <code>path</code> object.</p>
 </blockquote>
 
 </blockquote>
+
+<h4>US 62; 27.10.8.4.9 ¶11: It is important that <code>stem()+extension()==filename()</code></h4>
+
+<p>Beman Dawes: Yes, it is important. But the note in ¶11 already says exactly that, so
+the question becomes "Should we make that part of the note normative?"</p>
+
+<h4>US 63; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistent in treating a trailing "/" as indicative of a directory but not a trailing "/.."</h4>
+
+<p>Beman Dawes: Will provide proposed wording for the Proposed change "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
+
+<h4>US 73, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
+
+<h4>US 74, CA 3; 27.10.8 [class.path]: The term “pathname” in 27.10.8 [class.path] is ambiguous in some contexts</h4>
+
+<p>Also see 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> Section 2.1</p>
+
+<h4>US 75, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed</h4>
+
+<p>Also see 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+Section 2.2</p>
+
+<h4>US 76, CA 5; 27.10.8.1: <i>root-name</i> definition is over-specified.</h4>
+
+<p>Also see 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+Section 2.3.1</p>
+
+<h4>US 77, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other append semantics not
+useful if argument has <i>root-name</i></h4>
+
+<p>Also see 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+Section 2.3.2</p>
+
+<h4>US 78, CA 7; 27.10.15.1 [fs.op.absolute]: Member function <code>absolute</code> in 27.10.4.1 is overspecified
+for non-POSIX-like operating system</h4>
+
+<p>Also see 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+Section 2.4.1</p>
+
+<h4>US 79, CA 8; Several: Some file system operation functions are overspecified
+for implementation-defined file type</h4>
+
+<p>Also see 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+Section 2.4.2</p>
+
+<h2><a name="await-lwg"></a>Comments awaiting LWG action</h2>
+
+<h3>Recommend Accept</h3>
+
+<h3>Recommend Accept with modifications</h3>
 
 <h3>Recommend Reject</h3>
 
