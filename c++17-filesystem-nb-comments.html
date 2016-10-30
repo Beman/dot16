@@ -20,7 +20,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-29<!--webbot bot="Timestamp" endspan i-checksum="12058" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-30<!--webbot bot="Timestamp" endspan i-checksum="12041" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -32,9 +32,9 @@
 </tr>
 </table>
 
-<h1>Proposed Disposition of C++17  National Body Comments on Filesystem</h1>
+<h1>Proposed Resolution of C++17  National Body Comments on Filesystem</h1>
 
-<p>This document proposes disposition of C++17 National Body Comments from
+<p>This document proposes resolution of C++17 National Body Comments from
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0488r0.pdf">
 P0488R0</a> and
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
@@ -51,17 +51,18 @@ comments as being accepted, accepted with modifications, or rejected. This
 document is organized into three sections of proposed dispositions corresponding 
 to those categories, and two sections corresponding to work-in-process.</p>
 
-<p><a href="#not-yet">Comments not yet considered</a><br>
-<a href="#await-lwg">Comments awaiting LWG action</a><br>
-<a href="#editorial">Editorial</a><br>
-<a href="#accept-original">Accept WP wording from comment&#39;s <i>Proposed change</i></a><i><br>
-</i><a href="#accept-modified">Accept comment with modified WP wording</a><br>
-<a href="#reject">Reject comment; no consensus for change</a></p>
+<p><a href="#nb-comments">NB Technical and general comments</a><br>
+<a href="#editorial">NB Editorial comments</a><br>
+<a href="#late-comments">Late comments</a><br>
+&nbsp;</p>
 
-<h2><a name="not-yet"></a>NB Comments not yet considered</h2>
+<h2><a name="nb-comments"></a>NB Technical and general comments</h2>
 
 <h4>US 25; 27.10.8.4.10: has_filename() is equivalent to just !empty()</h4>
+<blockquote>
 <p>Beman Dawes: Is the real issue a possibly incorrect post-condition for remove filename()?</p>
+
+</blockquote>
 
 <h4>US 31; 27.10: Everything is defined in terms of one implicit host system</h4>
 <p>Beman Dawes: Recommend rejection; That's by design, aimed at achieving portable behavior.
@@ -141,7 +142,7 @@ It would also make code more difficult that must deal with character encodings t
 from the operating system's expected encoding for <code>string_type</code>. As written, this is a
 "strongly against" issue for me.
 
-<p>An alternative view might be that there is a defect in the clarity of 27.10.8 [class.path] ¶1. Perhaps
+<p>An alternative view of US 55 might be that there is a defect in the clarity of 27.10.8 [class.path] ¶1. Perhaps
 it should be changed something like this:</p>
 
 <blockquote>
@@ -160,11 +161,14 @@ file system.</p>
 
 <h4>US 57; 27.10.8.4.8 ¶2: On Windows, absolute paths will sort in among relative paths</h4>
 
+<p>Comment&#39;s <i>Proposed change:</i> Consider including the absoluteness of a 
+path in its sort key.</p>
+
 <h4>US 58; 27.10.8.4.9 ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
 
 <h4>US 59; 27.10.8.4.9 ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
 
-<p>Beman Dawes: Recommend rejection. It may be "bizarre&quot;, but <code>path</code> is filesystem's
+<p>Beman Dawes: Recommend rejection. <code>path</code> is filesystem's
 vocabulary type for both full paths and for path components, in the same sense that
 <code>std::string</code> might be used as the vocabulary type for both sentences and words in the
 sentences. See <a href="#US-55">US 55</a> for further discussion.</p>
@@ -174,6 +178,8 @@ sentences. See <a href="#US-55">US 55</a> for further discussion.</p>
 <h4>US 61; 27.10.8.4.9 ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
 
 <blockquote>
+
+<p><b>Status:</b> ?</p>
 
 <p>Beman Dawes: I'm weakly in favor, but would like to hear others opinion.</p>
 
@@ -265,107 +271,104 @@ the question becomes "Should we make that part of the note normative?"</p>
 
 <h4>US 74, CA 3; 27.10.8 [class.path]: The term “pathname” in 27.10.8 [class.path] is ambiguous in some contexts</h4>
 
+<blockquote>
+
 <p>Also see 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> Section 2.1</p>
 
+</blockquote>
+
 <h4>US 75, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed</h4>
+
+<blockquote>
 
 <p>Also see 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
 Section 2.2</p>
 
-<h4>US 76, CA 5; 27.10.8.1: <i>root-name</i> definition is over-specified.</h4>
+</blockquote>
+
+<h4>US 76, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> definition is over-specified.</h4>
+
+<blockquote>
 
 <p>Also see 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
 Section 2.3.1</p>
 
+</blockquote>
+
 <h4>US 77, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other append semantics not
 useful if argument has <i>root-name</i></h4>
+
+<blockquote>
 
 <p>Also see 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
 Section 2.3.2</p>
 
+</blockquote>
+
 <h4>US 78, CA 7; 27.10.15.1 [fs.op.absolute]: Member function <code>absolute</code> in 27.10.4.1 is overspecified
 for non-POSIX-like operating system</h4>
+
+<blockquote>
 
 <p>Also see 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
 Section 2.4.1</p>
 
+</blockquote>
+
 <h4>US 79, CA 8; Several: Some file system operation functions are overspecified
 for implementation-defined file type</h4>
+
+<blockquote>
 
 <p>Also see 
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
 Section 2.4.2</p>
 
-<h2><a name="await-lwg"></a>Comments awaiting LWG action</h2>
+</blockquote>
 
-<h3>Recommend Accept</h3>
-
-<h3>Recommend Accept with modifications</h3>
-
-<h3>Recommend Reject</h3>
-
-<p><b>US 185</b> - Fold <code>error_code</code> and non-<code>error_code</code> 
-signatures into one signature.</p>
+<h4><b>US 185; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> 
+signatures into one signature</h4>
 
 <blockquote>
 
-<p> <b>Rationale:</b> Does not handle one being <code>
-noexcept(true)</code> and the other <code>noexcept(false)</code>.</p>
+<p><b>Status:</b> Reject</p>
+
+<p> <b>Rationale:</b> Does not handle one signature being <code>
+noexcept(true)</code> and the other <code>noexcept(false)</code>, and many other 
+problems. Even the submitter is no longer in favor. See LWG list thread 
+&quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
+October 25, 2016.</p>
 
 </blockquote>
 
-<p><b>FI 14</b> - AKA
-<a name="2761" href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761.</a>
-<tt>directory_entry</tt> comparisons are members.&nbsp; </p>
+<h4><b>FI 14; 27.10.12.3:</b>
+<tt>directory_entry</tt> comparisons are members</h4>
 
 <blockquote>
 
-<p> <b>Rationale:</b> 2761 
-is NAD.</p>
+<p><b>Status:</b> Reject</p>
+
+<p><b>Rationale: </b>This is also LWG issue
+<a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
+has been closed as NAD. </p>
 
 </blockquote>
 
-<h3>No recommendation</h3>
+<h2><a name="editorial"></a>NB Editorial comments</h2>
 
-<p><b>US 73, CA 2</b> - <i>root-name</i> is effectively implementation defined.</p>
-
-<blockquote>
-
-<p>Change under root-name in the grammar of subclause 27.10.8.1 [path.generic]:</p>
-
-<blockquote>
-
-<p>An <ins>implementation defined path prefix</ins> <del>operating system dependant name</del> that 
-identifies the starting location for absolute paths.</p>
-
-</blockquote>
-
-<p>Add a new paragraph before paragraph 1 of [path.generic]:</p>
-
-<blockquote>
-
-<p><ins>The <i>root-name</i> in a <i>pathname</i> is the longest sequence of 
-characters that could possibly form a <i>root-name</i>.</ins></p>
-
-</blockquote>
-
-</blockquote>
-
-<h2><a name="editorial"></a>Editorial</h2>
-
-<p>Editorial NB comments are processed by the Project Editor.</p>
+<p>Editorial NB comments to be processed by the Project Editor.</p>
 
 <p><b>US 38:</b>&nbsp; Duplicates §17.3.16.</p>
 
 <blockquote>
 
 <p> <b>Note:</b> Recommend rejection. 
-The comment is not correct. 27.10.4.13 provides additional wording&nbsp; not 
+The comment is not correct. 27.10.4.13 provides additional wording&nbsp;not 
 present in 17.3.16. </p>
 
 </blockquote>
@@ -396,14 +399,7 @@ This may well be an issue, but likely substantive rather than editorial.</p>
 
 <p><b>US 50:</b> 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3.</p>
 
-<h2><a name="accept-original"></a>Accept WP wording from comment&#39;s <i>Proposed 
-change</i></h2>
-
-<h2><a name="accept-modified"></a>Accept comment with modified WP wording</h2>
-
-<h2><a name="reject"></a>Reject comment; no consensus for change</h2>
-
-<p>&quot;Rationale:&quot; where present, provides rationale for rejection.</p>
+<h2><a name="late-comments"></a>Late comments</h2>
 
 <hr>
 
