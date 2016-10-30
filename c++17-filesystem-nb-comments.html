@@ -52,107 +52,107 @@ comments as being accepted, accepted with modifications, or rejected. This
 document is organized into three sections of proposed dispositions corresponding 
 to those categories, and two sections corresponding to work-in-process.</p>
 
-<p><a href="#nb-comments">NB Technical and general comments</a><br>
-<a href="US25">US 25: has_filename() is equivalent to just !empty()</a><br>
-<a href="US31">US 31: Everything is defined in terms of one implicit host system</a><br>
-<a href="US32">US 32: Meaning of 27.10.2.1 unclear</a><br>
-<a href="US33">US 33: Definition of <i>canonical path</i> problematic</a><br>
-<a href="US34">US 34: Are there attributes of a file that are not an aspect of the file system?</a><br>
-<a href="US35">US 35: What synchronization is required to avoid a file system race?</a><br>
-<a href="US36">US 36: Symbolic links themselves are attached to a directory via (hard) links</a><br>
-<a href="US37">US 37: The term “redundant current directory (dot) elements” is 
-<a href="US40">US 40: Not all directories have a parent.</a><br>
-<a href="US43">US 43: Concerns about <i>encoded character types</i></a><br>
-<a href="US44">US 44: Definition of path in terms of a string requires leaky abstraction</a><br>
-<a href="US45">US 45: Generic format portability compromised by unspecified root-name</a><br> 
-<a href="US46">US 46: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</a><br> 
-<a href="US48">US 48: Multiple separators are often meaningful in a <i>root-name</i></a><br>
-<a href="US49">US 49: What does “method of conversion method” mean?</a><br>
-<a href="US51">US 51: Failing to add / when appending empty string prevents useful apps</a><br>
-<a href="US52">US 52: <code>remove_filename()</code> postcondition is not by itself a definition</a><br>
-<a href="US53">US 53: <code>remove_filename()</code>'s name does not correspond to its behavior</a><br>
-<a href="US54">US 54: <code>remove_filename()</code> is broken</a><br>
-<a href="US55">US 55: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</a><br>
-<a href="US56">US 56: Conditional addition of period is problematic</a><br>
-<a href="US57">US 57: On Windows, absolute paths will sort in among relative paths</a><br>
-<a href="US58">US 58: <code>parent_path()</code> behavior for root paths is useless</a><br>
-<a href="US59">US 59: <code>filename()</code> returning <code>path</code> for single path components is bizarre</a><br>
-<a href="US60">US 60: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</a><br>
-<a href="US61">US 61: Leading dots in <code>filename()</code> should not begin an extension</a><br>
-<a href="US62">US 62: It is important that <code>stem()+extension()==filename()</code></a><br>
-<a href="US63">US 63: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</a><br> 
-<a href="US73">US 73, CA 2: <i>root-name</i> is effectively implementation defined</a><br>
-<a href="US74">US 74, CA 3: The term “pathname” is ambiguous in some contexts</a><br>
-<a href="US75">US 75, CA 4: Extra flag in path constructors is needed</a><br>
-<a href="US76">US 76, CA 5: <i>root-name</i> definition is over-specified.</a><br>
-<a href="US77">US 77, CA 6: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></a><br>
-<a href="US78">US 78, CA 7: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</a><br>
-<a href="US79">US 79, CA 8: Some  operation functions are overspecified for implementation-defined file types</a><br>
-<a href="US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
-<a href="FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
-<a href="#editorial">NB Editorial comments</a><br>
-<a href="US 38">US 38: Duplicates §17.3.16</a><br>
-<a href="US 39">US 39: Remove note: Dot and dot-dot are not directories</a><br>
-<a href="US 41">US 41: The term “parent directory” for a (non-directory) file is unusual</a><br>
-<a href="US 42">US 42: Pathname resolution does not always resolve a symlink</a><br>
-<a href="US 47">US 47: “.” and “..” already match the name production</a><br>
-<a href="US 50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
-<a href="#late-comments">Late comments</a>
+<p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US31">US 31: Everything is defined in terms of one implicit host system</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US32">US 32: Meaning of 27.10.2.1 unclear</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US33">US 33: Definition of <i>canonical path</i> problematic</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US34">US 34: Are there attributes of a file that are not an aspect of the file system?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US35">US 35: What synchronization is required to avoid a file system race?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US36">US 36: Symbolic links themselves are attached to a directory via (hard) links</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US37">US 37: The term “redundant current directory (dot) elements” is not defined</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US40">US 40: Not all directories have a parent.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US43">US 43: Concerns about <i>encoded character types</i></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US44">US 44: Definition of path in terms of a string requires leaky abstraction</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US45">US 45: Generic format portability compromised by unspecified root-name</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US46">US 46: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US48">US 48: Multiple separators are often meaningful in a <i>root-name</i></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US49">US 49: What does “method of conversion method” mean?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US51">US 51: Failing to add / when appending empty string prevents useful apps</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US52">US 52: <code>remove_filename()</code> postcondition is not by itself a definition</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US53">US 53: <code>remove_filename()</code>'s name does not correspond to its behavior</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US54">US 54: <code>remove_filename()</code> is broken</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US55">US 55: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US56">US 56: Conditional addition of period is problematic</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US57">US 57: On Windows, absolute paths will sort in among relative paths</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US58">US 58: <code>parent_path()</code> behavior for root paths is useless</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US59">US 59: <code>filename()</code> returning <code>path</code> for single path components is bizarre</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US60">US 60: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US61">US 61: Leading dots in <code>filename()</code> should not begin an extension</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US62">US 62: It is important that <code>stem()+extension()==filename()</code></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US63">US 63: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US73">US 73, CA 2: <i>root-name</i> is effectively implementation defined</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US74">US 74, CA 3: The term “pathname” is ambiguous in some contexts</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US75">US 75, CA 4: Extra flag in path constructors is needed</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US76">US 76, CA 5: <i>root-name</i> definition is over-specified.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US77">US 77, CA 6: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US78">US 78, CA 7: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US79">US 79, CA 8: Some  operation functions are overspecified for implementation-defined file types</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
+<b><a href="#editorial">NB Editorial comments</a></b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US38">US 38: Duplicates §17.3.16</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US39">US 39: Remove note: Dot and dot-dot are not directories</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US41">US 41: The term “parent directory” for a (non-directory) file is unusual</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US42">US 42: Pathname resolution does not always resolve a symlink</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US47">US 47: “.” and “..” already match the name production</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
+<b>
+<a href="#late-comments">Late comments</a></b>
 
 <h2><a name="nb-comments"></a>NB Technical and general comments</h2>
 
-<h4>US 25; 27.10.8.4.10: has_filename() is equivalent to just !empty()</h4>
+<h4><a name="US25">US 25</a>; 27.10.8.4.10: has_filename() is equivalent to just !empty()</h4>
 <blockquote>
 <p>Beman Dawes: Is the real issue a possibly incorrect post-condition for remove filename()?</p>
 
 </blockquote>
 
-<h4>US 31; 27.10: Everything is defined in terms of one implicit host system</h4>
+<h4><a name="US31">US 31</a>; 27.10: Everything is defined in terms of one implicit host system</h4>
 <p>Beman Dawes: Recommend rejection; That's by design, aimed at achieving portable behavior.
 There may be an issue with under specification of class path for non-POSIX/non-Windows
 operating systems, but that is best handled via CA 2-8 NB comments.</p>
 
-<h4>US 32; 27.10.2.1: Meaning of 27.10.2.1 unclear</h4>
+<h4><a name="US32">US 32</a>; 27.10.2.1: Meaning of 27.10.2.1 unclear</h4>
 
 <p>Beman Dawes: US 33-40 deal with 27.10.4 Terms and definitions [fs.definitions].
 Providing correct, non-controversial definitions is difficult. Unless a definition is
 causing problems with interpretation of the library involved, it may be best to leave it alone.</p>
-<h4>US 33; 27.10.4.2: Definition of <i>canonical path</i> problematic</h4>
-<h4>US 34; 27.10.4.5: Are there attributes of a file that are not an aspect of the file system?</h4>
-<h4>US 35; 27.10.4.6: What synchronization is required to avoid a file system race?</h4>
-<h4>US 36; 27.10.4.9: Symbolic links themselves are attached to a directory via (hard) links</h4>
-<h4>US 37; 27.10.4.12: The term “redundant current directory (dot) elements” is 
-not defined</h4>
-<h4>US 40; 27.10.4.15: Not all directories have a parent.</h4>
+<h4><a name="US33">US 33</a>; 27.10.4.2: Definition of <i>canonical path</i> problematic</h4>
+<h4><a name="US34">US 34</a>; 27.10.4.5: Are there attributes of a file that are not an aspect of the file system?</h4>
+<h4><a name="US35">US 35</a>; 27.10.4.6: What synchronization is required to avoid a file system race?</h4>
+<h4><a name="US36">US 36</a>; 27.10.4.9: Symbolic links themselves are attached to a directory via (hard) links</h4>
+<h4><a name="US37">US 37</a>; 27.10.4.12: The term “redundant current directory (dot) elements” is not defined</h4>
+<h4><a name="US40">US 40</a>; 27.10.4.15: Not all directories have a parent.</h4>
 
-<h4>US 43; 27.10.5: Concerns about <i>encoded character types</i></h4>
+<h4><a name="US43">US 43</a>; 27.10.5: Concerns about <i>encoded character types</i></h4>
 
-<h4>US 44; 27.10.8: Definition of path in terms of a string requires leaky abstraction</h4>
+<h4><a name="US44">US 44</a>; 27.10.8: Definition of path in terms of a string requires leaky abstraction</h4>
 <p>Beman Dawes: Recommend rejection at this time. The Proposed change amounts to a redesign and rewrite of the
 class path specification. Such an extensive change would require a separate paper that
 included proposed wording.</p>
 
-<h4>US 45; 27.10.8.1: Generic format portability compromised by unspecified root-name</h4>
+<h4><a name="US45">US 45</a>; 27.10.8.1: Generic format portability compromised by unspecified root-name</h4>
 <p>Beman Dawes: Recommend rejection at this time.</p>
 
-<h4>US 46; 27.10.8.1: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
+<h4><a name="US46">US 46</a>; 27.10.8.1: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
 <p>Beman Dawes: Recommend rejection at this time. Such an extensive change would require a separate paper that
 included proposed wording.</p>
 
-<h4>US 48; 27.10.8.1: Multiple separators are often meaningful in a <i>root-name</i></h4>
+<h4><a name="US48">US 48</a>; 27.10.8.1: Multiple separators are often meaningful in a <i>root-name</i></h4>
 <p>Beman Dawes: Will provide proposed wording for the Proposed change "Limit the scope of the paragraph to the <i>relative-path</i>.".</p>
 
-<h4>US 49; 27.10.8.2.2: What does “method of conversion method” mean?</h4>
+<h4><a name="US49">US 49</a>; 27.10.8.2.2: What does “method of conversion method” mean?</h4>
 <p>Beman Dawes: It is a mistake. Suggest fix is editorial; Change
 /method of conversion method/method of conversion/ in three places.</p>
 
-<h4>US 51; 27.10.8.4.3 ¶2.3: Failing to add / when appending empty string prevents useful apps</h4>
+<h4><a name="US51">US 51</a>; 27.10.8.4.3 ¶2.3: Failing to add / when appending empty string prevents useful apps</h4>
 <p>Beman Dawes: Not clear to me why <code>p /= "/"</code> would not be satisfactory,
 unless there is concern
 that code like <code>p /= some_string</code> might not work as intended. No proposed wording,
 so unless a volunteer provides wording, suggest "Reject; no consensus at this time" and open an issue.</p>
 
-<h4>US 52; 27.10.8.4.5 ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
+<h4><a name="US52">US 52</a>; 27.10.8.4.5 ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
 <p>Beman Dawes provides wording:</p>
 <blockquote>
 <h4>
@@ -164,15 +164,15 @@ so unless a volunteer provides wording, suggest "Reject; no consensus at this ti
 </blockquote>
 </blockquote>
 
-<h4>US 53; 27.10.8.4.5 ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior</h4>
+<h4><a name="US53">US 53</a>; 27.10.8.4.5 ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior</h4>
 
 <p>Beman Dawes: This issue needs to be resolved before C++17 ships.</p>
 <p>My initial reaction is that the name should be changed. Bikeshed:
 <code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.
 
-<h4>US 54; 27.10.8.4.5 ¶10: <code>remove_filename()</code> is broken</h4>
+<h4><a name="US54">US 54</a>; 27.10.8.4.5 ¶10: <code>remove_filename()</code> is broken</h4>
 
-<h4>US 55; 27.10.8.4.5 ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
+<h4><a name="US55">US 55</a>; 27.10.8.4.5 ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
 
 <p>Beman Dawes:</p>
 <p>Very strongly recommend rejection. <code>path</code> is the filesystem
@@ -200,25 +200,25 @@ file system.</p>
 
 </blockquote>
  
-<h4>US 56; 27.10.8.4.5 ¶11.2: Conditional addition of period is problematic</h4>
+<h4><a name="US56">US 56</a>; 27.10.8.4.5 ¶11.2: Conditional addition of period is problematic</h4>
 
-<h4>US 57; 27.10.8.4.8 ¶2: On Windows, absolute paths will sort in among relative paths</h4>
+<h4><a name="US57">US 57</a>; 27.10.8.4.8 ¶2: On Windows, absolute paths will sort in among relative paths</h4>
 
 <p>Comment&#39;s <i>Proposed change:</i> Consider including the absoluteness of a 
 path in its sort key.</p>
 
-<h4>US 58; 27.10.8.4.9 ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
+<h4><a name="US58">US 58</a>; 27.10.8.4.9 ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
 
-<h4>US 59; 27.10.8.4.9 ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
+<h4><a name="US59">US 59</a>; 27.10.8.4.9 ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
 
 <p>Beman Dawes: Recommend rejection. <code>path</code> is filesystem's
 vocabulary type for both full paths and for path components, in the same sense that
 <code>std::string</code> might be used as the vocabulary type for both sentences and words in the
-sentences. See <a href="#US-55">US 55</a> for further discussion.</p>
+sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 
-<h4>US 60; 27.10.8.4.9 ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
+<h4><a name="US60">US 60</a>; 27.10.8.4.9 ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
 
-<h4>US 61; 27.10.8.4.9 ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
+<h4><a name="US61">US 61</a>; 27.10.8.4.9 ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
 
 <blockquote>
 
@@ -301,18 +301,18 @@ returns an empty <code>path</code> object.</p>
 
 </blockquote>
 
-<h4>US 62; 27.10.8.4.9 ¶11: It is important that <code>stem()+extension()==filename()</code></h4>
+<h4><a name="US62">US 62</a>; 27.10.8.4.9 ¶11: It is important that <code>stem()+extension()==filename()</code></h4>
 
 <p>Beman Dawes: Yes, it is important. But the note in ¶11 already says exactly that, so
 the question becomes "Should we make that part of the note normative?"</p>
 
-<h4>US 63; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</h4>
+<h4><a name="US63">US 63</a>; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</h4>
 
 <p>Beman Dawes: Will provide proposed wording for the Proposed change "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
 
-<h4>US 73, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
+<h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
 
-<h4>US 74, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts</h4>
+<h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts</h4>
 
 <blockquote>
 
@@ -321,7 +321,7 @@ the question becomes "Should we make that part of the note normative?"</p>
 
 </blockquote>
 
-<h4>US 75, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed</h4>
+<h4><a name="US75">US 75</a>, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed</h4>
 
 <blockquote>
 
@@ -331,7 +331,7 @@ Section 2.2</p>
 
 </blockquote>
 
-<h4>US 76, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> definition is over-specified.</h4>
+<h4><a name="US76">US 76</a>, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> definition is over-specified.</h4>
 
 <blockquote>
 
@@ -341,7 +341,7 @@ Section 2.3.1</p>
 
 </blockquote>
 
-<h4>US 77, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></h4>
+<h4><a name="US77">US 77</a>, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></h4>
 
 <blockquote>
 
@@ -351,7 +351,7 @@ Section 2.3.2</p>
 
 </blockquote>
 
-<h4>US 78, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</h4>
+<h4><a name="US78">US 78</a>, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</h4>
 
 <blockquote>
 
@@ -361,7 +361,7 @@ Section 2.4.1</p>
 
 </blockquote>
 
-<h4>US 79, CA 8; Several: Some  operation functions are overspecified for implementation-defined file types</h4>
+<h4><a name="US79">US 79</a>, CA 8; Several: Some  operation functions are overspecified for implementation-defined file types</h4>
 
 <blockquote>
 
@@ -371,7 +371,7 @@ Section 2.4.2</p>
 
 </blockquote>
 
-<h4><b>US 185; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</h4>
+<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</h4>
 
 <blockquote>
 
@@ -385,7 +385,7 @@ October 25, 2016.</p>
 
 </blockquote>
 
-<h4><b>FI 14; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
+<h4><b><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
 
 <blockquote>
 
@@ -401,7 +401,9 @@ has been closed as NAD. </p>
 
 <p>Editorial NB comments to be processed by the Project Editor.</p>
 
-<h4><b>US 38:</b>&nbsp; Duplicates §17.3.16.</h4>
+<h4><a name="US38">US 38</a>:&nbsp; Duplicates §17.3.16.</h4>
+
+</b>
 
 <blockquote>
 
@@ -411,7 +413,11 @@ present in 17.3.16. </p>
 
 </blockquote>
 
-<h4><b>US 39:</b> Remove note: Dot and dot-dot are not directories. </h4>
+<b>
+
+<h4><a name="US39">US 39</a>: Remove note: Dot and dot-dot are not directories. </h4>
+
+</b>
 
 <blockquote>
 
@@ -421,11 +427,15 @@ dot-dot.</p>
 
 </blockquote>
 
-<h4><b>US 41:</b> The term “parent directory” for a (non-directory) file is unusual. </h4>
+<b>
 
-<h4><b>US 42:</b> Pathname resolution does not always resolve a symlink.</h4>
+<h4><a name="US41">US 41</a>: The term “parent directory” for a (non-directory) file is unusual. </h4>
 
-<h4><b>US 47:</b> “.” and “..” already match the name production. </h4>
+<h4><a name="US42">US 42</a>: Pathname resolution does not always resolve a symlink.</h4>
+
+<h4><a name="US47">US 47</a>: “.” and “..” already match the name production. </h4>
+
+</b>
 
 <blockquote>
 
@@ -434,7 +444,9 @@ This may well be an issue, but likely substantive rather than editorial.</p>
 
 </blockquote>
 
-<h4><b>US 50:</b> 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3.</h4>
+<b>
+
+<h4><a name="US50">US 50</a>: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3.</h4>
 
 <h2><a name="late-comments"></a>Late comments</h2>
 
