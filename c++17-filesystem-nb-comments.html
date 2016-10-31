@@ -16,7 +16,7 @@
 <table>
 <tr>
   <td align="left">Doc. no.:</td>
-  <td align="left">DxxxxR0</td>
+  <td align="left">D0492R0</td>
 </tr>
 <tr>
   <td align="left">Date:</td>
@@ -33,24 +33,19 @@
 </tr>
 </table>
 
-<h1>Proposed Resolution of C++17  National Body Comments on Filesystem</h1>
+<h1>Proposed Resolution of C++17  National Body Comments for Filesystem(R0)</h1>
 
 <p>This document proposes resolution of C++17 National Body Comments from
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0488r0.pdf">
 P0488R0</a> and
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
-P0489R0</a> related to 27.10 [filesystems] in
+P0489R0</a> related to
 <a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4606.pdf">
-N4606</a>.</p>
+N4606</a> 27.10 [filesystems].</p>
 
-<p>The proposed dispositions represent the author&#39;s proposals. They do not 
-necessarily represent the views of the C++ committee or the Library Working 
-Group (LWG). </p>
-
-<p>Following ISO procedures, the committee must respond to all national body 
-comments as being accepted, accepted with modifications, or rejected. This 
-document is organized into three sections of proposed dispositions corresponding 
-to those categories, and two sections corresponding to work-in-process.</p>
+<p>The proposed resolution in the initial draft of this paper represent only the author&#39;s 
+views. They do not necessarily represent the views of the Library Working Group 
+(LWG) or the C++ committee. They will be reviewed and modified by the LWG </p>
 
 <p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
@@ -81,6 +76,8 @@ to those categories, and two sections corresponding to work-in-process.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US61">US 61: Leading dots in <code>filename()</code> should not begin an extension</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US62">US 62: It is important that <code>stem()+extension()==filename()</code></a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US63">US 63: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US73">US 73, CA 2: <i>root-name</i> is effectively implementation defined</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US74">US 74, CA 3: The term “pathname” is ambiguous in some contexts</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US75">US 75, CA 4: Extra flag in path constructors is needed</a><br>
@@ -88,9 +85,7 @@ to those categories, and two sections corresponding to work-in-process.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US77">US 77, CA 6: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US78">US 78, CA 7: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US79">US 79, CA 8: Some  operation functions are overspecified for implementation-defined file types</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
-<b><a href="#editorial">NB Editorial comments</a></b><br>
+<b><a href="#editorial">NB comments submitted as editorial</a></b><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US38">US 38: Duplicates §17.3.16</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US39">US 39: Remove note: Dot and dot-dot are not directories</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US41">US 41: The term “parent directory” for a (non-directory) file is unusual</a><br>
@@ -286,11 +281,18 @@ is empty. Clarification from comment submitter would be helpful.</p>
 <p>This issue probably needs to be resolved before C++17 ships, since a name 
 change is a breaking change.</p>
 <p>Bikeshed:
-<code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.
-
-</blockquote>
+<code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.<p>
+  <b>Caution:</b> &quot;remove_filename&quot; appears at least seven times in the 
+  standard. All will need to be changed if the name changes.<p><b>Caution:</b> &quot;replace_filename&quot; 
+  presumably also would need to be renamed.</blockquote>
 
 <h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken</h4>
+
+<blockquote>
+
+<p>Need to resolve <a href="#US53">US 53</a> first.</p>
+
+</blockquote>
 
 <h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
 
@@ -324,19 +326,39 @@ file system.</p>
  
 <h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Conditional addition of period is problematic</h4>
 
-<h4><a name="US57">US 57</a>; 27.10.8.4.8 ¶2: On Windows, absolute paths will sort in among relative paths</h4>
+<h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths</h4>
 
-<p>Comment&#39;s <i>Proposed change:</i> Consider including the absoluteness of a 
-path in its sort key.</p>
+<blockquote>
+
+<p>It isn&#39;t clear why this matters; an example would help.</p>
+
+<p>Recommend reject. No proposed wording. Insufficient motivation for change.
+  </p>
+
+</blockquote>
 
 <h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
 
+<blockquote>
+
+<p>The example given (<code>path(&quot;c:\\&quot;).parent_path()</code> on Windows 
+returning <code>path(&quot;c:&quot;)</code>) seems useful. </p>
+
+<p>Recommend reject. No proposed wording. Insufficient motivation for change.</p>
+
+</blockquote>
+
 <h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
 
-<p>Beman Dawes: Recommend rejection. <code>path</code> is filesystem's
+<blockquote>
+
+<p>Recommend reject. <code>path</code> is filesystem's
 vocabulary type for both full paths and for path components, in the same sense that
-<code>std::string</code> might be used as the vocabulary type for both sentences and words in the
+<code>std::string</code> might be used as the vocabulary type for both sentences and 
+the words in the
 sentences. See <a href="#US55">US 55</a> for further discussion.</p>
+
+</blockquote>
 
 <h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
 
@@ -432,11 +454,28 @@ the question becomes "Should we make that part of the note normative?"</p>
 
 <blockquote>
 
-<p>Need proposed wording for the Proposed change "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
+<p>Need proposed wording for the <i>Proposed change</i> "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
 
 </blockquote>
 
 <h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
+
+<blockquote>
+
+<p>The comment&#39;s proposed wording is to replace &quot;operating system dependent&quot; 
+with &quot;implementation defined path prefix&quot;. </p>
+
+<p>The comment&#39;s premise that &quot;<i>root-name</i> is effectively implementation defined&quot; 
+is not correct. See 27.10.2.2 [fs.conform.os] and 27.10.4.14 [fs.def.osdep].</p>
+
+<p>&quot;operating system dependent&quot; mandates different implementations for the same 
+operating system produce the same behavior, but &quot;implementation defined&quot; allows 
+different implementations for the same operating system to produce different 
+behavior.</p>
+
+<p>Recommend reject. </p>
+
+</blockquote>
 
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts</h4>
 
@@ -511,9 +550,9 @@ October 25, 2016.</p>
 
 </blockquote>
 
-<h4><b><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
+<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
 
-</b>
+
 
 <blockquote>
 
@@ -525,74 +564,92 @@ has been closed as NAD. </p>
 
 </blockquote>
 
-<b>
 
-<h2><a name="editorial"></a>NB Editorial comments</h2>
 
-</b>
+<h2><a name="editorial"></a>NB  comments submitted as editorial</h2>
 
-<p>Editorial NB comments will be processed by the Project Editor.</p>
 
-<b>
 
-<h4><a name="US38">US 38</a>:&nbsp; Duplicates §17.3.16.</h4>
 
-</b>
+
+<h4><a name="US38">US 38</a>; 27.10.4.13 [fs.def.symlink]:&nbsp; Duplicates §17.3.16.</h4>
+
+
 
 <blockquote>
 
-<p> <b>Note:</b> Recommend rejection. 
-The comment is not correct. 27.10.4.13 provides additional wording&nbsp;not 
+<p> Recommend reject. 27.10.4.13 provides additional wording&nbsp;not 
 present in 17.3.16. </p>
 
 </blockquote>
 
-<b>
 
-<h4><a name="US39">US 39</a>: Remove note: Dot and dot-dot are not directories. </h4>
 
-</b>
+<h4><a name="US39">US 39</a>; 27.10.4.15: Remove note: Dot and dot-dot are not directories. </h4>
+
+
 
 <blockquote>
 
-<p> <b>Note:</b> 
-Recommend rejection. The note was added to resolve confusion over dot and 
+<p> Recommend reject. The note was added to resolve confusion over dot and 
 dot-dot.</p>
 
 </blockquote>
 
-<b>
 
-<h4><a name="US41">US 41</a>: The term “parent directory” for a (non-directory) file is unusual. </h4>
 
-<h4><a name="US42">US 42</a>: Pathname resolution does not always resolve a symlink.</h4>
+<h4><a name="US41">US 41</a>; 27.10.4.16: The term “parent directory” for a (non-directory) file is unusual. </h4>
 
-<h4><a name="US47">US 47</a>: “.” and “..” already match the name production. </h4>
 
-</b>
+<blockquote>
+<p>Recommend reject. Insufficient motivation for change. &quot;parent directory&quot; is the 
+term we use to describe the containing directory, and to change that would imply 
+changing at least one function name.</p>
+</blockquote>
+
+<h4><a name="US42">US 42</a>; 27.10.4.21: Pathname resolution does not always resolve a symlink.</h4>
+
+
 
 <blockquote>
 
-<p> <b>Note: </b>
-This may well be an issue, but likely substantive rather than editorial.</p>
+<p>Recommend reject. There is already a note saying essentially that.</p>
 
 </blockquote>
 
-<b>
 
-<h4><a name="US50">US 50</a>: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3.</h4>
+
+<h4><a name="US47">US 47</a>; 27.10.8.1: “.” and “..” already match the name production. </h4>
+
+
+
+<blockquote>
+
+<p> This may well be an issue, but likely substantive rather than editorial.</p>
+
+</blockquote>
+
+
+
+<h4><a name="US50">US 50</a>;&nbsp; 27.10.8.3 [path.req]: <code>path</code> 
+requirements ¶ 1.4 largely redundant with ¶ 1.3</h4>
+
+
+<blockquote>
+
+<p>Beman Dawes comments: IIRC, Daniel Kr<font face="Times New Roman">ü</font>gler 
+crafted those two paragraphs for good reason, and so I would not want to make 
+any change without consulting him first.</p>
+
+<p>Marshall Clow comments: I&#39;m not convinced that this is a defect.</p>
+
+</blockquote>
+
+
 
 <h2><a name="late-comments"></a>Late comments</h2>
 
 <hr>
-
-</h4>
-
-</h4>
-
-</h4>
-
-</h4>
 
 </h4>
 
