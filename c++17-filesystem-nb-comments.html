@@ -105,15 +105,18 @@ to those categories, and two sections corresponding to work-in-process.</p>
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
 <code>!empty()</code></h4>
 <blockquote>
-<p>No P/W. Is the real issue a possibly incorrect post-condition for remove filename()?</p>
+<p>No Proposed wording. Is the real issue a possibly incorrect post-condition for remove filename()? 
+Can the submitter provide clarification?</p>
 
 </blockquote>
 
 <h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system</h4>
 <blockquote>
-<p>That&#39;s by design, aimed at achieving portable syntax with portable behavior. 
+<p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
 And that objective has been largely achieved in practical real-world use for 
-many years. There is no P/W.&nbsp; Recommend rejection. </p>
+many years.&nbsp; </p>
+
+<p>Recommend reject. No proposed wording. </p>
 
 </blockquote>
 
@@ -209,53 +212,90 @@ implementation and user experience.</p>
 
 </blockquote>
 
-<h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified root-name</h4>
+<h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
+<i>root-name</i></h4>
 <blockquote>
-<p>&nbsp;</p>
+<p>Recommend reject. No proposed wording. <i>root-name</i> is specified in the 
+grammar given in [path.generic] as operating system dependent, and that 
+specification includes a note explaining the rationale of this design choice. </p>
 
 </blockquote>
 
 <h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
-<p>Beman Dawes: Recommend rejection at this time. Such an extensive change would require a separate paper that
-included proposed wording.</p>
+<blockquote>
+<p>No proposed wording. Need help from BNF grammar experts.</p>
 
-<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶4: Multiple separators are often meaningful in a <i>root-name</i></h4>
-<p>Beman Dawes: Will provide proposed wording for the Proposed change "Limit the scope of the paragraph to the <i>relative-path</i>.".</p>
+</blockquote>
 
-<h4><a name="US49">US 49</a>; 27.10.8.2.2: What does “method of conversion method” mean?</h4>
-<p>Beman Dawes: It is a mistake. Suggest fix is editorial; Change
-/method of conversion method/method of conversion/ in three places.</p>
+<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i></h4>
+<blockquote>
+<p>Recommend accept with modifications. </p>
 
-<h4><a name="US51">US 51</a>; 27.10.8.4.3 ¶2.3: Failing to add / when appending empty string prevents useful apps</h4>
-<p>Beman Dawes: Not clear to me why <code>p /= "/"</code> would not be satisfactory,
+<p><i>Change 27.10.8.1 [path.generic] ¶1:</i></p>
+
+  <blockquote>
+<p><ins>Except in <i>root-name</i>, m</ins><del>M</del>ultiple successive <i>
+directory-separator</i> characters are considered to be the same as one <i>
+directory-separator </i>character.</p>
+
+  </blockquote>
+</blockquote>
+
+<h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?</h4>
+<blockquote>
+<p>Recommend accept with modifications.</p>
+
+<p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
+
+  <blockquote>
+    <ul>
+      <li><i>¶1.2:</i> method of conversion <del>method</del> is unspecified</li>
+      <li><i>¶1.3:</i> method of conversion <del>method</del> is unspecified</li>
+      <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
+    </ul>
+  </blockquote>
+</blockquote>
+
+<h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps</h4>
+<blockquote>
+<p>Not clear  why <code>p /= "/"</code> would not be satisfactory,
 unless there is concern
-that code like <code>p /= some_string</code> might not work as intended. No proposed wording,
-so unless a volunteer provides wording, suggest "Reject; no consensus at this time" and open an issue.</p>
+that code like <code>p /= some_string</code> might not work as intended if <code>some_string</code> 
+is empty. Clarification from comment submitter would be helpful.</p>
 
-<h4><a name="US52">US 52</a>; 27.10.8.4.5 ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
-<p>Beman Dawes provides wording:</p>
+</blockquote>
+
+<h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
+<blockquote>
+<p>Recommend accept with modifications.</p>
+<p>
+<i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
 <blockquote>
 <h4>
-<i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i>
-<blockquote>
+<span style="font-weight: 400">
 <i>Postcondition:</i> <del><code>!has_filename()</code></del>
 <ins>For an object <code>p</code> of type <code>path</code>,
-<code>p.remove_filename().has_filename() == false</code></ins>.
+<code>p.remove_filename().has_filename() == false</code></ins>. </span>
 </blockquote>
 </blockquote>
 
-<h4><a name="US53">US 53</a>; 27.10.8.4.5 ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior</h4>
+<h4><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior</h4>
 
-<p>Beman Dawes: This issue needs to be resolved before C++17 ships.</p>
-<p>My initial reaction is that the name should be changed. Bikeshed:
+<blockquote>
+
+<p>This issue probably needs to be resolved before C++17 ships, since a name 
+change is a breaking change.</p>
+<p>Bikeshed:
 <code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.
 
-<h4><a name="US54">US 54</a>; 27.10.8.4.5 ¶10: <code>remove_filename()</code> is broken</h4>
+</blockquote>
 
-<h4><a name="US55">US 55</a>; 27.10.8.4.5 ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
+<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken</h4>
 
-<p>Beman Dawes:</p>
-<p>Very strongly recommend rejection. <code>path</code> is the filesystem
+<h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
+
+<blockquote>
+<p>Option A: Very strongly recommend rejection. <code>path</code> is the filesystem
 library's vocabulary type for both fully formed paths and for path fragments. Changing
 the vocabulary type for path fragments to <code>string_type</code>, as suggested in this
 NB comment, would make it more difficult to write code that is portable between operating systems
@@ -265,7 +305,7 @@ It would also make code more difficult that must deal with character encodings t
 from the operating system's expected encoding for <code>string_type</code>. As written, this is a
 "strongly against" issue for me.
 
-<p>An alternative view of US 55 might be that there is a defect in the clarity of 27.10.8 [class.path] ¶1. Perhaps
+<p>Option B: An alternative view of US 55 might be that there is a defect in the clarity of 27.10.8 [class.path] ¶1. Perhaps
 it should be changed something like this:</p>
 
 <blockquote>
@@ -280,33 +320,31 @@ file system.</p>
 
 </blockquote>
  
-<h4><a name="US56">US 56</a>; 27.10.8.4.5 ¶11.2: Conditional addition of period is problematic</h4>
+</blockquote>
+ 
+<h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Conditional addition of period is problematic</h4>
 
 <h4><a name="US57">US 57</a>; 27.10.8.4.8 ¶2: On Windows, absolute paths will sort in among relative paths</h4>
 
 <p>Comment&#39;s <i>Proposed change:</i> Consider including the absoluteness of a 
 path in its sort key.</p>
 
-<h4><a name="US58">US 58</a>; 27.10.8.4.9 ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
+<h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
 
-<h4><a name="US59">US 59</a>; 27.10.8.4.9 ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
+<h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
 
 <p>Beman Dawes: Recommend rejection. <code>path</code> is filesystem's
 vocabulary type for both full paths and for path components, in the same sense that
 <code>std::string</code> might be used as the vocabulary type for both sentences and words in the
 sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 
-<h4><a name="US60">US 60</a>; 27.10.8.4.9 ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
+<h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
 
-<h4><a name="US61">US 61</a>; 27.10.8.4.9 ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
+<h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
 
 <blockquote>
 
-<p><b>Status:</b> ?</p>
-
-<p>Beman Dawes: I'm weakly in favor, but would like to hear others opinion.</p>
-
-<p>Cases worth considering, with suggested decompositions:</p>
+<p>Cases that seem worth considering, with suggested decompositions:</p>
 
 <blockquote>
 
@@ -344,7 +382,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
   </table>
 </blockquote>
 
-<p>Change 27.10.8.4.9 [path.decompose] ¶ 8:</p>
+<p><i>Change 27.10.8.4.9 [path.decompose] ¶ 8:</i></p>
 
 <blockquote>
 
@@ -362,7 +400,7 @@ Otherwise, returns <code>filename()</code>.</p>
   </blockquote>
 </blockquote>
 
-<p>Change 27.10.8.4.9 [path.decompose] ¶ 10:</p>
+<p><i>Change 27.10.8.4.9 [path.decompose] ¶ 10:</i></p>
 
 <blockquote>
 
@@ -381,14 +419,22 @@ returns an empty <code>path</code> object.</p>
 
 </blockquote>
 
-<h4><a name="US62">US 62</a>; 27.10.8.4.9 ¶11: It is important that <code>stem()+extension()==filename()</code></h4>
+<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()</code></h4>
 
-<p>Beman Dawes: Yes, it is important. But the note in ¶11 already says exactly that, so
+<blockquote>
+
+<p>Yes, it is important. But the note in ¶11 already says exactly that, so
 the question becomes "Should we make that part of the note normative?"</p>
+
+</blockquote>
 
 <h4><a name="US63">US 63</a>; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</h4>
 
-<p>Beman Dawes: Will provide proposed wording for the Proposed change "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
+<blockquote>
+
+<p>Need proposed wording for the Proposed change "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
+
+</blockquote>
 
 <h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
 
@@ -455,9 +501,9 @@ Section 2.4.2</p>
 
 <blockquote>
 
-<p><b>Status:</b> Reject</p>
+<p>Recommend reject.</p>
 
-<p> <b>Rationale:</b> Does not handle one signature being <code>
+<p> Does not handle one signature being <code>
 noexcept(true)</code> and the other <code>noexcept(false)</code>, and many other 
 problems. Even the submitter is no longer in favor. See LWG list thread 
 &quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
@@ -467,19 +513,27 @@ October 25, 2016.</p>
 
 <h4><b><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
 
+</b>
+
 <blockquote>
 
-<p><b>Status:</b> Reject</p>
+<p>Recommend reject.</p>
 
-<p><b>Rationale: </b>This is also LWG issue
+<p>This is LWG issue
 <a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
 has been closed as NAD. </p>
 
 </blockquote>
 
+<b>
+
 <h2><a name="editorial"></a>NB Editorial comments</h2>
 
-<p>Editorial NB comments to be processed by the Project Editor.</p>
+</b>
+
+<p>Editorial NB comments will be processed by the Project Editor.</p>
+
+<b>
 
 <h4><a name="US38">US 38</a>:&nbsp; Duplicates §17.3.16.</h4>
 
