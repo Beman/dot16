@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-10-31<!--webbot bot="Timestamp" endspan i-checksum="12043" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-01<!--webbot bot="Timestamp" endspan i-checksum="12104" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -43,10 +43,12 @@ P0489R0</a> related to
 <a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4606.pdf">
 N4606</a> 27.10 [filesystems].</p>
 
-<p>The proposed resolutions in the initial draft of this paper represent only the author&#39;s 
-views. They do not necessarily represent the views of the Library Working Group 
-(LWG) or the C++ committee. The tentative plan is that they will be reviewed and modified by the LWG 
-in Issaquah, and then a revised version brought forward to the full committee.</p>
+<p>The proposed resolutions in the initial draft of this paper represent only 
+the author&#39;s views. They do not necessarily represent the views of the Library 
+Working Group (LWG) or the C++ committee. The tentative plan is that they will 
+be reviewed and revised 
+in Issaquah, first by a small LWG group, then by the full LWG, and then the revised version 
+presented to the full committee on Friday.</p>
 
 <p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
@@ -69,7 +71,7 @@ in Issaquah, and then a revised version brought forward to the full committee.</
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US53">US 53: <code>remove_filename()</code>'s name does not correspond to its behavior</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US54">US 54: <code>remove_filename()</code> is broken</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US55">US 55: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US56">US 56: Conditional addition of period is problematic</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US56">US 56: Remove <code>replace_extension()</code>&#39;s conditional addition of period</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US57">US 57: On Windows, absolute paths will sort in among relative paths</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US58">US 58: <code>parent_path()</code> behavior for root paths is useless</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US59">US 59: <code>filename()</code> returning <code>path</code> for single path components is bizarre</a><br>
@@ -319,13 +321,26 @@ external storage, and the pathname is not necessarily valid for the current oper
 file system.</p>
 
 <p><ins>[<i>Note:</i> Class path is used to hide the difference between the string types
- used to represent pathnames by different operating systems. &mdash; <i>end note</i>]</ins></p>
+ used by different operating systems to represent pathnames. &mdash; <i>end note</i>]</ins></p>
 
 </blockquote>
  
 </blockquote>
  
-<h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Conditional addition of period is problematic</h4>
+<h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Remove <code>
+replace_extension()</code>&#39;s conditional addition of period</h4>
+
+<blockquote>
+ 
+<p>An example of where the current behavior is useful: <code>
+path(&quot;my_file.tx&quot;).replace_extension(&quot;txt&quot;)</code></p>
+
+<p>An example of a case where the current behavior is unsatisfactory would be 
+helpful.</p>
+
+<p>Recommend reject. Insufficient motivation for change.</p>
+
+</blockquote>
 
 <h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths</h4>
 
@@ -342,8 +357,8 @@ file system.</p>
 
 <blockquote>
 
-<p>The example given (<code>path(&quot;c:\\&quot;).parent_path()</code> on Windows 
-returning <code>path(&quot;c:&quot;)</code>) seems useful. </p>
+<p>The example given (<code>path(&quot;c:\\&quot;).parent_path()</code> on 
+Windows returns <code>path(&quot;c:&quot;)</code>) seems useful. </p>
 
 <p>Recommend reject. No proposed wording. Insufficient motivation for change.</p>
 
@@ -362,6 +377,35 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 </blockquote>
 
 <h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
+
+<blockquote>
+
+<p>If this is really a comment about 27.10.8.4.9 [path.decompose] ¶6 then it 
+should be rejected, because that paragraph (<i>Returns</i>: <code>empty() ? 
+path() : *--end()</code>.) is correct.</p>
+
+<p>Perhaps the comment is really a request to strike 27.10.8.5 path iterators [path.itr]
+¶ 4.4:</p>
+
+  <blockquote>
+
+<p><del>&mdash; <i>dot</i>, if one or more trailing non-root <i>
+slash</i> characters are present.</del></p>
+
+  </blockquote>
+
+<p>That iterator behavior has always been surprising and controversial. But such 
+a change would require a paper revisiting the original motivation (i.e. 
+reflecting the presence of a trailing slash indicating a directory path, which 
+is important for non-POSIX/Windows, and ensuring that reconstruction by 
+iteration yields the same path as the original for some definition of &quot;same&quot;), 
+exploring how the change would ripple through class path, what the alternatives 
+are, and so forth.</p>
+
+<p>Recommend reject, but open an LWG issue to leave the door open for such a 
+paper.</p>
+
+</blockquote>
 
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
 
@@ -459,6 +503,36 @@ the question becomes "Should we make that part of the note normative?"</p>
 
 </blockquote>
 
+<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</h4>
+
+<blockquote>
+
+<p>Recommend reject.</p>
+
+<p> Does not handle one signature being <code>
+noexcept(true)</code> and the other <code>noexcept(false)</code>, and many other 
+problems. Even the submitter is no longer in favor. See LWG list thread 
+&quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
+October 25, 2016.</p>
+
+</blockquote>
+
+<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
+
+
+
+<blockquote>
+
+<p>Recommend reject.</p>
+
+<p>This is LWG issue
+<a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
+has been closed as NAD. </p>
+
+</blockquote>
+
+
+
 <h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
 
 <blockquote>
@@ -537,37 +611,16 @@ Section 2.4.2</p>
 
 </blockquote>
 
-<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</h4>
-
-<blockquote>
-
-<p>Recommend reject.</p>
-
-<p> Does not handle one signature being <code>
-noexcept(true)</code> and the other <code>noexcept(false)</code>, and many other 
-problems. Even the submitter is no longer in favor. See LWG list thread 
-&quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
-October 25, 2016.</p>
-
-</blockquote>
-
-<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
-
-
-
-<blockquote>
-
-<p>Recommend reject.</p>
-
-<p>This is LWG issue
-<a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
-has been closed as NAD. </p>
-
-</blockquote>
-
 
 
 <h2><a name="editorial"></a>NB  comments submitted as editorial</h2>
+
+
+
+
+
+<p>It isn&#39;t at all clear than any of these are really editorial. A ruling by the 
+project editor is probably needed.</p>
 
 
 
@@ -638,9 +691,9 @@ requirements ¶ 1.4 largely redundant with ¶ 1.3</h4>
 
 <blockquote>
 
-<p>Beman Dawes comments: IIRC, Daniel Kr<font face="Times New Roman">ü</font>gler 
+<p>Beman Dawes comments: IIRC, Daniel Krügler 
 crafted those two paragraphs for good reason, and so I would not want to make 
-any change without consulting him first.</p>
+any change without consulting him.</p>
 
 <p>Marshall Clow comments: I&#39;m not convinced that this is a defect.</p>
 
@@ -649,6 +702,10 @@ any change without consulting him first.</p>
 
 
 <h2><a name="late-comments"></a>Late comments</h2>
+
+
+
+<p>To be supplied</p>
 
 <hr>
 
