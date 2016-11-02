@@ -22,34 +22,53 @@
   font. That's a PITA, but helps readers quite a bit.</li>
   <li>In new WP wording, using code font becomes more important. Words like 
   &quot;path&quot; change their meaning if they are in code font, and the project editor, 
-  his helpers, and other readers may not understand filesystem as well as you 
-  do.</li>
+  his helpers, and other readers may not understand filesystem as the LWG does.</li>
   <li>It is sometimes hard to pick out the instructions to the editors. Perhaps use 
   italics - e.g. <i>Add the following enum class:</i></li>
   <li>My personal preference is to use background colors rather than font colors 
-  to signify changes.&nbsp; I agree that as you are already doing, not using underbars and 
-  strikethroughs makes reading easier.</li>
+  to signify changes.&nbsp; +1 for not using underbars and strikethroughs.</li>
 </ul>
 <h2>Substantive</h2>
 <ul>
   <li><code>enum class pathname_format;</code> needs to be added to the 
-  &quot;enumerations&quot; section of 27.10.6 Header &lt;filesystem&gt; synopsis [fs.filesystem.syn]</li>
+  &quot;enumerations&quot; section of 27.10.6 Header &lt;filesystem&gt; synopsis [fs.filesystem.syn]. 
+  But see the next three items.</li>
+  <li dir="ltr">
+  <p dir="ltr"><code>auto</code> is a C++ keyword, so can&#39;t be used as a <code>
+  pathname_format</code> constant. But see the next item.</li>
+  <li>
+  <p dir="ltr">Should <code>pathname_format</code> even have an <code>auto</code> 
+  constant? It seems simpler just to define the path constructor argument 
+  default as <i><code>implementation-defined</code></i>.</li>
+  <li>Did you consider making adding <code>enum format {native, generic};</code> 
+  as a member of class <code>path</code>? Class <code>path</code> is the only 
+  context it is used in, and the member enum allows users to write<code> 
+  path::native</code> and <code>path::generic</code> rather than the longer
+  <code>pathname_format::native</code> and <code>pathname_format::generic</code>.</li>
 </ul>
 <h2>Editorial wordsmithing</h2>
 <ul>
   <li> <i>Add the following enum class</i> <i> <ins>to 27.10.10 [fs.enum]</ins>:</i></li>
+  <li>pathname_format table row 1; The <del>format of the string_type argument is in</del> native <ins>pathname</ins> format
+  <ins>([fs.def.native])</ins>.</li>
+  <li>pathname_format table row 2; The <del>format of the string_type argument is in</del> 
+  generic <ins>pathname</ins> format <ins>([path.generic]</ins>).</li>
+  <li>The <del>directory</del> <ins>directory-like file type</ins> change to 
+  27.10.13 [class.directory_iterator] is problematic because we don&#39;t have a 
+  definition for &quot;directory-like file type&quot;. How about &quot;... files in a directory
+  <ins>or in an implementation defined directory-like file type</ins>.&quot;</li>
 </ul>
 <h2>Serious concern over proposed changes to <b>27.10.8.2.1 [path.fmt.cvt]</b></h2>
 <p>I agree with the intent of the proposed change to 27.10.8.2.1, but have a 
-serious concern about the wording. That concern is best understood by looking at 
-the change in the context of the entirety of 27.10.8.2.1, as shown below.</p>
-<p>It is a basic tenet of writing standardese that the same spec is not said 
-twice using different wording. Violating this tenet causes endless problems 
-because inevitably there are subtle differences in meaning between the two 
-wordings. Yet the proposed new paragraph is a restatement of what paragraph 2 
-already says.</p>
-<p>If there is something wrong with paragraph two it needs to be fixed, rather 
+serious concern; the current wording is already supposed to say the same thing! 
+That concern is best understood by looking at the change in the context of the 
+entirety of 27.10.8.2.1, as shown below.</p>
+<p>It is a basic tenet of writing standardese not to say the same thing twice 
+using different wording. Violating this tenet causes endless problems because 
+inevitably there are subtle differences in meaning between the two wordings.</p>
+<p>If there is something wrong with the current paragraph two then that needs to be fixed, rather 
 than adding a new and possibly conflicting paragraph.</p>
+<blockquote>
 <p><b>27.10.8.2.1 path argument format conversions [path.fmt.cvt]</b></p>
 <p><ins><font size="1">new</font> Specifications for path appends, path concatenation, path modifiers, path 
 decomposition and path query are in terms of the generic pathname format. An 
@@ -83,6 +102,7 @@ note ]</p>
 to be formatted differently from paths for directories, the path shall be 
 treated as a directory path if its last element is a directory-separator, 
 otherwise it shall be treated as a path to a regular file.</p>
+</blockquote>
 <hr>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
