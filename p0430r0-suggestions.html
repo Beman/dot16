@@ -28,6 +28,18 @@
   <li>My personal preference is to use background colors rather than font colors 
   to signify changes.&nbsp; +1 for not using underbars and strikethroughs.</li>
 </ul>
+<h2>Editorial wordsmithing</h2>
+<ul>
+  <li> <i>Add the following enum class</i> <i> <ins>to 27.10.10 [fs.enum]</ins>:</i></li>
+  <li>pathname_format table row 1; The <del>format of the string_type argument is in</del> native <ins>pathname</ins> format
+  <ins>([fs.def.native])</ins>.</li>
+  <li>pathname_format table row 2; The <del>format of the string_type argument is in</del> 
+  generic <ins>pathname</ins> format <ins>([path.generic]</ins>).</li>
+  <li>The <del>directory</del> <ins>directory-like file type</ins> change to 
+  27.10.13 [class.directory_iterator] is problematic because we don&#39;t have a 
+  definition for &quot;directory-like file type&quot;. How about &quot;... files in a directory
+  <ins>or in an implementation defined directory-like file type</ins>.&quot;</li>
+</ul>
 <h2>Substantive</h2>
 <ul>
   <li><code>enum class pathname_format;</code> needs to be added to the 
@@ -45,18 +57,6 @@
   context it is used in, and the member enum allows users to write<code> 
   path::native</code> and <code>path::generic</code> rather than the longer
   <code>pathname_format::native</code> and <code>pathname_format::generic</code>.</li>
-</ul>
-<h2>Editorial wordsmithing</h2>
-<ul>
-  <li> <i>Add the following enum class</i> <i> <ins>to 27.10.10 [fs.enum]</ins>:</i></li>
-  <li>pathname_format table row 1; The <del>format of the string_type argument is in</del> native <ins>pathname</ins> format
-  <ins>([fs.def.native])</ins>.</li>
-  <li>pathname_format table row 2; The <del>format of the string_type argument is in</del> 
-  generic <ins>pathname</ins> format <ins>([path.generic]</ins>).</li>
-  <li>The <del>directory</del> <ins>directory-like file type</ins> change to 
-  27.10.13 [class.directory_iterator] is problematic because we don&#39;t have a 
-  definition for &quot;directory-like file type&quot;. How about &quot;... files in a directory
-  <ins>or in an implementation defined directory-like file type</ins>.&quot;</li>
 </ul>
 <h2>Serious concern over proposed changes to <b>27.10.8.2.1 [path.fmt.cvt]</b></h2>
 <p>I agree with the intent of the proposed change to 27.10.8.2.1, but have a 
