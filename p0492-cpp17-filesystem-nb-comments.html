@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-01<!--webbot bot="Timestamp" endspan i-checksum="12104" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-03<!--webbot bot="Timestamp" endspan i-checksum="12108" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -713,10 +713,99 @@ issues against SC 22, N3151, ISO/IEC CD 14882.&quot; </p>
 
 
 <p>Late comments 15-47 apply to 27.10 [filesystems]. Except for as noted below, 
-this paper recommends regular LWG issues be opened for all Late comments related 
+this paper recommends new LWG issues be opened for all Late comments related 
 to 27.10.</p>
 
+<h4><a name="Late15">Late 15</a>; 27.10.8.4.11 ¶3.1: A “mismatched element” cannot be equal to an iterator</h4>
 
+<h4><a name="Late16">Late 16</a>; 27.10.8.4.11 ¶3.3.1: <code>lexically_relative("..\\foo")</code> produces nonsense.</h4>
+
+<h4><a name="Late17">Late 17</a>; 27.10.8.4.11 ¶3.3.2: Behavior not always 
+appropriate</h4>
+
+<h4><a name="Late18">Late 18</a>; 27.10.8.4.11 ¶4: Behavior wrong in case corresponding to  comment Late17</h4>
+
+<h4><a name="Late19">Late 19</a>; 27.10.8.5 ¶2: It is surprising that a path is a container of paths</h4>
+
+<h4><a name="Late20">Late 20</a>; 27.10.11 ¶1: Anemic status structure</h4>
+
+<h4><a name="Late21">Late 21</a>; 27.10.12: <code>directory_entry</code> is just a tivial wrapper for <code>path</code></h4>
+
+<h4><a name="Late22">Late 22</a>; 27.10.13 ¶6: <code>directory_iterator</code> cumbersome to assemble full path with iterator’s directory</h4>
+
+<h4><a name="Late23">Late 23</a>; 27.10.14.1 ¶28: <code>disable_recursion_pending()</code> name is ugly implementation detail</h4>
+
+<h4><a name="Late24">Late 24</a>; 27.10.15.1 ¶1: <code>absolute()</code> can produce nonsense result</h4>
+
+<h4><a name="Late25">Late 25</a>; 27.10.15.4 ¶4.2: What attributes does <code>copy_file()</code> copy?</h4>
+
+<h4><a name="Late26">Late 26</a>; 27.10.15.6 ¶5: <code>create_directories()</code> complexity assumes syscalls take constant time</h4>
+
+<h4><a name="Late27">Late 27</a>; 27.10.15.7 ¶5: <code>create_directory()</code> specification prevents sensible security measures</code></h4>
+
+<h4><a name="Late28">Late 28</a>; 27.10.15.10: <code>create_symlink()</code> might misbehave if <code>to</code> is a directory</h4>
+
+<h4><a name="Late29">Late 29</a>; 27.10.15.13: Access to file ID is superior to <code>equivalent()</code></h4>
+
+<h4><a name="Late30">Late 30</a>; 27.10.15.13 ¶3: <code>equivalent()</code>'s <code>s1==s2</code> check is ill-formed and could race</h4>
+
+<h4><a name="Late31">Late 31</a>; 27.10.15.13 ¶5: Surprising that <code>equivalent()</code>'s error_code overload 
+can throw</h4>
+
+<h4><a name="Late32">Late 32</a>; 27.10.15.13 ¶5 : <code>equivalent()</code> should not reject special files outright</h4>
+
+<h4><a name="Late33">Late 33</a>; 27.10.15.21: <code>is_other()</code> result surprising</h4>
+
+<h4><a name="Late34">Late 34</a>; 27.10.15.25 ¶5: Could <code>last_write_time()</code> guarantee the error direction</code></h4>
+
+<h4><a name="Late35">Late 35</a>; 27.10.15.26: Why is there no way to read permissions?</h4>
+
+<h4><a name="Late36">Late 36</a>; 27.10.15.26: The <code>permissions() error_code</code> overload should be <code>noexcept</code></h4>
+
+<h4><a name="Late37">Late 37</a>; 27.10.15.26 ¶2:<code>permissions()</code> actions should be separate parameter</h4>
+
+<blockquote>
+
+<p>Beman comments: Matt Austern pointed out this issue and its fix, but it got dropped on the floor in Filesystem TS shipping rush and has never been fixed. We should fix it now or never.</p>  
+
+</blockquote>
+
+<h4><a name="Late38">Late 38</a>; 27.10.15.26 ¶2: Unimplementable implication that <code>permissions()</code> is atomic</h4>
+
+<h4><a name="Late39">Late 39</a>; 27.10.15.29 ¶3: Suprising <code>relative()</code> behavior for symlinks</h4>
+
+<h4><a name="Late40">Late 40</a>; 27.10.15.31 ¶1: <code>remove_all()</code> unclear for <code>symlink/</code></h4>
+
+<h4><a name="Late41">Late 41</a>; 27.10.15.31 ¶3: Would be useful for <code>remove_all()</code> to report successful removal count on error</h4>
+
+<h4><a name="Late42">Late 42</a>; 27.10.15.33 ¶1: <code>resize_file()</code> <i>Postcondition</i> missing argument</h4>
+
+<blockquote>
+
+<p><i>Change 27.10.15.33 [fs.op.resize_file]:</i></p>
+
+  <blockquote>
+
+<p><i>Postcondition</i>: <code>file_size(<ins>p</ins>) == new_size</code>.</p>
+
+  </blockquote>
+</blockquote>
+
+<h4><a name="Late43">Late 43</a>; 27.10.15.33 ¶3: Add POSIX <code>ftruncate()</code> equivalent function</h4>
+
+<blockquote>
+
+<p>Recommend opening issue. Such a feature might be useful in 27.9 [file.streams] for C++20.</p> 
+
+</blockquote>
+
+<h4><a name="Late44">Late 44</a>; 27.10.15.38: <code>system_complete()</code> name inconsistent with similar functions in subclause</h4>
+
+<h4><a name="Late45">Late 45</a>; 27.10.15.38 ¶6: Remove <code>system_complete()</code> unless it can be made reliable</h4>
+
+<h4><a name="Late46">Late 46</a>; 27.10.15.40 ¶2: Question about <code>weakly_canonical()</code> <i>Effects</i></code></h4>
+
+<h4><a name="Late47">Late 47</a>; 27.10.15.40 ¶4: <code>weakly_canonical()</code> suggested caching is incorrect</h4>
 
 
 <hr>
