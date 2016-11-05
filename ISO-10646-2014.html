@@ -30,7 +30,7 @@ body
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-07-19<!--webbot bot="Timestamp" endspan i-checksum="12473" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-03<!--webbot bot="Timestamp" endspan i-checksum="12108" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -60,24 +60,39 @@ The changes that impact the C++17 CD include:</p>
   without a normative definition.</li>
   <li>UCS-2 has been deprecated, and has been replaced by UTF-16. This is a 
   normative change for the C++ standard because UCS-2 and UTF-16 are not the 
-  same.</li>
+  same. The differences are disjoint, however, so the change breaks no existing 
+  code.</li>
   <li>The term UCS-4 has been changed to UTF-32. Although 10646 says &quot;The terms 
   UTF-32 and UCS-4 can be used interchangeably...&quot;, the C++ standard should use 
   the preferred term UTF-32 throughout.</li>
-  <li>New characters have been added. Annex E needs to be updated accordingly.</li>
 </ul>
 
 <p>See 
 <a href="http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html">http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html</a> 
 for a copy of ISO/IEC 10646:2014.</p>
 
+<h2>Discussion of the UCS2 to UTF-16 change</h2>
+
+<p>The term &#39;UCS2&#39; is only used twice, in the specification of the C++11 header 
+&lt;codecvt&gt; facets in [locale.stdcvt].</p>
+
+<p>Code using these facets which tried to convert to or from UTF-16 <code>
+externT</code> strings was previously broken for surrogate pairs, but with the 
+change will now work correctly. Code converting to or from UCS2 <code>externT</code> 
+strings continues work as in the past because it contains no surrogates. (The 
+ranges for high surrogates, low surrogates, and valid BMP characters are 
+disjoint.)</p>
+
 <h2>Revision history</h2>
 
-<p><b>R1 - 2016 Pre-Issaquah mailing</b></p>
+<p><b>R1 - 2016 Post-Issaquah mailing</b></p>
 
 <ul>
   <li>Add Acknowledgements.</li>
   <li>Add &quot;... hereinafter called UCS&quot; paragraph.</li>
+  <li>Remove proposed changes to Annex E. Clark Nelson points out that the 
+  omission of F0000-FFFFD and 100000-10FFFD is deliberate because they are 
+  reserved for private use.</li>
 </ul>
 
 <p><b>R0 - 2016 Post-Oulu mailing</b></p>
@@ -86,7 +101,7 @@ for a copy of ISO/IEC 10646:2014.</p>
 
 <p>Thanks to Richard Smith for encouraging me to write this paper.</p>
 
-<p>Thanks to To Honermann for standardese discussions that led me to 
+<p>Thanks to Tom Honermann for standardese discussions that led me to 
 realize how out-of-date the ISO/IEC 10646:1-1993 reference was.</p>
 
 <h2>Proposed changes</h2>
@@ -103,8 +118,12 @@ Character Set (UCS)</i></ins></p>
 
 <p><i>Add a new paragraph at the end of [intro.refs]:</i></p>
 
+<blockquote>
+
 <p><ins>The Universal Coded Character Set described in ISO/IEC 10646:2014 is 
 hereinafter called <i>UCS</i>.</ins></p>
+
+</blockquote>
 
 <h4>22.5 Standard code conversion facets [locale.stdcvt]</h4>
 
@@ -129,14 +148,6 @@ of Elem) within the program.</p>
 (depending on the size of Elem) within the program.</p>
 
 </blockquote>
-
-<h4>E.1 Ranges of characters allowed [charname.allowed]</h4>
-
-<p>10000-1FFFD, 20000-2FFFD, 30000-3FFFD, 40000-4FFFD, 50000-5FFFD,<br>
-&nbsp;&nbsp;&nbsp; 60000-6FFFD, 70000-7FFFD, 80000-8FFFD, 90000-9FFFD, 
-A0000-AFFFD,<br>
-&nbsp;&nbsp;&nbsp; B0000-BFFFD, C0000-CFFFD, D0000-DFFFD, E0000-EFFFD<ins>, F0000-FFFFD,</ins><br>
-&nbsp;&nbsp;&nbsp; <ins>100000-10FFFD</ins></p>
 
 <hr>
 
