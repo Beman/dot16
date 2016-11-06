@@ -30,7 +30,7 @@ body
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-03<!--webbot bot="Timestamp" endspan i-checksum="12108" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-06<!--webbot bot="Timestamp" endspan i-checksum="12114" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -49,19 +49,29 @@ latest version of other ISO standards, yet the C++17 CD still refers to <i>ISO/I
 technology — Universal Multiple-Octet Coded Character Set (UCS)— Part 1: 
 Architecture and Basic Multilingual Plane</i>.</p>
 
-<p>There have been three revisions and numerous amendments of 10646 since 1994. 
+<p>This paper proposes updating the C++ standard to refer to ISO/IEC 10646:2014 
+and replacing of the terms <i>UCS2</i> and <i>UCS4</i> with <i>UTF-16</i> and <i>
+UTF-32</i>. National Body comment GB 4 requests updating the reference. NB 
+comments US 64 and CA 9 implicitly support updating the reference, but 
+explicitly request UCS2 be retained.</p>
+
+<h2>Background&nbsp; </h2>
+
+<p>There have been three revisions and numerous amendments to ISO/IEC 10646 since 1994. 
 The changes that impact the C++17 CD include:</p>
 
 <ul>
   <li>The name has changed to <i>Information technology — Universal Coded 
-  Character Set (UCS)</i>.</li>
+  Character Set (UCS)</i>.<br>
+&nbsp;</li>
   <li>UTF-8, UTF-16, and UTF-32 are now defined. They were not even a part of 
   10646:1994 before amendments, so the C++ standard has been using the terms 
-  without a normative definition.</li>
+  without a normative definition.<br>
+&nbsp;</li>
   <li>UCS-2 has been deprecated, and has been replaced by UTF-16. This is a 
   normative change for the C++ standard because UCS-2 and UTF-16 are not the 
-  same. The differences are disjoint, however, so the change breaks no existing 
-  code.</li>
+  same.<br>
+&nbsp;</li>
   <li>The term UCS-4 has been changed to UTF-32. Although 10646 says &quot;The terms 
   UTF-32 and UCS-4 can be used interchangeably...&quot;, the C++ standard should use 
   the preferred term UTF-32 throughout.</li>
@@ -71,25 +81,61 @@ The changes that impact the C++17 CD include:</p>
 <a href="http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html">http://standards.iso.org/ittf/PubliclyAvailableStandards/index.html</a> 
 for a copy of ISO/IEC 10646:2014.</p>
 
-<h2>Discussion of the UCS2 to UTF-16 change</h2>
+<h2><a name="Discussion">Discussion</a> of the UCS2 to UTF-16 change</h2>
 
 <p>The term &#39;UCS2&#39; is only used twice, in the specification of the C++11 header 
-&lt;codecvt&gt; facets in [locale.stdcvt].</p>
+<code>&lt;codecvt&gt;</code> facets in [locale.stdcvt].</p>
 
-<p>Code using these facets which tried to convert to or from UTF-16 <code>
-externT</code> strings was previously broken for surrogate pairs, but with the 
-change will now work correctly. Code converting to or from UCS2 <code>externT</code> 
-strings continues work as in the past because it contains no surrogates. (The 
-ranges for high surrogates, low surrogates, and valid BMP characters are 
-disjoint.)</p>
+<p>Rationale for the change to UTF-16:</p>
+
+<ul>
+  <li>The term UCS-2 is now obsolete and deprecated. See
+  <a href="http://www.unicode.org/versions/Unicode9.0.0/UnicodeStandard-9.0.pdf" data-saferedirecturl="https://www.google.com/url?hl=en&amp;q=http://www.unicode.org/versions/Unicode9.0.0/UnicodeStandard-9.0.pdf&amp;source=gmail&amp;ust=1478512610703000&amp;usg=AFQjCNFKEdyQtSyQJY_mGLn1bfYqVX4CMQ" rel="noreferrer" target="_blank">
+  http://www.unicode.org/<wbr />versions/Unicode9.0.0/<wbr />UnicodeStandard-9.0.pdf</a> 
+  section C.2, which says: </li>
+</ul>
+<font FACE="Minion-BoldItalic" SIZE="2"><i><b>
+<blockquote>
+  <blockquote>
+    <p ALIGN="LEFT">UCS-2. </b></i></font><font FACE="Minion-Regular" SIZE="2">
+    UCS-2 stands for “Universal Character Set coded in 2 octets” and is also 
+    known as “the two-octet BMP form.” It was documented in earlier editions of 
+    10646 as the two-octet (16-bit) encoding consisting only of code positions 
+    for plane zero, the </font><font FACE="Minion-Italic" SIZE="2"><i>Basic 
+    Multilingual Plane</i></font><font FACE="Minion-Regular" SIZE="2">. This 
+    documentation has been removed from ISO/IEC 10646:2011 and subsequent 
+    editions, and the term UCS-2 should now be considered obsolete. It no longer 
+    refers to an encoding form in either 10646 or the Unicode Standard.</p>
+  </blockquote>
+</blockquote>
+</font>
+<ul>
+  <li>Implementations diverge. Stdlibc++ already treats two-octet forms as 
+  UTF-16.<br>
+&nbsp;</li>
+  <li>When a facet&#39;s <code>Elem</code> is <code>char16_t</code>, it is 
+  surprising and error-prone if the encoding is actually UCS2 since the usual 
+  C++ encoding such as for literals is UTF-16.<br>
+&nbsp;</li>
+  <li>Because header <code>&lt;codecvt&gt;</code> facets only became part of the 
+  standard with C++11, and because the only code breakage from the change to 
+  UTF-16 is in downstream code that makes assumptions which fail for surrogate 
+  code points, it seems unlikely that UCS2 replacement will break much existing 
+  code that isn&#39;t already broken. Use of the facets themselves does not break 
+  because the ranges for high surrogates, low surrogates, and valid BMP 
+  characters are disjoint.</li>
+</ul>
 
 <h2>Revision history</h2>
 
 <p><b>R1 - 2016 Post-Issaquah mailing</b></p>
 
 <ul>
+  <li>Add mention of National Body comments.</li>
   <li>Add Acknowledgements.</li>
-  <li>Add &quot;... hereinafter called UCS&quot; paragraph.</li>
+  <li>Add &quot;... hereinafter called UCS&quot; paragraph to increase 
+  uniformity with other referenced standards.</li>
+  <li>Add <a href="#Discussion">Discussion of the UCS2 to UTF-16 change</a>.</li>
   <li>Remove proposed changes to Annex E. Clark Nelson points out that the 
   omission of F0000-FFFFD and 100000-10FFFD is deliberate because they are 
   reserved for private use.</li>
