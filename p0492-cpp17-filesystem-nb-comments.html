@@ -103,18 +103,21 @@ presented to the full committee on Friday.</p>
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
 <code>!empty()</code></h4>
 <blockquote>
-<p>No Proposed wording. Is the real issue a possibly incorrect post-condition for remove filename()? 
-Can the submitter provide clarification?</p>
+<p>No Proposed wording. The real issue is a possibly incorrect post-condition for 
+<code>remove_filename()</code>. </p>
+
+<p>SG recommends revisiting this comment after other filename related comments 
+have been resolved.</p>
 
 </blockquote>
 
 <h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system</h4>
 <blockquote>
-<p>Recommend reject. That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
+<p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
 And that objective has been largely achieved in practical real-world use for 
-many years.&nbsp; No proposed wording. Such a major change would require a 
-detailed paper with much research, implementation experience, and user 
-experience.</p>
+many years.&nbsp; No proposed wording. </p>
+
+<p>SG recommends waiting for a paper or issue with proposed wording. </p>
 
 </blockquote>
 
@@ -126,8 +129,6 @@ conformance unclear</h4>
 <p dir="ltr">The comment requests &quot;Clarify that ¶2 governs and an error must be 
 reported in such cases&quot;.</p>
 
-<p dir="ltr">Recommend accept with modifications:</p>
-
 <p dir="ltr"><i>Change 27.10.2.1 [fs.conform.9945] ¶2:</i></p>
   <blockquote>
     <p>Implementations are not required to provide behavior that is not 
@@ -137,6 +138,7 @@ reported in such cases&quot;.</p>
     implementations are not required to support those features on the FAT file 
     system <ins>but instead are required to report an error as described above</ins>. —end example ]</p>
   </blockquote>
+    <p>Jonathan Wakely will supply improved wording.</p>
 </blockquote>
 <h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic</h4>
 <blockquote>
@@ -148,32 +150,37 @@ not used in the WP.</p>
 An absolute path that has no elements that are symbolic links, and no dot or 
 dot-dot elements (27.10.8.1).</del></p>
 </blockquote>
+<p>SG recommends accept.</p>
 </blockquote>
 <h4><a name="US34">US 34</a>; 27.10.4.5 [fs.def.filesystem]: Are there attributes of a file that are not an aspect of the file system?</h4>
 <blockquote>
-<p>Recommend accept with modifications. The proposed wording is taken directly from POSIX 3.164 <i>File</i> 
-definition.</p>
 <p><i>Change 27.10.4.5 [fs.def.filesystem]:</i></p>
   <blockquote>
-<p>A collection of files and certain of their attributes<ins>, including access permissions and type</ins>.</p>
+<p>A collection of files and <del>certain of</del> their attributes.</p>
   </blockquote>
+<p>SG recommends accept with modifications.</p>
 </blockquote>
 <h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?</h4>
 <blockquote>
-<p>27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
+<p>No proposed wording. 27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
 describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
-would be the proper place. The standards committee in general and the SG3 
-Filesystem Study Group in particular has long had an outstanding request for 
-someone to submit a paper proposing facilities that could be used to minimize 
-file system races. No such proposal has been made. Such a major change would 
-require a detailed paper with much research, implementation experience, and user 
-experience.</p>
-<p>Recommend reject; no consensus at this time. (i.e. NAD, Future)</p>
+would be the proper place. </p>
+<p>SG recommends waiting for a paper or issue with proposed wording. </p>
 </blockquote>
 <h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links</h4>
 <blockquote>
-<p>Recommend reject. No proposed wording. The current definition is taken 
-directly from POSIX 3.130 <i>Directory Entry (or Link)</i> definition.</p>
+<p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
+(or Link).</p>
+<p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
+  <blockquote>
+<p><b>link</b><br>
+<del>A directory entry that associates a filename with a file. A link is either 
+a hard link (27.10.4.8) or a symbolic link (27.10.4.21).</del> <ins>An object 
+that associates a filename with a file. Several link entries can associate names 
+with the same file.</ins></p>
+  </blockquote>
+<h4><span style="font-weight: 400">SG recommends accept with modifications. 
+Davis Herring will open an issue on a related concern.</span></h4>
 </blockquote>
 <h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined</h4>
 <blockquote>
