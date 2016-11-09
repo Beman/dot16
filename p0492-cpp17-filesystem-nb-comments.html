@@ -146,7 +146,7 @@ reported in such cases&quot;.</p>
 not used in the WP.</p>
 <p><i>Remove 27.10.4.2 [fs.def.canonical.path]:</i></p>
 <blockquote>
-<p><del>canonical path<br>
+<p><del><b>canonical path</b><br>
 An absolute path that has no elements that are symbolic links, and no dot or 
 dot-dot elements (27.10.8.1).</del></p>
 </blockquote>
@@ -184,19 +184,31 @@ Davis Herring will open an issue on a related concern.</span></h4>
 </blockquote>
 <h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined</h4>
 <blockquote>
-<p>Recommend reject.  &quot;redundant&quot; is used several places in 
-the current definition, always in the normal English sense of the word. Detailed 
-behavior is specified for individual functions rather than in the definition of 
-normal form. No proposed wording. </p>
+<p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
+<blockquote>
+<p><b>normal form</b><br>
+A path with no <del>redundant</del> current directory (<i>dot</i>) elements <ins>
+except possibly one at the end</ins>, no redundant parent directory (<i>dot-dot</i>) 
+elements, and no redundant <i>directory-separators</i>. The normal form for an 
+empty path is an empty path. The normal form for a path ending in a <i>
+directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
+element appended. A path in normal form is said to be <i>normalized</i>. The 
+process of obtaining a normalized path from a path that is not in normal form is 
+called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current 
+directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
+different syntax for directory names and regular file names. —<i>end note</i> ]</p>
+</blockquote>
+<p>SG recommends accept with modifications.</p>
 </blockquote>
 <h4><a name="US40">US 40</a>; 27.10.4.15 [fs.def.parent]: Not all directories 
 have a parent</h4>
 
 <blockquote>
-<p>Recommend reject.&nbsp;The definition in question is taken directly from 
+<p>No proposed wording. The definition in question is taken directly from 
 the POSIX
-<font face="Times New Roman">§</font>3.268 <i>Parent Directory</i> definition. 
-No proposed wording.</p>
+<font face="Times New Roman">§</font>3.268 <i>Parent Directory</i> definition. </p>
+
+<p>SG recommends reject.</p>
 
 </blockquote>
 
@@ -204,8 +216,10 @@ No proposed wording.</p>
 
 <blockquote>
 
-<p>&nbsp;No proposed wording. Might be clearer if we changed 27.10.5 
-Requirements [fs.req] ¶4:</p>
+<p>&nbsp;No proposed wording.  </p>
+
+<p><i>Change 27.10.5 
+Requirements [fs.req] ¶4:</i></p>
 
   <blockquote>
 
@@ -216,36 +230,41 @@ no implied <ins>character set and</ins> encoding, they are not included as permi
 
   </blockquote>
 
+<p>SG recommends accept with modifications.</p>
+
+<p>The SG also detected a problem with conversions that fail, and a need that 
+directory-separator detection occur at the code-unit level. Billy O&#39;neil and 
+Jonathan Wakely will provide issue write ups.</p>
+
 </blockquote>
 
 <h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction</h4>
 <blockquote>
-<p>Recommend reject. The <i>Proposed change</i> amounts to 
-a redesign and rewrite of the class path specification. Such an extensive change 
-would require a separate proposal including proposed wording, not to mention 
-implementation and user experience.&nbsp; No proposed wording.</p>
+<p>No proposed wording.</p>
+
+<p>SG recommends that resolution of this comment be deferred until LWG 2734 is 
+resolved. It is expected that issue will be resolved as a native path. Add a 
+note to 27.10.8.4.4 to the effect that &quot;a non-portable path may result because 
+&#39;/&#39; is non-portable.&quot;</p>
 
 </blockquote>
 
 <h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
 <i>root-name</i></h4>
 <blockquote>
-<p>Recommend reject. <i>root-name</i> is specified in the 
-grammar given in [path.generic] as operating system dependent, and that 
-specification includes a note explaining the rationale of this design choice. No 
-proposed wording. </p>
+<p>No 
+proposed wording. Davis Herring working on proposed wording.</p>
 
 </blockquote>
 
 <h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
 <blockquote>
-<p>No proposed wording. Need help from BNF grammar experts.</p>
+<p>No proposed wording. Jonathan Wakely will provide proposed wording.</p>
 
 </blockquote>
 
 <h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i></h4>
 <blockquote>
-<p>Recommend accept with modifications. </p>
 
 <p><i>Change 27.10.8.1 [path.generic] ¶1:</i></p>
 
@@ -255,11 +274,12 @@ directory-separator</i> characters are considered to be the same as one <i>
 directory-separator </i>character.</p>
 
   </blockquote>
+<p>SG recommends accept with modifications.</p>
+
 </blockquote>
 
 <h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?</h4>
 <blockquote>
-<p>Recommend accept with modifications.</p>
 
 <p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
 
@@ -270,29 +290,66 @@ directory-separator </i>character.</p>
       <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
     </ul>
   </blockquote>
+<p>SG recommends accept with modifications.</p>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps</h4>
 <blockquote>
-<p>Not clear  why <code>p /= "/"</code> would not be satisfactory,
-unless there is concern
-that code like <code>p /= some_string</code> might not work as intended if <code>some_string</code> 
-is empty. Clarification from comment submitter would be helpful.</p>
+
+<p><i>Change 27.10.8.4.3 [path.append]:</i></p>
+  
+  <blockquote>
+    <p ALIGN="LEFT"><code>path&amp; operator/=(const path&amp; p);</code></p>
+    </font><font FACE="LMRoman7-Regular" SIZE="1">
+    <p ALIGN="LEFT">2 </font><font FACE="LMRoman10-Italic"><i>Effects:
+    </i></font><font FACE="LMRoman10-Regular">Appends </font>
+    <font FACE="LMMono10-Regular">path::preferred_separator </font>
+    <font FACE="LMRoman10-Regular">to </font>
+    <font FACE="LMMono10-Regular">pathname </font>
+    <font FACE="LMRoman10-Regular">unless:</p>
+    </font><font FACE="LMRoman7-Regular" SIZE="1">
+    <p ALIGN="LEFT">(2.1) </font><font FACE="LMRoman10-Regular">— an 
+    added </font><font FACE="LMRoman10-Italic"><i>directory-separator
+    </i></font><font FACE="LMRoman10-Regular">would be redundant, or</p>
+    </font><font FACE="LMRoman7-Regular" SIZE="1">
+    <p ALIGN="LEFT">(2.2) </font><font FACE="LMRoman10-Regular">— </font>
+    <ins><code>p.empty()</code> is <code>false</code> and</ins> an added <i>directory-separator</i><font FACE="LMRoman10-Regular">would change a relative 
+    path into an absolute path [</font><font FACE="LMRoman10-Italic"><i>Note:
+    </i></font><font FACE="LMRoman10-Regular">An empty path is relative.</font><font FACE="LMRoman10-Italic"><i>—end 
+    note </i></font><font FACE="LMRoman10-Regular">] , or</p>
+    </font><font FACE="LMRoman7-Regular" SIZE="1">
+    <p>(2.3) </font><font FACE="LMRoman10-Regular">—
+    </font><del><code>p.empty()</code> is <code>true</code>, 
+    or</del></p>
+    <font FACE="LMRoman7-Regular" SIZE="1">
+    <p ALIGN="LEFT">(2.4) </font><font FACE="LMRoman10-Regular">—
+    </font><font FACE="LMMono10-Regular">*p.native().cbegin() </font>
+    <font FACE="LMRoman10-Regular">is a </font>
+    <font FACE="LMRoman10-Italic"><i>directory-separator</i></font><font FACE="LMRoman10-Regular">.</p>
+    <p ALIGN="LEFT">Then appends </font><font FACE="LMMono10-Regular">
+    p.native() </font><font FACE="LMRoman10-Regular">to </font>
+    <font FACE="LMMono10-Regular">pathname</font><font FACE="LMRoman10-Regular">.</p>
+    </font><font FACE="LMRoman7-Regular" SIZE="1">
+    <p>3 </font><font FACE="LMRoman10-Italic"><i>Returns: </i></font>
+    <font FACE="LMMono10-Regular">*this</font><font FACE="LMRoman10-Regular">.</font></p>
+  </blockquote>
+
+    <p>SG recommends accept with modifications.<font FACE="LMRoman10-Regular"></p>
 
 </blockquote>
 
 <h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
 <blockquote>
-<p>Recommend accept with modifications.</p>
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
 <blockquote>
-<h4>
-<span style="font-weight: 400">
-<i>Postcondition:</i> <del><code>!has_filename()</code></del>
-<ins>For an object <code>p</code> of type <code>path</code>,
-<code>p.remove_filename().has_filename() == false</code></ins>. </span>
+ <del><i>Postcondition:</i><code>!has_filename()</code>.</del>
+ <p> <ins><i>Effects:</i> 
+ If <code>has_filename()</code> then remove the minimum number of trailing 
+ characters from <code>pathname</code> such that there is one less element in
+ <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
 </blockquote>
+ <p> SG recommends accept with modifications.</p>
 </blockquote>
 
 <h4><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior</h4>
@@ -772,7 +829,8 @@ changing at least one function name.</p>
 
 <blockquote>
 
-<p> This may well be an issue, but likely substantive rather than editorial.</p>
+<p> SG recommends that this is not editorial, but we know the fix. Davis Herring 
+to supply updated proposed wording.</p>
 
 </blockquote>
 
