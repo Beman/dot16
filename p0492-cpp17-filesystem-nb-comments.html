@@ -379,30 +379,26 @@ change is a breaking change.</p>
 <h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
 
 <blockquote>
-<p>Option A: Very strongly recommend rejection. <code>path</code> is the filesystem
-library's vocabulary type for both fully formed paths and for path fragments. Changing
-the vocabulary type for path fragments to <code>string_type</code>, as suggested in this
-NB comment, would make it more difficult to write code that is portable between operating systems
-that use different <code>string_type</code>s (i.e. between POSIX and Windows).
-For example, <code>p.replace_extension(".txt")</code> would work on POSIX but fail to compile on Windows. 
-It would also make code more difficult that must deal with character encodings that differ
-from the operating system's expected encoding for <code>string_type</code>. As written, this is a
-"strongly against" issue for me.
-
-<p>Option B: An alternative view of US 55 might be that there is a defect in the clarity of 27.10.8 [class.path] ¶1. Perhaps
-it should be changed something like this:</p>
+<p>The SG believes <code>path</code> is the appropriate parameter type, but that 
+the standard needs to clarify class <code>path</code> usage.</p>
+<p><i>Change 27.10.8 [class.path] ¶1:</i></p>
 
 <blockquote>
-<p>An object of class path represents a path (27.10.4.17) <ins>or a portion of a path</ins>
- and contains a pathname (27.10.4.18) <ins>or a portion of a pathname</ins>. Such an object
+<p>An object of class path represents a path (27.10.4.17)
+ and contains a pathname (27.10.4.18). Such an object
 is concerned only with the lexical and syntactic aspects of a path. The path does not necessarily exist in
 external storage, and the pathname is not necessarily valid for the current operating system or for a particular
 file system.</p>
 
-<p><ins>[<i>Note:</i> Class path is used to hide the difference between the string types
- used by different operating systems to represent pathnames. &mdash; <i>end note</i>]</ins></p>
+<p><ins>[<i>Note:</i> Class path is used to abstract away the differences between the string types
+ used by different operating systems to represent pathnames, and to perform 
+conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
 
 </blockquote>
+ 
+ <p> SG recommends accept with modifications.
+ <span style="background-color: #FFFF00">Note: SG should review wording 
+ &quot;abstract away&quot; rather than &quot;support&quot;.</span></p>
  
 </blockquote>
  
