@@ -100,6 +100,10 @@ presented to the full committee on Friday.</p>
 
 <h2><a name="nb-comments"></a>NB Technical and general comments</h2>
 
+<h3>Comments related to <code>filename()</code></h3>
+
+<p>Note: No late comments are related to filename comments</p>
+
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
 <code>!empty()</code></h4>
 <blockquote>
@@ -111,77 +115,6 @@ have been resolved.</p>
 
 </blockquote>
 
-<h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system</h4>
-<blockquote>
-<p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
-And that objective has been largely achieved in practical real-world use for 
-many years.&nbsp; No proposed wording. </p>
-
-<p>SG recommends waiting for a paper or issue with proposed wording. </p>
-
-</blockquote>
-
-<h4><a name="US32">US 32</a>; 27.10.2.1 [fs.conform.9945] ¶3: Meaning of POSIX 
-conformance unclear</h4>
-
-<blockquote>
-
-<p dir="ltr">The comment requests &quot;Clarify that ¶2 governs and an error must be 
-reported in such cases&quot;.</p>
-
-<p dir="ltr"><i>Change 27.10.2.1 [fs.conform.9945] ¶2:</i></p>
-  <blockquote>
-    <p>Implementations are not required to provide behavior that is not 
-    supported by a particular file system. [ Example: The FAT file system used 
-    by some memory cards, camera memory, and floppy disks does not support hard 
-    links, symlinks, and many other features of more capable file systems, so 
-    implementations are not required to support those features on the FAT file 
-    system <ins>but instead are required to report an error as described above</ins>. —end example ]</p>
-  </blockquote>
-    <p>Jonathan Wakely will supply improved wording.</p>
-</blockquote>
-<h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic</h4>
-<blockquote>
-<p>The comment appears to be correct in that the definition of canonical path is 
-not used in the WP.</p>
-<p><i>Remove 27.10.4.2 [fs.def.canonical.path]:</i></p>
-<blockquote>
-<p><del><b>canonical path</b><br>
-An absolute path that has no elements that are symbolic links, and no dot or 
-dot-dot elements (27.10.8.1).</del></p>
-</blockquote>
-<p>SG recommends accept.</p>
-</blockquote>
-<h4><a name="US34">US 34</a>; 27.10.4.5 [fs.def.filesystem]: Are there attributes of a file that are not an aspect of the file system?</h4>
-<blockquote>
-<p><i>Change 27.10.4.5 [fs.def.filesystem]:</i></p>
-  <blockquote>
-<p>A collection of files and <del>certain of</del> their attributes.</p>
-  </blockquote>
-<p>SG recommends accept with modifications.</p>
-</blockquote>
-<h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?</h4>
-<blockquote>
-<p>No proposed wording. 27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
-describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
-would be the proper place. </p>
-<p>SG recommends waiting for a paper or issue with proposed wording. </p>
-</blockquote>
-<h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links</h4>
-<blockquote>
-<p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
-(or Link).</p>
-<p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
-  <blockquote>
-<p><b>link</b><br>
-<del>A directory entry that associates a filename with a file. A link is either 
-a hard link (27.10.4.8) or a symbolic link (27.10.4.21).</del> <ins>An object 
-that associates a filename with a file. Several link entries can associate names 
-with the same file.</ins></p>
-  </blockquote>
-<h4><span style="font-weight: 400">SG recommends accept with modifications. 
-Davis Herring will open an issue on a related concern.</span></h4>
-</blockquote>
 <h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined</h4>
 <blockquote>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
@@ -198,98 +131,6 @@ called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. —<i>end note</i> ]</p>
 </blockquote>
-<p>SG recommends accept with modifications.</p>
-</blockquote>
-<h4><a name="US40">US 40</a>; 27.10.4.15 [fs.def.parent]: Not all directories 
-have a parent</h4>
-
-<blockquote>
-<p>No proposed wording. The definition in question is taken directly from 
-the POSIX
-<font face="Times New Roman">§</font>3.268 <i>Parent Directory</i> definition. </p>
-
-<p>SG recommends reject.</p>
-
-</blockquote>
-
-<h4><a name="US43">US 43</a>; 27.10.5 [fs.req] ¶4: Concerns about <i>encoded character types</i></h4>
-
-<blockquote>
-
-<p>&nbsp;No proposed wording.  </p>
-
-<p><i>Change 27.10.5 
-Requirements [fs.req] ¶4:</i></p>
-
-  <blockquote>
-
-<p>Note: Use of an encoded character type implies an associated <ins>character set and</ins> encoding.
-Since <code>signed char</code> and <code>unsigned char</code> have 
-no implied <ins>character set and</ins> encoding, they are not included as permitted types. 
-—end note ]</p>
-
-  </blockquote>
-
-<p>SG recommends accept with modifications.</p>
-
-<p>The SG also detected a problem with conversions that fail, and a need that 
-directory-separator detection occur at the code-unit level. Billy O&#39;neil and 
-Jonathan Wakely will provide issue write ups.</p>
-
-</blockquote>
-
-<h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction</h4>
-<blockquote>
-<p>No proposed wording.</p>
-
-<p>SG recommends that resolution of this comment be deferred until LWG 2734 is 
-resolved. It is expected that issue will be resolved as a native path. Add a 
-note to 27.10.8.4.4 to the effect that &quot;a non-portable path may result because 
-&#39;/&#39; is non-portable.&quot;</p>
-
-</blockquote>
-
-<h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
-<i>root-name</i></h4>
-<blockquote>
-<p>No 
-proposed wording. Davis Herring working on proposed wording.</p>
-
-</blockquote>
-
-<h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
-<blockquote>
-<p>No proposed wording. Jonathan Wakely will provide proposed wording.</p>
-
-</blockquote>
-
-<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i></h4>
-<blockquote>
-
-<p><i>Change 27.10.8.1 [path.generic] ¶1:</i></p>
-
-  <blockquote>
-<p><ins>Except in <i>root-name</i>, m</ins><del>M</del>ultiple successive <i>
-directory-separator</i> characters are considered to be the same as one <i>
-directory-separator </i>character.</p>
-
-  </blockquote>
-<p>SG recommends accept with modifications.</p>
-
-</blockquote>
-
-<h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?</h4>
-<blockquote>
-
-<p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
-
-  <blockquote>
-    <ul>
-      <li><i>¶1.2:</i> method of conversion <del>method</del> is unspecified</li>
-      <li><i>¶1.3:</i> method of conversion <del>method</del> is unspecified</li>
-      <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
-    </ul>
-  </blockquote>
 <p>SG recommends accept with modifications.</p>
 </blockquote>
 
@@ -343,7 +184,8 @@ directory-separator </i>character.</p>
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
 <blockquote>
- <del><i>Postcondition:</i><code>!has_filename()</code>.</del>
+ <p>
+ <del><i>Postcondition:</i><code>!has_filename()</code>.</del> </p>
  <p> <ins><i>Effects:</i> 
  If <code>has_filename()</code> then remove the minimum number of trailing 
  characters from <code>pathname</code> such that there is one less element in
@@ -373,82 +215,6 @@ change is a breaking change.</p>
 <blockquote>
 
 <p>Need to resolve <a href="#US53">US 53</a> first.</p>
-
-</blockquote>
-
-<h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
-
-<blockquote>
-<p>The SG believes <code>path</code> is the appropriate parameter type, but that 
-the standard needs to clarify class <code>path</code> usage.</p>
-<p><i>Change 27.10.8 [class.path] ¶1:</i></p>
-
-<blockquote>
-<p>An object of class path represents a path (27.10.4.17)
- and contains a pathname (27.10.4.18). Such an object
-is concerned only with the lexical and syntactic aspects of a path. The path does not necessarily exist in
-external storage, and the pathname is not necessarily valid for the current operating system or for a particular
-file system.</p>
-
-<p><ins>[<i>Note:</i> Class path is used to abstract away the differences between the string types
- used by different operating systems to represent pathnames, and to perform 
-conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
-
-</blockquote>
- 
- <p> SG recommends accept with modifications.
- <span style="background-color: #FFFF00">Note: SG should review wording 
- &quot;abstract away&quot; rather than &quot;support&quot;.</span></p>
- 
-</blockquote>
- 
-<h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Remove <code>
-replace_extension()</code>&#39;s conditional addition of period</h4>
-
-<blockquote>
- 
-<p>An example of where the current behavior is useful: <code>
-path(&quot;my_file.tx&quot;).replace_extension(&quot;txt&quot;)</code></p>
-
-<p>An example of a case where the current behavior is unsatisfactory would be 
-helpful.</p>
-
-<p>Recommend reject, unless someone can come up with stronger motivation.</p>
-
-</blockquote>
-
-<h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths</h4>
-
-<blockquote>
-
-<p>It isn&#39;t clear why this matters; an example would help.</p>
-
-<p>Recommend reject. Insufficient motivation for change. No proposed 
-wording.</p>
-
-</blockquote>
-
-<h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
-
-<blockquote>
-
-<p>The example given (<code>path(&quot;c:\\&quot;).parent_path()</code> on 
-Windows returns <code>path(&quot;c:&quot;)</code>) seems useful. </p>
-
-<p>Recommend reject. Insufficient motivation for change.&nbsp; No proposed 
-wording.</p>
-
-</blockquote>
-
-<h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
-
-<blockquote>
-
-<p>Recommend reject. <code>path</code> is filesystem's
-vocabulary type for both full paths and for path components, in the same sense that
-<code>std::string</code> might be used as the vocabulary type for both sentences and 
-the words in the
-sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 
 </blockquote>
 
@@ -545,6 +311,262 @@ change, and propose wording changes where needed or desirable.&nbsp; </p>
 </blockquote>
 
 <p>The SG encourages such a paper.</p>
+
+</blockquote>
+
+<h4 dir="ltr">LWG 2665 <code>remove_filename()</code> post condition is 
+incorrect</h4>
+
+<blockquote>
+
+<p dir="ltr">Although not a NB comment,
+<a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
+to be coordinated with this set of comments.</p>
+
+</blockquote>
+</font>
+
+<h3>Other comments</h3>
+
+<h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system</h4>
+<blockquote>
+<p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
+And that objective has been largely achieved in practical real-world use for 
+many years.&nbsp; No proposed wording. </p>
+
+<p>SG recommends waiting for a paper or issue with proposed wording. </p>
+
+</blockquote>
+
+<h4><a name="US32">US 32</a>; 27.10.2.1 [fs.conform.9945] ¶3: Meaning of POSIX 
+conformance unclear</h4>
+
+<blockquote>
+
+<p dir="ltr">The comment requests &quot;Clarify that ¶2 governs and an error must be 
+reported in such cases&quot;.</p>
+
+<p dir="ltr"><i>Change 27.10.2.1 [fs.conform.9945] ¶2:</i></p>
+  <blockquote>
+    <p>Implementations are not required to provide behavior that is not 
+    supported by a particular file system. [ Example: The FAT file system used 
+    by some memory cards, camera memory, and floppy disks does not support hard 
+    links, symlinks, and many other features of more capable file systems, so 
+    implementations are not required to support those features on the FAT file 
+    system <ins>but instead are required to report an error as described above</ins>. —end example ]</p>
+  </blockquote>
+    <p>Jonathan Wakely will supply improved wording.</p>
+</blockquote>
+<h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic</h4>
+<blockquote>
+<p>The comment appears to be correct in that the definition of canonical path is 
+not used in the WP.</p>
+<p><i>Remove 27.10.4.2 [fs.def.canonical.path]:</i></p>
+<blockquote>
+<p><del><b>canonical path</b><br>
+An absolute path that has no elements that are symbolic links, and no dot or 
+dot-dot elements (27.10.8.1).</del></p>
+</blockquote>
+<p>SG recommends accept.</p>
+</blockquote>
+<h4><a name="US34">US 34</a>; 27.10.4.5 [fs.def.filesystem]: Are there attributes of a file that are not an aspect of the file system?</h4>
+<blockquote>
+<p><i>Change 27.10.4.5 [fs.def.filesystem]:</i></p>
+  <blockquote>
+<p>A collection of files and <del>certain of</del> their attributes.</p>
+  </blockquote>
+<p>SG recommends accept with modifications.</p>
+</blockquote>
+<h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?</h4>
+<blockquote>
+<p>No proposed wording. 27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
+describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
+would be the proper place. </p>
+<p>SG recommends waiting for a paper or issue with proposed wording. </p>
+</blockquote>
+<h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links</h4>
+<blockquote>
+<p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
+(or Link).</p>
+<p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
+  <blockquote>
+<p><b>link</b><br>
+<del>A directory entry that associates a filename with a file. A link is either 
+a hard link (27.10.4.8) or a symbolic link (27.10.4.21).</del> <ins>An object 
+that associates a filename with a file. Several link entries can associate names 
+with the same file.</ins></p>
+  </blockquote>
+<h4><span style="font-weight: 400">SG recommends accept with modifications. 
+Davis Herring will open an issue on a related concern.</span></h4>
+</blockquote>
+<h4><a name="US40">US 40</a>; 27.10.4.15 [fs.def.parent]: Not all directories 
+have a parent</h4>
+
+<blockquote>
+<p>No proposed wording. The definition in question is taken directly from 
+the POSIX
+<font face="Times New Roman">§</font>3.268 <i>Parent Directory</i> definition. </p>
+
+<p>SG recommends reject.</p>
+
+</blockquote>
+
+<h4><a name="US43">US 43</a>; 27.10.5 [fs.req] ¶4: Concerns about <i>encoded character types</i></h4>
+
+<blockquote>
+
+<p>&nbsp;No proposed wording.  </p>
+
+<p><i>Change 27.10.5 
+Requirements [fs.req] ¶4:</i></p>
+
+  <blockquote>
+
+<p>Note: Use of an encoded character type implies an associated <ins>character set and</ins> encoding.
+Since <code>signed char</code> and <code>unsigned char</code> have 
+no implied <ins>character set and</ins> encoding, they are not included as permitted types. 
+—end note ]</p>
+
+  </blockquote>
+
+<p>SG recommends accept with modifications.</p>
+
+<p>The SG also detected a problem with conversions that fail, and a need that 
+directory-separator detection occur at the code-unit level. Billy O&#39;neil and 
+Jonathan Wakely will provide issue write ups.</p>
+
+</blockquote>
+
+<h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction</h4>
+<blockquote>
+<p>No proposed wording.</p>
+
+<p>SG recommends that resolution of this comment be deferred until LWG 2734 is 
+resolved. It is expected that issue will be resolved as a native path. Add a 
+note to 27.10.8.4.4 to the effect that &quot;a non-portable path may result because 
+&#39;/&#39; is non-portable.&quot;</p>
+
+</blockquote>
+
+<h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
+<i>root-name</i></h4>
+<blockquote>
+<p>No 
+proposed wording. Davis Herring working on proposed wording.</p>
+
+</blockquote>
+
+<h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
+<blockquote>
+<p>No proposed wording. Jonathan Wakely will provide proposed wording.</p>
+
+</blockquote>
+
+<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i></h4>
+<blockquote>
+
+<p><i>Change 27.10.8.1 [path.generic] ¶1:</i></p>
+
+  <blockquote>
+<p><ins>Except in <i>root-name</i>, m</ins><del>M</del>ultiple successive <i>
+directory-separator</i> characters are considered to be the same as one <i>
+directory-separator </i>character.</p>
+
+  </blockquote>
+<p>SG recommends accept with modifications.</p>
+
+</blockquote>
+
+<h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?</h4>
+<blockquote>
+
+<p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
+
+  <blockquote>
+    <ul>
+      <li><i>¶1.2:</i> method of conversion <del>method</del> is unspecified</li>
+      <li><i>¶1.3:</i> method of conversion <del>method</del> is unspecified</li>
+      <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
+    </ul>
+  </blockquote>
+<p>SG recommends accept with modifications.</p>
+</blockquote>
+
+<font FACE="LMRoman10-Regular">
+
+<h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
+
+<blockquote>
+<p>The SG believes <code>path</code> is the appropriate parameter type, but that 
+the standard needs to clarify class <code>path</code> usage.</p>
+<p><i>Change 27.10.8 [class.path] ¶1:</i></p>
+
+<blockquote>
+<p>An object of class path represents a path (27.10.4.17)
+ and contains a pathname (27.10.4.18). Such an object
+is concerned only with the lexical and syntactic aspects of a path. The path does not necessarily exist in
+external storage, and the pathname is not necessarily valid for the current operating system or for a particular
+file system.</p>
+
+<p><ins>[<i>Note:</i> Class path is used to abstract away the differences between the string types
+ used by different operating systems to represent pathnames, and to perform 
+conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
+
+</blockquote>
+ 
+ <p> SG recommends accept with modifications.
+ <span style="background-color: #FFFF00">Note: SG should review wording 
+ &quot;abstract away&quot; rather than &quot;support&quot;.</span></p>
+ 
+</blockquote>
+ 
+<h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Remove <code>
+replace_extension()</code>&#39;s conditional addition of period</h4>
+
+<blockquote>
+ 
+<p>An example of where the current behavior is useful: <code>
+path(&quot;my_file.tx&quot;).replace_extension(&quot;txt&quot;)</code></p>
+
+<p>An example of a case where the current behavior is unsatisfactory would be 
+helpful.</p>
+
+<p>Recommend reject, unless someone can come up with stronger motivation.</p>
+
+</blockquote>
+
+<h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths</h4>
+
+<blockquote>
+
+<p>It isn&#39;t clear why this matters; an example would help.</p>
+
+<p>Recommend reject. Insufficient motivation for change. No proposed 
+wording.</p>
+
+</blockquote>
+
+<h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
+
+<blockquote>
+
+<p>The example given (<code>path(&quot;c:\\&quot;).parent_path()</code> on 
+Windows returns <code>path(&quot;c:&quot;)</code>) seems useful. </p>
+
+<p>Recommend reject. Insufficient motivation for change.&nbsp; No proposed 
+wording.</p>
+
+</blockquote>
+
+<h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
+
+<blockquote>
+
+<p>Recommend reject. <code>path</code> is filesystem's
+vocabulary type for both full paths and for path components, in the same sense that
+<code>std::string</code> might be used as the vocabulary type for both sentences and 
+the words in the
+sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 
 </blockquote>
 
