@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-08<!--webbot bot="Timestamp" endspan i-checksum="12118" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-09<!--webbot bot="Timestamp" endspan i-checksum="12120" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -432,19 +432,16 @@ no implied <ins>character set and</ins> encoding, they are not included as permi
 <p>SG recommends accept with modifications.</p>
 
 <p>The SG also detected a problem with conversions that fail, and a need that 
-directory-separator detection occur at the code-unit level. Billy O&#39;neil and 
+directory-separator detection occur at the code-unit level. Billy O&#39;Neal and 
 Jonathan Wakely will provide issue write ups.</p>
 
 </blockquote>
 
 <h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction</h4>
 <blockquote>
-<p>No proposed wording.</p>
 
-<p>SG recommends that resolution of this comment be deferred until LWG 2734 is 
-resolved. It is expected that issue will be resolved as a native path. Add a 
-note to 27.10.8.4.4 to the effect that &quot;a non-portable path may result because 
-&#39;/&#39; is non-portable.&quot;</p>
+<p>SG recommends accept with modifications. The SG&#39;s proposed wording, including 
+a note, has been applied to LWG 2734 to resolve US 44.</p>
 
 </blockquote>
 
@@ -458,7 +455,27 @@ proposed wording. Davis Herring working on proposed wording.</p>
 
 <h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
 <blockquote>
-<p>No proposed wording. Jonathan Wakely will provide proposed wording.</p>
+<p><i>Change [path.generic]:</i></p>
+
+<blockquote>
+<p><code>relative-path:<br>
+&nbsp; filename<br>
+&nbsp; relative-path directory-separator<br>
+&nbsp; relative-path directory-separator filename<br></code>
+&nbsp;
+&nbsp; <ins>an empty path</ins>&nbsp;&nbsp;&nbsp; <i>
+<span style="background-color: #C0C0C0">Note to editor: this line is 
+deliberately not in code font</span></i></p>
+
+<p>...</p>
+
+<p><i>name:</i><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A <ins>non-empty</ins> sequence 
+of characters other than directory-separator characters.</p>
+
+</blockquote>
+
+<p>SG recommends accept with modifications.</p>
 
 </blockquote>
 
@@ -539,10 +556,9 @@ helpful.</p>
 
 <blockquote>
 
-<p>It isn&#39;t clear why this matters; an example would help.</p>
-
-<p>Recommend reject. Insufficient motivation for change. No proposed 
-wording.</p>
+<p>SG recommends reject. Insufficient motivation for change.&nbsp; Billy O&#39;Neal 
+will open an issue for an unrelated concern discovered while processing this 
+comment.</p>
 
 </blockquote>
 
@@ -550,11 +566,27 @@ wording.</p>
 
 <blockquote>
 
-<p>The example given (<code>path(&quot;c:\\&quot;).parent_path()</code> on 
-Windows returns <code>path(&quot;c:&quot;)</code>) seems useful. </p>
+<p><i>Change [path.decompose]:</i></p>
 
-<p>Recommend reject. Insufficient motivation for change.&nbsp; No proposed 
-wording.</p>
+  <blockquote>
+    <p><tt>path parent_path() const;</tt> </p>
+    <p><ins>-?- Let <tt>parentEnd</tt> be an instance of <tt>path::iterator</tt>, 
+    initialized as follows:</ins> </p>
+    <ul>
+      <li><ins>if <tt>has_relative_path()</tt>, from <tt>--end()</tt></ins></li>
+      <li><ins>otherwise, from <tt>end()</tt></ins></li>
+    </ul>
+  </blockquote>
+  <p></p>
+  <blockquote>
+    <p>-5- <em>Returns:</em> <del><tt>(empty() || begin() == --end()) ? path() :
+    </tt><em>pp</em>, where <em>pp</em> is </del><ins>a <tt>path</tt> </ins>
+    constructed as if by starting with an empty <tt>path</tt> and successively 
+    applying <tt>operator/=</tt> for each element in the range <tt>[begin(),
+    <del>--end()</del><ins>parentEnd</ins>)</tt>.</p>
+  </blockquote>
+
+<p>SG recommends accept with modifications.</p>
 
 </blockquote>
 
@@ -562,11 +594,13 @@ wording.</p>
 
 <blockquote>
 
-<p>Recommend reject. <code>path</code> is filesystem's
+<p> <code>path</code> is filesystem's
 vocabulary type for both full paths and for path components, in the same sense that
 <code>std::string</code> might be used as the vocabulary type for both sentences and 
 the words in the
 sentences. See <a href="#US55">US 55</a> for further discussion.</p>
+
+<p>SG recommends reject.</p>
 
 </blockquote>
 
@@ -674,13 +708,13 @@ not good standardese. No proposed wording. </p>
 
 <blockquote>
 
-<p>Recommend reject.</p>
-
 <p> Does not handle one signature being <code>
 noexcept(true)</code> and the other <code>noexcept(false)</code>, and many other 
 problems. Even the submitter is no longer in favor. See LWG list thread 
 &quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
 October 25, 2016.</p>
+
+<p>SG recommends reject.</p>
 
 </blockquote>
 
@@ -690,11 +724,11 @@ October 25, 2016.</p>
 
 <blockquote>
 
-<p>Recommend reject.</p>
-
 <p>This is LWG issue
 <a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
 has been closed as NAD. </p>
+
+<p>SG recommends reject.</p>
 
 </blockquote>
 
@@ -724,8 +758,7 @@ behavior, and it can differ from the normal behavior for the operating system.</
 
 <blockquote>
 
-<p>Also see 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> Section 2.1</p>
+<p>See P0430R1 Section 2.1</p>
 
 </blockquote>
 
@@ -733,8 +766,7 @@ behavior, and it can differ from the normal behavior for the operating system.</
 
 <blockquote>
 
-<p>Also see 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+<p>See P0430R1 
 Section 2.2</p>
 
 </blockquote>
@@ -743,8 +775,7 @@ Section 2.2</p>
 
 <blockquote>
 
-<p>Also see 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+<p>See P0430R1 
 Section 2.3.1</p>
 
 </blockquote>
@@ -753,9 +784,7 @@ Section 2.3.1</p>
 
 <blockquote>
 
-<p>Also see 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
-Section 2.3.2</p>
+<p>See P0430R1 Section 2.3.2</p>
 
 </blockquote>
 
@@ -763,8 +792,7 @@ Section 2.3.2</p>
 
 <blockquote>
 
-<p>Also see 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+<p>See P0430R1 
 Section 2.4.1</p>
 
 </blockquote>
@@ -773,8 +801,7 @@ Section 2.4.1</p>
 
 <blockquote>
 
-<p>Also see 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r0.pdf">P0430R0</a> 
+<p>See P0430R1 
 Section 2.4.2</p>
 
 </blockquote>
