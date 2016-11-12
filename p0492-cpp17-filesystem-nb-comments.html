@@ -786,9 +786,14 @@ has been closed as NAD. </p>
     letter followed by a colon as a drive specifier – a <i>root-name</i> 
     identifying a specific device such as a disk drive. —<i>end note</i> ]</p>
   </blockquote>
-  <p>Proposed resolution: accept with modifications.
-  <span style="background-color: #FFFF00">SG needs to review wording, in 
-  particular the second added sentence.</span></p>
+  <p><i>Add a new paragraph at the end of [path.generic]:</i></p>
+  <blockquote>
+    <p><ins>If <i>root-name</i> is otherwise ambiguous, the possibility with the 
+    longest sequence of characters is chosen. [ Note: on a POSIX-like operating 
+    system, it is impossible to have a <i>root-name</i> and a <i>relative-path</i> 
+    without an intervening <i>root-directory element</i>. -- end note ]</ins></p>
+  </blockquote>
+  <p>Proposed resolution: accept with modifications.&nbsp; </p>
 </blockquote>
 
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts</h4>
