@@ -125,7 +125,8 @@ Working Group&#39;s Filesystem small group (SG), unless otherwise indicated. </p
 <p>Note: No late comments are related to filename comments</p>
 
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
-<code>!empty()</code></h4>
+<code>!empty()<br>
+</code>Status: Open</h4>
 <blockquote>
 <p>No Proposed wording. The real issue is a possibly incorrect post-condition for 
 <code>remove_filename()</code>. </p>
@@ -135,7 +136,8 @@ have been resolved.</p>
 
 </blockquote>
 
-<h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined</h4>
+<h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined<br>
+Status: Accept with modifications</h4>
 <blockquote>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
 <blockquote>
@@ -151,10 +153,10 @@ called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. —<i>end note</i> ]</p>
 </blockquote>
-<p>Proposed resolution: accept with modifications.</p>
 </blockquote>
 
-<h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps</h4>
+<h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
+Status: Accept with modifications</h4>
 <blockquote>
 
 <p><i>Change 27.10.8.4.3 [path.append]:</i></p>
@@ -195,11 +197,12 @@ different syntax for directory names and regular file names. —<i>end note</i> 
     <font FACE="LMMono10-Regular">*this</font><font FACE="LMRoman10-Regular">.</font></p>
   </blockquote>
 
-    <p>Proposed resolution: accept with modifications.<font FACE="LMRoman10-Regular"></p>
+    <font FACE="LMRoman10-Regular">
 
 </blockquote>
 
-<h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition</h4>
+<h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition<br>
+Status: Accept with modifications</h4>
 <blockquote>
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
@@ -211,10 +214,10 @@ different syntax for directory names and regular file names. —<i>end note</i> 
  characters from <code>pathname</code> such that there is one less element in
  <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
 </blockquote>
- <p> Proposed resolution: accept with modifications.</p>
 </blockquote>
 
-<h4><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior</h4>
+<h4 dir="ltr"><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior<code><br>
+</code>Status: Open</h4>
 
 <blockquote>
 
@@ -230,7 +233,8 @@ change is a breaking change.</p>
   sub-clause 27.10. All will need to be changed if the name changes.<p><b>Caution:</b> &quot;replace_filename&quot; 
   presumably also would need to be renamed.</blockquote>
 
-<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken</h4>
+<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken<code><br>
+</code>Status: Open</h4>
 
 <blockquote>
 
@@ -238,7 +242,8 @@ change is a breaking change.</p>
 
 </blockquote>
 
-<h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</h4>
+<h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
+</code>Status: Open</h4>
 
 <blockquote>
 
@@ -341,25 +346,29 @@ incorrect</h4>
 
 <p dir="ltr">Although not a NB comment,
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
-to be coordinated with this set of comments.</p>
+to be coordinated with this set of comments.
+<span style="background-color: #FFFF00">Beman needs to verify 2665 is priority 
+1, and then can delete this entry since it isn&#39;t an NB comment.</span></p>
 
 </blockquote>
 </font>
 
 <h3>Other comments</h3>
 
-<h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system</h4>
+<h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system<code><br>
+</code>Status: Open</h4>
 <blockquote>
 <p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
 And that objective has been largely achieved in practical real-world use for 
 many years.&nbsp; No proposed wording. </p>
 
-<p>Proposed resolution: waiting for a paper or issue with proposed wording. </p>
+<p>Waiting for a paper or issue with proposed wording. </p>
 
 </blockquote>
 
 <h4><a name="US32">US 32</a>; 27.10.2.1 [fs.conform.9945] ¶3: Meaning of POSIX 
-conformance unclear</h4>
+conformance unclear<code><br>
+</code>Status: Open</h4>
 
 <blockquote>
 
@@ -378,7 +387,8 @@ reported in such cases&quot;.</p>
     <p><span style="background-color: #FFFF00">Jonathan </span>
     <span style="background-color: #FFFF00">Wakely</span><span style="background-color: #FFFF00"> will supply improved wording.</span></p>
 </blockquote>
-<h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic</h4>
+<h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic<br>
+Status: Accept</h4>
 <blockquote>
 <p>The comment appears to be correct in that the definition of canonical path is 
 not used in the WP.</p>
@@ -388,15 +398,14 @@ not used in the WP.</p>
 An absolute path that has no elements that are symbolic links, and no dot or 
 dot-dot elements (27.10.8.1).</del></p>
 </blockquote>
-<p>Proposed resolution: accept.</p>
 </blockquote>
-<h4><a name="US34">US 34</a>; 27.10.4.5 [fs.def.filesystem]: Are there attributes of a file that are not an aspect of the file system?</h4>
+<h4><a name="US34">US 34</a>; 27.10.4.5 [fs.def.filesystem]: Are there attributes of a file that are not an aspect of the file system?<br>
+Status: Accept with modifications</h4>
 <blockquote>
 <p><i>Change 27.10.4.5 [fs.def.filesystem]:</i></p>
   <blockquote>
 <p>A collection of files and <del>certain of</del> their attributes.</p>
   </blockquote>
-<p>Proposed resolution: accept with modifications.</p>
 </blockquote>
 <h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?</h4>
 <blockquote>
@@ -405,10 +414,13 @@ describe file system race behavior. 27.10.2.3 File system race behavior [fs.race
 would be the proper place. </p>
 <p>Proposed resolution: waiting for a paper or issue with proposed wording. </p>
 </blockquote>
-<h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links</h4>
+<h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links<br>
+Status: Accept with modifications</h4>
 <blockquote>
 <p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
 (or Link).</p>
+<h4><span style="font-weight: 400">Davis Herring will open an issue on a related 
+concern.</span></h4>
 <p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
   <blockquote>
 <p><b>link</b><br>
@@ -417,26 +429,28 @@ a hard link (27.10.4.8) or a symbolic link (27.10.4.21).</del> <ins>An object
 that associates a filename with a file. Several link entries can associate names 
 with the same file.</ins></p>
   </blockquote>
-<h4><span style="font-weight: 400">Proposed resolution: accept with modifications. 
-Davis Herring will open an issue on a related concern.</span></h4>
 </blockquote>
 <h4><a name="US40">US 40</a>; 27.10.4.15 [fs.def.parent]: Not all directories 
-have a parent</h4>
+have a parent<br>
+Status: Reject</h4>
 
 <blockquote>
 <p>No proposed wording. The definition in question is taken directly from 
 the POSIX
 <font face="Times New Roman">§</font>3.268 <i>Parent Directory</i> definition. </p>
 
-<p>Proposed resolution: reject.</p>
-
 </blockquote>
 
-<h4><a name="US43">US 43</a>; 27.10.5 [fs.req] ¶4: Concerns about <i>encoded character types</i></h4>
+<h4><a name="US43">US 43</a>; 27.10.5 [fs.req] ¶4: Concerns about <i>encoded character types</i><br>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
 <p>&nbsp;No proposed wording.  </p>
+
+<p>The SG also detected a problem with conversions that fail, and a need that 
+directory-separator detection occur at the code-unit level. Billy O&#39;Neal and 
+Jonathan Wakely will provide issue write ups.</p>
 
 <p><i>Change 27.10.5 
 Requirements [fs.req] ¶4:</i></p>
@@ -450,34 +464,33 @@ no implied <ins>character set and</ins> encoding, they are not included as permi
 
   </blockquote>
 
-<p>Proposed resolution: accept with modifications.</p>
-
-<p>The SG also detected a problem with conversions that fail, and a need that 
-directory-separator detection occur at the code-unit level. Billy O&#39;Neal and 
-Jonathan Wakely will provide issue write ups.</p>
-
 </blockquote>
 
-<h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction</h4>
+<h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction<code><br>
+</code>Status: Open</h4>
 <blockquote>
 
 <p>The SG&#39;s proposed wording, including 
 a note, has been applied to LWG 2734 to resolve US 44.</p>
 
-<p>Proposed resolution: accept with modifications if LWG 2734 is accepted, 
-otherwise reject. </p>
+<p dir="ltr">Proposed resolution: accept with modifications if LWG 2734 is 
+accepted, otherwise reject. <span style="background-color: #FFFF00">Beman</span><span style="background-color: #FFFF00">: 
+check 2734, and coordinate with Marshall if needed, or add comment to 2734
+</span></p>
 
 </blockquote>
 
 <h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
-<i>root-name</i></h4>
+<i>root-name</i><code><br>
+</code>Status: Open</h4>
 <blockquote>
 <p>No 
 proposed wording. <span style="background-color: #FFFF00">Davis Herring working on proposed wording.</span></p>
 
 </blockquote>
 
-<h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</h4>
+<h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant<br>
+Status: Accept with modifications</h4>
 <blockquote>
 <p><i>Change [path.generic]:</i></p>
 
@@ -499,13 +512,13 @@ of characters other than directory-separator characters.</p>
 
 </blockquote>
 
-<p>Proposed resolution: accept with modifications.
-<span style="background-color: #FFFF00">SG</span><span style="background-color: #FFFF00"> 
+<p><span style="background-color: #FFFF00">SG</span><span style="background-color: #FFFF00"> 
 needs to review Jonathan&#39;s wording above</span></p>
 
 </blockquote>
 
-<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i></h4>
+<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i><br>
+Status: Accept with modifications</h4>
 <blockquote>
 
 <p><i>Change 27.10.8.1 [path.generic] ¶1:</i></p>
@@ -516,11 +529,11 @@ directory-separator</i> characters are considered to be the same as one <i>
 directory-separator </i>character.</p>
 
   </blockquote>
-<p>Proposed resolution: accept with modifications.</p>
 
 </blockquote>
 
-<h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?</h4>
+<h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?<br>
+Status: Accept with modifications</h4>
 <blockquote>
 
 <p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
@@ -532,12 +545,12 @@ directory-separator </i>character.</p>
       <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
     </ul>
   </blockquote>
-<p>Proposed resolution: accept with modifications.</p>
 </blockquote>
 
 <font FACE="LMRoman10-Regular">
 
-<h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</h4>
+<h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate<br>
+Status: Accept with modifications</h4>
 
 <blockquote>
 <p>The SG believes <code>path</code> is the appropriate parameter type, but that 
@@ -557,26 +570,26 @@ conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
 
 </blockquote>
  
- <p> Proposed resolution: accept with modifications.
+ <p> 
  <span style="background-color: #FFFF00">Note: SG should review wording 
  &quot;abstract away&quot; rather than &quot;support&quot;.</span></p>
  
 </blockquote>
  
 <h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Remove <code>
-replace_extension()</code>&#39;s conditional addition of period</h4>
+replace_extension()</code>&#39;s conditional addition of period<br>
+Status: Reject</h4>
 
 <blockquote>
  
 <p>The SG presented such a proposal to the Library Evolution Working group in 
-Issaquah, including a number of examples (See Nico&#39;s paper). Tfhere was no 
+Issaquah, including a number of examples (See Nico&#39;s paper). There was no 
 consensus for change. See the LEWG notes.</p>
-
-<p>Proposed resolution: reject.</p>
 
 </blockquote>
 
-<h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths</h4>
+<h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths<br>
+Status: Reject</h4>
 
 <blockquote>
 
@@ -584,11 +597,10 @@ consensus for change. See the LEWG notes.</p>
 will open an issue for an unrelated concern discovered while processing this 
 comment. <span style="background-color: #FFFF00">See LWG nnnn</span>.</p>
 
-<p>Proposed resolution: reject.</p>
-
 </blockquote>
 
-<h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless</h4>
+<h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless<br>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -612,11 +624,10 @@ comment. <span style="background-color: #FFFF00">See LWG nnnn</span>.</p>
     <del>--end()</del><ins>parentEnd</ins>)</tt>.</p>
   </blockquote>
 
-<p>Proposed resolution: accept with modifications.</p>
-
 </blockquote>
 
-<h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre</h4>
+<h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre<br>
+Status: Reject</h4>
 
 <blockquote>
 
@@ -626,11 +637,13 @@ vocabulary type for both full paths and for path components, in the same sense t
 the words in the
 sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 
-<p>Proposed resolution: reject.</p>
-
 </blockquote>
 
-<h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension</h4>
+<h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
+</code>Status: Open</h4>
+
+<p><span style="background-color: #FFFF00">Beman coordinate with Nico to apply 
+LEWG guidance.</span></p>
 
 <blockquote>
 
@@ -709,7 +722,8 @@ returns an empty <code>path</code> object.</p>
 
 </blockquote>
 
-<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()</code></h4>
+<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()<br>
+</code>Status: Open</h4>
 
 <blockquote>
 
@@ -725,7 +739,8 @@ vote.</span></p>
 
 </blockquote>
 
-<h4><a name="US63">US 63</a>; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</h4>
+<h4><a name="US63">US 63</a>; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory<code><br>
+</code>Status: Open</h4>
 
 <blockquote>
 
@@ -736,7 +751,8 @@ LEWG vote.</span></p>
 
 </blockquote>
 
-<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</h4>
+<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature<br>
+Status: Reject</h4>
 
 <blockquote>
 
@@ -746,11 +762,10 @@ problems. Even the submitter is no longer in favor. See LWG list thread
 &quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
 October 25, 2016.</p>
 
-<p>Proposed resolution: reject.</p>
-
 </blockquote>
 
-<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members</h4>
+<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members<br>
+Status: Reject</h4>
 
 
 
@@ -760,13 +775,12 @@ October 25, 2016.</p>
 <a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
 has been closed as NAD. </p>
 
-<p>Proposed resolution: reject.</p>
-
 </blockquote>
 
 
 
-<h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined</h4>
+<h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined<br>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -793,58 +807,64 @@ has been closed as NAD. </p>
     system, it is impossible to have a <i>root-name</i> and a <i>relative-path</i> 
     without an intervening <i>root-directory element</i>. -- end note ]</ins></p>
   </blockquote>
-  <p>Proposed resolution: accept with modifications.&nbsp; </p>
 </blockquote>
 
-<h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts</h4>
+<h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
+Status: Accept</h4>
 
 <blockquote>
 
-<p>See P0430R1 Section 2.1</p>
+<p>See P0430R1 Section 2.1 for wording.</p>
 
 </blockquote>
 
-<h4><a name="US75">US 75</a>, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed</h4>
-
-<blockquote>
-
-<p>See P0430R1 
-Section 2.2</p>
-
-</blockquote>
-
-<h4><a name="US76">US 76</a>, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> definition is over-specified.</h4>
+<h4><a name="US75">US 75</a>, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed<br>
+Status: Accept</h4>
 
 <blockquote>
 
 <p>See P0430R1 
-Section 2.3.1</p>
+Section 2.2 for wording.</p>
 
 </blockquote>
 
-<h4><a name="US77">US 77</a>, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></h4>
-
-<blockquote>
-
-<p>See P0430R1 Section 2.3.2</p>
-
-</blockquote>
-
-<h4><a name="US78">US 78</a>, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</h4>
+<h4><a name="US76">US 76</a>, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> 
+definition is over-specified<br>
+Status: Accept</h4>
 
 <blockquote>
 
 <p>See P0430R1 
-Section 2.4.1</p>
+Section 2.3.1 for wording.</p>
 
 </blockquote>
 
-<h4><a name="US79">US 79</a>, CA 8; Several: Some  operation functions are overspecified for implementation-defined file types</h4>
+<h4><a name="US77">US 77</a>, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i><br>
+Status: Accept</h4>
+
+<blockquote>
+
+<p>See P0430R1 Section 2.3.2 for wording.</p>
+
+</blockquote>
+
+<h4><a name="US78">US 78</a>, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S<br>
+Status: Accept</h4>
 
 <blockquote>
 
 <p>See P0430R1 
-Section 2.4.2</p>
+Section 2.4.1 for wording.</p>
+
+</blockquote>
+
+<h4><a name="US79">US 79</a>, CA 8; Several: Some  operation functions are overspecified for implementation-defined file types<br>
+Status: Accept</h4>
+
+<blockquote>
+
+<p>See P0430R1 
+Section 2.4.2 for wording.</p>
 
 </blockquote>
 
@@ -918,20 +938,22 @@ even if it is slightly askew for a cornercase.</p>
 
 <blockquote>
 
-<p> Proposed resolution: that this is not editorial, but we know the fix. Davis Herring 
-to supply updated proposed wording.</p>
+<p> Proposed resolution: that this is not editorial, but we know the fix. 
+<span style="background-color: #FFFF00">Davis Herring 
+to supply updated proposed wording.</span></p>
 
 </blockquote>
 
 
 
 <h4><a name="US50">US 50</a>;&nbsp; 27.10.8.3 [path.req]: <code>path</code> 
-requirements ¶ 1.4 largely redundant with ¶ 1.3</h4>
+requirements ¶ 1.4 largely redundant with ¶ 1.3<br>
+Status: Reject</h4>
 
 
 <blockquote>
 
-<p>Proposed resolution: opening an issue to expose this concern to additional experts. 
+<p><span style="background-color: #FFFF00">Open an issue to expose this concern to additional experts.</span> 
 This is not a priority issue for shipping C++17.</p>
 
 </blockquote>
@@ -949,9 +971,9 @@ issues against SC 22, N3151, ISO/IEC CD 14882.&quot; </p>
 
 
 
-<p>Late comments 15-47 apply to 27.10 [filesystems]. Except for as noted below, 
+<p><span style="background-color: #FFFF00">Late comments 15-47 apply to 27.10 [filesystems]. Except for as noted below, 
 this paper recommends new LWG issues be opened for all Late comments related 
-to 27.10.</p>
+to 27.10.</span></p>
 
 <h4><a name="Late15">Late 15</a>; 27.10.8.4.11 ¶3.1: A “mismatched element” cannot be equal to an iterator</h4>
 
@@ -1018,11 +1040,10 @@ paper.</p>
 
 </blockquote>
 
-<h4><a name="Late36">Late 36</a>; 27.10.15.26: The <code>permissions() error_code</code> overload should be <code>noexcept</code></h4>
+<h4><a name="Late36">Late 36</a>; 27.10.15.26: The <code>permissions() error_code</code> overload should be <code>noexcept</code><br>
+Status: Accept</h4>
 
 <blockquote>
-
-<p>Recommend accept, unless someone can see something I&#39;m missing.</p>
 
 <p><i>Change 27.10.15.26 [fs.op.permissions] and 27.10.6 Header &lt;filesystem&gt; 
 synopsis [fs.filesystem.syn]:</i></p>
@@ -1040,7 +1061,9 @@ synopsis [fs.filesystem.syn]:</i></p>
 <blockquote>
 
 <p>Matt Austern pointed out this issue and its fix for the TS, but it got dropped on the floor in 
-the TS shipping rush and has never been fixed. We should probably fix it now or never.</p>  
+the TS shipping rush and has never been fixed. We should probably fix it now or never.&nbsp;
+<span style="background-color: #FFFF00">Beman needs propose wording, and ask the 
+LWG/LEWG give it priority 1 in Kona.</span></p>  
 
 </blockquote>
 
@@ -1052,13 +1075,10 @@ the TS shipping rush and has never been fixed. We should probably fix it now or 
 
 <h4><a name="Late41">Late 41</a>; 27.10.15.31 ¶3: Would be useful for <code>remove_all()</code> to report successful removal count on error</h4>
 
-<h4><a name="Late42">Late 42</a>; 27.10.15.33 ¶1: <code>resize_file()</code> <i>Postcondition</i> missing argument</h4>
+<h4><a name="Late42">Late 42</a>; 27.10.15.33 ¶1: <code>resize_file()</code> <i>Postcondition</i> missing argument<br>
+Status: Accept with modifications</h4>
 
 <blockquote>
-
-<p>Recommend accept.</p>
-
-  <blockquote>
 
 <p><i>Change 27.10.15.33 [fs.op.resize_file]:</i></p>
 
@@ -1066,7 +1086,6 @@ the TS shipping rush and has never been fixed. We should probably fix it now or 
 
 <p><i>Postcondition</i>: <code>file_size(<ins>p</ins>) == new_size</code>.</p>
 
-  </blockquote>
   </blockquote>
 </blockquote>
 
