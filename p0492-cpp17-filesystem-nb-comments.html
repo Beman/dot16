@@ -824,13 +824,185 @@ Status: Accept with modifications</h4>
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
 Status: Accept with modifications</h4>
 
-<blockquote>
+<p></p>
+<p><b>Discussion: </b></p>
+<p>Many operations on <code>filesystem::path</code> are defined in terms of its 
+exposition-only <code>pathname</code> member, which is defined implicitly by
+<code>path::native()</code> as the native format path. However, the native 
+format need not be compatible with lexical operations like, for example, <code>
+path::root_name()</code> and <code>path::extension()</code>. </p>
 
 <p>Also see P0430R1 Section 2.1, for additional rationale.
 <span style="background-color: #FFFF00">Beman: Check with Jason to verify 
 P0430R1 now just refers here for proposed wording.</span></p>
 
+<p>The proposed resolution below clarifies the distinct role played by the <code>
++= operator</code> as mentioned in US 44 and addresses US 74/CA 3 (with a more 
+extensive resolution). </p>
+<p><b>Proposed resolution:</b> </p>
+<p>Remove in 27.10.8/1 the private (exposition-only) member from class path. </p>
+<p>Remove in 27.10.8.2.1 &quot; or Windows-&quot;. </p>
+<p>Replace 27.10.8.2.1/2 with </p>
+<blockquote>
+  <p>Several functions are defined to accept <i>detected-format</i> character 
+  sequence arguments that represent paths using either the generic pathname 
+  format grammar (27.10.8.1) or the native pathname format (27.10.4.11). Such an 
+  argument is taken to be in the generic format if and only if it matches the 
+  generic format but is not acceptable to the operating system as a native path.
+  </p>
 </blockquote>
+<p><i><span style="background-color: #E1E9FD">[SG note: P0430R1 (for US 75/CA 4) 
+adds support for explicitly specifying the format to use, at least in the 
+constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
+<p>Add a paragraph before 27.10.8.2.1/4: </p>
+<blockquote>
+  <p>Pathnames are converted as needed between the generic and native formats in 
+  an operating-system-dependent manner. Define G(n) and N(g) as the functions 
+  that convert to the generic and native formats respectively. If g=G(n) for 
+  some n, then G(N(g))=g; if n=N(g) for some g, then N(G(n))=n. [ Note: Neither 
+  G nor N need be invertible. -- end note ] </p>
+</blockquote>
+<p>Add paragraphs at the end of 27.10.8.2.1: </p>
+<blockquote>
+  <p>When a path is constructed from or is assigned a single representation 
+  separate from any path, the other representation is selected by the 
+  appropriate conversion function (G or N). </p>
+  <p>When the (new) value p of one representation of a path is derived from the 
+  representation of that or another path, a value q is chosen for the other 
+  representation. The value q converts to p (by G or N as appropriate) if any 
+  such value does so; q is otherwise unspecified. [ Note: If q is the result of 
+  converting any path at all, it is the result of converting p. -- end note ]
+  </p>
+</blockquote>
+<p>Replace the first sentence in 27.10.8.4.1/3 with </p>
+<blockquote>
+  <p>Constructs an object of class path having the same native and generic 
+  format pathnames as p. </p>
+</blockquote>
+<p>Replace the first sentence in 27.10.8.4.1/4 with </p>
+<blockquote>
+  <p>Constructs an object of class path for which the pathname of the format 
+  detected (27.10.8.2.1) for source has the original value of source. </p>
+</blockquote>
+<p>Replace 27.10.8.4.1/5 with </p>
+<blockquote>
+  <p>Effects: Let s be the effective range of source (27.10.8.3) or the range 
+  [first, last), with the encoding converted if required (27.10.8.2). Detects 
+  the format of s (27.10.8.2.1) and constructs an object of class path for which 
+  the pathname in that format is s. </p>
+</blockquote>
+<p>Replace 27.10.8.4.1/7 (but not its subparagraphs) with </p>
+<blockquote>
+  <p>Effects: Let s be the effective range of source or the range [first, last), 
+  after converting the encoding as follows: </p>
+</blockquote>
+<p>Add to 27.10.8.4.1/7 (after its subparagraphs) </p>
+<blockquote>
+  <p>Detects the format of s (27.10.8.2.1) and constructs an object of class 
+  path for which the pathname in that format is s. </p>
+</blockquote>
+<p><i>Make &quot;pathname&quot; not monospace in the example in 27.10.8.4.1/7. </i></p>
+<p>Replace 27.10.8.4.2/1 with </p>
+<blockquote>
+  <p>Effects: Sets the native and generic format pathnames to be those of p. </p>
+</blockquote>
+<p>Replace the second sentence in 27.10.8.4.2/3 with </p>
+<blockquote>
+  <p>Otherwise, sets the native and generic format pathnames to be the original 
+  values from p. </p>
+</blockquote>
+<p>Replace the first sentence of 27.10.8.4.2/5 with </p>
+<blockquote>
+  <p>Sets the native and generic format pathnames to be those of source. </p>
+</blockquote>
+<p>Replace 27.10.8.4.2/7 with </p>
+<blockquote>
+  <p>Effects: Let s be the effective range of source (27.10.8.3) or the range 
+  [first, last), with the encoding converted if required (27.10.8.2). Detects 
+  the format of s (27.10.8.2.1) and sets the pathname in that format to be s.
+  </p>
+</blockquote>
+<p>Replace 27.10.8.4.3/2 (and its subparagraphs) with </p>
+<blockquote>
+  <p>Effects: If has_filename() || !has_root_directory() &amp;&amp; is_absolute(), then 
+  appends path::preferred_separator to the generic format pathname. [ Example: 
+  path(&quot;//host&quot;)/&quot;foo&quot; and path(&quot;//host/&quot;)/&quot;foo&quot; both equal &quot;//host/foo&quot;. -- end 
+  example ] </p>
+  <p>Then appends p.native() to the native format pathname. </p>
+</blockquote>
+<p><i><span style="background-color: #E1E9FD">[SG note: this depends on LWG 2732 
+and the recently proposed definition of has_filename() and will change again to 
+address LWG 2664 and US 77/CA 6. It already, simply by ignoring p entirely until 
+such time, addresses US 51.] </span></i></p>
+<p>Add at the end of 27.10.8.4.5/2</p>
+<blockquote>
+  <p>&quot;in the generic format pathname&quot;. </p>
+</blockquote>
+<p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
+note: the existing definition of </span><span style="background-color: #E1E9FD">
+remove_filename</span><span style="background-color: #E1E9FD">() is broken; it 
+is expected to be rewritten.] </span></i></p>
+<p>Remove the text after &quot;Effects:&quot; in 27.10.8.4.5/11. </p>
+<p>Replace in 27.10.8.4.5/11.1 and /11.2 &quot;stored path&quot; with &quot;the generic format 
+pathname&quot;. </p>
+<p>Replace 27.10.8.4.5/11.3 with &quot;operator+=(replacement);&quot;. </p>
+<p>Replace 27.10.8.4.5/13 with </p>
+<blockquote>
+  <p>Effects: Swaps the contents (in all formats) of the two paths. </p>
+</blockquote>
+<p>Replace 27.10.8.4.6/2 with </p>
+<blockquote>
+  <p>Returns: the native format pathname. </p>
+</blockquote>
+<p>Replace in 27.10.8.4.6/3, /4, and /6 &quot;pathname&quot; with &quot;native()&quot;. </p>
+<p>Replace each of 27.10.8.4.7/3 and /5 with </p>
+<blockquote>
+  <p>Returns: the generic format pathname. </p>
+</blockquote>
+<p>Replace in 27.10.8.4.9/1, /2, and /4 &quot;pathname&quot; with &quot;the generic format 
+pathname&quot; (not monospace). </p>
+<p><i><span style="background-color: #E1E9FD">[SG note: the new definition of 
+filename() needs to refer to the generic format.] </span></i></p>
+<p>Replace 27.10.8.4.9/8 with </p>
+<blockquote>
+  <p>Returns: Let f be the generic format pathname for filename(). Returns a 
+  path whose generic format pathname is </p>
+  <p>- f, if it contains no periods or consists solely of one or two periods;
+  </p>
+  <p>- otherwise, the prefix of f ending before its last period. </p>
+  <p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
+  note: we intend to change this paragraph to not count the first character as a 
+  period.]</span></i><span style="background-color: #E1E9FD"> </span></p>
+</blockquote>
+<p>Replace 27.10.8.4.9/10 with </p>
+<blockquote>
+  <p>Returns: a path whose generic format pathname is the suffix of the generic 
+  format pathname for filename() not included in stem(). </p>
+</blockquote>
+<p>Replace 27.10.8.4.10/1 with </p>
+<blockquote>
+  <p>Returns: true if the generic format pathname is empty, else false. </p>
+</blockquote>
+<p>Replace in 27.10.8.4.10/10 &quot;pathname&quot; with &quot;the native format pathname&quot; (not 
+monospace). </p>
+<p>Replace the normative text in 27.10.8.4.11/1 with &quot;Returns: a path whose 
+generic format pathname is the normal form (27.10.4.12) of the generic format 
+pathname of *this.&quot; </p>
+<p>Replace in 27.10.8.5/1 and /4 &quot;pathname in the generic format&quot; with &quot;the 
+generic format pathname&quot; (not monospace). </p>
+<p>Add to the end of 27.10.15.2/1 &quot;in its generic format pathname&quot;. </p>
+<p>Add after &quot;obtained&quot; in 27.10.15.11/1 &quot;in the native format&quot;. </p>
+<p><span style="font-style: italic; background-color: #E1E9FD">Rationale: </span>
+</p>
+<p><span style="font-style: italic; background-color: #E1E9FD">The lexical 
+operation specifications leave some room for variation among implementations, 
+but not as much as may be required for native formats; further relaxation would 
+compromise the utility of the operations for portable, predictable path 
+manipulation. Instead, we specify a usable but flexible mapping between the two 
+formats and define each operation in terms of one (or, occasionally, both).
+</span></p>
+<p><span style="font-style: italic; background-color: #E1E9FD">27.10.8.2.1/1.2 
+may not be true on Windows even if the other two reasons are.</span></p>
 
 <p>&nbsp;</p>
 
