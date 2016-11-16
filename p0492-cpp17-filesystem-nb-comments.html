@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-14<!--webbot bot="Timestamp" endspan i-checksum="12111" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-16<!--webbot bot="Timestamp" endspan i-checksum="12115" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -831,24 +831,40 @@ exposition-only <code>pathname</code> member, which is defined implicitly by
 <code>path::native()</code> as the native format path. However, the native 
 format need not be compatible with lexical operations like, for example, <code>
 path::root_name()</code> and <code>path::extension()</code>. </p>
-
-<p>Also see P0430R1 Section 2.1, for additional rationale.
-<span style="background-color: #FFFF00">Beman: Check with Jason to verify 
-P0430R1 now just refers here for proposed wording.</span></p>
-
 <p>The proposed resolution below clarifies the distinct role played by the <code>
 += operator</code> as mentioned in US 44 and addresses US 74/CA 3 (with a more 
 extensive resolution). </p>
+
+<p>See P0430R1 Section 2.1, for additional rationale.
+<span style="background-color: #FFFF00">Beman: Check with Jason to verify 
+P0430R1 now just refers here for proposed wording.</span></p>
+
 <p><b>Proposed resolution:</b> </p>
-<p>Remove in 27.10.8/1 the private (exposition-only) member from class path. </p>
-<p>Remove in 27.10.8.2.1 &quot; or Windows-&quot;. </p>
-<p>Replace 27.10.8.2.1/2 with </p>
+<p><i>Remove in 27.10.8/1 [class.path] the private (exposition-only) member from 
+class path:</i></p>
 <blockquote>
-  <p>Several functions are defined to accept <i>detected-format</i> character 
+  <pre><del>private:
+  string_type pathname; // exposition only</del></pre>
+</blockquote>
+<p><i>Change 27.10.8.2.1 [path.fmt.cvt]: </i> </p>
+<blockquote>
+<p>[ <i>Note:</i> The format conversions described in this section are not applied on 
+POSIX-<del> or Windows-</del>based operating systems because on these systems: ...</p>
+</blockquote>
+<p><i>Change 27.10.8.2.1 [path.fmt.cvt]:</i></p>
+<blockquote>
+  <p><del>Function arguments that take character sequences representing paths 
+  may use the generic pathname format grammar (27.10.8.1) or the native pathname 
+  format (27.10.4.11). If and only if such arguments are in the generic format 
+  and the generic format is not acceptable to the operating system as a native 
+  path, conversion to native format shall be performed during the processing of 
+  the argument.</del></p>
+  <p><ins>Several functions are defined to accept <i>detected-format</i> character 
   sequence arguments that represent paths using either the generic pathname 
   format grammar (27.10.8.1) or the native pathname format (27.10.4.11). Such an 
   argument is taken to be in the generic format if and only if it matches the 
   generic format but is not acceptable to the operating system as a native path.
+  </ins>
   </p>
 </blockquote>
 <p><i><span style="background-color: #E1E9FD">[SG note: P0430R1 (for US 75/CA 4) 
@@ -859,8 +875,18 @@ constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
   <p>Pathnames are converted as needed between the generic and native formats in 
   an operating-system-dependent manner. Define G(n) and N(g) as the functions 
   that convert to the generic and native formats respectively. If g=G(n) for 
-  some n, then G(N(g))=g; if n=N(g) for some g, then N(G(n))=n. [ Note: Neither 
-  G nor N need be invertible. -- end note ] </p>
+  some n, then G(N(g))=g; if n=N(g) for some g, then N(G(n))=n. [ <i>Note:</i> Neither 
+  G nor N need be invertible. -- <i>end note</i> ] </p>
+  <p dir="ltr"><span style="background-color: #FFFF00">Is this translation into 
+  standardese correct?</span>:</p>
+  <p dir="ltr">Pathnames are converted as needed between the generic and native 
+  formats in an operating-system-dependent manner. Let <code>path::string_type 
+  G(const path&amp;)</code> and <code>path::string_type N(const path&amp;)</code> be the functions 
+  that convert a pathname to the generic and native formats respectively. If
+  <code>g ==G(n)</code> for 
+  some <code>path n</code>, then <code>G(N(g))==g</code>; if <code>n==N(g)</code> for some 
+  <code>path g</code>, then <code>N(G(n))==n</code>. [ <i>Note:</i> Neither
+  <code>G</code> nor <code>N</code> is required be invertible. -- <i>end note</i> ] </p>
 </blockquote>
 <p>Add paragraphs at the end of 27.10.8.2.1: </p>
 <blockquote>
@@ -874,34 +900,65 @@ constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
   converting any path at all, it is the result of converting p. -- end note ]
   </p>
 </blockquote>
-<p>Replace the first sentence in 27.10.8.4.1/3 with </p>
+<p>Change 27.10.8.4.1 [path.construct]: </p>
 <blockquote>
-  <p>Constructs an object of class path having the same native and generic 
-  format pathnames as p. </p>
+  <pre>path(const path&amp; p);
+path(path&amp;&amp; p) noexcept;</pre>
+  <blockquote>
+  <p dir="ltr"><i>Effects:</i> Constructs an object of class <code>path</code>
+  <ins>having the same native and generic format pathnames as <code>p</code></ins> 
+  <del>with pathname having the original value of <code>p.pathname</code></del>. In
+  the second form, <code>p</code> is left in a valid but unspecified state.</p>
+  </blockquote>
+  <pre>path(string_type&amp;&amp; source);</pre>
+  <blockquote>
+    <p><i>Effects:</i> Constructs an object of class <code>path</code>
+     <ins>for which the pathname in the detected-format ([path.fmt.cvt]) of 
+  <code>source</code> has</ins> <del>with
+    <code>pathname</code> having</del> the original value of <code>source</code>.
+    <code>source</code> is left in a valid but unspecified state.</p>
+  </blockquote>
+  <pre>template &lt;class Source&gt;
+path(const Source&amp; source);
+template &lt;class InputIterator&gt;
+path(InputIterator first, InputIterator last);</pre>
+  <blockquote>
+    <p><i>Effects:</i> <ins>Let <code>s</code> be the effective range of <code>
+    source</code> ([path.req]) or the range <code>[first, last)</code>, with the 
+    encoding converted if required ([path.cvt]). Finds the detected-format of
+    <code>s</code> ([path.fmt.cvt]) and constructs an object of class <code>path</code> 
+    for which the pathname in that format is <code>s</code>.</ins>&nbsp; <del>Constructs an object of class <code>path</code>, storing 
+    the effective range of source (27.10.8.3) or the range <code>[first, last)</code> 
+    in <code>pathname</code>, converting format and encoding if required 
+    (27.10.8.2).</del></p>
+  </blockquote>
+  <pre>template &lt;class Source&gt;
+path(const Source&amp; source, const locale&amp; loc);
+template &lt;class InputIterator&gt;
+path(InputIterator first, InputIterator last, const locale&amp; loc);</pre>
+  <blockquote>
+    <p><i>Requires:</i> The value type of <code>Source</code> and <code>
+    InputIterator</code> is <code>char</code>. </p>
+    <p>&nbsp;<i>Effects:&nbsp; </i> <del>Constructs an object of class <code>path</code>, 
+    storing the effective range of source or the range <code>[first, last)</code> 
+    in <code>pathname</code>, after converting format if required and</del> <ins>
+    Let <code>s</code> be the effective range of <code>source</code> or the 
+    range <code>[first, last)</code>,</ins><i> </i>after 
+    converting the encoding as follows:</p>
+    <blockquote>
+    <p>— If <code>value_type</code> is <code>wchar_t</code>, converts to the 
+    native wide encoding (27.10.4.10) using the <code>codecvt&lt;wchar_t, char, 
+    mbstate_t&gt;</code> facet of <code>loc</code>.</p>
+    <p>&nbsp;— Otherwise a conversion is performed using the <code>
+    codecvt&lt;wchar_t, char, mbstate_t&gt;</code> facet of <code>loc</code>, and then 
+    a second conversion to the current narrow encoding.</p>
+    </blockquote>
+    <p><ins>Finds&nbsp;the detected-format of <code>s</code> ([path.fmt.cvt]) and constructs an object of class 
+    <code>path</code> for which the pathname in that format is <code>s</code>.</ins></p>
+  </blockquote>
 </blockquote>
-<p>Replace the first sentence in 27.10.8.4.1/4 with </p>
-<blockquote>
-  <p>Constructs an object of class path for which the pathname of the format 
-  detected (27.10.8.2.1) for source has the original value of source. </p>
-</blockquote>
-<p>Replace 27.10.8.4.1/5 with </p>
-<blockquote>
-  <p>Effects: Let s be the effective range of source (27.10.8.3) or the range 
-  [first, last), with the encoding converted if required (27.10.8.2). Detects 
-  the format of s (27.10.8.2.1) and constructs an object of class path for which 
-  the pathname in that format is s. </p>
-</blockquote>
-<p>Replace 27.10.8.4.1/7 (but not its subparagraphs) with </p>
-<blockquote>
-  <p>Effects: Let s be the effective range of source or the range [first, last), 
-  after converting the encoding as follows: </p>
-</blockquote>
-<p>Add to 27.10.8.4.1/7 (after its subparagraphs) </p>
-<blockquote>
-  <p>Detects the format of s (27.10.8.2.1) and constructs an object of class 
-  path for which the pathname in that format is s. </p>
-</blockquote>
-<p><i>Make &quot;pathname&quot; not monospace in the example in 27.10.8.4.1/7. </i></p>
+<p dir="ltr"><i>In the example in [path.fmt.cvt] ¶ 7.2, change &quot;pathname&quot; to 
+normal font rather than code font.</i></p>
 <p>Replace 27.10.8.4.2/1 with </p>
 <blockquote>
   <p>Effects: Sets the native and generic format pathnames to be those of p. </p>
