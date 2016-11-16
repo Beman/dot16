@@ -151,7 +151,7 @@ Status: Accept with modifications</h4>
 <blockquote>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
 <blockquote>
-<p><b>normal form</b><br>
+<p dir="ltr"><b>normal form</b><br>
 A path with no <del>redundant</del> current directory (<i>dot</i>) elements <ins>
 except possibly one at the end</ins>, no redundant parent directory (<i>dot-dot</i>) 
 elements, and no redundant <i>directory-separators</i>. The normal form for an 
@@ -162,54 +162,23 @@ process of obtaining a normalized path from a path that is not in normal form is
 called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current 
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. —<i>end note</i> ]</p>
+<p><span style="background-color: #FFFF00">Beman: Since iteration, etc, no 
+longer adds a dot, we need to either strike &quot;The normal form for a path ending 
+in a </span> <i>
+<span style="background-color: #FFFF00">directory-separator</span></i><span style="background-color: #FFFF00"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF00">dot</span></i><span style="background-color: #FFFF00">) 
+element appended.&quot; or add a note or example explaining the rationale. But check 
+the meeting notes; I have a vague recollection we already discussed this.</span></p>
 </blockquote>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
-Status: Accept with modifications</h4>
+Status: Reject</h4>
 <blockquote>
 
-<p><i>Change 27.10.8.4.3 [path.append]:</i></p>
-  
-  <blockquote>
-    <p ALIGN="LEFT"><code>path&amp; operator/=(const path&amp; p);</code></p>
-    </font><font FACE="LMRoman7-Regular" SIZE="1">
-    <p ALIGN="LEFT">2 </font><font FACE="LMRoman10-Italic"><i>Effects:
-    </i></font><font FACE="LMRoman10-Regular">Appends </font>
-    <font FACE="LMMono10-Regular">path::preferred_separator </font>
-    <font FACE="LMRoman10-Regular">to </font>
-    <font FACE="LMMono10-Regular">pathname </font>
-    <font FACE="LMRoman10-Regular">unless:</p>
-    </font><font FACE="LMRoman7-Regular" SIZE="1">
-    <p ALIGN="LEFT">(2.1) </font><font FACE="LMRoman10-Regular">— an 
-    added </font><font FACE="LMRoman10-Italic"><i>directory-separator
-    </i></font><font FACE="LMRoman10-Regular">would be redundant, or</p>
-    </font><font FACE="LMRoman7-Regular" SIZE="1">
-    <p ALIGN="LEFT">(2.2) </font><font FACE="LMRoman10-Regular">— </font>
-    <ins><code>p.empty()</code> is <code>false</code> and</ins> an added <i>directory-separator</i><font FACE="LMRoman10-Regular">would change a relative 
-    path into an absolute path [</font><font FACE="LMRoman10-Italic"><i>Note:
-    </i></font><font FACE="LMRoman10-Regular">An empty path is relative.</font><font FACE="LMRoman10-Italic"><i>—end 
-    note </i></font><font FACE="LMRoman10-Regular">] , or</p>
-    </font><font FACE="LMRoman7-Regular" SIZE="1">
-    <p>(2.3) </font><font FACE="LMRoman10-Regular">—
-    </font><del><code>p.empty()</code> is <code>true</code>, 
-    or</del></p>
-    <font FACE="LMRoman7-Regular" SIZE="1">
-    <p ALIGN="LEFT">(2.4) </font><font FACE="LMRoman10-Regular">—
-    </font><font FACE="LMMono10-Regular">*p.native().cbegin() </font>
-    <font FACE="LMRoman10-Regular">is a </font>
-    <font FACE="LMRoman10-Italic"><i>directory-separator</i></font><font FACE="LMRoman10-Regular">.</p>
-    <p ALIGN="LEFT">Then appends </font><font FACE="LMMono10-Regular">
-    p.native() </font><font FACE="LMRoman10-Regular">to </font>
-    <font FACE="LMMono10-Regular">pathname</font><font FACE="LMRoman10-Regular">.</p>
-    </font><font FACE="LMRoman7-Regular" SIZE="1">
-    <p>3 </font><font FACE="LMRoman10-Italic"><i>Returns: </i></font>
-    <font FACE="LMMono10-Regular">*this</font><font FACE="LMRoman10-Regular">.</font></p>
-  </blockquote>
+<p>Resolved by <a href="#US74">US-74/CA-3</a></p>
+</blockquote>
 
     <font FACE="LMRoman10-Regular">
-
-</blockquote>
 
 <h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition<br>
 Status: Accept with modifications</h4>
@@ -877,7 +846,7 @@ constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
   that convert to the generic and native formats respectively. If g=G(n) for 
   some n, then G(N(g))=g; if n=N(g) for some g, then N(G(n))=n. [ <i>Note:</i> Neither 
   G nor N need be invertible. -- <i>end note</i> ] </p>
-  <p dir="ltr"><span style="background-color: #FFFF00">Is this translation into 
+  <p><span style="background-color: #FFFF00">Is this translation into 
   standardese correct?</span>:</p>
   <p dir="ltr">Pathnames are converted as needed between the generic and native 
   formats in an operating-system-dependent manner. Let <code>path::string_type 
@@ -900,7 +869,7 @@ constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
   converting any path at all, it is the result of converting p. -- end note ]
   </p>
 </blockquote>
-<p>Change 27.10.8.4.1 [path.construct]: </p>
+<p><i>Change 27.10.8.4.1 [path.construct]: </i> </p>
 <blockquote>
   <pre>path(const path&amp; p);
 path(path&amp;&amp; p) noexcept;</pre>
@@ -913,10 +882,17 @@ path(path&amp;&amp; p) noexcept;</pre>
   <pre>path(string_type&amp;&amp; source);</pre>
   <blockquote>
     <p><i>Effects:</i> Constructs an object of class <code>path</code>
-     <ins>for which the pathname in the detected-format ([path.fmt.cvt]) of 
+     <ins>for which the pathname in the detected-format&nbsp; of 
   <code>source</code> has</ins> <del>with
-    <code>pathname</code> having</del> the original value of <code>source</code>.
+    <code>pathname</code> having</del> the original value of <code>source</code>
+     <ins>([path.fmt.cvt])</ins>.
     <code>source</code> is left in a valid but unspecified state.</p>
+    <p><span style="background-color: #FFFF00">Beman: Is it sufficiently clear 
+    that the value of pathname in the other format is as specified in [path.fmt.cvt]? 
+    We could add &quot;[<i>Note:</i> The value of pathname in the other format is 
+    specified in [path.fmt.cvt] <i>--end note</i>]&quot; but then do we do that in 
+    the many other places where [path.fmt.cvt] determines the value of pathname 
+    in the other format?</span></p>
   </blockquote>
   <pre>template &lt;class Source&gt;
 path(const Source&amp; source);
@@ -953,44 +929,96 @@ path(InputIterator first, InputIterator last, const locale&amp; loc);</pre>
     codecvt&lt;wchar_t, char, mbstate_t&gt;</code> facet of <code>loc</code>, and then 
     a second conversion to the current narrow encoding.</p>
     </blockquote>
-    <p><ins>Finds&nbsp;the detected-format of <code>s</code> ([path.fmt.cvt]) and constructs an object of class 
+    <p dir="ltr"><ins>Finds&nbsp;the detected-format of <code>s</code> ([path.fmt.cvt]) and constructs an object of class 
     <code>path</code> for which the pathname in that format is <code>s</code>.</ins></p>
   </blockquote>
 </blockquote>
 <p dir="ltr"><i>In the example in [path.fmt.cvt] ¶ 7.2, change &quot;pathname&quot; to 
 normal font rather than code font.</i></p>
-<p>Replace 27.10.8.4.2/1 with </p>
+<p><i>Change [path.assign]: </i> </p>
 <blockquote>
-  <p>Effects: Sets the native and generic format pathnames to be those of p. </p>
+  <pre>path&amp; operator=(const path&amp; p);</pre>
+  <blockquote>
+<p dir="ltr"><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
+has no effect. Otherwise, <ins>sets the native and generic format pathnames to 
+those of <code>p</code></ins> <del>modifies <code>pathname</code> to have the original 
+value of <code>p.pathname</code></del>.</p>
+<p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+  <pre>path&amp; operator=(path&amp;&amp; p) noexcept;</pre>
+  <blockquote>
+<p><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
+has no effect. Otherwise, <ins>sets the native and generic format pathnames to 
+those of <code>p</code></ins> <del>modifies <code>pathname</code> to have the original 
+value of <code>p.pathname</code></del>. <code>p</code> is left in a valid but 
+unspecified state. [ <i>Note:</i> A valid implementation is <code>swap(p)</code>. 
+<i>—end 
+note</i> ]</p>
+<p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+  <pre>path&amp; operator=(string_type&amp;&amp; source);
+path&amp; assign(string_type&amp;&amp; source);</pre>
+  <blockquote>
+    <p><i>Effects:</i> <ins>Sets the native and generic format pathnames to 
+those of <code>source</code></ins> <del>Modifies <code>pathname</code> to have the original value 
+    of <code>source</code></del>. <code>source</code> is left in a valid but 
+    unspecified state.</p>
+    <p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+  <pre>template &lt;class Source&gt;
+path&amp; operator=(const Source&amp; source);
+template &lt;class Source&gt;
+path&amp; assign(const Source&amp; source);
+template &lt;class InputIterator&gt;
+path&amp; assign(InputIterator first, InputIterator last);</pre>
+  <blockquote>
+    <p><i>Effects: </i><ins>Let <code>s</code> be the effective range of <code>source</code> ([path.req]) or the 
+    range <code>[first, last)</code>, with the encoding converted if required ([path.cvt]). 
+    Finds the detected-format of <code>s</code> and sets the pathname in that format 
+    to <code>s</code> ([path.fmt.cvt]).</ins> <del>Stores the effective range of <code>source</code> 
+    (27.10.8.3) or the range <code>[first, last)</code> in <code>pathname</code>, 
+    converting format and encoding if required (27.10.8.2).</del></p>
+    <p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
 </blockquote>
-<p>Replace the second sentence in 27.10.8.4.2/3 with </p>
+<p><i>Change [path.append]
+
+
+
+
+</font>
+
+
+
+
+<font FACE="Times New Roman">
+
+¶2 &amp; 3</font><font FACE="LMRoman10-Regular">:</font></i><font FACE="LMRoman10-Regular"></p>
 <blockquote>
-  <p>Otherwise, sets the native and generic format pathnames to be the original 
-  values from p. </p>
-</blockquote>
-<p>Replace the first sentence of 27.10.8.4.2/5 with </p>
-<blockquote>
-  <p>Sets the native and generic format pathnames to be those of source. </p>
-</blockquote>
-<p>Replace 27.10.8.4.2/7 with </p>
-<blockquote>
-  <p>Effects: Let s be the effective range of source (27.10.8.3) or the range 
-  [first, last), with the encoding converted if required (27.10.8.2). Detects 
-  the format of s (27.10.8.2.1) and sets the pathname in that format to be s.
-  </p>
-</blockquote>
-<p>Replace 27.10.8.4.3/2 (and its subparagraphs) with </p>
-<blockquote>
-  <p>Effects: If has_filename() || !has_root_directory() &amp;&amp; is_absolute(), then 
-  appends path::preferred_separator to the generic format pathname. [ Example: 
-  path(&quot;//host&quot;)/&quot;foo&quot; and path(&quot;//host/&quot;)/&quot;foo&quot; both equal &quot;//host/foo&quot;. -- end 
-  example ] </p>
-  <p>Then appends p.native() to the native format pathname. </p>
-</blockquote>
-<p><i><span style="background-color: #E1E9FD">[SG note: this depends on LWG 2732 
+  <pre>path&amp; operator/=(const path&amp; p);</pre>
+  <blockquote>
+<p><i>Effects:</i> <ins>If equivalent to <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
+then appends <code>path::preferred_separator</code> to the generic format pathname. [ <i>
+Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
+ equal <code>&quot;//host/foo&quot;</code>. <i>—end note</i> ]</ins></p>
+<p>&nbsp;<del>Appends <code>path::preferred_separator</code> to pathname 
+unless:</del></p>
+    <blockquote>
+<p><del>— an added <i>directory-separator</i> would be redundant, or</del></p>
+<p><del>— an added <i>directory-separator</i> would change a relative path into an 
+absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or</del></p>
+<p><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
+<p dir="ltr"><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
+    </blockquote>
+<p>Then appends <code>p.native()</code> to <ins>the native format pathname</ins>&nbsp; <code>
+<del>pathname</del></code>.</p>
+<p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+<p><i><span style="background-color: #E1E9FD">[SG note: this proposed wording depends on LWG 2732 
 and the recently proposed definition of has_filename() and will change again to 
 address LWG 2664 and US 77/CA 6. It already, simply by ignoring p entirely until 
 such time, addresses US 51.] </span></i></p>
+</blockquote>
 <p>Add at the end of 27.10.8.4.5/2</p>
 <blockquote>
   <p>&quot;in the generic format pathname&quot;. </p>
