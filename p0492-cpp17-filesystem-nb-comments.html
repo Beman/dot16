@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-16<!--webbot bot="Timestamp" endspan i-checksum="12115" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-17<!--webbot bot="Timestamp" endspan i-checksum="12117" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -806,7 +806,7 @@ extensive resolution). </p>
 
 <p>See P0430R1 Section 2.1, for additional rationale.
 <span style="background-color: #FFFF00">Beman: Check with Jason to verify 
-P0430R1 now just refers here for proposed wording.</span></p>
+P0430R1 now just refers to US 74/CA 3 here for proposed wording.</span></p>
 
 <p><b>Proposed resolution:</b> </p>
 <p><i>Remove in 27.10.8/1 [class.path] the private (exposition-only) member from 
@@ -892,7 +892,8 @@ path(path&amp;&amp; p) noexcept;</pre>
     We could add &quot;[<i>Note:</i> The value of pathname in the other format is 
     specified in [path.fmt.cvt] <i>--end note</i>]&quot; but then do we do that in 
     the many other places where [path.fmt.cvt] determines the value of pathname 
-    in the other format?</span></p>
+    in the other format? Or maybe add a similar note after [class.path] 
+    paragraph 1.</span></p>
   </blockquote>
   <pre>template &lt;class Source&gt;
 path(const Source&amp; source);
@@ -1010,7 +1011,7 @@ absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or<
 <p><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
 <p dir="ltr"><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
     </blockquote>
-<p>Then appends <code>p.native()</code> to <ins>the native format pathname</ins>&nbsp; <code>
+<p dir="ltr">Then appends <code>p.native()</code> to <ins>the native format pathname</ins>&nbsp; <code>
 <del>pathname</del></code>.</p>
 <p><i>Returns:</i> <code>*this</code>.</p>
   </blockquote>
@@ -1019,38 +1020,151 @@ and the recently proposed definition of has_filename() and will change again to
 address LWG 2664 and US 77/CA 6. It already, simply by ignoring p entirely until 
 such time, addresses US 51.] </span></i></p>
 </blockquote>
-<p>Add at the end of 27.10.8.4.5/2</p>
+<p><i>Change [path.modifiers]:</i></p>
 <blockquote>
-  <p>&quot;in the generic format pathname&quot;. </p>
+  <pre>path&amp; make_preferred();</pre>
+  <blockquote>
+  <p><i>Effects:</i> Each <i>directory-separator</i> is converted to
+  <i>preferred-separator</i> in the <ins>generic format pathname</ins>. </p>
+  </blockquote>
 </blockquote>
 <p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
 note: the existing definition of </span><span style="background-color: #E1E9FD">
 remove_filename</span><span style="background-color: #E1E9FD">() is broken; it 
 is expected to be rewritten.] </span></i></p>
-<p>Remove the text after &quot;Effects:&quot; in 27.10.8.4.5/11. </p>
-<p>Replace in 27.10.8.4.5/11.1 and /11.2 &quot;stored path&quot; with &quot;the generic format 
-pathname&quot;. </p>
-<p>Replace 27.10.8.4.5/11.3 with &quot;operator+=(replacement);&quot;. </p>
-<p>Replace 27.10.8.4.5/13 with </p>
+<p><i>Change [path.modifiers]:</i></p>
 <blockquote>
-  <p>Effects: Swaps the contents (in all formats) of the two paths. </p>
+  <pre>path&amp; replace_extension(const path&amp; replacement = path());</pre>
+  <blockquote>
+  <p><i>Effects:</i> <del>pathname (the stored path) is modified as follows:</del></p>
+  <blockquote>
+<p dir="ltr">— Any existing <code>extension()</code>(27.10.8.4.9) is removed from the <ins>generic format pathname</ins>
+<del>stored path</del>, then</p>
+<p>— If <code>replacement</code> is not empty and does not begin with a <i>dot</i> character, a 
+<i>dot</i> 
+character is appended to the <ins>generic format pathname</ins> <del>stored path</del>, then</p>
+<p>— <ins><code>operator+=(replacement);</code></ins> <code><del>replacement</del></code><del> is concatenated to the stored path</del>.</p>
+  </blockquote>
+<p><i>Returns</i> <code>*this</code>.</p>
+  </blockquote>
 </blockquote>
-<p>Replace 27.10.8.4.6/2 with </p>
+<p><i>Change [path.modifiers]:</i></p>
 <blockquote>
-  <p>Returns: the native format pathname. </p>
+  <pre>void swap(path&amp; rhs) noexcept;</pre>
+  <blockquote>
+  <p><i>Effects:</i> Swaps the contents <ins>(in all formats)</ins> of the two paths
+  <code><del>pathname</del></code><del> and </del><code><del>rhs.pathname</del></code>. </p>
+  </blockquote>
 </blockquote>
-<p>Replace in 27.10.8.4.6/3, /4, and /6 &quot;pathname&quot; with &quot;native()&quot;. </p>
-<p>Replace each of 27.10.8.4.7/3 and /5 with </p>
+<p><i>Change [path.native.obs]:</i></p>
 <blockquote>
-  <p>Returns: the generic format pathname. </p>
+  <pre>const string_type&amp; native() const noexcept;</pre>
+  <blockquote>
+    <p><i>Returns: </i><ins>The native format pathname</ins> <code><del>pathname</del></code>.</p>
+  </blockquote>
+  <pre>const value_type* c_str() const noexcept;</pre>
+  <blockquote>
+    <p><i>Returns: </i><ins>Equivalent to <code>native().c_str()</code></ins>
+    <code><del>pathname.c_str()</del></code>.</p>
+  </blockquote>
+  <pre>operator string_type() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <ins><code>native()</code></ins> <code><del>pathname</del></code>.</p>
+<p>[ <i>Note:</i> Conversion to string_type is provided so that an object of 
+class path can be given as an argument to existing standard library file stream 
+constructors and open functions. —<i>end note</i> ]</p>
+  </blockquote>
+  <pre>template &lt;class EcharT, class traits = char_traits&lt;EcharT&gt;,
+          class Allocator = allocator&lt;EcharT&gt;&gt;
+  basic_string&lt;EcharT, traits, Allocator&gt;
+    string(const Allocator&amp; a = Allocator()) const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <ins><code>native()</code></ins> <code><del>pathname</del></code>.</p>
+<p><i>Remarks:</i> All memory allocation, including for the return value, shall 
+be performed by a. Conversion, if any, is specified by 27.10.8.2.</p>
+  </blockquote>
 </blockquote>
-<p>Replace in 27.10.8.4.9/1, /2, and /4 &quot;pathname&quot; with &quot;the generic format 
-pathname&quot; (not monospace). </p>
+<p><i>Change [path.generic.obs]:</i></p>
+<blockquote>
+  <pre>template &lt;class EcharT, class traits = char_traits&lt;EcharT&gt;,
+          class Allocator = allocator&lt;EcharT&gt;&gt;
+  basic_string&lt;EcharT, traits, Allocator&gt;
+    generic_string(const Allocator&amp; a = Allocator()) const;</pre>
+  <blockquote>
+<p><i>Returns: </i><ins>The generic format pathname</ins> <del><code>pathname</code>, 
+reformatted according to the generic pathname format (27.10.8.1)</del>.</p>
+<p><i>Remarks:</i> All memory allocation, including for the return value, shall 
+be performed by a. Conversion, if any, is specified by 27.10.8.2.</p>
+  </blockquote>
+  <pre>std::string generic_string() const;
+std::wstring generic_wstring() const;
+std::string generic_u8string() const;
+std::u16string generic_u16string() const;
+std::u32string generic_u32string() const;</pre>
+  <blockquote>
+<p><i>Returns:</i> <ins>The generic format pathname</ins> <del><code>pathname</code>, 
+reformatted according to the generic pathname format (27.10.8.1)</del>.</p>
+<p><i>Remarks:</i> Conversion, if any, is specified by 27.10.8.2. The encoding 
+of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.decompose]:</i></p>
+<blockquote>
+  <pre>path root_name() const;</pre>
+  <blockquote>
+    <p dir="ltr"><i>Returns:</i> <i>root-name</i>, if <ins>the generic format 
+    pathname</ins> <del><code>pathname</code></del> includes <i>root-name</i>, 
+    otherwise <code>path()</code>. </p>
+  </blockquote>
+  <pre>path root_directory() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <i>root-directory</i>, if <ins>the generic format 
+    pathname</ins> <del><code>pathname</code></del> includes <i>root-directory</i>, 
+    otherwise <code>path()</code>.</p>
+  </blockquote>
+  <p>...</p>
+  <pre>path relative_path() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> A path composed from <ins>the generic format pathname</ins>
+    <del><code>pathname</code></del>, if <code>!empty()</code>, beginning with 
+    the first <i>filename</i> after <i>root-path</i>. Otherwise, <code>path()</code>.</p>
+  </blockquote>
+  <p>...</p>
 <p><i><span style="background-color: #E1E9FD">[SG note: the new definition of 
 filename() needs to refer to the generic format.] </span></i></p>
+  <pre>path stem() const;</pre>
+  <blockquote>
+  <p><ins><i>Returns:</i> Let <code>f</code> be the generic format pathname for 
+  <code>filename()</code>. Returns a 
+  path whose generic format pathname is </ins></p>
+  <blockquote>
+  <p><ins>- <code>f</code>, if it contains no periods or consists solely of one or two periods;</ins>
+  </p>
+  <p><ins>- otherwise, the prefix of <code>f</code> ending before its last period.</ins> </p>
+  </blockquote>
+  <p><i><span style="background-color: #E1E9FD">[SG 
+  note: we intend to change this paragraph to not count the first character as a 
+  period.]</span></i><span style="background-color: #E1E9FD"> </span></p>
+    <p><del><i>Returns:</i> if <code>filename()</code> contains a period but does not consist 
+    solely of one or two periods, returns the substring of <code>filename()</code> starting 
+    at its beginning and ending with the character before the last period. 
+    Otherwise, returns <code>filename()</code>.</del></p>
+<p>[ Example:</p>
+    <blockquote>
+      <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).stem(); // outputs &quot;bar&quot;
+path p = &quot;foo.bar.baz.tar&quot;;
+for (; !p.extension().empty(); p = p.stem())
+std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
+// outputs: .tar
+// .baz
+// .bar</pre>
+    </blockquote>
+    <p>—end example ]</p>
+  </blockquote>
+</blockquote>
 <p>Replace 27.10.8.4.9/8 with </p>
 <blockquote>
-  <p>Returns: Let f be the generic format pathname for filename(). Returns a 
+  <p><i>Returns:</i> Let f be the generic format pathname for filename(). Returns a 
   path whose generic format pathname is </p>
   <p>- f, if it contains no periods or consists solely of one or two periods;
   </p>
