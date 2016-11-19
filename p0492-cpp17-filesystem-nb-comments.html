@@ -793,7 +793,6 @@ Status: Accept with modifications</h4>
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
 Status: Accept with modifications</h4>
 
-<p></p>
 <p><b>Discussion: </b></p>
 <p>Many operations on <code>filesystem::path</code> are defined in terms of its 
 exposition-only <code>pathname</code> member, which is defined implicitly by
@@ -809,67 +808,100 @@ extensive resolution). </p>
 P0430R1 now just refers to US 74/CA 3 here for proposed wording.</span></p>
 
 <p><b>Proposed resolution:</b> </p>
-<p><i>Remove in 27.10.8/1 [class.path] the private (exposition-only) member from 
+<p><i>Remove In the [class.path] synopsis, remove the private (exposition-only) member from 
 class path:</i></p>
 <blockquote>
   <pre><del>private:
   string_type pathname; // exposition only</del></pre>
 </blockquote>
-<p><i>Change 27.10.8.2.1 [path.fmt.cvt]: </i> </p>
+<p><i>Change [path.fmt.cvt]:</i></p>
+<p><span style="background-color: #FFFF00">Option A:</span> </p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are not applied on 
-POSIX-<del> or Windows-</del>based operating systems because on these systems: ...</p>
-</blockquote>
-<p><i>Change 27.10.8.2.1 [path.fmt.cvt]:</i></p>
+POSIX-<del> or Windows-</del>based operating systems because on these systems:</p>
 <blockquote>
+<p>— The generic format is acceptable as a native path.<br>
+— There is no need to distinguish between native format and generic format in 
+function arguments.<br>
+— Paths for regular files and paths for directories share the same syntax.</p>
+</blockquote>
+<p>—end note ]</p>
+</blockquote>
+<p><span style="background-color: #FFFF00">Option B:</span></p>
+<blockquote>
+<p>[ <i>Note:</i> The format conversions described in this section are <ins>
+usually</ins> not applied on 
+POSIX- or Windows-based operating systems because on these systems:</p>
+<blockquote>
+<p>— The generic format is acceptable as a native path.<br>
+— There is <ins>usually</ins> no need to distinguish between native format and 
+generic format in function arguments.<br>
+— Paths for regular files and paths for directories share the same syntax.</p>
+</blockquote>
+<p><ins>Even on these operating systems, the format conversions may be applied 
+for pathnames with implementation-defined <i>root-name</i>s ([path.generic]).</ins> </p>
+<p>—end note ]</p>
+</blockquote>
+<p><span style="background-color: #FFFF00">End options</span></p>
+<blockquote>
+  <p><ins>Several functions are defined to accept <i>detected-format</i> character 
+  sequence arguments that represent paths using either the generic pathname 
+  format grammar ([path.generic]) or the native pathname format ([fs.def.native]). Such an 
+  argument is taken to be in the generic format if and only if it matches the 
+  generic format but is not acceptable to the operating system as a native path.
+  </ins>
+  </p>
   <p><del>Function arguments that take character sequences representing paths 
   may use the generic pathname format grammar (27.10.8.1) or the native pathname 
   format (27.10.4.11). If and only if such arguments are in the generic format 
   and the generic format is not acceptable to the operating system as a native 
   path, conversion to native format shall be performed during the processing of 
   the argument.</del></p>
-  <p><ins>Several functions are defined to accept <i>detected-format</i> character 
-  sequence arguments that represent paths using either the generic pathname 
-  format grammar (27.10.8.1) or the native pathname format (27.10.4.11). Such an 
-  argument is taken to be in the generic format if and only if it matches the 
-  generic format but is not acceptable to the operating system as a native path.
+<p dir="ltr">[ Note: Some operating systems may have no unambiguous way to 
+distinguish between native format and generic format arguments. This is by 
+design as it simplifies use for operating systems that do not require 
+disambiguation. An implementation for an operating system where disambiguation 
+is required is permitted to distinguish between the formats. —end note ]</p>
+<p dir="ltr"><span style="background-color: #FFFF00">Beman: I&#39;m concerned about 
+the following paragraph:</span></p>
+<ul>
+  <li dir="ltr">
+<p dir="ltr"><span style="background-color: #FFFF00">Would s/Define G(n) and N(g) 
+as the functions/Let G and N be the implementation&#39;s functions/ be clearer?</span></p>
+  </li>
+  <li dir="ltr">
+<p dir="ltr"><span style="background-color: #FFFF00">Are some of the <code>&#39;=&#39;</code> 
+supposed to be <code>&#39;==&#39;?</code></span></p>
+  </li>
+</ul>
+<p><ins>Pathnames are converted as needed between the generic and native formats 
+in an operating-system-dependent manner. Define <code>G(n)</code> and <code>N(g)</code> 
+as the functions that convert to the generic and native formats respectively. If
+<code>g=G(n)</code> for some <code>n</code>, then <code>G(N(g))=g</code>; if
+<code>n=N(g)</code> for some <code>g</code>, then <code>N(G(n))=n</code>. [ <i>
+Note:</i> Neither <code>G</code> nor <code>N</code> need be invertible. —<i>end 
+note</i> ] </ins></p>
+<p>If the native format requires paths for regular files to be formatted 
+differently from paths for directories, the path shall be treated as a directory 
+path if its last element is a directory-separator, otherwise it shall be treated 
+as a path to a regular file.</p>
+  <p><ins>When a path is constructed from or is assigned a single representation 
+  separate from any path, the other representation is selected by the 
+  appropriate conversion function (<code>G</code> or <code>N</code>). </ins> </p>
+  <p><ins>When the (new) value <code>p</code> of one representation of a path is derived from the 
+  representation of that or another path, a value <code>q</code> is chosen for the other 
+  representation. The value <code>q</code> converts to <code>p</code> (by <code>G</code> or 
+  <code>N</code> as appropriate) if any 
+  such value does so; <code>q</code> is otherwise unspecified. [ <i>Note:</i> If 
+  <code>q</code> is the result of 
+  converting any path at all, it is the result of converting <code>p</code>.<i>—end note</i> ]
   </ins>
   </p>
-</blockquote>
 <p><i><span style="background-color: #E1E9FD">[SG note: P0430R1 (for US 75/CA 4) 
 adds support for explicitly specifying the format to use, at least in the 
 constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
-<p>Add a paragraph before 27.10.8.2.1/4: </p>
-<blockquote>
-  <p>Pathnames are converted as needed between the generic and native formats in 
-  an operating-system-dependent manner. Define G(n) and N(g) as the functions 
-  that convert to the generic and native formats respectively. If g=G(n) for 
-  some n, then G(N(g))=g; if n=N(g) for some g, then N(G(n))=n. [ <i>Note:</i> Neither 
-  G nor N need be invertible. -- <i>end note</i> ] </p>
-  <p><span style="background-color: #FFFF00">Is this translation into 
-  standardese correct?</span>:</p>
-  <p dir="ltr">Pathnames are converted as needed between the generic and native 
-  formats in an operating-system-dependent manner. Let <code>path::string_type 
-  G(const path&amp;)</code> and <code>path::string_type N(const path&amp;)</code> be the functions 
-  that convert a pathname to the generic and native formats respectively. If
-  <code>g ==G(n)</code> for 
-  some <code>path n</code>, then <code>G(N(g))==g</code>; if <code>n==N(g)</code> for some 
-  <code>path g</code>, then <code>N(G(n))==n</code>. [ <i>Note:</i> Neither
-  <code>G</code> nor <code>N</code> is required be invertible. -- <i>end note</i> ] </p>
 </blockquote>
-<p>Add paragraphs at the end of 27.10.8.2.1: </p>
-<blockquote>
-  <p>When a path is constructed from or is assigned a single representation 
-  separate from any path, the other representation is selected by the 
-  appropriate conversion function (G or N). </p>
-  <p>When the (new) value p of one representation of a path is derived from the 
-  representation of that or another path, a value q is chosen for the other 
-  representation. The value q converts to p (by G or N as appropriate) if any 
-  such value does so; q is otherwise unspecified. [ Note: If q is the result of 
-  converting any path at all, it is the result of converting p. -- end note ]
-  </p>
-</blockquote>
-<p><i>Change 27.10.8.4.1 [path.construct]: </i> </p>
+<p><i>Change [path.construct]: </i> </p>
 <blockquote>
   <pre>path(const path&amp; p);
 path(path&amp;&amp; p) noexcept;</pre>
@@ -887,13 +919,6 @@ path(path&amp;&amp; p) noexcept;</pre>
     <code>pathname</code> having</del> the original value of <code>source</code>
      <ins>([path.fmt.cvt])</ins>.
     <code>source</code> is left in a valid but unspecified state.</p>
-    <p><span style="background-color: #FFFF00">Beman: Is it sufficiently clear 
-    that the value of pathname in the other format is as specified in [path.fmt.cvt]? 
-    We could add &quot;[<i>Note:</i> The value of pathname in the other format is 
-    specified in [path.fmt.cvt] <i>--end note</i>]&quot; but then do we do that in 
-    the many other places where [path.fmt.cvt] determines the value of pathname 
-    in the other format? Or maybe add a similar note after [class.path] 
-    paragraph 1.</span></p>
   </blockquote>
   <pre>template &lt;class Source&gt;
 path(const Source&amp; source);
@@ -1001,7 +1026,7 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
 <p><i>Effects:</i> <ins>If equivalent to <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
 then appends <code>path::preferred_separator</code> to the generic format pathname. [ <i>
 Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
- equal <code>&quot;//host/foo&quot;</code>. <i>—end note</i> ]</ins></p>
+ equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
 <p>&nbsp;<del>Appends <code>path::preferred_separator</code> to pathname 
 unless:</del></p>
     <blockquote>
