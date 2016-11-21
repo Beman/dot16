@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-18<!--webbot bot="Timestamp" endspan i-checksum="12119" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-20<!--webbot bot="Timestamp" endspan i-checksum="12104" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -183,6 +183,9 @@ Status: Reject</h4>
 <h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition<br>
 Status: Accept with modifications</h4>
 <blockquote>
+
+<p>Also see LWG
+<a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a>.</p>
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
 <blockquote>
@@ -318,16 +321,16 @@ change, and propose wording changes where needed or desirable.&nbsp; </p>
 
 </blockquote>
 
-<h4 dir="ltr">LWG 2665 <code>remove_filename()</code> post condition is 
-incorrect</h4>
+<h4 dir="ltr"><span style="background-color: #FFFF00">LWG 2665 <code>remove_filename()</code> post condition is 
+incorrect</span></h4>
 
 <blockquote>
 
-<p dir="ltr">Although not a NB comment,
+<p><span style="background-color: #FFFF00">Although not a NB comment,
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
-to be coordinated with this set of comments.
-<span style="background-color: #FFFF00">Beman needs to verify 2665 is priority 
-1, and then can delete this entry since it isn&#39;t an NB comment.</span></p>
+to be coordinated with this set of comments, particularly US-52. Beman has asked 
+Marshall to up the priority to 1 and put a coordinating note in the issue. Once 
+that gets settled this entry can be deleted since it isn&#39;t an NB comment.</span></p>
 
 </blockquote>
 </font>
@@ -1291,7 +1294,7 @@ other two bullet items are true.</span></p>
 </blockquote>
 
 <h4><a name="US75">US 75</a>, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed<br>
-Status: Accept</h4>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -1302,7 +1305,7 @@ Section 2.2 for wording.</p>
 
 <h4><a name="US76">US 76</a>, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> 
 definition is over-specified<br>
-Status: Accept</h4>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -1312,7 +1315,7 @@ Section 2.3.1 for wording.</p>
 </blockquote>
 
 <h4><a name="US77">US 77</a>, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i><br>
-Status: Accept</h4>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -1321,7 +1324,7 @@ Status: Accept</h4>
 </blockquote>
 
 <h4><a name="US78">US 78</a>, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S<br>
-Status: Accept</h4>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -1331,7 +1334,7 @@ Section 2.4.1 for wording.</p>
 </blockquote>
 
 <h4><a name="US79">US 79</a>, CA 8; Several: Some  operation functions are overspecified for implementation-defined file types<br>
-Status: Accept</h4>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -1348,63 +1351,72 @@ Section 2.4.2 for wording.</p>
 
 
 
-<p>There was concern that some of these might involve substantive concerns, so 
+<p>There was concern that some of these might involve substantive changes, so 
 the SG processed them as ordinary technical comments.</p>
 
 
 
 
 
-<h4><a name="US38">US 38</a>; 27.10.4.13 [fs.def.symlink]:&nbsp; Duplicates §17.3.16.</h4>
+<h4><a name="US38">US 38</a>; 27.10.4.13 [fs.def.symlink]:&nbsp; Duplicates 
+§17.3.16<br>
+Status: Accept</h4>
 
 
 
 <blockquote>
 
-<p> Proposed resolution: accept.</p>
+<p> Project editor will make change.</p>
 
 </blockquote>
 
 
 
-<h4><a name="US39">US 39</a>; 27.10.4.15: Remove note: Dot and dot-dot are not directories. </h4>
+<h4><a name="US39">US 39</a>; 27.10.4.15 [fs.def.parent]: Remove note: Dot and 
+dot-dot are not directories<br>
+Status: Accept</h4>
 
 
 
 <blockquote>
 
-<p> Proposed resolution: accept.</p>
+<p> Project editor will make change.</p>
 
 </blockquote>
 
 
 
-<h4><a name="US41">US 41</a>; 27.10.4.16: The term “parent directory” for a (non-directory) file is unusual. </h4>
+<h4><a name="US41">US 41</a>; 27.10.4.16 [fs.def.parent.other]: The term “parent 
+directory” for a (non-directory) file is unusual<br>
+Status: Reject</h4>
 
 
 <blockquote>
-<p>Insufficient motivation for change. &quot;parent directory&quot; is the 
-term we use to describe the containing directory.</p>
-<p>Proposed resolution: reject.</p>
+<p>Insufficient motivation for change. &quot;parent directory&quot; is the term we use to 
+describe the containing directory; we&#39;re (already) following POSIX there, even 
+though the POSIX definition is a bit weird.</p>
 </blockquote>
 
-<h4><a name="US42">US 42</a>; 27.10.4.21: Pathname resolution does not always resolve a symlink.</h4>
+<h4><a name="US42">US 42</a>; 27.10.4.21 [fs.def.symlink]: Pathname resolution 
+does not always resolve a symlink<br>
+Status: Reject</h4>
 
 
 
 <blockquote>
 
-<p>There is an apparent contradiction in POSIX between the definition and other 
-places in the POSIX standard, but the SG prefers to use the POSIX definition 
-even if it is slightly askew for a cornercase.</p>
-
-<p>Proposed resolution: reject.</p>
+<p>There is an apparent corner case contradiction between the POSIX definition and other 
+places in the POSIX standard. The [fs.def.symlink] definition is identical to 
+the POSIX 3.381 Symbolic Link definition () and the SG prefers to keep it that 
+way.</p>
 
 </blockquote>
 
 
 
-<h4><a name="US47">US 47</a>; 27.10.8.1: “.” and “..” already match the name production. </h4>
+<h4><a name="US47">US 47</a>; 27.10.8.1 [path.generic]: “.” and “..” already 
+match the name production<br>
+Status: Accept with modifications </h4>
 
 
 
@@ -1541,7 +1553,7 @@ synopsis [fs.filesystem.syn]:</i></p>
 
 <p>Matt Austern pointed out this issue and its fix for the TS, but it got dropped on the floor in 
 the TS shipping rush and has never been fixed. We should probably fix it now or never.&nbsp;
-<span style="background-color: #FFFF00">Beman needs propose wording, and ask the 
+<span style="background-color: #FFFF00">Beman will propose wording, and ask the 
 LWG/LEWG give it priority 1 in Kona.</span></p>  
 
 </blockquote>
