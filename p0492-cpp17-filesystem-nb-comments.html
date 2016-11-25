@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-20<!--webbot bot="Timestamp" endspan i-checksum="12104" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-25<!--webbot bot="Timestamp" endspan i-checksum="12114" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -49,7 +49,7 @@
 </tr>
 <tr>
   <td align="left">&nbsp;</td>
-  <td align="left">Jonathan Wakely</td>
+  <td align="left">Jonathan Wakely &lt;cxx at kayari dot org&gt;</td>
 </tr>
 <tr>
   <td align="left">Audience:</td>
@@ -63,12 +63,17 @@
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0488r0.pdf">
 P0488R0</a> related to
 <a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4606.pdf">
-N4606</a> 27.10 [filesystems]. Late Comments from
+N4606</a> 27.10 [filesystems]. Some &quot;Late&quot; Comments from
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
-P0489R0</a> are also considered, in a separate section.</p>
+P0489R0</a> are also considered.</p>
 
 <p>The proposed resolutions in this paper represent the consensus of the Library 
-Working Group&#39;s Filesystem small group (SG), unless otherwise indicated. </p>
+Working Group&#39;s Filesystem small group (SG), unless otherwise indicated.</p>
+
+<p>This paper is a snapshot of current work in progress. Proposed wording for 
+some NB comments is still being drafted. At the request of the Project Editor, 
+all proposed wording in the final proposal will be based on the most recent 
+version of the C++ working paper.</p>
 
 <p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
@@ -122,8 +127,8 @@ Working Group&#39;s Filesystem small group (SG), unless otherwise indicated. </p
 <h2>Markup</h2>
 
 <p><span style="background-color: #FFFF00">SG</span><span style="background-color: #FFFF00"> 
-internal notes that need to be dealt with before final acceptance of this 
-proposal.</span><p><span style="font-style: italic; background-color: #E1E9FD">
+internal notes to itself. These need to be dealt with before final acceptance of this 
+proposal. Who does what may change to balance workloads.</span><p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
 the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
 removed from the WP.</del><p dir="ltr"><font face="LMRoman10-Regular"><ins>Text 
@@ -131,8 +136,8 @@ to be added to the WP.</ins></font><h2><a name="nb-comments"></a>NB Technical an
 
 <h3>Comments related to <code>filename()</code></h3>
 
-<p><span style="font-style: italic; background-color: #E1E9FD">Note: No late 
-comments are related to <code>filename()</code> NB comment resolution</span></p>
+<p><span style="font-style: italic; background-color: #E1E9FD">These comments 
+are tightly coupled and best resolved as a whole.</span></p>
 
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
 <code>!empty()<br>
@@ -162,7 +167,7 @@ process of obtaining a normalized path from a path that is not in normal form is
 called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current 
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. —<i>end note</i> ]</p>
-<p><span style="background-color: #FFFF00">Beman: Since iteration, etc, no 
+<p><span style="background-color: #FFFF00">Beman comments: Since iteration, etc, no 
 longer adds a dot, we need to either strike &quot;The normal form for a path ending 
 in a </span> <i>
 <span style="background-color: #FFFF00">directory-separator</span></i><span style="background-color: #FFFF00"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF00">dot</span></i><span style="background-color: #FFFF00">) 
@@ -213,7 +218,7 @@ change is a breaking change.</p>
 <code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.<p>
   <b>Caution:</b> &quot;remove_filename&quot; appears at least seven times in 
   sub-clause 27.10. All will need to be changed if the name changes.<p><b>Caution:</b> &quot;replace_filename&quot; 
-  presumably also would need to be renamed.</blockquote>
+  presumably also would need to be renamed.<p>&nbsp;</blockquote>
 
 <h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken<code><br>
 </code>Status: Open</h4>
@@ -277,63 +282,73 @@ present.</p>
 
 <p>The ¶4.4 iterator behavior has always been surprising and controversial, so 
 the LWG SG looked at the possible ways of dealing with trailing non-root slash 
-characters.</p>
+characters:</p>
 
 <blockquote>
 
 <p><del> <i>dot</i>, if one or more trailing non-root <i>
 slash</i> characters are present.</del></p>
 
+</font>
+
 <blockquote>
 
-<p>Not acceptable because it loses the fact that the path represents a 
-directory, yet knowing that is required for some operating systems e.g. POSIX, 
-z/OS, OpenMVS).&nbsp; It also ensures that reconstruction by iteration yields 
-the same path as the original for some definition ofoncer &quot;same&quot;.</p>
+<p><span style="font-style: italic; background-color: #E1E9FD">Not acceptable because it loses the fact that the path represents a 
+directory, yet knowing that is required for some operating systems (e.g. POSIX, 
+z/OS, OpenMVS).&nbsp; We ensures that reconstruction by iteration yields 
+the same path as the original for some definition of &quot;same&quot;.</span></p>
 
 </blockquote>
+
+    <font FACE="LMRoman10-Regular">
 
 <p> <i><del>dot</del> <ins>slash</ins></i>, if one or more trailing non-root <i>
 slash</i> characters are present.</p>
 
+</font>
+
 <blockquote>
 
-<p>Not acceptable because (ask Jonathan - three people spoke at once and I lost 
-the thread of conversation)</p>
+<p><span style="font-style: italic; background-color: #E1E9FD">Not acceptable 
+because a slash is semantically ambiguous; it is already used to indicate a 
+root, so also using it to indicate a directory path would be a trap all to easy 
+to fall into.</span></p>
 
 </blockquote>
+
+    <font FACE="LMRoman10-Regular">
 
 <p> <i><del>dot</del> </i><ins>an empty element</ins>, if one or more trailing non-root <i>
 slash</i> characters are present.</p>
 
+</font>
+
 <blockquote>
 
-<p>This works, and was discussed at length by the SG. It appears to resolve a 
+<p><span style="font-style: italic; background-color: #E1E9FD">This works, and was discussed at length by the SG. It appears to resolve a 
 number of concerns raised by other NB comments and by the SG during discussion 
 of those comments. A paper is needed to identify all the ripple effects of this 
-change, and propose wording changes where needed or desirable.&nbsp; </p>
+change, and propose wording changes where needed or desirable.</span><font FACE="LMRoman10-Regular">&nbsp; </p>
 
 </blockquote>
 
 </blockquote>
 
-<p>The SG encourages such a paper.</p>
-
 </blockquote>
 
-<h4 dir="ltr"><span style="background-color: #FFFF00">LWG 2665 <code>remove_filename()</code> post condition is 
-incorrect</span></h4>
+</font>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">LWG 2665 remove_filename() post condition is 
+incorrect</span></p>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF00">Although not a NB comment,
+<p><span style="font-style: italic; background-color: #E1E9FD">Although not a NB comment,
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
-to be coordinated with this set of comments, particularly US-52. Beman has asked 
-Marshall to up the priority to 1 and put a coordinating note in the issue. Once 
-that gets settled this entry can be deleted since it isn&#39;t an NB comment.</span></p>
+to be coordinated with this set of comments, particularly US-52. It is mentioned 
+here as a reminder to the LWG.</span></p>
 
 </blockquote>
-</font>
 
 <h3>Other comments</h3>
 
@@ -344,7 +359,8 @@ that gets settled this entry can be deleted since it isn&#39;t an NB comment.</s
 And that objective has been largely achieved in practical real-world use for 
 many years.&nbsp; No proposed wording. </p>
 
-<p>Waiting for a paper or issue with proposed wording. </p>
+<p><span style="font-style: italic; background-color: #E1E9FD">Waiting for a paper or issue with proposed wording. 
+Without proposed wording, there is no consensus for change.</span></p>
 
 </blockquote>
 
@@ -389,12 +405,14 @@ Status: Accept with modifications</h4>
 <p>A collection of files and <del>certain of</del> their attributes.</p>
   </blockquote>
 </blockquote>
-<h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?</h4>
+<h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?<code><br>
+</code>Status: Open</h4>
 <blockquote>
 <p>No proposed wording. 27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
 describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
 would be the proper place. </p>
-<p>Proposed resolution: waiting for a paper or issue with proposed wording. </p>
+<p><span style="font-style: italic; background-color: #E1E9FD">Waiting for a paper or issue with proposed wording. 
+Without proposed wording, there is no consensus for change.</span></p>
 </blockquote>
 <h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links<br>
 Status: Accept with modifications</h4>
@@ -431,8 +449,9 @@ Status: Accept with modifications</h4>
 <p>&nbsp;No proposed wording.  </p>
 
 <p>The SG also detected a problem with conversions that fail, and a need that 
-directory-separator detection occur at the code-unit level. Billy O&#39;Neal and 
-Jonathan Wakely will provide issue write ups.</p>
+directory-separator detection occur at the code-unit level. 
+<span style="background-color: #FFFF00">Billy O&#39;Neal and 
+Jonathan </span><span style="background-color: #FFFF00">Wakely</span><span style="background-color: #FFFF00"> will provide issue write ups.</span></p>
 
 <p><i>Change 27.10.5 
 Requirements [fs.req] ¶4:</i></p>
@@ -458,9 +477,8 @@ a note, has been applied to LWG 2734 to partially resolve US 44.</p>
 <p>The portion of this comment not resolved by LWG 2734 is resolved by
 <a href="#US74">US-74/CA-3</a> </p>
 
-<p dir="ltr"> <span style="background-color: #FFFF00">Beman</span><span style="background-color: #FFFF00">: 
-check 2734, and coordinate with Marshall if needed, or add comment to 2734
-</span></p>
+<p dir="ltr"> <span style="background-color: #FFFF00">Beman will check 2734, and 
+coordinate with Marshall if needed, or add comment to 2734 </span></p>
 
 </blockquote>
 
@@ -529,6 +547,8 @@ Status: Accept with modifications</h4>
       <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
     </ul>
   </blockquote>
+<p><span style="background-color: #FFFF00">Check the post-Issaquah working 
+paper. This may have already been fixed as editorial.</span></p>
 </blockquote>
 
 <font FACE="LMRoman10-Regular">
@@ -555,8 +575,9 @@ conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
 </blockquote>
  
  <p> 
- <span style="background-color: #FFFF00">Note: SG should review wording 
- &quot;abstract away&quot; rather than &quot;support&quot;.</span></p>
+ <span style="background-color: #FFFF00">SG should review wording 
+ &quot;abstract away&quot; was added during editing, rather than the previously 
+ agreed upon &quot;support&quot;.</span></p>
  
 </blockquote>
  
@@ -577,9 +598,10 @@ Status: Reject</h4>
 
 <blockquote>
 
-<p>Insufficient motivation for change.&nbsp; Billy O&#39;Neal 
+<p>Insufficient motivation for change.&nbsp; 
+<span style="background-color: #FFFF00">Billy O&#39;Neal 
 will open an issue for an unrelated concern discovered while processing this 
-comment. <span style="background-color: #FFFF00">See LWG nnnn</span>.</p>
+comment.</span> <span style="background-color: #FFFF00">See LWG nnnn</span>.</p>
 
 </blockquote>
 
@@ -626,7 +648,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
 </code>Status: Open</h4>
 
-<p><span style="background-color: #FFFF00">Beman coordinate with Nico to apply 
+<p><span style="background-color: #FFFF00">Beman needs to coordinate with Nico to apply 
 LEWG guidance.</span></p>
 
 <blockquote>
@@ -807,7 +829,7 @@ path::root_name()</code> and <code>path::extension()</code>. </p>
 extensive resolution). </p>
 
 <p>See P0430R1 Section 2.1, for additional rationale.
-<span style="background-color: #FFFF00">Beman: Check with Jason to verify 
+<span style="background-color: #FFFF00">Beman needs to check with Jason to verify 
 P0430R1 now just refers to US 74/CA 3 here for proposed wording.</span></p>
 
 <p><b>Proposed resolution:</b> </p>
@@ -865,8 +887,8 @@ distinguish between native format and generic format arguments. This is by
 design as it simplifies use for operating systems that do not require 
 disambiguation. An implementation for an operating system where disambiguation 
 is required is permitted to distinguish between the formats. —end note ]</p>
-<p dir="ltr"><span style="background-color: #FFFF00">Beman: I&#39;m concerned about 
-the following paragraph:</span></p>
+<p dir="ltr"><span style="background-color: #FFFF00">Beman is concerned about 
+the following paragraph; his markup of text from Davis may be in error:</span></p>
 <ul>
   <li dir="ltr">
 <p dir="ltr"><span style="background-color: #FFFF00">Would s/Define G(n) and N(g) 
@@ -1437,7 +1459,7 @@ Status: Reject</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF00">Open an issue to expose this concern to additional experts.</span> 
+<p><span style="background-color: #FFFF00">Beman to open an issue to expose this concern to additional experts.</span> 
 This is not a priority issue for shipping C++17.</p>
 
 </blockquote>
@@ -1584,7 +1606,7 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>Recommend opening issue. Such a feature might be useful in 27.9 [file.streams] for C++2x.</p> 
+<p>Recommend opening issue. Such a feature might be useful in 27.9 [file.streams] for C++2n.</p> 
 
 </blockquote>
 
