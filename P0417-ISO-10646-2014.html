@@ -30,7 +30,7 @@ body
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-06<!--webbot bot="Timestamp" endspan i-checksum="12114" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-25<!--webbot bot="Timestamp" endspan i-checksum="12114" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -70,7 +70,8 @@ The changes that impact the C++17 CD include:</p>
 &nbsp;</li>
   <li>UCS-2 has been deprecated, and has been replaced by UTF-16. This is a 
   normative change for the C++ standard because UCS-2 and UTF-16 are not the 
-  same.<br>
+  same; UCS-2 does not support surrogate pairs and so is limited to the Basic 
+  Multilingual Plane (BMP).<br>
 &nbsp;</li>
   <li>The term UCS-4 has been changed to UTF-32. Although 10646 says &quot;The terms 
   UTF-32 and UCS-4 can be used interchangeably...&quot;, the C++ standard should use 
@@ -114,14 +115,18 @@ for a copy of ISO/IEC 10646:2014.</p>
   UTF-16.<br>
 &nbsp;</li>
   <li>When a facet&#39;s <code>Elem</code> is <code>char16_t</code>, it is 
-  surprising and error-prone if the encoding is actually UCS2 since the usual 
-  C++ encoding such as for literals is UTF-16.<br>
+  surprising and error-prone if the encoding is actually UCS2 since the value of <code>char16_t</code> 
+  character literals &quot;is equal to its ISO 10646 code point value&quot; and the 
+  encoding for&nbsp; <code>char16_t</code> string literals is explicitly 
+  required (2.13.5 [lex.string] paragraph 10) to support surrogate pairs (i.e. 
+  is UTF-16).<br>
 &nbsp;</li>
   <li>Because header <code>&lt;codecvt&gt;</code> facets only became part of the 
   standard with C++11, and because the only code breakage from the change to 
   UTF-16 is in downstream code that makes assumptions which fail for surrogate 
   code points, it seems unlikely that UCS2 replacement will break much existing 
   code that isn&#39;t already broken. Use of the facets themselves does not break 
+  existing code 
   because the ranges for high surrogates, low surrogates, and valid BMP 
   characters are disjoint.</li>
 </ul>
@@ -133,8 +138,6 @@ for a copy of ISO/IEC 10646:2014.</p>
 <ul>
   <li>Add mention of National Body comments.</li>
   <li>Add Acknowledgements.</li>
-  <li>Add &quot;... hereinafter called UCS&quot; paragraph to increase 
-  uniformity with other referenced standards.</li>
   <li>Add <a href="#Discussion">Discussion of the UCS2 to UTF-16 change</a>.</li>
   <li>Remove proposed changes to Annex E. Clark Nelson points out that the 
   omission of F0000-FFFFD and 100000-10FFFD is deliberate because they are 
@@ -142,6 +145,10 @@ for a copy of ISO/IEC 10646:2014.</p>
 </ul>
 
 <p><b>R0 - 2016 Post-Oulu mailing</b></p>
+
+<ul>
+  <li>Initial proposal</li>
+</ul>
 
 <h2>Acknowledgements</h2>
 
@@ -161,15 +168,6 @@ green</ins>.</i></p>
 Multiple-Octet Coded Character Set (UCS)</i> — Part 1: Architecture and Basic 
 Multilingual Plane</del> <ins>:2014, <i>Information technology — Universal Coded 
 Character Set (UCS)</i></ins></p>
-
-<p><i>Add a new paragraph at the end of [intro.refs]:</i></p>
-
-<blockquote>
-
-<p><ins>The Universal Coded Character Set described in ISO/IEC 10646:2014 is 
-hereinafter called <i>UCS</i>.</ins></p>
-
-</blockquote>
 
 <h4>22.5 Standard code conversion facets [locale.stdcvt]</h4>
 
