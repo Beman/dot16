@@ -16,7 +16,7 @@
 <table>
 <tr>
   <td align="left">Doc. no.:</td>
-  <td align="left"><span style="background-color: #FFFF00">D0492R0</span></td>
+  <td align="left"><span style="background-color: #FFFF99">D0492R0</span></td>
 </tr>
 <tr>
   <td align="left">Date:</td>
@@ -122,13 +122,13 @@ version of the C++ working paper.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
 <b>
 <a href="#late-comments">Late comments</a></b><br>
-&nbsp;&nbsp;&nbsp; <span style="background-color: #FFFF00">To be supplied</span>
+&nbsp;&nbsp;&nbsp; <span style="background-color: #FFFF99">To be supplied</span>
 
 <h2>Markup</h2>
 
-<p><span style="background-color: #FFFF00">SG</span><span style="background-color: #FFFF00"> 
-internal notes to itself. These need to be dealt with before final acceptance of this 
-proposal. Who does what may change to balance workloads.</span><p><span style="font-style: italic; background-color: #E1E9FD">
+<p><span style="background-color: #FFFF99">SG</span><span style="background-color: #FFFF99"> 
+internal notes to itself. Who does what may change to balance workloads. These 
+will be gone by the final proposal revision.</span><p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
 the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
 removed from the WP.</del><p dir="ltr"><font face="LMRoman10-Regular"><ins>Text 
@@ -167,10 +167,10 @@ process of obtaining a normalized path from a path that is not in normal form is
 called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current 
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. —<i>end note</i> ]</p>
-<p><span style="background-color: #FFFF00">Beman comments: Since iteration, etc, no 
+<p><span style="background-color: #FFFF99">Beman comments: Since iteration, etc, no 
 longer adds a dot, we need to either strike &quot;The normal form for a path ending 
 in a </span> <i>
-<span style="background-color: #FFFF00">directory-separator</span></i><span style="background-color: #FFFF00"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF00">dot</span></i><span style="background-color: #FFFF00">) 
+<span style="background-color: #FFFF99">directory-separator</span></i><span style="background-color: #FFFF99"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF99">dot</span></i><span style="background-color: #FFFF99">) 
 element appended.&quot; or add a note or example explaining the rationale. But check 
 the meeting notes; I have a vague recollection we already discussed this.</span></p>
 </blockquote>
@@ -382,8 +382,8 @@ reported in such cases&quot;.</p>
     implementations are not required to support those features on the FAT file 
     system <ins>but instead are required to report an error as described above</ins>. —end example ]</p>
   </blockquote>
-    <p><span style="background-color: #FFFF00">Jonathan </span>
-    <span style="background-color: #FFFF00">Wakely</span><span style="background-color: #FFFF00"> will supply improved wording.</span></p>
+    <p><span style="background-color: #FFFF99">Jonathan </span>
+    <span style="background-color: #FFFF99">Wakely</span><span style="background-color: #FFFF99"> will supply improved wording.</span></p>
 </blockquote>
 <h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic<br>
 Status: Accept</h4>
@@ -419,7 +419,7 @@ Status: Accept with modifications</h4>
 <blockquote>
 <p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
 (or Link).</p>
-<h4><span style="font-weight: 400">Davis Herring will open an issue on a related 
+<h4><span style="font-weight: 400; background-color:#FFFF99">Davis Herring will open an issue on a related 
 concern.</span></h4>
 <p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
   <blockquote>
@@ -450,8 +450,8 @@ Status: Accept with modifications</h4>
 
 <p>The SG also detected a problem with conversions that fail, and a need that 
 directory-separator detection occur at the code-unit level. 
-<span style="background-color: #FFFF00">Billy O&#39;Neal and 
-Jonathan </span><span style="background-color: #FFFF00">Wakely</span><span style="background-color: #FFFF00"> will provide issue write ups.</span></p>
+<span style="background-color: #FFFF99">Billy O&#39;Neal and 
+Jonathan </span><span style="background-color: #FFFF99">Wakely</span><span style="background-color: #FFFF99"> will provide issue write ups.</span></p>
 
 <p><i>Change 27.10.5 
 Requirements [fs.req] ¶4:</i></p>
@@ -477,7 +477,7 @@ a note, has been applied to LWG 2734 to partially resolve US 44.</p>
 <p>The portion of this comment not resolved by LWG 2734 is resolved by
 <a href="#US74">US-74/CA-3</a> </p>
 
-<p dir="ltr"> <span style="background-color: #FFFF00">Beman will check 2734, and 
+<p dir="ltr"> <span style="background-color: #FFFF99">Beman will check 2734, and 
 coordinate with Marshall if needed, or add comment to 2734 </span></p>
 
 </blockquote>
@@ -487,7 +487,7 @@ coordinate with Marshall if needed, or add comment to 2734 </span></p>
 </code>Status: Open</h4>
 <blockquote>
 <p>No 
-proposed wording. <span style="background-color: #FFFF00">Davis Herring working on proposed wording.</span></p>
+proposed wording. <span style="background-color: #FFFF99">Davis Herring working on proposed wording.</span></p>
 
 </blockquote>
 
@@ -514,7 +514,7 @@ of characters other than directory-separator characters.</p>
 
 </blockquote>
 
-<p><span style="background-color: #FFFF00">SG</span><span style="background-color: #FFFF00"> 
+<p><span style="background-color: #FFFF99">SG</span><span style="background-color: #FFFF99"> 
 needs to review Jonathan&#39;s wording above</span></p>
 
 </blockquote>
@@ -547,7 +547,7 @@ Status: Accept with modifications</h4>
       <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
     </ul>
   </blockquote>
-<p><span style="background-color: #FFFF00">Check the post-Issaquah working 
+<p><span style="background-color: #FFFF99">Check the post-Issaquah working 
 paper. This may have already been fixed as editorial.</span></p>
 </blockquote>
 
@@ -575,7 +575,7 @@ conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
 </blockquote>
  
  <p> 
- <span style="background-color: #FFFF00">SG should review wording 
+ <span style="background-color: #FFFF99">SG should review wording 
  &quot;abstract away&quot; was added during editing, rather than the previously 
  agreed upon &quot;support&quot;.</span></p>
  
@@ -599,9 +599,9 @@ Status: Reject</h4>
 <blockquote>
 
 <p>Insufficient motivation for change.&nbsp; 
-<span style="background-color: #FFFF00">Billy O&#39;Neal 
+<span style="background-color: #FFFF99">Billy O&#39;Neal 
 will open an issue for an unrelated concern discovered while processing this 
-comment.</span> <span style="background-color: #FFFF00">See LWG nnnn</span>.</p>
+comment.</span> <span style="background-color: #FFFF99">See LWG nnnn</span>.</p>
 
 </blockquote>
 
@@ -648,7 +648,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
 </code>Status: Open</h4>
 
-<p><span style="background-color: #FFFF00">Beman needs to coordinate with Nico to apply 
+<p><span style="background-color: #FFFF99">Beman needs to coordinate with Nico to apply 
 LEWG guidance.</span></p>
 
 <blockquote>
@@ -740,7 +740,7 @@ the question becomes "Should we make that part of the note normative?"</p>
 what is already specified behavior, and saying the same normative thing twice is 
 not good standardese. No proposed wording. </p>
 
-<p><span style="background-color: #FFFF00">Review notes, and result of the LEWG 
+<p><span style="background-color: #FFFF99">Review notes, and result of the LEWG 
 vote.</span></p>
 
 </blockquote>
@@ -752,7 +752,7 @@ vote.</span></p>
 
 <p>Need proposed wording for the <i>Proposed change</i> "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
 
-<p><span style="background-color: #FFFF00">We can now resolve this in light of 
+<p><span style="background-color: #FFFF99">We can now resolve this in light of 
 LEWG vote.</span></p>
 
 </blockquote>
@@ -829,7 +829,7 @@ path::root_name()</code> and <code>path::extension()</code>. </p>
 extensive resolution). </p>
 
 <p>See P0430R1 Section 2.1, for additional rationale.
-<span style="background-color: #FFFF00">Beman needs to check with Jason to verify 
+<span style="background-color: #FFFF99">Beman needs to check with Jason to verify 
 P0430R1 now just refers to US 74/CA 3 here for proposed wording.</span></p>
 
 <p><b>Proposed resolution:</b> </p>
@@ -840,7 +840,7 @@ class path:</i></p>
   string_type pathname; // exposition only</del></pre>
 </blockquote>
 <p><i>Change [path.fmt.cvt]:</i></p>
-<p><span style="background-color: #FFFF00">Option A:</span> </p>
+<p><span style="background-color: #FFFF99">Option A:</span> </p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are not applied on 
 POSIX-<del> or Windows-</del>based operating systems because on these systems:</p>
@@ -852,7 +852,7 @@ function arguments.<br>
 </blockquote>
 <p>—end note ]</p>
 </blockquote>
-<p><span style="background-color: #FFFF00">Option B:</span></p>
+<p><span style="background-color: #FFFF99">Option B:</span></p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are <ins>
 usually</ins> not applied on 
@@ -867,7 +867,7 @@ generic format in function arguments.<br>
 for pathnames with implementation-defined <i>root-name</i>s ([path.generic]).</ins> </p>
 <p>—end note ]</p>
 </blockquote>
-<p><span style="background-color: #FFFF00">End options</span></p>
+<p><span style="background-color: #FFFF99">End options</span></p>
 <blockquote>
   <p><ins>Several functions are defined to accept <i>detected-format</i> character 
   sequence arguments that represent paths using either the generic pathname 
@@ -887,15 +887,15 @@ distinguish between native format and generic format arguments. This is by
 design as it simplifies use for operating systems that do not require 
 disambiguation. An implementation for an operating system where disambiguation 
 is required is permitted to distinguish between the formats. —end note ]</p>
-<p dir="ltr"><span style="background-color: #FFFF00">Beman is concerned about 
+<p dir="ltr"><span style="background-color: #FFFF99">Beman is concerned about 
 the following paragraph; his markup of text from Davis may be in error:</span></p>
 <ul>
   <li dir="ltr">
-<p dir="ltr"><span style="background-color: #FFFF00">Would s/Define G(n) and N(g) 
+<p dir="ltr"><span style="background-color: #FFFF99">Would s/Define G(n) and N(g) 
 as the functions/Let G and N be the implementation&#39;s functions/ be clearer?</span></p>
   </li>
   <li dir="ltr">
-<p dir="ltr"><span style="background-color: #FFFF00">Are some of the <code>&#39;=&#39;</code> 
+<p dir="ltr"><span style="background-color: #FFFF99">Are some of the <code>&#39;=&#39;</code> 
 supposed to be <code>&#39;==&#39;?</code></span></p>
   </li>
 </ul>
@@ -1445,7 +1445,7 @@ Status: Accept with modifications </h4>
 <blockquote>
 
 <p> Proposed resolution: that this is not editorial, but we know the fix. 
-<span style="background-color: #FFFF00">Davis Herring 
+<span style="background-color: #FFFF99">Davis Herring 
 to supply updated proposed wording.</span></p>
 
 </blockquote>
@@ -1459,7 +1459,7 @@ Status: Reject</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF00">Beman to open an issue to expose this concern to additional experts.</span> 
+<p><span style="background-color: #FFFF99">Beman to open an issue to expose this concern to additional experts.</span> 
 This is not a priority issue for shipping C++17.</p>
 
 </blockquote>
@@ -1575,7 +1575,7 @@ synopsis [fs.filesystem.syn]:</i></p>
 
 <p>Matt Austern pointed out this issue and its fix for the TS, but it got dropped on the floor in 
 the TS shipping rush and has never been fixed. We should probably fix it now or never.&nbsp;
-<span style="background-color: #FFFF00">Beman will propose wording, and ask the 
+<span style="background-color: #FFFF99">Beman will propose wording, and ask the 
 LWG/LEWG give it priority 1 in Kona.</span></p>  
 
 </blockquote>
@@ -1592,6 +1592,9 @@ LWG/LEWG give it priority 1 in Kona.</span></p>
 Status: Accept with modifications</h4>
 
 <blockquote>
+
+<p><span style="background-color: #FFFF99">Check the post-Issaquah working 
+paper. This may have already been fixed as editorial.</span></p>
 
 <p><i>Change 27.10.15.33 [fs.op.resize_file]:</i></p>
 
