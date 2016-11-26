@@ -1,0 +1,1634 @@
+<html>
+
+<head>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+ ins  {background-color: #CCFFCC; text-decoration: none;}
+ del  {background-color: #FFCACA; text-decoration: none;}
+ a    {text-decoration: none;}
+</style>
+<title>Filesystem NB Comments C++17</title>
+</head>
+
+<body>
+<table>
+<tr>
+  <td align="left">Doc. no.:</td>
+  <td align="left">P0492R0</td>
+</tr>
+<tr>
+  <td align="left">Date:</td>
+  <td align="left">
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-26<!--webbot bot="Timestamp" endspan i-checksum="12116" --></td>
+</tr>
+<tr>
+  <td align="left">Reply to:</td>
+  <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;
+</tr>
+<tr>
+  <td align="left">&nbsp;</td>
+  <td align="left">S. Davis Herring &lt;herring at lanl dot gov&gt;</td>
+</tr>
+<tr>
+  <td align="left">&nbsp;</td>
+  <td align="left">Nicolai Josuttis &lt;nico at josuttis dot de&gt;</td>
+</tr>
+<tr>
+  <td align="left">&nbsp;</td>
+  <td align="left">Jason Liu &lt;jasonliu dot development at gmail dot com&gt;</td>
+</tr>
+<tr>
+  <td align="left">&nbsp;</td>
+  <td align="left">Billy O&#39;Neal &lt;bion at microsoft dot com&gt;</td>
+</tr>
+<tr>
+  <td align="left">&nbsp;</td>
+  <td align="left">P.J. Plauger &lt;pjp at dinkumware dot com&gt;</td>
+</tr>
+<tr>
+  <td align="left">&nbsp;</td>
+  <td align="left">Jonathan Wakely &lt;cxx at kayari dot org&gt;</td>
+</tr>
+<tr>
+  <td align="left">Audience:</td>
+  <td align="left">Library</td>
+</tr>
+</table>
+
+<h1>Proposed Resolution of C++17  National Body Comments for Filesystems(R0)</h1>
+
+<p dir="ltr">This document proposes resolutions of C++17 CD National Body Comments from
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0488r0.pdf">
+P0488R0</a> related to Filesystems (27.10 [filesystems]). Some &quot;Late&quot; Comments from
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
+P0489R0</a> are also considered.</p>
+
+<p>The proposed resolutions in this paper represent the consensus of the Library 
+Working Group&#39;s Filesystem small group (SG), unless otherwise indicated.</p>
+
+<p>This paper is a snapshot of current work in progress. Proposed wording for 
+some NB comments is still being drafted. Proposed wording in this snapshot is 
+relative to the CD,
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4606.pdf">
+N4606</a>. At the request of the Project Editor, 
+all proposed wording in the next revision will be based on the post-Issaquah 
+version of the C++ working paper.</p>
+
+<p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US31">US 31: Everything is defined in terms of one implicit host system</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US32">US 32: Meaning of 27.10.2.1 unclear</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US33">US 33: Definition of <i>canonical path</i> problematic</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US34">US 34: Are there attributes of a file that are not an aspect of the file system?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US35">US 35: What synchronization is required to avoid a file system race?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US36">US 36: Symbolic links themselves are attached to a directory via (hard) links</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US37">US 37: The term “redundant current directory (dot) elements” is not defined</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US40">US 40: Not all directories have a parent.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US43">US 43: Concerns about <i>encoded character types</i></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US44">US 44: Definition of path in terms of a string requires leaky abstraction</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US45">US 45: Generic format portability compromised by unspecified root-name</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US46">US 46: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US48">US 48: Multiple separators are often meaningful in a <i>root-name</i></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US49">US 49: What does “method of conversion method” mean?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US51">US 51: Failing to add / when appending empty string prevents useful apps</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US52">US 52: <code>remove_filename()</code> postcondition is not by itself a definition</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US53">US 53: <code>remove_filename()</code>'s name does not correspond to its behavior</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US54">US 54: <code>remove_filename()</code> is broken</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US55">US 55: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US56">US 56: Remove <code>replace_extension()</code>&#39;s conditional addition of period</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US57">US 57: On Windows, absolute paths will sort in among relative paths</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US58">US 58: <code>parent_path()</code> behavior for root paths is useless</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US59">US 59: <code>filename()</code> returning <code>path</code> for single path components is bizarre</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US60">US 60: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US61">US 61: Leading dots in <code>filename()</code> should not begin an extension</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US62">US 62: It is important that <code>stem()+extension()==filename()</code></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US63">US 63: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US73">US 73, CA 2: <i>root-name</i> is effectively implementation defined</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US74">US 74, CA 3: The term “pathname” is ambiguous in some contexts</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US75">US 75, CA 4: Extra flag in path constructors is needed</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US76">US 76, CA 5: <i>root-name</i> definition is over-specified.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US77">US 77, CA 6: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US78">US 78, CA 7: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US79">US 79, CA 8: Some  operation functions are overspecified for implementation-defined file types</a><br>
+<b><a href="#editorial">NB comments submitted as editorial</a></b><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US38">US 38: Duplicates §17.3.16</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US39">US 39: Remove note: Dot and dot-dot are not directories</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US41">US 41: The term “parent directory” for a (non-directory) file is unusual</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US42">US 42: Pathname resolution does not always resolve a symlink</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US47">US 47: “.” and “..” already match the name production</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
+<b>
+<a href="#late-comments">Late comments</a></b><br>
+&nbsp;&nbsp;&nbsp; <span style="background-color: #FFFF99">To be supplied</span>
+
+<h2>Markup</h2>
+
+<p><span style="background-color: #FFFF99">SG</span><span style="background-color: #FFFF99"> 
+internal notes to itself. Who does what may change to balance workloads. These 
+will be gone by the final proposal revision.</span><p><span style="font-style: italic; background-color: #E1E9FD">
+SG informative notes that will remain in this proposal but do not become part of 
+the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
+removed from the WP.</del><p dir="ltr"><font face="LMRoman10-Regular"><ins>Text 
+to be added to the WP.</ins></font><h2><a name="nb-comments"></a>NB Technical and general comments</h2>
+
+<h3>Comments related to <code>filename()</code></h3>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">These comments 
+are tightly coupled and best resolved as a whole.</span></p>
+
+<h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
+<code>!empty()<br>
+</code>Status: Open</h4>
+<blockquote>
+<p>No Proposed wording. The real issue is a possibly incorrect post-condition for 
+<code>remove_filename()</code>. </p>
+
+<p>SG recommends revisiting this comment after other filename related comments 
+have been resolved.</p>
+
+</blockquote>
+
+<h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined<br>
+Status: Accept with modifications</h4>
+<blockquote>
+<p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
+<blockquote>
+<p dir="ltr"><b>normal form</b><br>
+A path with no <del>redundant</del> current directory (<i>dot</i>) elements <ins>
+except possibly one at the end</ins>, no redundant parent directory (<i>dot-dot</i>) 
+elements, and no redundant <i>directory-separators</i>. The normal form for an 
+empty path is an empty path. The normal form for a path ending in a <i>
+directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
+element appended. A path in normal form is said to be <i>normalized</i>. The 
+process of obtaining a normalized path from a path that is not in normal form is 
+called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current 
+directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
+different syntax for directory names and regular file names. —<i>end note</i> ]</p>
+<p><span style="background-color: #FFFF99">Beman comments: Since iteration, etc, no 
+longer adds a dot, we need to either strike &quot;The normal form for a path ending 
+in a </span> <i>
+<span style="background-color: #FFFF99">directory-separator</span></i><span style="background-color: #FFFF99"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF99">dot</span></i><span style="background-color: #FFFF99">) 
+element appended.&quot; or add a note or example explaining the rationale. But check 
+the meeting notes; I have a vague recollection we already discussed this.</span></p>
+</blockquote>
+</blockquote>
+
+<h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
+Status: Reject</h4>
+<blockquote>
+
+<p>Resolved by <a href="#US74">US-74/CA-3</a></p>
+</blockquote>
+
+    <font FACE="LMRoman10-Regular">
+
+<h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition<br>
+Status: Accept with modifications</h4>
+<blockquote>
+
+<p>Also see LWG
+<a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a>.</p>
+<p>
+<i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
+<blockquote>
+ <p>
+ <del><i>Postcondition:</i><code>!has_filename()</code>.</del> </p>
+ <p dir="ltr"> <ins><i>Effects:</i> 
+ If <code>has_filename()</code> then remove the minimum number of trailing 
+ characters from <code>pathname</code> such that there is one less element in
+ <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
+</blockquote>
+</blockquote>
+
+<h4 dir="ltr"><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior<code><br>
+</code>Status: Open</h4>
+
+<blockquote>
+
+<p>Because of a possible trailing &quot;/&quot;, this comment is technically correct. The 
+real question (for the full LWG) is do we want to make a name change at this 
+late date for a name that is &quot;good enough&quot;.</p>
+
+<p>This issue probably needs to be resolved before C++17 ships, since a name 
+change is a breaking change.</p>
+<p>Bikeshed:
+<code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.<p>
+  <b>Caution:</b> &quot;remove_filename&quot; appears at least seven times in 
+  sub-clause 27.10. All will need to be changed if the name changes.<p><b>Caution:</b> &quot;replace_filename&quot; 
+  presumably also would need to be renamed.<p>&nbsp;</blockquote>
+
+<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken<code><br>
+</code>Status: Open</h4>
+
+<blockquote>
+
+<p>Need to resolve <a href="#US53">US 53</a> first.</p>
+
+</blockquote>
+
+<h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
+</code>Status: Open</h4>
+
+<blockquote>
+
+<p>The <code>filename()</code> behavior at issue is specified in 27.10.8.4.9 [path.decompose] ¶6:</p>
+
+<blockquote>
+
+<p><i>Returns</i>: <code>empty() ? 
+path() : *--end()</code>.</p>
+
+</blockquote>
+
+<p>So the underlying problem is in 27.10.8.5 path iterators [path.itr]
+¶4:</p>
+
+  <blockquote>
+
+<font FACE="LMRoman7-Regular" SIZE="1">
+<p ALIGN="LEFT">4 </font><font FACE="LMRoman10-Regular">For the 
+elements of </font><font FACE="LMMono10-Regular">pathname </font>
+<font FACE="LMRoman10-Regular">in the generic format, the forward 
+traversal order is as follows:</p>
+</font><font FACE="LMRoman7-Regular" SIZE="1">
+<p ALIGN="LEFT">(4.1) </font><font FACE="LMRoman10-Regular">— The
+</font><font FACE="LMRoman10-Italic"><i>root-name </i></font>
+<font FACE="LMRoman10-Regular">element, if present.</p>
+</font><font FACE="LMRoman7-Regular" SIZE="1">
+<p ALIGN="LEFT">(4.2) </font><font FACE="LMRoman10-Regular">— The
+</font><font FACE="LMRoman10-Italic"><i>root-directory </i></font>
+<font FACE="LMRoman10-Regular">element, if present. [</font><font FACE="LMRoman10-Italic"><i>Note:
+</i></font><font FACE="LMRoman10-Regular">the generic format is 
+required to ensure lexicographical</p>
+<p ALIGN="LEFT">comparison works correctly. </font>
+<font FACE="LMRoman10-Italic"><i>—end note </i></font>
+<font FACE="LMRoman10-Regular">]</p>
+</font><font FACE="LMRoman7-Regular" SIZE="1">
+<p ALIGN="LEFT">(4.3) </font><font FACE="LMRoman10-Regular">— Each 
+successive </font><font FACE="LMRoman10-Italic"><i>filename </i></font>
+<font FACE="LMRoman10-Regular">element, if present.</p>
+</font><font FACE="LMRoman7-Regular" SIZE="1">
+<p>(4.4) </font><font FACE="LMRoman10-Regular">— </font>
+<font FACE="LMRoman10-Italic"><i>dot</i></font><font FACE="LMRoman10-Regular">, 
+if one or more trailing non-root </font><font FACE="LMRoman10-Italic">
+<i>slash </i></font><font FACE="LMRoman10-Regular">characters are 
+present.</p>
+</font>
+
+  </blockquote>
+
+<p>The ¶4.4 iterator behavior has always been surprising and controversial, so 
+the LWG SG looked at the possible ways of dealing with trailing non-root slash 
+characters:</p>
+
+<blockquote>
+
+<p><del> <i>dot</i>, if one or more trailing non-root <i>
+slash</i> characters are present.</del></p>
+
+</font>
+
+<blockquote>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">Not acceptable because it loses the fact that the path represents a 
+directory, yet knowing that is required for some operating systems (e.g. POSIX, 
+z/OS, OpenMVS).&nbsp; We ensures that reconstruction by iteration yields 
+the same path as the original for some definition of &quot;same&quot;.</span></p>
+
+</blockquote>
+
+    <font FACE="LMRoman10-Regular">
+
+<p> <i><del>dot</del> <ins>slash</ins></i>, if one or more trailing non-root <i>
+slash</i> characters are present.</p>
+
+</font>
+
+<blockquote>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">Not acceptable 
+because a slash is semantically ambiguous; it is already used to indicate a 
+root, so also using it to indicate a directory path would be a trap all to easy 
+to fall into.</span></p>
+
+</blockquote>
+
+    <font FACE="LMRoman10-Regular">
+
+<p> <i><del>dot</del> </i><ins>an empty element</ins>, if one or more trailing non-root <i>
+slash</i> characters are present.</p>
+
+</font>
+
+<blockquote>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">This works, and was discussed at length by the SG. It appears to resolve a 
+number of concerns raised by other NB comments and by the SG during discussion 
+of those comments. A paper is needed to identify all the ripple effects of this 
+change, and propose wording changes where needed or desirable.</span><font FACE="LMRoman10-Regular">&nbsp; </p>
+
+</blockquote>
+
+</blockquote>
+
+</blockquote>
+
+</font>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">LWG 2665 remove_filename() post condition is 
+incorrect</span></p>
+
+<blockquote>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">Although not a NB comment,
+<a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
+to be coordinated with this set of comments, particularly US-52. It is mentioned 
+here as a reminder to the LWG.</span></p>
+
+</blockquote>
+
+<h3>Other comments</h3>
+
+<h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system<code><br>
+</code>Status: Open</h4>
+<blockquote>
+<p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
+And that objective has been largely achieved in practical real-world use for 
+many years.&nbsp; No proposed wording. </p>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">Waiting for a paper or issue with proposed wording. 
+Without proposed wording, there is no consensus for change.</span></p>
+
+</blockquote>
+
+<h4><a name="US32">US 32</a>; 27.10.2.1 [fs.conform.9945] ¶3: Meaning of POSIX 
+conformance unclear<code><br>
+</code>Status: Open</h4>
+
+<blockquote>
+
+<p dir="ltr">The comment requests &quot;Clarify that ¶2 governs and an error must be 
+reported in such cases&quot;.</p>
+
+<p dir="ltr"><i>Change 27.10.2.1 [fs.conform.9945] ¶2:</i></p>
+  <blockquote>
+    <p>Implementations are not required to provide behavior that is not 
+    supported by a particular file system. [ Example: The FAT file system used 
+    by some memory cards, camera memory, and floppy disks does not support hard 
+    links, symlinks, and many other features of more capable file systems, so 
+    implementations are not required to support those features on the FAT file 
+    system <ins>but instead are required to report an error as described above</ins>. —end example ]</p>
+  </blockquote>
+    <p><span style="background-color: #FFFF99">Jonathan </span>
+    <span style="background-color: #FFFF99">Wakely</span><span style="background-color: #FFFF99"> will supply improved wording.</span></p>
+</blockquote>
+<h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic<br>
+Status: Accept</h4>
+<blockquote>
+<p>The comment appears to be correct in that the definition of canonical path is 
+not used in the WP.</p>
+<p><i>Remove 27.10.4.2 [fs.def.canonical.path]:</i></p>
+<blockquote>
+<p><del><b>canonical path</b><br>
+An absolute path that has no elements that are symbolic links, and no dot or 
+dot-dot elements (27.10.8.1).</del></p>
+</blockquote>
+</blockquote>
+<h4><a name="US34">US 34</a>; 27.10.4.5 [fs.def.filesystem]: Are there attributes of a file that are not an aspect of the file system?<br>
+Status: Accept with modifications</h4>
+<blockquote>
+<p><i>Change 27.10.4.5 [fs.def.filesystem]:</i></p>
+  <blockquote>
+<p>A collection of files and <del>certain of</del> their attributes.</p>
+  </blockquote>
+</blockquote>
+<h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?<code><br>
+</code>Status: Open</h4>
+<blockquote>
+<p>No proposed wording. 27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
+describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
+would be the proper place. </p>
+<p><span style="font-style: italic; background-color: #E1E9FD">Waiting for a paper or issue with proposed wording. 
+Without proposed wording, there is no consensus for change.</span></p>
+</blockquote>
+<h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links<br>
+Status: Accept with modifications</h4>
+<blockquote>
+<p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
+(or Link).</p>
+<h4><span style="font-weight: 400; background-color:#FFFF99">Davis Herring will open an issue on a related 
+concern.</span></h4>
+<p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
+  <blockquote>
+<p><b>link</b><br>
+<del>A directory entry that associates a filename with a file. A link is either 
+a hard link (27.10.4.8) or a symbolic link (27.10.4.21).</del> <ins>An object 
+that associates a filename with a file. Several link entries can associate names 
+with the same file.</ins></p>
+  </blockquote>
+</blockquote>
+<h4><a name="US40">US 40</a>; 27.10.4.15 [fs.def.parent]: Not all directories 
+have a parent<br>
+Status: Reject</h4>
+
+<blockquote>
+<p>No proposed wording. The definition in question is taken directly from 
+the POSIX
+<font face="Times New Roman">§</font>3.268 <i>Parent Directory</i> definition. </p>
+
+</blockquote>
+
+<h4><a name="US43">US 43</a>; 27.10.5 [fs.req] ¶4: Concerns about <i>encoded character types</i><br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p>&nbsp;No proposed wording.  </p>
+
+<p>The SG also detected a problem with conversions that fail, and a need that 
+directory-separator detection occur at the code-unit level. 
+<span style="background-color: #FFFF99">Billy O&#39;Neal and 
+Jonathan </span><span style="background-color: #FFFF99">Wakely</span><span style="background-color: #FFFF99"> will provide issue write ups.</span></p>
+
+<p><i>Change 27.10.5 
+Requirements [fs.req] ¶4:</i></p>
+
+  <blockquote>
+
+<p>Note: Use of an encoded character type implies an associated <ins>character set and</ins> encoding.
+Since <code>signed char</code> and <code>unsigned char</code> have 
+no implied <ins>character set and</ins> encoding, they are not included as permitted types. 
+—end note ]</p>
+
+  </blockquote>
+
+</blockquote>
+
+<h4><a name="US44">US 44</a>; 27.10.8 [class.path]: Definition of path in terms of a string requires leaky abstraction<code><br>
+</code>Status: Accept with modifications</h4>
+<blockquote>
+
+<p>Proposed wording, including 
+a note, has been applied to LWG 2734 to partially resolve US 44.</p>
+
+<p>The portion of this comment not resolved by LWG 2734 is resolved by
+<a href="#US74">US-74/CA-3</a> </p>
+
+<p dir="ltr"> <span style="background-color: #FFFF99">Beman will check 2734, and 
+coordinate with Marshall if needed, or add a comment to 2734 </span></p>
+
+</blockquote>
+
+<h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
+<i>root-name</i><code><br>
+</code>Status: Open</h4>
+<blockquote>
+<p>No 
+proposed wording. <span style="background-color: #FFFF99">Davis Herring is working on proposed wording.</span></p>
+
+</blockquote>
+
+<h4><a name="US46">US 46</a>; 27.10.8.1 [path.generic]: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant<br>
+Status: Accept with modifications</h4>
+<blockquote>
+<p><i>Change [path.generic]:</i></p>
+
+<blockquote>
+<p><code>relative-path:<br>
+&nbsp; filename<br>
+&nbsp; relative-path directory-separator<br>
+&nbsp; relative-path directory-separator filename<br></code>
+&nbsp;
+&nbsp; <ins>an empty path</ins>&nbsp;&nbsp;&nbsp; <i>
+<span style="background-color: #C0C0C0">Note to editor: this line is 
+deliberately not in code font</span></i></p>
+
+<p>...</p>
+
+<p><i>name:</i><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; A <ins>non-empty</ins> sequence 
+of characters other than directory-separator characters.</p>
+
+</blockquote>
+
+<p><span style="background-color: #FFFF99">SG</span><span style="background-color: #FFFF99"> 
+needs to review Jonathan&#39;s wording above</span></p>
+
+</blockquote>
+
+<h4><a name="US48">US 48</a>; 27.10.8.1 [path.generic] ¶1: Multiple separators are often meaningful in a <i>root-name</i><br>
+Status: Accept with modifications</h4>
+<blockquote>
+
+<p><i>Change 27.10.8.1 [path.generic] ¶1:</i></p>
+
+  <blockquote>
+<p><ins>Except in <i>root-name</i>, m</ins><del>M</del>ultiple successive <i>
+directory-separator</i> characters are considered to be the same as one <i>
+directory-separator </i>character.</p>
+
+  </blockquote>
+
+</blockquote>
+
+<h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?<br>
+Status: Accept with modifications</h4>
+<blockquote>
+
+<p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
+
+  <blockquote>
+    <ul>
+      <li><i>¶1.2:</i> method of conversion <del>method</del> is unspecified</li>
+      <li><i>¶1.3:</i> method of conversion <del>method</del> is unspecified</li>
+      <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
+    </ul>
+  </blockquote>
+<p><span style="background-color: #FFFF99">Check the post-Issaquah working 
+paper. This may have already been fixed as editorial.</span></p>
+</blockquote>
+
+<font FACE="LMRoman10-Regular">
+
+<h4><a name="US55">US 55</a>; 27.10.8.4.5 [path.modifiers] ¶11: <code>replace_extension()</code>'s use of <code>path</code> as parameter is inappropriate<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+<p>The SG believes <code>path</code> is the appropriate parameter type, but that 
+the standard needs to clarify class <code>path</code> usage.</p>
+<p><i>Change 27.10.8 [class.path] ¶1:</i></p>
+
+<blockquote>
+<p>An object of class path represents a path (27.10.4.17)
+ and contains a pathname (27.10.4.18). Such an object
+is concerned only with the lexical and syntactic aspects of a path. The path does not necessarily exist in
+external storage, and the pathname is not necessarily valid for the current operating system or for a particular
+file system.</p>
+
+<p><ins>[<i>Note:</i> Class path is used to abstract away the differences between the string types
+ used by different operating systems to represent pathnames, and to perform 
+conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
+
+</blockquote>
+ 
+ <p> 
+ <span style="background-color: #FFFF99">SG should review wording; 
+ &quot;abstract away&quot; was added during editing, rather than the previously 
+ agreed upon &quot;support&quot;.</span></p>
+ 
+</blockquote>
+ 
+<h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Remove <code>
+replace_extension()</code>&#39;s conditional addition of period<br>
+Status: Reject</h4>
+
+<blockquote>
+ 
+<p>The SG presented such a proposal to the Library Evolution Working group in 
+Issaquah, including a number of examples (See Nico&#39;s paper). There was no 
+consensus for change. See the LEWG notes.</p>
+
+</blockquote>
+
+<h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths<br>
+Status: Reject</h4>
+
+<blockquote>
+
+<p>Insufficient motivation for change.&nbsp; 
+<span style="background-color: #FFFF99">Billy O&#39;Neal 
+will open an issue for an unrelated concern discovered while processing this 
+comment.</span> <span style="background-color: #FFFF99">See LWG nnnn</span>.</p>
+
+</blockquote>
+
+<h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p><i>Change [path.decompose]:</i></p>
+
+  <blockquote>
+    <p><tt>path parent_path() const;</tt> </p>
+    <p><ins>-?- Let <tt>parentEnd</tt> be an instance of <tt>path::iterator</tt>, 
+    initialized as follows:</ins> </p>
+    <ul>
+      <li><ins>if <tt>has_relative_path()</tt>, from <tt>--end()</tt></ins></li>
+      <li><ins>otherwise, from <tt>end()</tt></ins></li>
+    </ul>
+  </blockquote>
+  <p></p>
+  <blockquote>
+    <p>-5- <em>Returns:</em> <del><tt>(empty() || begin() == --end()) ? path() :
+    </tt><em>pp</em>, where <em>pp</em> is </del><ins>a <tt>path</tt> </ins>
+    constructed as if by starting with an empty <tt>path</tt> and successively 
+    applying <tt>operator/=</tt> for each element in the range <tt>[begin(),
+    <del>--end()</del><ins>parentEnd</ins>)</tt>.</p>
+  </blockquote>
+
+</blockquote>
+
+<h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre<br>
+Status: Reject</h4>
+
+<blockquote>
+
+<p> <code>path</code> is filesystem's
+vocabulary type for both full paths and for path components, in the same sense that
+<code>std::string</code> might be used as the vocabulary type for both sentences and 
+the words in the
+sentences. See <a href="#US55">US 55</a> for further discussion.</p>
+
+</blockquote>
+
+<h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
+</code>Status: Open</h4>
+
+<p><span style="background-color: #FFFF99">Beman needs to coordinate with Nico to apply 
+LEWG guidance.</span></p>
+
+<blockquote>
+
+<p>Cases that seem worth considering, with suggested decompositions:</p>
+
+<blockquote>
+
+  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+    <tr>
+      <td><i><b><code>path p</code></b></i></td>
+      <td><i><b><code>p.stem()</code></b></i></td>
+      <td><i><b><code>p.extension()</code></b></i></td>
+    </tr>
+    <tr>
+      <td><code>&quot;.bashrc&quot;</code></td>
+      <td><code>&quot;.bashrc&quot;</code></td>
+      <td>&quot;&quot;</td>
+    </tr>
+    <tr>
+      <td><code>&quot;..abc&quot;</code></td>
+      <td><code>&quot;..abc&quot;</code></td>
+      <td>&quot;&quot;</td>
+    </tr>
+    <tr>
+      <td>&quot;<code>...abc</code>&quot;</td>
+      <td>&quot;<code>...abc</code>&quot;</td>
+      <td>&quot;&quot;</td>
+    </tr>
+    <tr>
+      <td>&quot;<code>abc..def</code>&quot;</td>
+      <td>&quot;<code>abc</code>&quot;</td>
+      <td>&quot;<code>..def</code>&quot;</td>
+    </tr>
+    <tr>
+      <td>&quot;<code>abc...def</code>&quot;</td>
+      <td>&quot;<code>abc</code>&quot;</td>
+      <td>&quot;<code>...def</code>&quot;</td>
+    </tr>
+  </table>
+</blockquote>
+
+<p><i>Change 27.10.8.4.9 [path.decompose] ¶ 8:</i></p>
+
+<blockquote>
+
+<p><code>path stem() const;</code></p>
+
+  <blockquote>
+
+<p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
+consist solely of one or two periods</del> <ins>other than in a sequence of one or 
+more beginning periods</ins>, returns the substring of <code>filename()</code> 
+starting at its beginning and ending with the character before the <del>last period</del> <ins>
+first period of the last sequence of one or more periods</ins>.
+Otherwise, returns <code>filename()</code>.</p>
+
+  </blockquote>
+</blockquote>
+
+<p><i>Change 27.10.8.4.9 [path.decompose] ¶ 10:</i></p>
+
+<blockquote>
+
+<p><code>path extension() const;</code></p>
+
+  <blockquote>
+
+<p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
+consist solely of one or two periods</del> <ins>other than in a sequence of one or 
+more beginning periods</ins>, returns the substring of <code>filename()</code> 
+starting at <ins>the beginning of</ins> the rightmost <ins>sequence of</ins> period<ins>s</ins> and for the remainder of the path. Otherwise, 
+returns an empty <code>path</code> object.</p>
+
+  </blockquote>
+</blockquote>
+
+</blockquote>
+
+<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()<br>
+</code>Status: Open</h4>
+
+<blockquote>
+
+<p>Yes, it is important. But the note in ¶11 already says exactly that, so
+the question becomes "Should we make that part of the note normative?"</p>
+
+<p>Saying that normatively would be a second way of saying 
+what is already specified behavior, and saying the same normative thing twice is 
+not good standardese. No proposed wording. </p>
+
+<p><span style="background-color: #FFFF99">Review notes, and result of the LEWG 
+vote.</span></p>
+
+</blockquote>
+
+<h4><a name="US63">US 63</a>; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory<code><br>
+</code>Status: Open</h4>
+
+<blockquote>
+
+<p>Need proposed wording for the <i>Proposed change</i> "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
+
+<p><span style="background-color: #FFFF99">We can now resolve this in light of 
+LEWG vote.</span></p>
+
+</blockquote>
+
+<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature<br>
+Status: Reject</h4>
+
+<blockquote>
+
+<p> Does not handle one signature being <code>
+noexcept(true)</code> and the other <code>noexcept(false)</code>, and many other 
+problems. Even the submitter is no longer in favor. See LWG list thread 
+&quot;[filesystem] US-185 Eliminating dual signatures for operational functions&quot;, 
+October 25, 2016.</p>
+
+</blockquote>
+
+<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members<br>
+Status: Reject</h4>
+
+
+
+<blockquote>
+
+<p>This is LWG issue
+<a href="http://cplusplus.github.io/LWG/lwg-closed.html#2761">2761</a>, which 
+has been closed as NAD. </p>
+
+</blockquote>
+
+
+
+<h4><a name="US73">US 73</a>, CA 2; 27.10.8.1 [path.generic]: <i>root-name</i> is effectively implementation defined<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+
+
+<p><i>Change [path.generic]:</i></p>
+
+  <blockquote>
+    <p><i>root-name:</i><br>
+    An operating system dependent name that identifies the starting location for 
+    absolute paths. <ins>If the operating system does not define at least one <i>
+    root-name</i>, then the implementation defines a <i>root-name</i>. 
+    Implementations are permitted to define additional <i>root-name</i>s.</ins> 
+    [ <i>Note:</i> Many operating systems define a name beginning with two <i>
+    directory-separator</i> characters as a <i>root-name</i> that identifies 
+    network or other resource locations. Some operating systems define a single 
+    letter followed by a colon as a drive specifier – a <i>root-name</i> 
+    identifying a specific device such as a disk drive. —<i>end note</i> ]</p>
+  </blockquote>
+  <p><i>Add a new paragraph at the end of [path.generic]:</i></p>
+  <blockquote>
+    <p><ins>If <i>root-name</i> is otherwise ambiguous, the possibility with the 
+    longest sequence of characters is chosen. [ Note: on a POSIX-like operating 
+    system, it is impossible to have a <i>root-name</i> and a <i>relative-path</i> 
+    without an intervening <i>root-directory element</i>. -- end note ]</ins></p>
+  </blockquote>
+</blockquote>
+
+<h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
+Status: Accept with modifications</h4>
+
+<p><span style="background-color: #FFFF99">SG needs to review the proposed 
+wording for US-74/CA-3.</span></p>
+
+<p><b>Discussion: </b></p>
+<p>Many operations on <code>filesystem::path</code> are defined in terms of its 
+exposition-only <code>pathname</code> member, which is defined implicitly by
+<code>path::native()</code> as the native format path. However, the native 
+format need not be compatible with lexical operations like, for example, <code>
+path::root_name()</code> and <code>path::extension()</code>. </p>
+<p>The proposed resolution below clarifies the distinct role played by the <code>
++= operator</code> as mentioned in US 44 and addresses US 74/CA 3 (with a more 
+extensive resolution). </p>
+
+<p>See P0430R1 Section 2.1, for additional rationale.
+<span style="background-color: #FFFF99">Beman needs to check with Jason to verify 
+P0430R1 now just refers to US 74/CA 3 here for proposed wording.</span></p>
+
+<p><b>Proposed resolution:</b> </p>
+<p><i>Remove In the [class.path] synopsis, remove the private (exposition-only) member from 
+class path:</i></p>
+<blockquote>
+  <pre><del>private:
+  string_type pathname; // exposition only</del></pre>
+</blockquote>
+<p><i>Change [path.fmt.cvt]:</i></p>
+<p><span style="background-color: #FFFF99">Option A; from Davis:</span> </p>
+<blockquote>
+<p>[ <i>Note:</i> The format conversions described in this section are not applied on 
+POSIX-<del> or Windows-</del>based operating systems because on these systems:</p>
+<blockquote>
+<p>— The generic format is acceptable as a native path.<br>
+— There is no need to distinguish between native format and generic format in 
+function arguments.<br>
+— Paths for regular files and paths for directories share the same syntax.</p>
+</blockquote>
+<p>—end note ]</p>
+</blockquote>
+<p><span style="background-color: #FFFF99">Option B; from Beman:</span></p>
+<blockquote>
+<p>[ <i>Note:</i> The format conversions described in this section are <ins>
+usually</ins> not applied on 
+POSIX- or Windows-based operating systems because on these systems:</p>
+<blockquote>
+<p>— The generic format is acceptable as a native path.<br>
+— There is <ins>usually</ins> no need to distinguish between native format and 
+generic format in function arguments.<br>
+— Paths for regular files and paths for directories share the same syntax.</p>
+</blockquote>
+<p><ins>Even on these operating systems, the format conversions may be applied 
+for pathnames with implementation-defined <i>root-name</i>s ([path.generic]).</ins> </p>
+<p>—end note ]</p>
+</blockquote>
+<p><span style="background-color: #FFFF99">SG needs to choose between Option A 
+or Option B.</span></p>
+<blockquote>
+  <p><ins>Several functions are defined to accept <i>detected-format</i> character 
+  sequence arguments that represent paths using either the generic pathname 
+  format grammar ([path.generic]) or the native pathname format ([fs.def.native]). Such an 
+  argument is taken to be in the generic format if and only if it matches the 
+  generic format but is not acceptable to the operating system as a native path.
+  </ins>
+  </p>
+  <p><del>Function arguments that take character sequences representing paths 
+  may use the generic pathname format grammar (27.10.8.1) or the native pathname 
+  format (27.10.4.11). If and only if such arguments are in the generic format 
+  and the generic format is not acceptable to the operating system as a native 
+  path, conversion to native format shall be performed during the processing of 
+  the argument.</del></p>
+<p dir="ltr">[ Note: Some operating systems may have no unambiguous way to 
+distinguish between native format and generic format arguments. This is by 
+design as it simplifies use for operating systems that do not require 
+disambiguation. An implementation for an operating system where disambiguation 
+is required is permitted to distinguish between the formats. —end note ]</p>
+<p dir="ltr"><span style="background-color: #FFFF99">Beman is concerned about 
+the following paragraph; his markup of text from Davis may be in error:</span></p>
+<ul>
+  <li dir="ltr">
+<p dir="ltr"><span style="background-color: #FFFF99">Would s/Define G(n) and N(g) 
+as the functions/Let G and N be the implementation&#39;s functions/ be clearer?</span></p>
+  </li>
+  <li dir="ltr">
+<p dir="ltr"><span style="background-color: #FFFF99">Are some of the <code>&#39;=&#39;</code> 
+supposed to be <code>&#39;==&#39;?</code></span></p>
+  </li>
+</ul>
+<p><ins>Pathnames are converted as needed between the generic and native formats 
+in an operating-system-dependent manner. Define <code>G(n)</code> and <code>N(g)</code> 
+as the functions that convert to the generic and native formats respectively. If
+<code>g=G(n)</code> for some <code>n</code>, then <code>G(N(g))=g</code>; if
+<code>n=N(g)</code> for some <code>g</code>, then <code>N(G(n))=n</code>. [ <i>
+Note:</i> Neither <code>G</code> nor <code>N</code> need be invertible. —<i>end 
+note</i> ] </ins></p>
+<p>If the native format requires paths for regular files to be formatted 
+differently from paths for directories, the path shall be treated as a directory 
+path if its last element is a directory-separator, otherwise it shall be treated 
+as a path to a regular file.</p>
+  <p><ins>When a path is constructed from or is assigned a single representation 
+  separate from any path, the other representation is selected by the 
+  appropriate conversion function (<code>G</code> or <code>N</code>). </ins> </p>
+  <p><ins>When the (new) value <code>p</code> of one representation of a path is derived from the 
+  representation of that or another path, a value <code>q</code> is chosen for the other 
+  representation. The value <code>q</code> converts to <code>p</code> (by <code>G</code> or 
+  <code>N</code> as appropriate) if any 
+  such value does so; <code>q</code> is otherwise unspecified. [ <i>Note:</i> If 
+  <code>q</code> is the result of 
+  converting any path at all, it is the result of converting <code>p</code>.<i>—end note</i> ]
+  </ins>
+  </p>
+<p><i><span style="background-color: #E1E9FD">[SG note: P0430R1 (for US 75/CA 4) 
+adds support for explicitly specifying the format to use, at least in the 
+constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
+</blockquote>
+<p><i>Change [path.construct]: </i> </p>
+<blockquote>
+  <pre>path(const path&amp; p);
+path(path&amp;&amp; p) noexcept;</pre>
+  <blockquote>
+  <p dir="ltr"><i>Effects:</i> Constructs an object of class <code>path</code>
+  <ins>having the same native and generic format pathnames as <code>p</code></ins> 
+  <del>with pathname having the original value of <code>p.pathname</code></del>. In
+  the second form, <code>p</code> is left in a valid but unspecified state.</p>
+  </blockquote>
+  <pre>path(string_type&amp;&amp; source);</pre>
+  <blockquote>
+    <p><i>Effects:</i> Constructs an object of class <code>path</code>
+     <ins>for which the pathname in the detected-format&nbsp; of 
+  <code>source</code> has</ins> <del>with
+    <code>pathname</code> having</del> the original value of <code>source</code>
+     <ins>([path.fmt.cvt])</ins>.
+    <code>source</code> is left in a valid but unspecified state.</p>
+  </blockquote>
+  <pre>template &lt;class Source&gt;
+path(const Source&amp; source);
+template &lt;class InputIterator&gt;
+path(InputIterator first, InputIterator last);</pre>
+  <blockquote>
+    <p><i>Effects:</i> <ins>Let <code>s</code> be the effective range of <code>
+    source</code> ([path.req]) or the range <code>[first, last)</code>, with the 
+    encoding converted if required ([path.cvt]). Finds the detected-format of
+    <code>s</code> ([path.fmt.cvt]) and constructs an object of class <code>path</code> 
+    for which the pathname in that format is <code>s</code>.</ins>&nbsp; <del>Constructs an object of class <code>path</code>, storing 
+    the effective range of source (27.10.8.3) or the range <code>[first, last)</code> 
+    in <code>pathname</code>, converting format and encoding if required 
+    (27.10.8.2).</del></p>
+  </blockquote>
+  <pre>template &lt;class Source&gt;
+path(const Source&amp; source, const locale&amp; loc);
+template &lt;class InputIterator&gt;
+path(InputIterator first, InputIterator last, const locale&amp; loc);</pre>
+  <blockquote>
+    <p><i>Requires:</i> The value type of <code>Source</code> and <code>
+    InputIterator</code> is <code>char</code>. </p>
+    <p>&nbsp;<i>Effects:&nbsp; </i> <del>Constructs an object of class <code>path</code>, 
+    storing the effective range of source or the range <code>[first, last)</code> 
+    in <code>pathname</code>, after converting format if required and</del> <ins>
+    Let <code>s</code> be the effective range of <code>source</code> or the 
+    range <code>[first, last)</code>,</ins><i> </i>after 
+    converting the encoding as follows:</p>
+    <blockquote>
+    <p>— If <code>value_type</code> is <code>wchar_t</code>, converts to the 
+    native wide encoding (27.10.4.10) using the <code>codecvt&lt;wchar_t, char, 
+    mbstate_t&gt;</code> facet of <code>loc</code>.</p>
+    <p>&nbsp;— Otherwise a conversion is performed using the <code>
+    codecvt&lt;wchar_t, char, mbstate_t&gt;</code> facet of <code>loc</code>, and then 
+    a second conversion to the current narrow encoding.</p>
+    </blockquote>
+    <p dir="ltr"><ins>Finds&nbsp;the detected-format of <code>s</code> ([path.fmt.cvt]) and constructs an object of class 
+    <code>path</code> for which the pathname in that format is <code>s</code>.</ins></p>
+  </blockquote>
+</blockquote>
+<p dir="ltr"><i>In the example in [path.fmt.cvt] ¶ 7.2, change &quot;pathname&quot; to 
+normal font rather than code font.</i></p>
+<p><i>Change [path.assign]: </i> </p>
+<blockquote>
+  <pre>path&amp; operator=(const path&amp; p);</pre>
+  <blockquote>
+<p dir="ltr"><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
+has no effect. Otherwise, <ins>sets the native and generic format pathnames to 
+those of <code>p</code></ins> <del>modifies <code>pathname</code> to have the original 
+value of <code>p.pathname</code></del>.</p>
+<p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+  <pre>path&amp; operator=(path&amp;&amp; p) noexcept;</pre>
+  <blockquote>
+<p><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
+has no effect. Otherwise, <ins>sets the native and generic format pathnames to 
+those of <code>p</code></ins> <del>modifies <code>pathname</code> to have the original 
+value of <code>p.pathname</code></del>. <code>p</code> is left in a valid but 
+unspecified state. [ <i>Note:</i> A valid implementation is <code>swap(p)</code>. 
+<i>—end 
+note</i> ]</p>
+<p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+  <pre>path&amp; operator=(string_type&amp;&amp; source);
+path&amp; assign(string_type&amp;&amp; source);</pre>
+  <blockquote>
+    <p><i>Effects:</i> <ins>Sets the native and generic format pathnames to 
+those of <code>source</code></ins> <del>Modifies <code>pathname</code> to have the original value 
+    of <code>source</code></del>. <code>source</code> is left in a valid but 
+    unspecified state.</p>
+    <p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+  <pre>template &lt;class Source&gt;
+path&amp; operator=(const Source&amp; source);
+template &lt;class Source&gt;
+path&amp; assign(const Source&amp; source);
+template &lt;class InputIterator&gt;
+path&amp; assign(InputIterator first, InputIterator last);</pre>
+  <blockquote>
+    <p><i>Effects: </i><ins>Let <code>s</code> be the effective range of <code>source</code> ([path.req]) or the 
+    range <code>[first, last)</code>, with the encoding converted if required ([path.cvt]). 
+    Finds the detected-format of <code>s</code> and sets the pathname in that format 
+    to <code>s</code> ([path.fmt.cvt]).</ins> <del>Stores the effective range of <code>source</code> 
+    (27.10.8.3) or the range <code>[first, last)</code> in <code>pathname</code>, 
+    converting format and encoding if required (27.10.8.2).</del></p>
+    <p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.append]
+
+
+
+
+</font>
+
+
+
+
+<font FACE="Times New Roman">
+
+¶2 &amp; 3</font><font FACE="LMRoman10-Regular">:</font></i><font FACE="LMRoman10-Regular"></p>
+<blockquote>
+  <pre>path&amp; operator/=(const path&amp; p);</pre>
+  <blockquote>
+<p><i>Effects:</i> <ins>If equivalent to <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
+then appends <code>path::preferred_separator</code> to the generic format pathname. [ <i>
+Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
+ equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
+<p>&nbsp;<del>Appends <code>path::preferred_separator</code> to pathname 
+unless:</del></p>
+    <blockquote>
+<p><del>— an added <i>directory-separator</i> would be redundant, or</del></p>
+<p><del>— an added <i>directory-separator</i> would change a relative path into an 
+absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or</del></p>
+<p><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
+<p dir="ltr"><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
+    </blockquote>
+<p dir="ltr">Then appends <code>p.native()</code> to <ins>the native format pathname</ins>&nbsp; <code>
+<del>pathname</del></code>.</p>
+<p><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+<p><i><span style="background-color: #E1E9FD">[SG note: this proposed wording depends on LWG 2732 
+and the recently proposed definition of has_filename() and will change again to 
+address LWG 2664 and US 77/CA 6. It already, simply by ignoring p entirely until 
+such time, addresses US 51.] </span></i></p>
+</blockquote>
+<p><i>Change [path.modifiers]:</i></p>
+<blockquote>
+  <pre>path&amp; make_preferred();</pre>
+  <blockquote>
+  <p><i>Effects:</i> Each <i>directory-separator</i> is converted to
+  <i>preferred-separator</i> in the <ins>generic format pathname</ins>. </p>
+  </blockquote>
+</blockquote>
+<p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
+note: the existing definition of </span><span style="background-color: #E1E9FD">
+remove_filename</span><span style="background-color: #E1E9FD">() is broken; it 
+is expected to be rewritten.] </span></i></p>
+<p><i>Change [path.modifiers]:</i></p>
+<blockquote>
+  <pre>path&amp; replace_extension(const path&amp; replacement = path());</pre>
+  <blockquote>
+  <p><i>Effects:</i> <del>pathname (the stored path) is modified as follows:</del></p>
+  <blockquote>
+<p dir="ltr">— Any existing <code>extension()</code>(27.10.8.4.9) is removed from the <ins>generic format pathname</ins>
+<del>stored path</del>, then</p>
+<p>— If <code>replacement</code> is not empty and does not begin with a <i>dot</i> character, a 
+<i>dot</i> 
+character is appended to the <ins>generic format pathname</ins> <del>stored path</del>, then</p>
+<p>— <ins><code>operator+=(replacement);</code></ins> <code><del>replacement</del></code><del> is concatenated to the stored path</del>.</p>
+  </blockquote>
+<p><i>Returns</i> <code>*this</code>.</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.modifiers]:</i></p>
+<blockquote>
+  <pre>void swap(path&amp; rhs) noexcept;</pre>
+  <blockquote>
+  <p><i>Effects:</i> Swaps the contents <ins>(in all formats)</ins> of the two paths
+  <code><del>pathname</del></code><del> and </del><code><del>rhs.pathname</del></code>. </p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.native.obs]:</i></p>
+<blockquote>
+  <pre>const string_type&amp; native() const noexcept;</pre>
+  <blockquote>
+    <p><i>Returns: </i><ins>The native format pathname</ins> <code><del>pathname</del></code>.</p>
+  </blockquote>
+  <pre>const value_type* c_str() const noexcept;</pre>
+  <blockquote>
+    <p><i>Returns: </i><ins>Equivalent to <code>native().c_str()</code></ins>
+    <code><del>pathname.c_str()</del></code>.</p>
+  </blockquote>
+  <pre>operator string_type() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <ins><code>native()</code></ins> <code><del>pathname</del></code>.</p>
+<p>[ <i>Note:</i> Conversion to string_type is provided so that an object of 
+class path can be given as an argument to existing standard library file stream 
+constructors and open functions. —<i>end note</i> ]</p>
+  </blockquote>
+  <pre>template &lt;class EcharT, class traits = char_traits&lt;EcharT&gt;,
+          class Allocator = allocator&lt;EcharT&gt;&gt;
+  basic_string&lt;EcharT, traits, Allocator&gt;
+    string(const Allocator&amp; a = Allocator()) const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <ins><code>native()</code></ins> <code><del>pathname</del></code>.</p>
+<p><i>Remarks:</i> All memory allocation, including for the return value, shall 
+be performed by a. Conversion, if any, is specified by 27.10.8.2.</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.generic.obs]:</i></p>
+<blockquote>
+  <pre>template &lt;class EcharT, class traits = char_traits&lt;EcharT&gt;,
+          class Allocator = allocator&lt;EcharT&gt;&gt;
+  basic_string&lt;EcharT, traits, Allocator&gt;
+    generic_string(const Allocator&amp; a = Allocator()) const;</pre>
+  <blockquote>
+<p><i>Returns: </i><ins>The generic format pathname</ins> <del><code>pathname</code>, 
+reformatted according to the generic pathname format (27.10.8.1)</del>.</p>
+<p><i>Remarks:</i> All memory allocation, including for the return value, shall 
+be performed by a. Conversion, if any, is specified by 27.10.8.2.</p>
+  </blockquote>
+  <pre>std::string generic_string() const;
+std::wstring generic_wstring() const;
+std::string generic_u8string() const;
+std::u16string generic_u16string() const;
+std::u32string generic_u32string() const;</pre>
+  <blockquote>
+<p><i>Returns:</i> <ins>The generic format pathname</ins> <del><code>pathname</code>, 
+reformatted according to the generic pathname format (27.10.8.1)</del>.</p>
+<p><i>Remarks:</i> Conversion, if any, is specified by 27.10.8.2. The encoding 
+of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.decompose]:</i></p>
+<blockquote>
+  <pre>path root_name() const;</pre>
+  <blockquote>
+    <p dir="ltr"><i>Returns:</i> <i>root-name</i>, if <ins>the generic format 
+    pathname</ins> <del><code>pathname</code></del> includes <i>root-name</i>, 
+    otherwise <code>path()</code>. </p>
+  </blockquote>
+  <pre>path root_directory() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <i>root-directory</i>, if <ins>the generic format 
+    pathname</ins> <del><code>pathname</code></del> includes <i>root-directory</i>, 
+    otherwise <code>path()</code>.</p>
+  </blockquote>
+  <p>...</p>
+  <pre>path relative_path() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> A path composed from <ins>the generic format pathname</ins>
+    <del><code>pathname</code></del>, if <code>!empty()</code>, beginning with 
+    the first <i>filename</i> after <i>root-path</i>. Otherwise, <code>path()</code>.</p>
+  </blockquote>
+  <p>...</p>
+<p><i><span style="background-color: #E1E9FD">[SG note: the new definition of 
+filename() needs to refer to the generic format.] </span></i></p>
+  <pre>path stem() const;</pre>
+  <blockquote>
+  <p><ins><i>Returns:</i> Let <code>f</code> be the generic format pathname for 
+  <code>filename()</code>. Returns a 
+  path whose generic format pathname is </ins></p>
+  <blockquote>
+  <p><ins>- <code>f</code>, if it contains no periods or consists solely of one or two periods;</ins>
+  </p>
+  <p><ins>- otherwise, the prefix of <code>f</code> ending before its last period.</ins> </p>
+  </blockquote>
+  <p><i><span style="background-color: #E1E9FD">[SG 
+  note: we intend to change this paragraph to not count the first character as a 
+  period.]</span></i><span style="background-color: #E1E9FD"> </span></p>
+    <p><del><i>Returns:</i> if <code>filename()</code> contains a period but does not consist 
+    solely of one or two periods, returns the substring of <code>filename()</code> starting 
+    at its beginning and ending with the character before the last period. 
+    Otherwise, returns <code>filename()</code>.</del></p>
+<p>[ Example:</p>
+    <blockquote>
+      <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).stem(); // outputs &quot;bar&quot;
+path p = &quot;foo.bar.baz.tar&quot;;
+for (; !p.extension().empty(); p = p.stem())
+std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
+// outputs: .tar
+// .baz
+// .bar</pre>
+    </blockquote>
+    <p>—end example ]</p>
+  </blockquote>
+  <pre>path extension() const;</pre>
+  <blockquote>
+    <p><i>Returns: </i><ins>a path whose generic format pathname is the 
+    suffix of the generic format pathname for <code>filename()</code> not included in 
+    <code>stem()</code>.</ins> 
+    <del>if <code>filename()</code> contains a period but does not consist solely of 
+    one or two periods, returns the substring of <code>filename()</code> 
+    starting at the rightmost period and for the remainder of the path. 
+    Otherwise, returns an empty path object.</del></p>
+    <p><i>Remarks:</i> Implementations are permitted to define additional 
+    behavior for file systems which append additional elements to extensions, 
+    such as alternate data streams or partitioned dataset names. </p>
+    <p>[ <i>Example:</i></p>
+    <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).extension(); // outputs &quot;.txt&quot;
+<ins>std::cout &lt;&lt; path(&quot;/foo/bar&quot;).extension();     // outputs &quot;&quot;</ins></pre>
+    <p><i>—end example</i> ]</p>
+    <p>[ <i>Note:</i> The period is included in the return value so that it is 
+    possible to distinguish between no extension and an empty extension. Also 
+    note that for a path <code>p</code>, <code>p.stem()+p.extension() == 
+    p.filename()</code>.<i> —end note </i>]</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.query]:</i></p>
+<blockquote>
+  <pre>bool empty() const noexcept;</pre>
+  <blockquote>
+<p><i>Returns: </i><ins><code>true</code> if the generic format pathname is 
+empty, else <code>false</code></ins><i> </i><del><code>pathname.empty()</code></del>.</p>
+  </blockquote>
+<p>...</p>
+  <pre>bool is_absolute() const;</pre>
+  <blockquote>
+<p><i>Returns:</i> <code>true</code> if <ins>the native format pathname</ins>
+<code><del>pathname</del></code> contains an absolute path (27.10.4.1), else 
+false.</p>
+<p>[ Example: <code>path(&quot;/&quot;).is_absolute()</code> is true for POSIX-based 
+operating systems, and false for Windows-based operating systems. —end example ]</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.gen]:</i></p>
+<blockquote>
+  <pre>path lexically_normal() const;</pre>
+  <blockquote>
+<p><i>Returns: </i><ins>a path whose generic format pathname is the normal form 
+([fs.def.normal.form]) of the generic format pathname of <code>*this</code></ins><i>
+</i><del><code>*this</code> in normal form ([fs.def.normal.form])</del>.</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [path.itr]:</i></p>
+<blockquote>
+<p>Path iterators iterate over the elements of <ins>the generic format pathname</ins>
+<del><code>pathname</code> in the generic format</del> (27.10.8.1).</p>
+<p>A <code>path::iterator</code> is a constant iterator satisfying all the 
+requirements of a bidirectional iterator (24.2.6) except that, for 
+dereferenceable iterators <code>a</code> and <code>b</code> of type <code>
+path::iterator</code> with <code>a == b</code>, there is no requirement that
+<code>*a</code> and <code>*b</code> are bound to the same object. Its <code>
+value_type</code> is <code>path</code>.</p>
+<p>Calling any non-const member function of a path object invalidates all 
+iterators referring to elements of that object.</p>
+<p>For the elements of <ins>the generic format pathname</ins> <del><code>
+pathname</code> in the generic format</del>, the forward traversal order is as 
+follows:</p>
+<p>...</p>
+</blockquote>
+<p dir="ltr"><i>Change [fs.op.canonical]:</i></p>
+<blockquote>
+  <pre>path canonical(const path&amp; p, error_code&amp; ec);
+path canonical(const path&amp; p, const path&amp; base, error_code&amp; ec);</pre>
+  <blockquote>
+    <p><i>Effects:</i> Converts <code>p</code>, which must exist, to an absolute 
+    path that has no symbolic link, <ins><i>dot</i>, or <i>dot-dot</i> elements 
+    in its generic format pathname</ins> <del>&quot;.&quot;, or &quot;..&quot; elements</del>.</p>
+    <p>...</p>
+  </blockquote>
+</blockquote>
+<p><i>Change [fs.op.current_path]:</i></p>
+<blockquote>
+  <pre>path current_path();
+path current_path(error_code&amp; ec);</pre>
+  <blockquote>
+<p><i>Returns:</i> The absolute path of the current working directory, obtained
+<ins>in the native format</ins> as if by POSIX <code>getcwd()</code>. The 
+signature with argument <code>ec</code> returns <code>path()</code> if an error 
+occurs.</p>
+<p>...</p>
+  </blockquote>
+<p><span style="font-style: italic; background-color: #E1E9FD">Rationale: </span>
+</p>
+<p><span style="font-style: italic; background-color: #E1E9FD">The lexical 
+operation specifications leave some room for variation among implementations, 
+but not as much as may be required for native formats; further relaxation would 
+compromise the utility of the operations for portable, predictable path 
+manipulation. Instead, we specify a usable but flexible mapping between the two 
+formats and define each operation in terms of one (or, occasionally, both).
+</span></p>
+<p><span style="font-style: italic; background-color: #E1E9FD">The second bullet 
+item in the first note in [path.fmt.cvt], which says for POSIX- or Windows-based 
+operating systems &quot;There is no need to distinguish between native format and 
+generic format in function arguments.&quot;, may not be true on Windows even if the 
+other two bullet items are true.</span></p>
+
+</blockquote>
+
+<h4><a name="US75">US 75</a>, CA 4; 27.10.8.4.1 [path.construct]: Extra flag in path constructors is needed<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p>See P0430R1 
+Section 2.2 for wording.</p>
+
+</blockquote>
+
+<h4><a name="US76">US 76</a>, CA 5; 27.10.8.1 [path.generic]: <i>root-name</i> 
+definition is over-specified<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p>See P0430R1 
+Section 2.3.1 for wording.</p>
+
+</blockquote>
+
+<h4><a name="US77">US 77</a>, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i><br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p>See P0430R1 Section 2.3.2 for wording.</p>
+
+</blockquote>
+
+<h4><a name="US78">US 78</a>, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p>See P0430R1 
+Section 2.4.1 for wording.</p>
+
+</blockquote>
+
+<h4><a name="US79">US 79</a>, CA 8; Several: Some  operation functions are overspecified for implementation-defined file types<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p>See P0430R1 
+Section 2.4.2 for wording.</p>
+
+</blockquote>
+
+
+
+<h2><a name="editorial"></a>NB  comments submitted as editorial</h2>
+
+
+
+
+
+<p>There was concern that some of these might involve substantive changes, so 
+the SG processed them as ordinary technical comments.</p>
+
+
+
+
+
+<h4><a name="US38">US 38</a>; 27.10.4.13 [fs.def.symlink]:&nbsp; Duplicates 
+§17.3.16<br>
+Status: Accept</h4>
+
+
+
+<blockquote>
+
+<p> Project editor will make change.</p>
+
+</blockquote>
+
+
+
+<h4><a name="US39">US 39</a>; 27.10.4.15 [fs.def.parent]: Remove note: Dot and 
+dot-dot are not directories<br>
+Status: Accept</h4>
+
+
+
+<blockquote>
+
+<p> Project editor will make change.</p>
+
+</blockquote>
+
+
+
+<h4><a name="US41">US 41</a>; 27.10.4.16 [fs.def.parent.other]: The term “parent 
+directory” for a (non-directory) file is unusual<br>
+Status: Reject</h4>
+
+
+<blockquote>
+<p>Insufficient motivation for change. &quot;parent directory&quot; is the term we use to 
+describe the containing directory; we&#39;re (already) following POSIX there, even 
+though the POSIX definition is a bit weird.</p>
+</blockquote>
+
+<h4><a name="US42">US 42</a>; 27.10.4.21 [fs.def.symlink]: Pathname resolution 
+does not always resolve a symlink<br>
+Status: Reject</h4>
+
+
+
+<blockquote>
+
+<p>There is an apparent corner case contradiction between the POSIX definition and other 
+places in the POSIX standard. The [fs.def.symlink] definition is identical to 
+the POSIX 3.381 Symbolic Link definition () and the SG prefers to keep it that 
+way.</p>
+
+</blockquote>
+
+
+
+<h4><a name="US47">US 47</a>; 27.10.8.1 [path.generic]: “.” and “..” already 
+match the name production<br>
+Status: Accept with modifications </h4>
+
+
+
+<blockquote>
+
+<p> Proposed resolution: that this is not editorial, but we know the fix. 
+<span style="background-color: #FFFF99">Davis Herring 
+to supply updated proposed wording.</span></p>
+
+</blockquote>
+
+
+
+<h4><a name="US50">US 50</a>;&nbsp; 27.10.8.3 [path.req]: <code>path</code> 
+requirements ¶ 1.4 largely redundant with ¶ 1.3<br>
+Status: Reject</h4>
+
+
+<blockquote>
+
+<p><span style="background-color: #FFFF99">Beman to open an issue to expose this concern to additional experts.</span> 
+This is not a priority issue for shipping C++17.</p>
+
+</blockquote>
+
+
+
+<h2><a name="late-comments"></a>Late comments from P0489R0</h2>
+
+
+
+<p>Quoting P0489R0, &quot;These comments were not submitted in time to 
+be registered as National Body Comments, but should be considered as possible 
+issues against SC 22, N3151, ISO/IEC CD 14882.&quot; </p>
+
+
+
+
+</font>
+
+
+
+
+<p><span style="background-color: #E1E9FD; font-style:italic">Late comments 15-47 apply to 27.10 [filesystems]. 
+Except for as noted below, the submitter of these late comments has agreed to 
+open LWG issues for any late comments that are still a concern.</span></p>
+
+<font FACE="LMRoman10-Regular">
+
+<h4><a name="Late15">Late 15</a>; 27.10.8.4.11 ¶3.1: A “mismatched element” cannot be equal to an iterator</h4>
+
+<h4><a name="Late16">Late 16</a>; 27.10.8.4.11 ¶3.3.1: <code>lexically_relative("..\\foo")</code> produces nonsense.</h4>
+
+<h4><a name="Late17">Late 17</a>; 27.10.8.4.11 ¶3.3.2: Behavior not always 
+appropriate</h4>
+
+<h4><a name="Late18">Late 18</a>; 27.10.8.4.11 ¶4: Behavior wrong in case corresponding to  comment Late17</h4>
+
+<h4><a name="Late19">Late 19</a>; 27.10.8.5 ¶2: It is surprising that a path is a container of paths</h4>
+
+<blockquote>
+
+<p>Recommend NAD. See <a href="#US55">US 55</a>, <a href="#US59">US 59</a>.</p>
+
+</blockquote>
+
+<h4><a name="Late20">Late 20</a>; 27.10.11 ¶1: Anemic status structure</h4>
+
+<h4><a name="Late21">Late 21</a>; 27.10.12: <code>directory_entry</code> is just a tivial wrapper for <code>path</code></h4>
+
+<h4><a name="Late22">Late 22</a>; 27.10.13 ¶6: <code>directory_iterator</code> cumbersome to assemble full path with iterator’s directory</h4>
+
+<h4><a name="Late23">Late 23</a>; 27.10.14.1 ¶28: <code>disable_recursion_pending()</code> name is ugly implementation detail</h4>
+
+<h4><a name="Late24">Late 24</a>; 27.10.15.1 ¶1: <code>absolute()</code> can produce nonsense result</h4>
+
+<h4><a name="Late25">Late 25</a>; 27.10.15.4 ¶4.2: What attributes does <code>copy_file()</code> copy?</h4>
+
+<h4><a name="Late26">Late 26</a>; 27.10.15.6 ¶5: <code>create_directories()</code> complexity assumes syscalls take constant time</h4>
+
+<h4><a name="Late27">Late 27</a>; 27.10.15.7 ¶5: <code>create_directory()</code> specification prevents sensible security measures</code></h4>
+
+<h4><a name="Late28">Late 28</a>; 27.10.15.10: <code>create_symlink()</code> might misbehave if <code>to</code> is a directory</h4>
+
+<h4><a name="Late29">Late 29</a>; 27.10.15.13: Access to file ID is superior to <code>equivalent()</code></h4>
+
+<h4><a name="Late30">Late 30</a>; 27.10.15.13 ¶3: <code>equivalent()</code>'s <code>s1==s2</code> check is ill-formed and could race</h4>
+
+<h4><a name="Late31">Late 31</a>; 27.10.15.13 ¶5: Surprising that <code>equivalent()</code>'s error_code overload 
+can throw</h4>
+
+<h4><a name="Late32">Late 32</a>; 27.10.15.13 ¶5 : <code>equivalent()</code> should not reject special files outright</h4>
+
+<h4><a name="Late33">Late 33</a>; 27.10.15.21: <code>is_other()</code> result surprising</h4>
+
+<h4><a name="Late34">Late 34</a>; 27.10.15.25 ¶5: Could <code>last_write_time()</code> guarantee the error direction</code></h4>
+
+<blockquote>
+
+<p>Recommend submitting a paper that researches whether this is in fact 
+possible. If it is possible, providing proposed wording would be helpful.</p>
+
+</blockquote>
+
+<h4><a name="Late35">Late 35</a>; 27.10.15.26: Why is there no way to read permissions?</h4>
+
+<blockquote>
+
+<p>Recommend NAD. They are available in <code>file_status</code>. If anyone 
+thinks a separate function would be useful, they should submit an issue or a 
+paper.</p>
+
+</blockquote>
+
+<h4><a name="Late36">Late 36</a>; 27.10.15.26: The <code>permissions() error_code</code> overload should be <code>noexcept</code><br>
+Status: Accept</h4>
+
+<blockquote>
+
+<p><i>Change 27.10.15.26 [fs.op.permissions] and 27.10.6 Header &lt;filesystem&gt; 
+synopsis [fs.filesystem.syn]:</i></p>
+
+  <blockquote>
+
+<p><code>void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;</code></p>
+
+  </blockquote>
+
+</blockquote>
+
+<h4><a name="Late37">Late 37</a>; 27.10.15.26 ¶2:<code>permissions()</code> actions should be separate parameter</h4>
+
+<blockquote>
+
+<p>Matt Austern pointed out this issue and its fix for the TS, but it got dropped on the floor in 
+the TS shipping rush and has never been fixed. We should probably fix it now or never.&nbsp;
+<span style="background-color: #FFFF99">Beman will propose wording, and ask the 
+LWG/LEWG give it priority 1 in Kona.</span></p>  
+
+</blockquote>
+
+<h4><a name="Late38">Late 38</a>; 27.10.15.26 ¶2: Unimplementable implication that <code>permissions()</code> is atomic</h4>
+
+<h4><a name="Late39">Late 39</a>; 27.10.15.29 ¶3: Suprising <code>relative()</code> behavior for symlinks</h4>
+
+<h4><a name="Late40">Late 40</a>; 27.10.15.31 ¶1: <code>remove_all()</code> unclear for <code>symlink/</code></h4>
+
+<h4><a name="Late41">Late 41</a>; 27.10.15.31 ¶3: Would be useful for <code>remove_all()</code> to report successful removal count on error</h4>
+
+<h4><a name="Late42">Late 42</a>; 27.10.15.33 ¶1: <code>resize_file()</code> <i>Postcondition</i> missing argument<br>
+Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p><span style="background-color: #FFFF99">Check the post-Issaquah working 
+paper. This may have already been fixed as editorial.</span></p>
+
+<p><i>Change 27.10.15.33 [fs.op.resize_file]:</i></p>
+
+  <blockquote>
+
+<p><i>Postcondition</i>: <code>file_size(<ins>p</ins>) == new_size</code>.</p>
+
+  </blockquote>
+</blockquote>
+
+<h4><a name="Late43">Late 43</a>; 27.10.15.33 ¶3: Add POSIX <code>ftruncate()</code> equivalent function</h4>
+
+<blockquote>
+
+<p>Recommend opening issue. Such a feature might be useful in 27.9 [file.streams] for C++2n.</p> 
+
+</blockquote>
+
+<h4><a name="Late44">Late 44</a>; 27.10.15.38: <code>system_complete()</code> name inconsistent with similar functions in subclause</h4>
+
+<h4><a name="Late45">Late 45</a>; 27.10.15.38 ¶6: Remove <code>system_complete()</code> unless it can be made reliable</h4>
+
+<h4><a name="Late46">Late 46</a>; 27.10.15.40 ¶2: Question about <code>weakly_canonical()</code> <i>Effects</i></code></h4>
+
+<h4><a name="Late47">Late 47</a>; 27.10.15.40 ¶4: <code>weakly_canonical()</code> suggested caching is incorrect</h4>
+
+
+<hr>
+
+</body>
+
+</html>
