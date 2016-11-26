@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-25<!--webbot bot="Timestamp" endspan i-checksum="12114" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-26<!--webbot bot="Timestamp" endspan i-checksum="12116" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -57,13 +57,11 @@
 </tr>
 </table>
 
-<h1>Proposed Resolution of C++17  National Body Comments for Filesystem(R0)</h1>
+<h1>Proposed Resolution of C++17  National Body Comments for Filesystems(R0)</h1>
 
-<p>This document proposes resolutions of C++17 National Body Comments from
+<p dir="ltr">This document proposes resolutions of C++17 CD National Body Comments from
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0488r0.pdf">
-P0488R0</a> related to
-<a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4606.pdf">
-N4606</a> 27.10 [filesystems]. Some &quot;Late&quot; Comments from
+P0488R0</a> related to Filesystems (27.10 [filesystems]). Some &quot;Late&quot; Comments from
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0489r0.pdf">
 P0489R0</a> are also considered.</p>
 
@@ -71,8 +69,11 @@ P0489R0</a> are also considered.</p>
 Working Group&#39;s Filesystem small group (SG), unless otherwise indicated.</p>
 
 <p>This paper is a snapshot of current work in progress. Proposed wording for 
-some NB comments is still being drafted. At the request of the Project Editor, 
-all proposed wording in the final proposal will be based on the most recent 
+some NB comments is still being drafted. Proposed wording in this snapshot is 
+relative to the CD,
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4606.pdf">
+N4606</a>. At the request of the Project Editor, 
+all proposed wording in the next revision will be based on the post-Issaquah 
 version of the C++ working paper.</p>
 
 <p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
@@ -478,7 +479,7 @@ a note, has been applied to LWG 2734 to partially resolve US 44.</p>
 <a href="#US74">US-74/CA-3</a> </p>
 
 <p dir="ltr"> <span style="background-color: #FFFF99">Beman will check 2734, and 
-coordinate with Marshall if needed, or add comment to 2734 </span></p>
+coordinate with Marshall if needed, or add a comment to 2734 </span></p>
 
 </blockquote>
 
@@ -487,7 +488,7 @@ coordinate with Marshall if needed, or add comment to 2734 </span></p>
 </code>Status: Open</h4>
 <blockquote>
 <p>No 
-proposed wording. <span style="background-color: #FFFF99">Davis Herring working on proposed wording.</span></p>
+proposed wording. <span style="background-color: #FFFF99">Davis Herring is working on proposed wording.</span></p>
 
 </blockquote>
 
@@ -575,7 +576,7 @@ conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
 </blockquote>
  
  <p> 
- <span style="background-color: #FFFF99">SG should review wording 
+ <span style="background-color: #FFFF99">SG should review wording; 
  &quot;abstract away&quot; was added during editing, rather than the previously 
  agreed upon &quot;support&quot;.</span></p>
  
@@ -818,6 +819,9 @@ Status: Accept with modifications</h4>
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
 Status: Accept with modifications</h4>
 
+<p><span style="background-color: #FFFF99">SG needs to review the proposed 
+wording for US-74/CA-3.</span></p>
+
 <p><b>Discussion: </b></p>
 <p>Many operations on <code>filesystem::path</code> are defined in terms of its 
 exposition-only <code>pathname</code> member, which is defined implicitly by
@@ -840,7 +844,7 @@ class path:</i></p>
   string_type pathname; // exposition only</del></pre>
 </blockquote>
 <p><i>Change [path.fmt.cvt]:</i></p>
-<p><span style="background-color: #FFFF99">Option A:</span> </p>
+<p><span style="background-color: #FFFF99">Option A; from Davis:</span> </p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are not applied on 
 POSIX-<del> or Windows-</del>based operating systems because on these systems:</p>
@@ -852,7 +856,7 @@ function arguments.<br>
 </blockquote>
 <p>—end note ]</p>
 </blockquote>
-<p><span style="background-color: #FFFF99">Option B:</span></p>
+<p><span style="background-color: #FFFF99">Option B; from Beman:</span></p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are <ins>
 usually</ins> not applied on 
@@ -867,7 +871,8 @@ generic format in function arguments.<br>
 for pathnames with implementation-defined <i>root-name</i>s ([path.generic]).</ins> </p>
 <p>—end note ]</p>
 </blockquote>
-<p><span style="background-color: #FFFF99">End options</span></p>
+<p><span style="background-color: #FFFF99">SG needs to choose between Option A 
+or Option B.</span></p>
 <blockquote>
   <p><ins>Several functions are defined to accept <i>detected-format</i> character 
   sequence arguments that represent paths using either the generic pathname 
