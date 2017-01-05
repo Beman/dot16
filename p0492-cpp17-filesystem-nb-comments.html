@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-04<!--webbot bot="Timestamp" endspan i-checksum="12086" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-05<!--webbot bot="Timestamp" endspan i-checksum="12088" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -602,10 +602,10 @@ Status: Reject</h4>
 
 <blockquote>
  
-<p>The SG presented such a proposal to the Library Evolution Working group in 
+<p>Nico presented this to the Library Evolution Working group in 
 Issaquah, including a number of examples (See Nico&#39;s <i>Filesystem: Filename 
 Issues</i> slides on the Issaquah LEWG wiki.) There was no 
-consensus for change. See the LEWG notes.</p>
+consensus for change; the vote was 3/3/3/7/2. See the Issaquah LEWG notes.</p>
 
 </blockquote>
 
@@ -662,14 +662,17 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 </blockquote>
 
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
-
-<p><span style="background-color: #FFFF99">Beman needs to coordinate with Nico to apply 
-LEWG guidance.</span></p>
+</code>Status: Accept</h4>
 
 <blockquote>
 
-<p>Cases that seem worth considering, with suggested decompositions:</p>
+<p>Nico presented this to the Library Evolution Working group in 
+Issaquah, including a number of examples (See Nico&#39;s <i>Filesystem: Filename 
+Issues</i> slides on the Issaquah LEWG wiki.) Support was unanimous. See the 
+Issaquah LEWG notes.</p>
+
+<p>Nico presented the following cases; the only change from the TS is for the
+<code>&quot;.profile&quot;</code> case:</p>
 
 <blockquote>
 
@@ -680,29 +683,64 @@ LEWG guidance.</span></p>
       <td><i><b><code>p.extension()</code></b></i></td>
     </tr>
     <tr>
-      <td><code>&quot;.bashrc&quot;</code></td>
-      <td><code>&quot;.bashrc&quot;</code></td>
-      <td>&quot;&quot;</td>
+      <td><code>&quot;/foo/bar.txt&quot;</code></td>
+      <td><code>&quot;bar&quot;</code></td>
+      <td><code>&quot;.txt&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;.profile&quot;</code></td>
+      <td><code><del>&quot;&quot;</del> <ins>&quot;.profile&quot;</ins></code></td>
+      <td><code><del>&quot;.profile&quot;</del> <ins>&quot;&quot;</ins></code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;.profile.old&quot;</code></td>
+      <td><code>&quot;.profile&quot;</code></td>
+      <td><code>&quot;.old&quot;</code></td>
     </tr>
     <tr>
       <td><code>&quot;..abc&quot;</code></td>
       <td><code>&quot;..abc&quot;</code></td>
-      <td>&quot;&quot;</td>
+      <td><code>&quot;&quot;</code></td>
     </tr>
     <tr>
       <td>&quot;<code>...abc</code>&quot;</td>
-      <td>&quot;<code>...abc</code>&quot;</td>
-      <td>&quot;&quot;</td>
+      <td><code>&quot;...abc&quot;</code></td>
+      <td><code>&quot;&quot;</code></td>
     </tr>
     <tr>
       <td>&quot;<code>abc..def</code>&quot;</td>
-      <td>&quot;<code>abc</code>&quot;</td>
-      <td>&quot;<code>..def</code>&quot;</td>
+      <td><code>&quot;abc.&quot;</code></td>
+      <td><code>&quot;.def&quot;</code></td>
     </tr>
     <tr>
       <td>&quot;<code>abc...def</code>&quot;</td>
-      <td>&quot;<code>abc</code>&quot;</td>
-      <td>&quot;<code>...def</code>&quot;</td>
+      <td><code>&quot;abc..&quot;</code></td>
+      <td><code>&quot;.def&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;abc.&quot;</code></td>
+      <td><code>&quot;abc&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;abc..&quot;</code></td>
+      <td><code>&quot;abc.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;abc.d.&quot;</code></td>
+      <td><code>&quot;abc.d&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td><code>&quot;&quot;</code></td>
+    </tr>
+    <tr>
+      <td><code>&quot;.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td><code>&quot;&quot;</code></td>
     </tr>
   </table>
 </blockquote>
@@ -718,8 +756,7 @@ LEWG guidance.</span></p>
 <p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
 consist solely of one or two periods</del> <ins>other than in a sequence of one or 
 more beginning periods</ins>, returns the substring of <code>filename()</code> 
-starting at its beginning and ending with the character before the <del>last period</del> <ins>
-first period of the last sequence of one or more periods</ins>.
+starting at its beginning and ending with the character before the last period.
 Otherwise, returns <code>filename()</code>.</p>
 
   </blockquote>
@@ -736,7 +773,7 @@ Otherwise, returns <code>filename()</code>.</p>
 <p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
 consist solely of one or two periods</del> <ins>other than in a sequence of one or 
 more beginning periods</ins>, returns the substring of <code>filename()</code> 
-starting at <ins>the beginning of</ins> the rightmost <ins>sequence of</ins> period<ins>s</ins> and for the remainder of the path. Otherwise, 
+starting at the rightmost period and for the remainder of the path. Otherwise, 
 returns an empty <code>path</code> object.</p>
 
   </blockquote>
@@ -744,12 +781,12 @@ returns an empty <code>path</code> object.</p>
 
 </blockquote>
 
-<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()<br>
+<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶13 (was ¶11): It is important that <code>stem()+extension()==filename()<br>
 </code>Status: <span style="background-color: #FFFF99">Open</span></h4>
 
 <blockquote>
 
-<p>Yes, it is important. But the note in ¶11 already says exactly that, so
+<p>Yes, it is important. But the note in ¶13 already says exactly that, so
 the question becomes "Should we make that part of the note normative?"</p>
 
 <p>Saying that normatively would be a second way of saying 
