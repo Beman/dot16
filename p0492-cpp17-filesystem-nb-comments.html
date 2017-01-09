@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-05<!--webbot bot="Timestamp" endspan i-checksum="12088" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-09<!--webbot bot="Timestamp" endspan i-checksum="12096" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -219,41 +219,50 @@ Status: Accept with modifications</h4>
  <del><i>Postcondition:</i><code>!has_filename()</code>.</del> </p>
  <p> <ins><i>Effects:</i> 
  If <code>has_filename()</code> then remove the minimum number of trailing 
- characters from <code>pathstring</code> such that there is one less element in
+ characters from generic format pathname such that there is one less element in
  <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
 </blockquote>
 </blockquote>
 
-<h4><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶7: <code>remove_filename()</code>'s name does not correspond to its behavior<code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+<h4><a name="US53">US 53</a>; 27.10.8.4.5 [path.modifiers] ¶4 (was ¶7): <code>remove_filename()</code>'s name does not correspond to its behavior<code><br>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>Because of a possible trailing &quot;/&quot;, this comment is technically correct. The 
-real question (for the full LWG) is do we want to make a name change at this 
-late date for a name that is &quot;good enough&quot;.</p>
-
-<p>This issue probably needs to be resolved before C++17 ships, since a name 
-change is a breaking change.</p>
-<p>Bikeshed:
-<code>remove_last_element()</code> rather than the suggested <code>remove_component()</code>.<p>
-  <b>Caution:</b> &quot;remove_filename&quot; appears at least seven times in 
-  sub-clause 27.10. All will need to be changed if the name changes.<p><b>Caution:</b> &quot;replace_filename&quot; 
-  presumably also would need to be renamed.<p>&nbsp;</blockquote>
-
-<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶10: <code>remove_filename()</code> is broken<code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
-
-<blockquote>
-
-<p>Need to resolve <a href="#US53">US 53</a> first.</p>
+<p>As a consequence of the US-52 and US-60 fixes, the name now corresponds to 
+the behavior.</p>
 
 </blockquote>
 
-<h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶7 (was ¶10): <code>remove_filename()</code> is broken<code><br>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
+
+<p><i>Change 27.10.8.4.5 [path.modifiers] ¶7:</i></p>
+
+  <blockquote>
+
+</font>
+
+<p>
+
+    <font FACE="LMRoman10-Regular">
+
+[ Example:<br>
+<code>std::cout &lt;&lt; path(&quot;/foo&quot;).remove_filename(); // outputs &quot;/&quot;<br>
+std::cout &lt;&lt; path(&quot;/&quot;).remove_filename();&nbsp;&nbsp;&nbsp; // outputs &quot;<ins>/</ins>&quot;<br>
+</code>—end example ]</p>
+
+  </blockquote>
+</blockquote>
+
+<h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
+</code>Status: Accept with modifications</h4>
+
+<blockquote>
+
+<p><b>Discussion:</b></p>
 
 <p>The <code>filename()</code> behavior at issue is specified in 27.10.8.4.9 [path.decompose] ¶6:</p>
 
@@ -314,10 +323,10 @@ slash</i> characters are present.</del></p>
 
 <blockquote>
 
-<p><span style="font-style: italic; background-color: #E1E9FD">Not acceptable because it loses the fact that the path represents a 
+<p>Not acceptable because it loses the fact that the path represents a 
 directory, yet knowing that is required for some operating systems (e.g. POSIX, 
-z/OS, OpenMVS).&nbsp; We ensures that reconstruction by iteration yields 
-the same path as the original for some definition of &quot;same&quot;.</span></p>
+z/OS, OpenMVS).&nbsp; We want to ensure that reconstruction by iteration yields 
+the same path as the original for  definitions of &quot;same&quot;.</p>
 
 </blockquote>
 
@@ -330,10 +339,10 @@ slash</i> characters are present.</p>
 
 <blockquote>
 
-<p><span style="font-style: italic; background-color: #E1E9FD">Not acceptable 
+<p>Not acceptable 
 because a slash is semantically ambiguous; it is already used to indicate a 
 root, so also using it to indicate a directory path would be a trap all to easy 
-to fall into.</span></p>
+to fall into.</p>
 
 </blockquote>
 
@@ -346,25 +355,44 @@ slash</i> characters are present.</p>
 
 <blockquote>
 
-<p><span style="font-style: italic; background-color: #E1E9FD">This works, and was discussed at length by the SG. It appears to resolve a 
+<p>This works, and was discussed at length by the SG. It appears to resolve a 
 number of concerns raised by other NB comments and by the SG during discussion 
-of those comments. A paper is needed to identify all the ripple effects of this 
-change, and propose wording changes where needed or desirable.</span><font FACE="LMRoman10-Regular">&nbsp; </p>
+of those comments. All the ripple effects of this 
+change need to be identified, and  wording changes proposed where needed or desirable.<font FACE="LMRoman10-Regular">&nbsp;</font></p>
+
+<p><font face="LMRoman10-Regular">Because this is a design change, Nico 
+presented it to LEWG as part of &quot;Clarify filename&quot;. It was accepted by a vote of 
+13/3/0/0/0. </font> </p>
 
 </blockquote>
 
 </blockquote>
 
+<p><b><font face="LMRoman10-Regular">Proposed resolution:</font></b></p>
+
+<p><i><font face="LMRoman10-Regular">Change 27.10.8.5 [path.itr]:</font></i></p>
+
+  <blockquote>
+
+<p>
+
+    <font FACE="LMRoman10-Regular">
+
+<font FACE="LMRoman7-Regular" SIZE="1">
+(4.4) </font>— <i><del>dot</del> </i><ins>an empty element</ins>, 
+if one or more trailing non-root <font FACE="LMRoman10-Italic">
+<i>slash </i></font>characters are 
+present.</font></p>
+
+  </blockquote>
 </blockquote>
 
-</font>
-
-<p><span style="font-style: italic; background-color: #E1E9FD">LWG 2665 remove_filename() post condition is 
+<p><span style="font-style: italic; background-color: #FFFF99">LWG 2665 remove_filename() post condition is 
 incorrect</span></p>
 
 <blockquote>
 
-<p><span style="font-style: italic; background-color: #E1E9FD">Although not a NB comment,
+<p><span style="font-style: italic; background-color: #FFFF99">Although not a NB comment,
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
 to be coordinated with this set of comments, particularly US-52. It is mentioned 
 here as a reminder to the LWG.</span></p>
@@ -662,7 +690,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 </blockquote>
 
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
-</code>Status: Accept</h4>
+</code>Status: Accept with revisions</h4>
 
 <blockquote>
 
@@ -753,9 +781,9 @@ Issaquah LEWG notes.</p>
 
   <blockquote>
 
-<p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
-consist solely of one or two periods</del> <ins>other than in a sequence of one or 
-more beginning periods</ins>, returns the substring of <code>filename()</code> 
+<p><i>Returns:</i> if <code>filename()</code> contains a period <ins>other than 
+at the beginning and</ins> <del>but</del> does not 
+consist solely of one or two periods, returns the substring of <code>filename()</code> 
 starting at its beginning and ending with the character before the last period.
 Otherwise, returns <code>filename()</code>.</p>
 
@@ -770,14 +798,17 @@ Otherwise, returns <code>filename()</code>.</p>
 
   <blockquote>
 
-<p><i>Returns:</i> if <code>filename()</code> contains a period <del>but does not 
-consist solely of one or two periods</del> <ins>other than in a sequence of one or 
-more beginning periods</ins>, returns the substring of <code>filename()</code> 
+<p dir="ltr"><i>Returns:</i> if <code>filename()</code> contains a period <ins>other than 
+at the beginning and</ins> <del>but</del> does not consist solely of one or two 
+periods, returns the substring of <code>filename()</code> 
 starting at the rightmost period and for the remainder of the path. Otherwise, 
 returns an empty <code>path</code> object.</p>
 
   </blockquote>
 </blockquote>
+
+<h4><span style="background-color: #FFFF99">SG 
+needs to review Beman&#39;s wording above</span></h4>
 
 </blockquote>
 
@@ -798,19 +829,41 @@ vote.</span></p>
 
 </blockquote>
 
-<h4><a name="US63">US 63</a>; 27.10.8.4.11 ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory<code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+<h4><a name="US63">US 63</a>; 27.10.8.4.11 [path.gen] ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory<code><br>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>Need proposed wording for the <i>Proposed change</i> "Append the /. in all cases known to name directories (if it is in fact necessary)".</p>
+<p><span style="background-color: #FFFF99">Need proposed wording for the <i>Proposed change</i> "Append the /. in all cases known to name directories (if it is in fact necessary)".</span></p>
 
-<p><span style="background-color: #FFFF99">We can now resolve this in light of 
-LEWG vote.</span></p>
+<p><i>Change 27.10.8.4.11 [path.gen]:</i></p>
+
+<blockquote>
+
+<p dir="ltr"><code>path lexically_normal() const;</code></p>
+
+  <blockquote>
+
+<p dir="ltr"><i>Returns:</i> <code>*this</code> in normal form (27.10.4.12).</p>
+
+<p>[ <i>Example:</i><br>
+<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
+&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/.///bar/../&quot;).lexically_normal() == &quot;foo/.&quot;);<br>
+</code><br>
+The above assertions will succeed. The second example ends with a current 
+directory (dot) element appended to support operating systems that use different 
+syntax for directory names and regular file names.</p>
+
+<p>On Windows, the returned path’s directory-separator characters will be 
+backslashes rather than slashes, but that does not affect path equality. —<i>end 
+example</i> ]</p>
+
+  </blockquote>
+</blockquote>
 
 </blockquote>
 
-<h4><b><a name="US185">US 185</a>; 27.10.7: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature<br>
+<h4><b><a name="US185">US 185</a>; 27.10.7 [fs.err.report]: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature<br>
 Status: Reject</h4>
 
 <blockquote>
@@ -823,7 +876,7 @@ October 25, 2016.</p>
 
 </blockquote>
 
-<h4><a name="FI 14">FI 14</a>; 27.10.12.3: <tt>directory_entry</tt> comparisons are members<br>
+<h4><a name="FI 14">FI 14</a>; 27.10.12.3 [directory_entry.obs]: <tt>directory_entry</tt> comparisons are members<br>
 Status: Reject</h4>
 
 
