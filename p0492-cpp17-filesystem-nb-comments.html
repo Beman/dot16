@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-09<!--webbot bot="Timestamp" endspan i-checksum="12096" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-14<!--webbot bot="Timestamp" endspan i-checksum="12087" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -152,8 +152,8 @@ internal notes to itself. Who does what may change to balance workloads. These
 will be gone by the final proposal revision.</span><p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
 the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
-removed from the WP.</del><p><font face="LMRoman10-Regular"><ins>Text 
-to be added to the WP.</ins></font><h2><a name="nb-comments"></a>NB Technical and general comments</h2>
+removed from the WP.</del><p><ins>Text 
+to be added to the WP.</ins><h2><a name="nb-comments"></a>NB Technical and general comments</h2>
 
 <h3>Comments related to <code>filename()</code></h3>
 
@@ -173,10 +173,205 @@ have been resolved.</p>
 </blockquote>
 
 <h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined<br>
-Status: Accept with modifications</h4>
+Status: <span style="background-color: #FFFF99">Open</span></h4>
+
+
+<blockquote>
+
+<p>Cases</p>
+
+<blockquote>
+
+  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+    <tr>
+      <td><i><b><code>path p</code></b></i></td>
+      <td><i><b><code>p.lexically_normal()</code></b></i></td>
+      <td><i>Rules applied</i></td>
+    </tr>
+    <tr>
+      <td><code>&quot;&quot;</code></td>
+      <td><code>&quot;&quot;</code></td>
+      <td>
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;./&quot;</code></td>
+      <td><code>&quot;./&quot;</code></td>
+      <td><i>6</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;././&quot;</code></td>
+      <td><code>&quot;./&quot;</code></td>
+      <td><i>6, 6</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;/.&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td><i>7</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;/./.&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td><i>5, 7</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;./.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td><i>6</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo&quot;</code></td>
+      <td><code>&quot;foo&quot;</code></td>
+      <td><i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/bar&quot;</code></td>
+      <td><code>&quot;foo/bar&quot;</code></td>
+      <td><i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/./bar&quot;</code></td>
+      <td><code>&quot;foo/bar&quot;</code></td>
+      <td><i>5</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/././bar&quot;</code></td>
+      <td><code>&quot;foo/bar&quot;</code></td>
+      <td><i>5, 5</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;./foo&quot;</code></td>
+      <td><code>&quot;foo&quot;</code></td>
+      <td><i>6</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/.&quot;</code></td>
+      <td><code>&quot;foo/&quot;</code></td>
+      <td><i>7</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/./.</code></td>
+      <td><code>&quot;foo/&quot;</code></td>
+      <td><i>5, 7</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/./bar</code></td>
+      <td><code>&quot;foo/bar&quot;</code></td>
+      <td><i>5</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td>
+
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;../&quot;</code></td>
+      <td><code>&quot;../&quot;</code></td>
+      <td>
+
+
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;/..&quot;</code></td>
+      <td>
+
+      <code>&quot;/..&quot;</code></font></td>
+      <td>
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;../foo&quot;</code></td>
+      <td><code>&quot;../foo&quot;</code></td>
+      <td>
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/..&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td><i>8</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;../..&quot;</code></td>
+      <td><code>&quot;../..&quot;</code></td>
+      <td>
+
+      <i>N/A</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/../&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>9</td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/../..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td><i>9</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;foo/../bar</code></td>
+      <td><code>&quot;bar&quot;</code></td>
+      <td><i>9</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;/foo/../bar</code></td>
+      <td><code>&quot;/bar&quot;</code></td>
+      <td><i>9</i></td>
+      </tr>
+    <tr>
+      <td><code>&quot;/foo&quot;</code></td>
+      <td>
+
+
+      <code>&quot;/foo&quot;</code></td>
+      <td>
+
+      <i>N/A</i></td>
+    </tr>
+    <tr>
+      <td><code>&quot;</code><code>/foo/</code><code>&quot;</code></td>
+      <td><code><del></code>
+
+
+      <code>&quot;/foo/&quot;</code></td>
+      <td>
+
+      <i>N/A</i></td>
+    </tr>
+    <tr>
+      <td><code>&quot;/foo/.&quot;</code></td>
+      <td><code>&quot;</code><code>/foo/</code><code>&quot;</code></td>
+      <td><i>7</i></td>
+    </tr>
+    </table>
+</blockquote>
+
+</blockquote>
+
+
+
+
+</font>
+
+
+
+
 <blockquote>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
-<blockquote>
 <p><b>normal form</b><br>
 A path with no <del>redundant</del> current directory (<i>dot</i>) elements <ins>
 except possibly one at the end</ins>, no redundant parent directory (<i>dot-dot</i>) 
@@ -194,7 +389,6 @@ in a </span> <i>
 <span style="background-color: #FFFF99">directory-separator</span></i><span style="background-color: #FFFF99"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF99">dot</span></i><span style="background-color: #FFFF99">) 
 element appended.&quot; or add a note or example explaining the rationale. But check 
 the meeting notes; I have a vague recollection we already discussed this.</span></p>
-</blockquote>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
@@ -798,7 +992,7 @@ Otherwise, returns <code>filename()</code>.</p>
 
   <blockquote>
 
-<p dir="ltr"><i>Returns:</i> if <code>filename()</code> contains a period <ins>other than 
+<p><i>Returns:</i> if <code>filename()</code> contains a period <ins>other than 
 at the beginning and</ins> <del>but</del> does not consist solely of one or two 
 periods, returns the substring of <code>filename()</code> 
 starting at the rightmost period and for the remainder of the path. Otherwise, 
@@ -840,11 +1034,11 @@ vote.</span></p>
 
 <blockquote>
 
-<p dir="ltr"><code>path lexically_normal() const;</code></p>
+<p><code>path lexically_normal() const;</code></p>
 
   <blockquote>
 
-<p dir="ltr"><i>Returns:</i> <code>*this</code> in normal form (27.10.4.12).</p>
+<p><i>Returns:</i> <code>*this</code> in normal form (27.10.4.12).</p>
 
 <p>[ <i>Example:</i><br>
 <code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
