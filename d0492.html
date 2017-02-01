@@ -21,7 +21,7 @@
 <tr>
   <td align="left">Date:</td>
   <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-01-14<!--webbot bot="Timestamp" endspan i-checksum="12087" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-01<!--webbot bot="Timestamp" endspan i-checksum="12144" --></td>
 </tr>
 <tr>
   <td align="left">Reply to:</td>
@@ -162,205 +162,15 @@ are tightly coupled and best resolved as a whole.</span></p>
 
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
 <code>!empty()<br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+</code>Status: Reject</h4>
 <blockquote>
-<p>No Proposed wording. The real issue is a possibly incorrect post-condition for 
-<code>remove_filename()</code>. </p>
-
-<p>SG recommends revisiting this comment after other filename related comments 
-have been resolved.</p>
+<p>Resolved by <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US54">
+US-54</a>, and <a href="#US60">US-60</a>.</p>
 
 </blockquote>
 
 <h4><a name="US37">US 37</a>; 27.10.4.12 [fs.def.normal.form]: The term “redundant current directory (dot) elements” is not defined<br>
-Status: <span style="background-color: #FFFF99">Open</span></h4>
-
-
-<blockquote>
-
-<p>Cases</p>
-
-<blockquote>
-
-  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
-    <tr>
-      <td><i><b><code>path p</code></b></i></td>
-      <td><i><b><code>p.lexically_normal()</code></b></i></td>
-      <td><i>Rules applied</i></td>
-    </tr>
-    <tr>
-      <td><code>&quot;&quot;</code></td>
-      <td><code>&quot;&quot;</code></td>
-      <td>
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;.&quot;</code></td>
-      <td><code>&quot;.&quot;</code></td>
-      <td>
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;./&quot;</code></td>
-      <td><code>&quot;./&quot;</code></td>
-      <td><i>6</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;././&quot;</code></td>
-      <td><code>&quot;./&quot;</code></td>
-      <td><i>6, 6</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;/.&quot;</code></td>
-      <td><code>&quot;/&quot;</code></td>
-      <td><i>7</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;/./.&quot;</code></td>
-      <td><code>&quot;/&quot;</code></td>
-      <td><i>5, 7</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;./.&quot;</code></td>
-      <td><code>&quot;.&quot;</code></td>
-      <td><i>6</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo&quot;</code></td>
-      <td><code>&quot;foo&quot;</code></td>
-      <td><i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/bar&quot;</code></td>
-      <td><code>&quot;foo/bar&quot;</code></td>
-      <td><i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/./bar&quot;</code></td>
-      <td><code>&quot;foo/bar&quot;</code></td>
-      <td><i>5</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/././bar&quot;</code></td>
-      <td><code>&quot;foo/bar&quot;</code></td>
-      <td><i>5, 5</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;./foo&quot;</code></td>
-      <td><code>&quot;foo&quot;</code></td>
-      <td><i>6</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/.&quot;</code></td>
-      <td><code>&quot;foo/&quot;</code></td>
-      <td><i>7</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/./.</code></td>
-      <td><code>&quot;foo/&quot;</code></td>
-      <td><i>5, 7</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/./bar</code></td>
-      <td><code>&quot;foo/bar&quot;</code></td>
-      <td><i>5</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;..&quot;</code></td>
-      <td><code>&quot;..&quot;</code></td>
-      <td>
-
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;../&quot;</code></td>
-      <td><code>&quot;../&quot;</code></td>
-      <td>
-
-
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;/..&quot;</code></td>
-      <td>
-
-      <code>&quot;/..&quot;</code></font></td>
-      <td>
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;../foo&quot;</code></td>
-      <td><code>&quot;../foo&quot;</code></td>
-      <td>
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/..&quot;</code></td>
-      <td><code>&quot;.&quot;</code></td>
-      <td><i>8</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;../..&quot;</code></td>
-      <td><code>&quot;../..&quot;</code></td>
-      <td>
-
-      <i>N/A</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/../&quot;</code></td>
-      <td><code>&quot;.&quot;</code></td>
-      <td>9</td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/../..&quot;</code></td>
-      <td><code>&quot;..&quot;</code></td>
-      <td><i>9</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;foo/../bar</code></td>
-      <td><code>&quot;bar&quot;</code></td>
-      <td><i>9</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;/foo/../bar</code></td>
-      <td><code>&quot;/bar&quot;</code></td>
-      <td><i>9</i></td>
-      </tr>
-    <tr>
-      <td><code>&quot;/foo&quot;</code></td>
-      <td>
-
-
-      <code>&quot;/foo&quot;</code></td>
-      <td>
-
-      <i>N/A</i></td>
-    </tr>
-    <tr>
-      <td><code>&quot;</code><code>/foo/</code><code>&quot;</code></td>
-      <td><code><del></code>
-
-
-      <code>&quot;/foo/&quot;</code></td>
-      <td>
-
-      <i>N/A</i></td>
-    </tr>
-    <tr>
-      <td><code>&quot;/foo/.&quot;</code></td>
-      <td><code>&quot;</code><code>/foo/</code><code>&quot;</code></td>
-      <td><i>7</i></td>
-    </tr>
-    </table>
-</blockquote>
-
-</blockquote>
+Status: Accept with modifications</h4>
 
 
 
@@ -372,23 +182,74 @@ Status: <span style="background-color: #FFFF99">Open</span></h4>
 
 <blockquote>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
+<blockquote>
 <p><b>normal form</b><br>
-A path with no <del>redundant</del> current directory (<i>dot</i>) elements <ins>
-except possibly one at the end</ins>, no redundant parent directory (<i>dot-dot</i>) 
+<del>A path with no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
 elements, and no redundant <i>directory-separators</i>. The normal form for an 
-empty path is an empty path. The normal form for a path ending in a <i>
-directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
+empty path is an empty path. The normal form for a path ending in a
+<i>directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
 element appended. A path in normal form is said to be <i>normalized</i>. The 
 process of obtaining a normalized path from a path that is not in normal form is 
-called <i>normalization</i>. [ <i>Note</i>: The rule that appends a current 
+called <i>normalization</i>. [ <i>Note:</i> The rule that appends a current 
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
-different syntax for directory names and regular file names. —<i>end note</i> ]</p>
-<p><span style="background-color: #FFFF99">Beman comments: Since iteration, etc, no 
-longer adds a dot, we need to either strike &quot;The normal form for a path ending 
-in a </span> <i>
-<span style="background-color: #FFFF99">directory-separator</span></i><span style="background-color: #FFFF99"> that is not the root directory has a current directory (</span><i><span style="background-color: #FFFF99">dot</span></i><span style="background-color: #FFFF99">) 
-element appended.&quot; or add a note or example explaining the rationale. But check 
-the meeting notes; I have a vague recollection we already discussed this.</span></p>
+different syntax for directory names and regular file names. <i>—end note</i> ]</del></p>
+
+<ins><p>A pathname is in normal form if the generic format pathname is empty or if 
+the following transformations have been applied:</p>
+<ul>
+  <li>Sequences of multiple <i>directory-separator</i>s, except sequences of two 
+  leading <i>
+  directory-separator</i>s, 
+  have been replaced by a single <i>directory-separator.</i></li>
+  <li><i>dot</i> filenames have been removed.</li>
+  <li>All sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i> 
+  have been recursively removed.</li>
+  <li>All <i>slash directory-separator</i>s have been replaced with <i>
+  preferred-separator</i>s.</li>
+  <li>After the above transformations have been applied, if the pathname is 
+  empty a <i>dot</i> filename is inserted. [<i>Note:</i> This ensures a non-empty path 
+  is not changed into an empty path. <i>&mdash;end note</i>]</li>
+  <li>After the above transformations have been applied, if the <i>relative-path</i> 
+  portion of the pathname consists solely of a <i>director-separator</i>, a <i>
+  dot</i> filename is inserted before the <i>directory-separator</i>. [<i>Note:</i> 
+  This ensures a relative path is not changed into an absolute path. <i>—end note</i>]</li>
+</ul>
+  <p>
+A path in normal form is said to be <i>normalized</i>. The 
+process of obtaining a normalized path from a path that is not in normal form is 
+called <i>normalization</i>.</p>
+</blockquote>
+</ins>
+
+<p><i>Add the following as a new paragraph at the end of [path.generic]:</i></p>
+<blockquote>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">Normal form and 
+several other aspects of the class path spec are hard to understand without an 
+understanding of the role of a trailing directory-separator. Yet even experts 
+are often not aware of the following. Thus the note.</span></p>
+ <ins><p>[<i>Note:</i> The <i>relative-path</i> portion of a generic format pathname 
+  may end with a <i>directory-separator. </i>Its purpose varies:</p>
+  <ul>
+    <li>Required to distinguish directory paths from non-directory paths for 
+    operating systems such as z/OS and OpenVMS where native path syntax for 
+    directories is different from non-directory native path syntax.</li>
+    <li>Required by POSIX utilities for tool dependent purposes such as 
+    indicating that a symlink is not to be followed<i>.</i></li>
+    <li>Required by some programs to distinguish directory pathnames that are to 
+    be handled in some special way.</li>
+    <li>Recommend by some coding guidelines to clearly distinguish directory 
+    names from non-directory file names.</li>
+    <li>Used occasionally to ensure that an error 
+    is reported rather than a file overwritten if  a 
+    regular file pathname is passed mistakenly as an argument when  a directory 
+    pathname was intended.</li>
+  </ul>
+  <p>&nbsp;&mdash;<i>end note</i>]</p></ins>
+</blockquote>
+
+<p><span style="background-color: #FFFF99">Beman supplied the above wording. It 
+needs careful review by others.</span></p>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
@@ -398,8 +259,6 @@ Status: Reject</h4>
 <p>Resolved by <a href="#US74">US-74/CA-3</a></p>
 </blockquote>
 
-    <font FACE="LMRoman10-Regular">
-
 <h4><a name="US52">US 52</a>; 27.10.8.4.5 [path.modifiers] ¶5: <code>remove_filename()</code> postcondition is not by itself a definition<br>
 Status: Accept with modifications</h4>
 <blockquote>
@@ -407,14 +266,24 @@ Status: Accept with modifications</h4>
 <p>Also see LWG
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a>.</p>
 <p>
-<i>Change 27.10.8.4.5 [path.modifiers] ¶5:</i> </p>
+<i>Change 27.10.8.4.5 [path.modifiers]:</i> </p>
 <blockquote>
- <p>
+ <pre>path&amp; remove_filename();</pre>
+ <blockquote>
+   <p>
  <del><i>Postcondition:</i><code>!has_filename()</code>.</del> </p>
  <p> <ins><i>Effects:</i> 
  If <code>has_filename()</code> then remove the minimum number of trailing 
  characters from generic format pathname such that there is one less element in
  <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
+ <p><i>Returns:</i> <code>*this</code>.</p>
+ <p>[ <i>Example:</i></p>
+   <blockquote>
+<pre>std::cout &lt;&lt; path(&quot;/foo&quot;).remove_filename(); // outputs &quot;/&quot;
+std::cout &lt;&lt; path(&quot;/&quot;).remove_filename();    // outputs &quot;<font FACE="LMRoman10-Regular"><code><ins>/</ins></code></font>&quot;</pre>
+   </blockquote>
+   <p>—<i>end example</i> ]</p>
+ </blockquote>
 </blockquote>
 </blockquote>
 
@@ -423,7 +292,7 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>As a consequence of the US-52 and US-60 fixes, the name now corresponds to 
+<p>As a consequence of the <a href="#US52">US-52</a> and <a href="#US60">US-60</a> fixes, the name now corresponds to 
 the behavior.</p>
 
 </blockquote>
@@ -433,23 +302,54 @@ the behavior.</p>
 
 <blockquote>
 
-<p><i>Change 27.10.8.4.5 [path.modifiers] ¶7:</i></p>
-
-  <blockquote>
-
-</font>
+<p>See <a href="#US52">US-52</a> and <a href="#US60">US-60</a> fixes.</p>
 
 <p>
+<i>Change 27.10.8.4.5 [path.modifiers]:</i></p>
 
-    <font FACE="LMRoman10-Regular">
+  <blockquote>
+    <pre>path&amp; replace_filename(const path&amp; replacement);</pre>
+    <p><i>Effects:</i> Equivalent to:</p>
+    <blockquote>
+      <pre><ins>if (has_filename()) {</ins>
+  remove_filename();
+  operator/=(replacement);
+<ins>}</ins></pre>
+    </blockquote>
+    <p><i>Returns:</i> <code>*this</code>.</p>
 
-[ Example:<br>
-<code>std::cout &lt;&lt; path(&quot;/foo&quot;).remove_filename(); // outputs &quot;/&quot;<br>
-std::cout &lt;&lt; path(&quot;/&quot;).remove_filename();&nbsp;&nbsp;&nbsp; // outputs &quot;<ins>/</ins>&quot;<br>
-</code>—end example ]</p>
+<p>[ <i>Example:</i></p>
+
+    <blockquote>
+      <div dir="ltr">
+      <pre><ins>std::cout &lt;&lt; path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;);  // outputs &quot;/bar&quot;</ins>
+std::cout &lt;&lt; path(&quot;/&quot;).replace_filename(&quot;bar&quot;);     // outputs &quot;<del>bar</del>&quot;</pre>
+      </div>
+    </blockquote>
+
+<p><i>—end example</i> ]</p>
 
   </blockquote>
+
+<p><i>Change 27.10.12.2 [directory_entry.mods]:</i></p>
+
+  <blockquote>
+    <pre>void replace_filename(const path&amp; p);</pre>
+    <blockquote>
+
+<p><i>Postconditions:</i> <code>path() == <del>x.parent_path() / p</del> <ins>x.replace_filename(p)</ins></code> where <code>
+x</code> is the value of <code>path()</code> before the function
+is called.</p>
+
+    </blockquote>
 </blockquote>
+
+<p><span style="background-color: #FFFF99">SG 
+needs to review Beman&#39;s wording above</span></p>
+
+</blockquote>
+
+    <font FACE="LMRoman10-Regular">
 
 <h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
 </code>Status: Accept with modifications</h4>
@@ -535,7 +435,7 @@ slash</i> characters are present.</p>
 
 <p>Not acceptable 
 because a slash is semantically ambiguous; it is already used to indicate a 
-root, so also using it to indicate a directory path would be a trap all to easy 
+root, so also using it to indicate a directory path would be a trap all too easy 
 to fall into.</p>
 
 </blockquote>
@@ -777,20 +677,10 @@ directory-separator </i>character.</p>
 </blockquote>
 
 <h4><a name="US49">US 49</a>; 27.10.8.2.2 [path.type.cvt]: What does “method of conversion method” mean?<br>
-Status: Accept with modifications</h4>
+Status: Editorial</h4>
 <blockquote>
 
-<p><i>Change 27.10.8.2.2 [path.type.cvt]:</i></p>
-
-  <blockquote>
-    <ul>
-      <li><i>¶1.2:</i> method of conversion <del>method</del> is unspecified</li>
-      <li><i>¶1.3:</i> method of conversion <del>method</del> is unspecified</li>
-      <li><i>¶1.4:</i> method of conversion <del>method</del> is unspecified</li>
-    </ul>
-  </blockquote>
-<p><span style="background-color: #FFFF99">Check the post-Issaquah working 
-paper. This may have already been fixed as editorial.</span></p>
+<p>Fixed in the post-Issaquah working paper.</p>
 </blockquote>
 
 <font FACE="LMRoman10-Regular">
@@ -884,7 +774,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 </blockquote>
 
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
-</code>Status: Accept with revisions</h4>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
 
@@ -1007,7 +897,7 @@ needs to review Beman&#39;s wording above</span></h4>
 </blockquote>
 
 <h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶13 (was ¶11): It is important that <code>stem()+extension()==filename()<br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+</code>Status: Reject</h4>
 
 <blockquote>
 
@@ -1018,42 +908,26 @@ the question becomes "Should we make that part of the note normative?"</p>
 what is already specified behavior, and saying the same normative thing twice is 
 not good standardese. No proposed wording. </p>
 
-<p><span style="background-color: #FFFF99">Review notes, and result of the LEWG 
-vote.</span></p>
-
 </blockquote>
 
 <h4><a name="US63">US 63</a>; 27.10.8.4.11 [path.gen] ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory<code><br>
-</code>Status: Accept with modifications</h4>
+</code>Status: Reject</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF99">Need proposed wording for the <i>Proposed change</i> "Append the /. in all cases known to name directories (if it is in fact necessary)".</span></p>
-
-<p><i>Change 27.10.8.4.11 [path.gen]:</i></p>
+<p>See <a href="#US37">US-37</a> and the <a href="#path.gen">change to 
+[path.gen]</a> in <a href="#US74">US-74/CA-3</a>.</p>
 
 <blockquote>
-
-<p><code>path lexically_normal() const;</code></p>
 
   <blockquote>
 
-<p><i>Returns:</i> <code>*this</code> in normal form (27.10.4.12).</p>
-
-<p>[ <i>Example:</i><br>
-<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
-&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/.///bar/../&quot;).lexically_normal() == &quot;foo/.&quot;);<br>
-</code><br>
-The above assertions will succeed. The second example ends with a current 
-directory (dot) element appended to support operating systems that use different 
-syntax for directory names and regular file names.</p>
-
-<p>On Windows, the returned path’s directory-separator characters will be 
-backslashes rather than slashes, but that does not affect path equality. —<i>end 
-example</i> ]</p>
+<p>&nbsp;</p>
 
   </blockquote>
 </blockquote>
+
+<h4><span style="background-color: #FFFF99">SG needs to review</span> </h4>
 
 </blockquote>
 
@@ -1119,7 +993,7 @@ Status: Accept with modifications</h4>
 Status: Accept with modifications</h4>
 
 <p><span style="background-color: #FFFF99">SG needs to review the Proposed 
-resolution wording below for US-74/CA-3.</span></p>
+resolution wording below from Davis for US-74/CA-3.</span></p>
 
 <p><b>Discussion: </b></p>
 <p>Many operations on <code>filesystem::path</code> are defined in terms of its 
@@ -1499,25 +1373,39 @@ of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
     the first <i>filename</i> after <i>root-path</i>. Otherwise, <code>path()</code>.</p>
   </blockquote>
   <p>...</p>
-<p><i><span style="background-color: #E1E9FD">[SG note: the new definition of 
-filename() needs to refer to the generic format.] </span></i></p>
+  <pre>path filename() const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <ins><code>relative_path().</ins>empty() ? path() : *--end()</code>.</p>
+    <p>[ <i>Example:</i></p>
+    <blockquote>
+      <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).filename(); // outputs &quot;bar.txt&quot;
+<ins>std::cout &lt;&lt; path(&quot;/foo/bar&quot;).filename();     // outputs &quot;bar&quot;</ins>
+<ins>std::cout &lt;&lt; path(&quot;/foo/bar/&quot;).filename();    // outputs &quot;&quot;</ins>
+std::cout &lt;&lt; path(&quot;/&quot;).filename();            // outputs &quot;<del>/</del>&quot;
+<ins>std::cout &lt;&lt; path(&quot;//host&quot;).filename();       // outputs &quot;&quot;</ins>
+std::cout &lt;&lt; path(&quot;.&quot;).filename();            // outputs &quot;.&quot;
+std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;..&quot;</pre>
+    </blockquote>
+    <p>—<i>end example</i> ]</p>
+  </blockquote>
   <pre>path stem() const;</pre>
   <blockquote>
-  <p><ins><i>Returns:</i> Let <code>f</code> be the generic format pathname for 
-  <code>filename()</code>. Returns a 
-  path whose generic format pathname is </ins></p>
-  <blockquote>
-  <p><ins>- <code>f</code>, if it contains no periods or consists solely of one or two periods;</ins>
-  </p>
-  <p><ins>- otherwise, the prefix of <code>f</code> ending before its last period.</ins> </p>
-  </blockquote>
-  <p><i><span style="background-color: #E1E9FD">[SG 
-  note: we intend to change this paragraph to not count the first character as a 
-  period.]</span></i><span style="background-color: #E1E9FD"> </span></p>
     <p><del><i>Returns:</i> if <code>filename()</code> contains a period but does not consist 
     solely of one or two periods, returns the substring of <code>filename()</code> starting 
     at its beginning and ending with the character before the last period. 
     Otherwise, returns <code>filename()</code>.</del></p>
+  <p><ins><i>Returns:</i> Let <code>f</code> be the generic format pathname for 
+  <code>filename()</code>. Returns a 
+  path whose generic format pathname is </ins></p>
+  <blockquote>
+  <p><ins>- <code>f</code>, if it contains no periods other than a leading 
+  period or consists solely of one or two periods;</ins>
+  </p>
+  <p><ins>- otherwise, the prefix of <code>f</code> ending before its last period.</ins> </p>
+  </blockquote>
+  <p><i><span style="background-color: #FFFF99">[SG 
+  note: Beman inserted &quot;other than a leading period&quot; to reflect LEWG guidance 
+  from Issaquah.]</span></i><span style="background-color: #FFFF99"> </span></p>
 <p>[ Example:</p>
     <blockquote>
       <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).stem(); // outputs &quot;bar&quot;
@@ -1569,13 +1457,26 @@ false.</p>
 operating systems, and false for Windows-based operating systems. —end example ]</p>
   </blockquote>
 </blockquote>
-<p><i>Change [path.gen]:</i></p>
+<p><i>Change [<a name="path.gen">path.gen</a>]:</i></p>
 <blockquote>
   <pre>path lexically_normal() const;</pre>
   <blockquote>
 <p><i>Returns: </i><ins>a path whose generic format pathname is the normal form 
 ([fs.def.normal.form]) of the generic format pathname of <code>*this</code></ins><i>
 </i><del><code>*this</code> in normal form ([fs.def.normal.form])</del>.</p>
+
+<p>[ <i>Example:</i><br>
+<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
+&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/.///bar/../&quot;).lexically_normal() == &quot;foo/<del>.</del>&quot;);<br>
+</code><br>
+The above assertions will succeed. <del>The second example ends with a current 
+directory (dot) element appended to support operating systems that use different 
+syntax for directory names and regular file names.</del></p>
+
+<p>On Windows, the returned path’s directory-separator characters will be 
+backslashes rather than slashes, but that does not affect path equality. —<i>end 
+example</i> ]</p>
+
   </blockquote>
 </blockquote>
 <p><i>Change [path.itr]:</i></p>
@@ -1908,20 +1809,13 @@ LWG/LEWG give it priority 1 in Kona.</span></p>
 <h4><a name="Late41">Late 41</a>; 27.10.15.31 ¶3: Would be useful for <code>remove_all()</code> to report successful removal count on error</h4>
 
 <h4><a name="Late42">Late 42</a>; 27.10.15.33 ¶1: <code>resize_file()</code> <i>Postcondition</i> missing argument<br>
-Status: Accept with modifications</h4>
+Status: Editorial</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF99">Check the post-Issaquah working 
-paper. This may have already been fixed as editorial.</span></p>
+<p><span style="background-color: #FFFF99">Fixed in the post-Issaquah working 
+paper</span></p>
 
-<p><i>Change 27.10.15.33 [fs.op.resize_file]:</i></p>
-
-  <blockquote>
-
-<p><i>Postcondition</i>: <code>file_size(<ins>p</ins>) == new_size</code>.</p>
-
-  </blockquote>
 </blockquote>
 
 <h4><a name="Late43">Late 43</a>; 27.10.15.33 ¶3: Add POSIX <code>ftruncate()</code> equivalent function</h4>
