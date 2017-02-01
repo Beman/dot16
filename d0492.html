@@ -194,32 +194,31 @@ called <i>normalization</i>. [ <i>Note:</i> The rule that appends a current
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. <i>—end note</i> ]</del></p>
 
-<ins><p>A pathname is in normal form if the generic format pathname is empty or if 
-the following transformations have been applied:</p>
-<ul>
-  <li>Sequences of multiple <i>directory-separator</i>s, except sequences of two 
+<p><ins>A pathname is in normal form if the generic format pathname is empty or if 
+the following transformations have been applied:</ins></p>
+<ul><ins>
+  <li><ins>Sequences of multiple <i>directory-separator</i>s, except sequences of two 
   leading <i>
   directory-separator</i>s, 
-  have been replaced by a single <i>directory-separator.</i></li>
-  <li><i>dot</i> filenames have been removed.</li>
-  <li>All sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i> 
-  have been recursively removed.</li>
-  <li>All <i>slash directory-separator</i>s have been replaced with <i>
-  preferred-separator</i>s.</li>
-  <li>After the above transformations have been applied, if the pathname is 
+  have been replaced by a single <i>directory-separator.</i></ins></li>
+  <li><ins><i>dot</i> filenames have been removed.</ins></li>
+  <li><ins>All sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i> 
+  have been recursively removed.</ins></li>
+  <li><ins>All <i>slash directory-separator</i>s have been replaced with <i>
+  preferred-separator</i>s.</ins></li>
+  <li><ins>After the above transformations have been applied, if the pathname is 
   empty a <i>dot</i> filename is inserted. [<i>Note:</i> This ensures a non-empty path 
-  is not changed into an empty path. <i>&mdash;end note</i>]</li>
-  <li>After the above transformations have been applied, if the <i>relative-path</i> 
+  is not changed into an empty path. <i>&mdash;end note</i>]</ins></li>
+  <li><ins>After the above transformations have been applied, if the <i>relative-path</i> 
   portion of the pathname consists solely of a <i>director-separator</i>, a <i>
   dot</i> filename is inserted before the <i>directory-separator</i>. [<i>Note:</i> 
-  This ensures a relative path is not changed into an absolute path. <i>—end note</i>]</li>
+  This ensures a relative path is not changed into an absolute path. <i>—end note</i>]</ins></li></ins>
 </ul>
-  <p>
-A path in normal form is said to be <i>normalized</i>. The 
+  <p><ins>A path in normal form is said to be <i>normalized</i>. The 
 process of obtaining a normalized path from a path that is not in normal form is 
-called <i>normalization</i>.</p>
+called <i>normalization</i>.</ins></p>
 </blockquote>
-</ins>
+
 
 <p><i>Add the following as a new paragraph at the end of [path.generic]:</i></p>
 <blockquote>
@@ -228,24 +227,24 @@ called <i>normalization</i>.</p>
 several other aspects of the class path spec are hard to understand without an 
 understanding of the role of a trailing directory-separator. Yet even experts 
 are often not aware of the following. Thus the note.</span></p>
- <ins><p>[<i>Note:</i> The <i>relative-path</i> portion of a generic format pathname 
-  may end with a <i>directory-separator. </i>Its purpose varies:</p>
+ <p><ins>[<i>Note:</i> The <i>relative-path</i> portion of a generic format pathname 
+  may end with a <i>directory-separator. </i>Its purpose varies:</ins></p>
   <ul>
-    <li>Required to distinguish directory paths from non-directory paths for 
+    <li><ins>Required to distinguish directory paths from non-directory paths for 
     operating systems such as z/OS and OpenVMS where native path syntax for 
-    directories is different from non-directory native path syntax.</li>
-    <li>Required by POSIX utilities for tool dependent purposes such as 
-    indicating that a symlink is not to be followed<i>.</i></li>
-    <li>Required by some programs to distinguish directory pathnames that are to 
-    be handled in some special way.</li>
-    <li>Recommend by some coding guidelines to clearly distinguish directory 
-    names from non-directory file names.</li>
-    <li>Used occasionally to ensure that an error 
+    directories is different from non-directory native path syntax.</ins></li>
+    <li><ins>Required by POSIX utilities for tool dependent purposes such as 
+    indicating that a symlink is not to be followed<i>.</i></ins></li>
+    <li><ins>Required by some programs to distinguish directory pathnames that are to 
+    be handled in some special way.</ins></li>
+    <li><ins>Recommend by some coding guidelines to clearly distinguish directory 
+    names from non-directory file names.</ins></li>
+    <li><ins>Used occasionally to ensure that an error 
     is reported rather than a file overwritten if  a 
     regular file pathname is passed mistakenly as an argument when  a directory 
-    pathname was intended.</li>
+    pathname was intended.</ins></li>
   </ul>
-  <p>&nbsp;&mdash;<i>end note</i>]</p></ins>
+  <p><ins>&nbsp;&mdash;<i>end note</i>]</ins></p>
 </blockquote>
 
 <p><span style="background-color: #FFFF99">Beman supplied the above wording. It 
