@@ -1792,7 +1792,6 @@ synopsis [fs.filesystem.syn]:</i></p>
 <h4><a name="Late37">Late 37</a>; 27.10.15.26 ¶2:<code>permissions()</code> actions should be separate parameter<br>
 Status: Accept with modifications</h4>
 
-</font>
 
 <blockquote>
 
@@ -1800,9 +1799,6 @@ Status: Accept with modifications</h4>
 Matt Austern pointed this out, with the same suggested fix, prior to the TS. It 
 got dropped on the floor in the TS shipping rush and has never been fixed. Its 
 an embarrassment that needs fixing before shipping C++17.</span></p>  
-
-<font FACE="LMRoman10-Regular">
-
 <p><i>Change [fs.filesystem.syn]:</i></p>
 <blockquote>
   <pre>// 27.10.10, enumerations
@@ -1822,36 +1818,36 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec);
 
   <p><b><i><ins>27.10.n.n </i>Enum class <code>perm_options </code>[enum.perm_options]</b></ins></p>
 
-  <p>The <code>enum class</code> type <code>perm_options</code> is 
+  <p><ins>The <code>enum class</code> type <code>perm_options</code> is 
   a bitmask type (bitmask.types) that specifies bitmask constants used to 
-  control the semantics of permissions operations.</p>
-  <p align="center">Table <i>nnn</i> &mdash; Enum class <code>perm_options</code></p>
+  control the semantics of permissions operations.</ins></p>
+  <p align="center"><ins>Table <i>nnn</i> &mdash; Enum class <code>perm_options</code></ins></p>
   <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
     <tr>
-      <td><b>Name</b></td>
-      <td><b>Meaning</b></td>
+      <td bgcolor="#CCFFCC"><b>Name</b></td>
+      <td bgcolor="#CCFFCC"><b>Meaning</b></td>
     </tr>
     <tr>
-      <td><code>replace</code></td>
-      <td>(Default) <code>permissions()</code> shall replace the file's  permission bits with the <code>perm</code> argument’s permission bits.</td>
+      <td bgcolor="#CCFFCC"><code>replace</code></td>
+      <td bgcolor="#CCFFCC">(Default) <code>permissions()</code> shall replace the file's  permission bits with the <code>perm</code> argument’s permission bits.</td>
     </tr>
     <tr>
-      <td><code>add</code></td>
-      <td>
+      <td bgcolor="#CCFFCC"><code>add</code></td>
+      <td bgcolor="#CCFFCC">
       <p dir="ltr"><code>permissions()</code> shall bitwise <i>or</i> the <code>
       perm</code> argument’s permission bits to the file’s current permission 
       bits.</td>
     </tr>
     <tr>
-      <td><code>remove</code></td>
-      <td>
+      <td bgcolor="#CCFFCC"><code>remove</code></td>
+      <td bgcolor="#CCFFCC">
       <p dir="ltr"><code>permissions()</code> shall bitwise <i>and</i> the 
       complement of the <code>perm</code> argument’s permission bits to the 
       file’s current permission bits.</td>
     </tr>
     <tr>
-      <td><code>nofollow</code></td>
-      <td><code>permissions()</code> shall change the permissions of a symbolic 
+      <td bgcolor="#CCFFCC"><code>nofollow</code></td>
+      <td bgcolor="#CCFFCC"><code>permissions()</code> shall change the permissions of a symbolic 
       link itself rather than the permissions of the file the link resolves to. <code>nofollow</code> 
       is a bit-mask value.</td>
     </tr>
