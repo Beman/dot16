@@ -15,45 +15,45 @@
 <body>
 <table>
 <tr>
-  <td align="left">Doc. no.:</td>
-  <td align="left"><span style="background-color: #FFFF99">D0492R1</span></td>
+  <td>Doc. no.:</td>
+  <td><span style="background-color: #FFFF99">D0492R1</span></td>
 </tr>
 <tr>
-  <td align="left">Date:</td>
-  <td align="left">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-01<!--webbot bot="Timestamp" endspan i-checksum="12144" --></td>
+  <td>Date:</td>
+  <td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-02<!--webbot bot="Timestamp" endspan i-checksum="12146" --></td>
 </tr>
 <tr>
-  <td align="left">Reply to:</td>
-  <td align="left">Beman Dawes &lt;bdawes at acm dot org&gt;
+  <td>Reply to:</td>
+  <td>Beman Dawes &lt;bdawes at acm dot org&gt;
 </tr>
 <tr>
-  <td align="left">&nbsp;</td>
-  <td align="left">S. Davis Herring &lt;herring at lanl dot gov&gt;</td>
+  <td>&nbsp;</td>
+  <td>S. Davis Herring &lt;herring at lanl dot gov&gt;</td>
 </tr>
 <tr>
-  <td align="left">&nbsp;</td>
-  <td align="left">Nicolai Josuttis &lt;nico at josuttis dot de&gt;</td>
+  <td>&nbsp;</td>
+  <td>Nicolai Josuttis &lt;nico at josuttis dot de&gt;</td>
 </tr>
 <tr>
-  <td align="left">&nbsp;</td>
-  <td align="left">Jason Liu &lt;jasonliu dot development at gmail dot com&gt;</td>
+  <td>&nbsp;</td>
+  <td>Jason Liu &lt;jasonliu dot development at gmail dot com&gt;</td>
 </tr>
 <tr>
-  <td align="left">&nbsp;</td>
-  <td align="left">Billy O&#39;Neal &lt;bion at microsoft dot com&gt;</td>
+  <td>&nbsp;</td>
+  <td>Billy O&#39;Neal &lt;bion at microsoft dot com&gt;</td>
 </tr>
 <tr>
-  <td align="left">&nbsp;</td>
-  <td align="left">P.J. Plauger &lt;pjp at dinkumware dot com&gt;</td>
+  <td>&nbsp;</td>
+  <td>P.J. Plauger &lt;pjp at dinkumware dot com&gt;</td>
 </tr>
 <tr>
-  <td align="left">&nbsp;</td>
-  <td align="left">Jonathan Wakely &lt;cxx at kayari dot org&gt;</td>
+  <td>&nbsp;</td>
+  <td>Jonathan Wakely &lt;cxx at kayari dot org&gt;</td>
 </tr>
 <tr>
-  <td align="left">Audience:</td>
-  <td align="left">Library</td>
+  <td>Audience:</td>
+  <td>Library</td>
 </tr>
 </table>
 
@@ -372,25 +372,25 @@ path() : *--end()</code>.</p>
   <blockquote>
 
 <font FACE="LMRoman7-Regular" SIZE="1">
-<p ALIGN="LEFT">4 </font><font FACE="LMRoman10-Regular">For the 
+<p>4 </font><font FACE="LMRoman10-Regular">For the 
 elements of </font><font FACE="LMMono10-Regular">pathname </font>
 <font FACE="LMRoman10-Regular">in the generic format, the forward 
 traversal order is as follows:</p>
 </font><font FACE="LMRoman7-Regular" SIZE="1">
-<p ALIGN="LEFT">(4.1) </font><font FACE="LMRoman10-Regular">— The
+<p>(4.1) </font><font FACE="LMRoman10-Regular">— The
 </font><font FACE="LMRoman10-Italic"><i>root-name </i></font>
 <font FACE="LMRoman10-Regular">element, if present.</p>
 </font><font FACE="LMRoman7-Regular" SIZE="1">
-<p ALIGN="LEFT">(4.2) </font><font FACE="LMRoman10-Regular">— The
+<p>(4.2) </font><font FACE="LMRoman10-Regular">— The
 </font><font FACE="LMRoman10-Italic"><i>root-directory </i></font>
 <font FACE="LMRoman10-Regular">element, if present. [</font><font FACE="LMRoman10-Italic"><i>Note:
 </i></font><font FACE="LMRoman10-Regular">the generic format is 
 required to ensure lexicographical</p>
-<p ALIGN="LEFT">comparison works correctly. </font>
+<p>comparison works correctly. </font>
 <font FACE="LMRoman10-Italic"><i>—end note </i></font>
 <font FACE="LMRoman10-Regular">]</p>
 </font><font FACE="LMRoman7-Regular" SIZE="1">
-<p ALIGN="LEFT">(4.3) </font><font FACE="LMRoman10-Regular">— Each 
+<p>(4.3) </font><font FACE="LMRoman10-Regular">— Each 
 successive </font><font FACE="LMRoman10-Italic"><i>filename </i></font>
 <font FACE="LMRoman10-Regular">element, if present.</p>
 </font><font FACE="LMRoman7-Regular" SIZE="1">
@@ -1789,14 +1789,108 @@ synopsis [fs.filesystem.syn]:</i></p>
 
 </blockquote>
 
-<h4><a name="Late37">Late 37</a>; 27.10.15.26 ¶2:<code>permissions()</code> actions should be separate parameter</h4>
+<h4><a name="Late37">Late 37</a>; 27.10.15.26 ¶2:<code>permissions()</code> actions should be separate parameter<br>
+Status: Accept with modifications</h4>
+
+</font>
 
 <blockquote>
 
-<p>Matt Austern pointed out this issue and its fix for the TS, but it got dropped on the floor in 
-the TS shipping rush and has never been fixed. We should probably fix it now or never.&nbsp;
-<span style="background-color: #FFFF99">Beman will propose wording, and ask the 
-LWG/LEWG give it priority 1 in Kona.</span></p>  
+<p><span style="font-style: italic; background-color: #E1E9FD">Beman comments: 
+Matt Austern pointed this out, with the same suggested fix, prior to the TS. It 
+got dropped on the floor in the TS shipping rush and has never been fixed. Its 
+an embarrassment that needs fixing before shipping C++17.</span></p>  
+
+<font FACE="LMRoman10-Regular">
+
+<p><i>Change [fs.filesystem.syn]:</i></p>
+<blockquote>
+  <pre>// 27.10.10, enumerations
+enum class file_type;
+enum class perms;
+<ins>enum class perm_options;</ins>
+enum class copy_options;
+enum class directory_options;</pre>
+<p>...</p>
+  <pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_options::replace</ins>);
+void permissions(const path&amp; p, perms prms, error_code&amp; ec);
+<ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
+</blockquote>
+
+  <p><i>Insert a new sub-section after [enum.perms]:</i></p>
+<blockquote>
+
+  <p><b><i><ins>27.10.n.n </i>Enum class <code>perm_options </code>[enum.perm_options]</b></ins></p>
+
+  <p>The <code>enum class</code> type <code>perm_options</code> is 
+  a bitmask type (bitmask.types) that specifies bitmask constants used to 
+  control the semantics of permissions operations.</p>
+  <p align="center">Table <i>nnn</i> &mdash; Enum class <code>perm_options</code></p>
+  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
+    <tr>
+      <td><b>Name</b></td>
+      <td><b>Meaning</b></td>
+    </tr>
+    <tr>
+      <td><code>replace</code></td>
+      <td>(Default) <code>permissions()</code> shall replace the file's  permission bits with the <code>perm</code> argument’s permission bits.</td>
+    </tr>
+    <tr>
+      <td><code>add</code></td>
+      <td>
+      <p dir="ltr"><code>permissions()</code> shall bitwise <i>or</i> the <code>
+      perm</code> argument’s permission bits to the file’s current permission 
+      bits.</td>
+    </tr>
+    <tr>
+      <td><code>remove</code></td>
+      <td>
+      <p dir="ltr"><code>permissions()</code> shall bitwise <i>and</i> the 
+      complement of the <code>perm</code> argument’s permission bits to the 
+      file’s current permission bits.</td>
+    </tr>
+    <tr>
+      <td><code>nofollow</code></td>
+      <td><code>permissions()</code> shall change the permissions of a symbolic 
+      link itself rather than the permissions of the file the link resolves to. <code>nofollow</code> 
+      is a bit-mask value.</td>
+    </tr>
+  </table>
+</blockquote>
+
+<p><i>Change [fs.op.permissions]:</i></p>
+<blockquote>
+<pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_opts::replace</ins>);
+void permissions(const path&amp; p, perms prms, error_code&amp; ec);
+<ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
+<blockquote>
+  <p><i>Requires:</i> <del><code>!((prms &amp; perms::add_perms) != perms::none &amp;&amp; (prms 
+  &amp; perms::remove_perms) != perms::none)</code>.</del> <ins>One and 
+  only one of the <code>perm_options</code> constants <code>replace</code>,
+  <code>add</code>, or <code>remove</code> is present in <code>opts</code>.</ins></p>
+  <p><ins><i>Remarks:</i> The second signature behaves as if it had an additional 
+  argument&nbsp; <code>perm_options opts</code> with a value of <code>
+  perm_options::replace</code>.</ins></p>
+  <p><del><i>Effects:</i> Applies the effective permissions bits from <code>prms</code> 
+  to the file <code>p</code> resolves to, or if that file is a symbolic link and
+  <code>symlink_nofollow</code> is not set in <code>prms</code>, the file that 
+  it points to, as if by POSIX <code>fchmodat()</code>. The effective permission 
+  bits are determined as specified in Table 127, where <code>s</code> is the 
+  result of <code>(prms &amp; perms::symlink_nofollow) != perms::none ? 
+  symlink_status(p) : status(p)</code>.</del></p>
+  <p><ins><i>Effects:</i> Applies the action specified by <code>opts</code> 
+  to the file <code>p</code> resolves to, or to file <code>p</code> itself if <code>p</code> is a symbolic link and
+  <code>perm_options::nofollow</code> is set in <code>opts</code>. The action is 
+  applied as if by POSIX <code>fchmodat()</code>.</ins></p>
+  <p>[ <i>Note:</i> Conceptually permissions are viewed as bits, but the actual 
+  implementation may use some other mechanism. <i>—end note</i> ]</p>
+  <p><i>Throws:</i> As specified in 27.10.7.</p>
+</blockquote>
+
+  </blockquote>
+
+<p><span style="background-color: #FFFF99">The SG needs to review Beman&#39;s 
+wording above.</span></p>  
 
 </blockquote>
 

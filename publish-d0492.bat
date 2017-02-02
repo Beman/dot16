@@ -1,5 +1,5 @@
 @echo off
-copy /y p0492-cpp17-filesystem-nb-comments.html ..\dot16-gh-pages\d0492.html
+copy /y p0492.html ..\dot16-gh-pages\d0492.html
 pushd ..\dot16-gh-pages
 call git commit -a -m "auto commit"
 call git push origin gh-pages
