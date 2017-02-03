@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-02<!--webbot bot="Timestamp" endspan i-checksum="12146" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-03<!--webbot bot="Timestamp" endspan i-checksum="12148" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -194,8 +194,9 @@ called <i>normalization</i>. [ <i>Note:</i> The rule that appends a current
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. <i>—end note</i> ]</del></p>
 
-<p><ins>A pathname is in normal form if the generic format pathname is empty or if 
-the following transformations have been applied:</ins></p>
+<p><ins>A pathname is in normal form if the generic format pathname is empty or 
+is in the form that results from applying 
+the following transformations:</ins></p>
 <ul><ins>
   <li><ins>Sequences of multiple <i>directory-separator</i>s, except sequences of two 
   leading <i>
@@ -220,29 +221,29 @@ called <i>normalization</i>.</ins></p>
 </blockquote>
 
 
-<p><i>Add the following as a new paragraph at the end of [path.generic]:</i></p>
+<p><i>Add the following note as a new paragraph at the end of [path.generic]:</i></p>
 <blockquote>
 
 <p><span style="font-style: italic; background-color: #E1E9FD">Normal form and 
 several other aspects of the class path spec are hard to understand without an 
 understanding of the role of a trailing directory-separator. Yet even experts 
-are often not aware of the following. Thus the note.</span></p>
+are  not always aware of the following. Thus the added note.</span></p>
  <p><ins>[<i>Note:</i> The <i>relative-path</i> portion of a generic format pathname 
-  may end with a <i>directory-separator. </i>Its purpose varies:</ins></p>
+  may end with a <i>directory-separator. </i>Its use varies:</ins></p>
   <ul>
-    <li><ins>Required to distinguish directory paths from non-directory paths for 
-    operating systems such as z/OS and OpenVMS where native path syntax for 
-    directories is different from non-directory native path syntax.</ins></li>
+    <li><ins>Required for operating systems such as z/OS and OpenVMS where 
+    native path syntax for directories is different from non-directory native 
+    path syntax, and thus directory paths must be lexically distinguished from 
+    non-directory paths.</ins></li>
     <li><ins>Required by POSIX utilities for tool dependent purposes such as 
     indicating that a symlink is not to be followed<i>.</i></ins></li>
     <li><ins>Required by some programs to distinguish directory pathnames that are to 
     be handled in some special way.</ins></li>
-    <li><ins>Recommend by some coding guidelines to clearly distinguish directory 
-    names from non-directory file names.</ins></li>
-    <li><ins>Used occasionally to ensure that an error 
-    is reported rather than a file overwritten if  a 
-    regular file pathname is passed mistakenly as an argument when  a directory 
-    pathname was intended.</ins></li>
+    <li><ins>Recommended by some coding guidelines to clearly distinguish directory 
+    names from non-directory names.</ins></li>
+    <li><ins>Recommended occasionally to ensure that an error is reported rather 
+    than a file overwritten if a regular file pathname is passed mistakenly as 
+    an argument when a directory pathname was intended.</ins></li>
   </ul>
   <p><ins>&nbsp;&mdash;<i>end note</i>]</ins></p>
 </blockquote>
