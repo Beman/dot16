@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-03<!--webbot bot="Timestamp" endspan i-checksum="12148" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-04<!--webbot bot="Timestamp" endspan i-checksum="12150" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -588,22 +588,32 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>&nbsp;No proposed wording.  </p>
-
-<p>The SG also detected a problem with conversions that fail, and a need that 
-directory-separator detection occur at the code-unit level. 
-<span style="background-color: #FFFF99">Billy O&#39;Neal and 
-Jonathan </span><span style="background-color: #FFFF99">Wakely</span><span style="background-color: #FFFF99"> will provide issue write ups.</span></p>
+<p><span style="background-color: #FFFF99">For conversions that fail, Does Billy 
+or 
+Jonathan still want to provide an issue or propose wording ?</span></p>
 
 <p><i>Change 27.10.5 
 Requirements [fs.req] ¶4:</i></p>
 
   <blockquote>
 
-<p>Note: Use of an encoded character type implies an associated <ins>character set and</ins> encoding.
+<p>[<i>Note:</i> Use of an encoded character type implies an associated <ins>character set and</ins> encoding.
 Since <code>signed char</code> and <code>unsigned char</code> have 
 no implied <ins>character set and</ins> encoding, they are not included as permitted types. 
-—end note ]</p>
+<i>—end note</i> ]</p>
+
+  </blockquote>
+
+<p><i>Add a sentence to 27.10.8.2.2 path type and encoding conversions [path.type.cvt]:</i></p>
+
+  <blockquote>
+
+<p>If the encoding being converted to has no representation for source 
+characters, the resulting converted characters, if any, are unspecified. 
+<ins>Implementations are strongly encouraged  not to mutate member function arguments 
+if already of type <code>path::value_type</code>.</ins>
+<span style="background-color: #FFFF99">Billy O&#39;Neal suggested this addition; it 
+has not been review by the small group.</span></p>
 
   </blockquote>
 
@@ -726,10 +736,7 @@ Status: Reject</h4>
 
 <blockquote>
 
-<p>Insufficient motivation for change.&nbsp; 
-<span style="background-color: #FFFF99">Billy O&#39;Neal 
-will open an issue for an unrelated concern discovered while processing this 
-comment.</span> <span style="background-color: #FFFF99">See LWG nnnn</span>.</p>
+<p>Insufficient motivation for change.</p>
 
 </blockquote>
 
