@@ -148,7 +148,7 @@ P0492R0</a> Post-Issaquah mailing</h3>
 that remains to be done, who is planning to do that work, or wording that 
 requires specially careful review by the LWG. If the note applies to proposed 
 changes to the working paper, the changes may not yet ready to be voted into the 
-C++17 working paper..</span><p><span style="font-style: italic; background-color: #E1E9FD">
+C++17 working paper.</span><p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
 the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
 removed from the WP.</del><p><ins>Text 
@@ -455,36 +455,28 @@ different syntax for directory names and regular file names. <i>—end note</i> 
 
 <hr>
 
-<p><span style="font-style: italic; background-color: #FFFF99">Option A</span></p>
+<p><span style="font-style: italic; background-color: #FFFF99">
+<a name="option-a">Option A</a></span></p>
 
-<p><ins>The generic format pathname is empty or is in the form that results from 
-applying the following transformations:</ins></p>
-<ul><ins>
-  <li><ins>Sequences of multiple <i>directory-separator</i>s, except sequences of two 
-  leading <i>
-  directory-separator</i>s, 
-  have been replaced by a single <i>directory-separator.<br>
-&nbsp;</i></ins></li>
-  <li><ins><i>dot</i> filenames have been removed.<br>
+<p><ins>A generic format pathname is in normal form if empty or has:</ins></p>
+<ul>
+  <li><ins>Only single <i>directory-separator</i> sequences or a leading sequence of two <i>
+  directory-separator</i>s.<br>
+</ins>&nbsp;</li>
+  <li><ins>No <i>dot</i> filenames except:</ins><ul>
+  <li><ins>if the pathname would otherwise be empty, the pathname consists of a
+  <i>dot</i> filename .</ins></li>
+  <li><ins>if the <i>relative-path</i> 
+  portion of the pathname would otherwise consist solely of a <i>director-separator, 
+  the</i> <i>relative-path</i> portion of the pathname consists of a <i>dot</i> 
+  filename followed by a <i>preferred-separator</i>.<br>
 &nbsp;</ins></li>
-  <li><ins>All sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i> 
-  have been recursively removed.<br>
+</ul>
+  </li>
+  <li><ins>No sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i>, 
+  applied recursively.<br>
 &nbsp;</ins></li>
-  <li><ins>All <i>slash directory-separator</i>s have been replaced with <i>
-  preferred-separator</i>s.<br>
-&nbsp;</ins></li>
-  <li><ins>After the above transformations have been applied, if the pathname is 
-  empty a <i>dot</i> filename is inserted.<br>
-  <br>
-&nbsp;[<i>Note:</i> This ensures a non-empty path 
-  is not changed into an empty path. <i>&mdash;end note</i>]<br>
-&nbsp;</ins></li>
-  <li><ins>After the above transformations have been applied, if the <i>relative-path</i> 
-  portion of the pathname consists solely of a <i>director-separator</i>, a <i>
-  dot</i> filename is inserted before the <i>directory-separator</i>.<br>
-  <br>
-&nbsp;[<i>Note:</i> 
-  This ensures a relative path is not changed into an absolute path. <i>—end note</i>]</ins></li></ins>
+  <li><ins>Only the <i>preferred-separator</i> form of<i> directory-separator</i>s.</ins></li>
 </ul>
   <p><ins>A path in normal form is said to be <i>normalized</i>. The 
 process of obtaining a normalized path from a path that is not in normal form is 
