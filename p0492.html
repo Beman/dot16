@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-04<!--webbot bot="Timestamp" endspan i-checksum="12150" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-06<!--webbot bot="Timestamp" endspan i-checksum="12154" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -67,9 +67,6 @@ P0489R0</a> are also considered.</p>
 
 <p>The proposed resolutions in this paper represent the consensus of the Library 
 Working Group&#39;s Filesystem small group (SG) unless otherwise indicated.</p>
-
-<p><span style="background-color: #FFFF99">This draft is a snapshot of current work in progress. Proposed wording for 
-some NB comments is still being drafted.</span></p>
 
 <p>Proposed wording  is 
 relative to the C++ working paper,
@@ -123,7 +120,7 @@ N4618</a>.</p>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
 <b>
 <a href="#late-comments">Late comments</a></b><br>
-&nbsp;&nbsp;&nbsp; <span style="background-color: #FFFF99">To be supplied</span>
+&nbsp;&nbsp;&nbsp; <span style="background-color: #FFFF99; font-style:italic">To be supplied</span>
 
 <h2>Revision History</h2>
 
@@ -147,9 +144,10 @@ P0492R0</a> Post-Issaquah mailing</h3>
 
 <h2>Markup</h2>
 
-<p><span style="background-color: #FFFF99">SG</span><span style="background-color: #FFFF99"> 
-internal notes to itself. Who does what may change to balance workloads. These 
-will be gone by the final proposal revision.</span><p><span style="font-style: italic; background-color: #E1E9FD">
+<p><span style="font-style: italic; background-color: #FFFF99">Notes about work 
+that remains to be done and who is planning to do that work. If the note applies 
+to proposed changes to the working paper, the changes are not yet ready to be 
+voted into the C++17 working paper..</span><p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
 the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
 removed from the WP.</del><p><ins>Text 
@@ -175,6 +173,261 @@ Status: Accept with modifications</h4>
 
 
 
+<blockquote>
+
+<p><b>Discussion</b></p>
+
+
+
+
+<p>Invariants:</p>
+
+
+
+
+  <ol>
+    <li>An empty path remains empty, a non-empty path remains non-empty.</li>
+    <li>An absolute path remains absolute, a relative path remains relative.</li>
+    <li>The normal form has a trailing <i>directory-separator</i> if and only if 
+    the original path had a trailing <i>directory-separator.</i></li>
+    <li>No redundant <i>dot</i>, <i>dot-dot</i>, or <i>directory-separator</i>s.</li>
+    <li><i>directory-separator</i>s are in the <i>preferred-separator</i> form.</li>
+  </ol>
+
+<p>Desired behavior:</p>
+
+
+
+
+  <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111" height="1101">
+    <tr>
+      <td><b>Case #</b></td>
+      <td><b>Generic<br>
+      format<br>
+      pathname</b></td>
+      <td><b>After<br>
+      normalization</b></td>
+      <td>Nico&#39;s<br>
+      4 Feb<br>
+      email</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td><code>&quot;&quot;</code></td>
+      <td><code>&quot;&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><code>&quot;.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><code>&quot;..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><code>&quot;/&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><code>&quot;//&quot;</code></td>
+      <td><code>&quot;//&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>
+      <p dir="ltr"><code>&quot;/foo&quot;</code></td>
+      <td><code>&quot;/foo&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td><code>&quot;/foo/&quot;</code></td>
+      <td><code>&quot;/foo/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFF99">8</td>
+      <td bgcolor="#FFFF99"><code>&quot;/foo/.&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/foo&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/foo/&quot;</code></td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFF99">9</td>
+      <td bgcolor="#FFFF99"><code>&quot;/foo/bar/..&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/foo&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/foo/&quot;</code></td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td><code>&quot;/foo/..&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td><code>&quot;/.&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFF99">12</td>
+      <td bgcolor="#FFFF99"><code>&quot;/./&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/./&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/&quot;</code></td>
+    </tr>
+    <tr>
+      <td>13</td>
+      <td><code>&quot;/./.&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td bgcolor="#FFFF99">14</td>
+      <td bgcolor="#FFFF99"><code>&quot;/././&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/./&quot;</code></td>
+      <td bgcolor="#FFFF99"><code>&quot;/&quot;</code></td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td><code>&quot;/././.&quot;</code></td>
+      <td><code>&quot;/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td><code>&quot;./&quot;</code></td>
+      <td><code>&quot;./&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>17</td>
+      <td><code>&quot;./.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>18</td>
+      <td><code>&quot;././&quot;</code></td>
+      <td><code>&quot;./&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>19</td>
+      <td><code>&quot;././.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>20</td>
+      <td><code>&quot;./././&quot;</code></td>
+      <td><code>&quot;./&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>21</td>
+      <td><code>&quot;./././.&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>22</td>
+      <td><code>&quot;foo/..&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>23</td>
+      <td><code>&quot;foo/../&quot;</code></td>
+      <td><code>&quot;./&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>24</td>
+      <td><code>&quot;foo/../..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>25 Windows</td>
+      <td><code>&quot;C:bar/..&quot;</code></td>
+      <td><code>&quot;C:.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>26 Windows</td>
+      <td><code>&quot;C:&quot;</code></td>
+      <td><code>&quot;C:&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>27</td>
+      <td><code>&quot;//host/bar/..&quot;</code></td>
+      <td><code>&quot;//host/&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>28</td>
+      <td><code>&quot;//host&quot;</code></td>
+      <td><code>&quot;//host&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>29</td>
+      <td><code>&quot;foo/../foo/..&quot;</code></td>
+      <td><code>&quot;.&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>30</td>
+      <td><code>&quot;foo/../foo/../..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>31</td>
+      <td><code>&quot;../foo/../foo/..&quot;</code></td>
+      <td><code>&quot;..&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>32</td>
+      <td><code>&quot;../.f/../f&quot;</code></td>
+      <td><code>&quot;../f&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>33</td>
+      <td><code>&quot;../f/../.f&quot;</code></td>
+      <td><code>&quot;../.f&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td><code>&quot;.././../.&quot;</code></td>
+      <td><code>&quot;../..&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td>35</td>
+      <td><code>&quot;.././.././&quot;</code></td>
+      <td><code>&quot;../../&quot;</code></td>
+      <td>&nbsp;</td>
+    </tr>
+    </table>
+</blockquote>
+
+
+
+
 </font>
 
 
@@ -193,6 +446,10 @@ process of obtaining a normalized path from a path that is not in normal form is
 called <i>normalization</i>. [ <i>Note:</i> The rule that appends a current 
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. <i>—end note</i> ]</del></p>
+
+<hr>
+
+<p><span style="background-color: #FFFF99">Option A</span></p>
 
 <p><ins>A pathname is in normal form if the generic format pathname is empty or 
 is in the form that results from applying 
@@ -218,7 +475,52 @@ the following transformations:</ins></p>
   <p><ins>A path in normal form is said to be <i>normalized</i>. The 
 process of obtaining a normalized path from a path that is not in normal form is 
 called <i>normalization</i>.</ins></p>
+
+<hr>
+
+<p><span style="background-color: #FFFF99">Option B</span></p>
+
+<p><ins>For a non-empty generic format pathname:</ins></p>
+<ul>
+  <li><ins><i>dot</i> filenames are removed,&nbsp;except when removal would result in an empty pathname or change a relative pathname into 
+  an absolute pathname.<br>
+  <br>
+</ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;./././&quot; </code>
+  is <code>&quot;./&quot;</code> on POSIX —<i>end example</i>]<br>
+</ins>&nbsp;</li>
+  <li><ins>
+  Sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i> are 
+  recursively removed. If that would result in a trailing <i>relative-path</i>&nbsp; <i>
+  directory-separator</i> becoming the first <i>relative-path</i> character, a <i>dot</i> filename is 
+  first inserted at the beginning of 
+  the <i>relative-path</i>.<br>
+  <br>
+</ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;/foo/../&quot;
+  </code>is <code>&quot;/./&quot;</code> on POSIX &mdash;<i>end example</i>]<br>
+</ins>&nbsp;</li>
+  <li><ins>
+  Sequences of multiple <i>directory-separator</i>s, except two 
+  leading <i>
+  directory-separator</i>s, 
+  are replaced by a single <i>preferred-separator.</i><br>
+  <br>
+  </ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;//foo///bar&quot;
+  </code>is <code>&quot;//foo/bar&quot;</code> on POSIX &mdash;<i>end example</i>]<br>
+</ins>&nbsp;</li>
+  <li><ins><i>slash</i> directory-separators are replaced by <i>preferred-separator</i>s.<br>
+  <br>
+  </ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;//foo/bar&quot;
+  </code>is <code>&quot;\\\\foo\\bar&quot;</code> on Windows &mdash;<i>end example</i>]</ins></li>
+</ul>
+  <p><ins>A path in normal form is said to be <i>normalized</i>. The 
+process of obtaining a normalized path from a path that is not in normal form is 
+called <i>normalization</i>.</ins></p>
+
+
 </blockquote>
+
+
+<hr>
 
 
 <p><i>Add the following note as a new paragraph at the end of [path.generic]:</i></p>
@@ -229,7 +531,7 @@ several other aspects of the class path spec are hard to understand without an
 understanding of the role of a trailing directory-separator. Yet even experts 
 are  not always aware of the following. Thus the added note.</span></p>
  <p><ins>[<i>Note:</i> The <i>relative-path</i> portion of a generic format pathname 
-  may end with a <i>directory-separator. </i>Its use varies:</ins></p>
+  may end with a <i>directory-separator. </i>Its use is:</ins></p>
   <ul>
     <li><ins>Required for operating systems such as z/OS and OpenVMS where 
     native path syntax for directories is different from non-directory native 
@@ -249,7 +551,7 @@ are  not always aware of the following. Thus the added note.</span></p>
 </blockquote>
 
 <p><span style="background-color: #FFFF99">Beman supplied the above wording. It 
-needs careful review by others.</span></p>
+needs  review.</span></p>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
