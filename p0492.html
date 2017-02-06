@@ -16,7 +16,7 @@
 <table>
 <tr>
   <td>Doc. no.:</td>
-  <td><span style="background-color: #FFFF99">D0492R1</span></td>
+  <td><span style="background-color: #FFFF99; font-style:italic">D0492R1</span></td>
 </tr>
 <tr>
   <td>Date:</td>
@@ -145,9 +145,10 @@ P0492R0</a> Post-Issaquah mailing</h3>
 <h2>Markup</h2>
 
 <p><span style="font-style: italic; background-color: #FFFF99">Notes about work 
-that remains to be done and who is planning to do that work. If the note applies 
-to proposed changes to the working paper, the changes are not yet ready to be 
-voted into the C++17 working paper..</span><p><span style="font-style: italic; background-color: #E1E9FD">
+that remains to be done, who is planning to do that work, or wording that 
+requires specially careful review by the LWG. If the note applies to proposed 
+changes to the working paper, the changes may not yet ready to be voted into the 
+C++17 working paper..</span><p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
 the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
 removed from the WP.</del><p><ins>Text 
@@ -434,6 +435,11 @@ Status: Accept with modifications</h4>
 
 
 <blockquote>
+<p><i><span style="background-color: #FFFF99">Beman and Nico need to resolve 
+their different suggested normalizations for cases 8, 9, 12, and 14. This is 
+probably just a synchronization issue rather than a controversy. They are in 
+total agreement about invariants and are just trying to settle on the best 
+wording to describe the desired results.</span></i></p>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
 <blockquote>
 <p><b>normal form</b><br>
@@ -449,27 +455,35 @@ different syntax for directory names and regular file names. <i>—end note</i> 
 
 <hr>
 
-<p><span style="background-color: #FFFF99">Option A</span></p>
+<p><span style="font-style: italic; background-color: #FFFF99">Option A</span></p>
 
-<p><ins>A pathname is in normal form if the generic format pathname is empty or 
-is in the form that results from applying 
-the following transformations:</ins></p>
+<p><ins>The generic format pathname is empty or is in the form that results from 
+applying the following transformations:</ins></p>
 <ul><ins>
   <li><ins>Sequences of multiple <i>directory-separator</i>s, except sequences of two 
   leading <i>
   directory-separator</i>s, 
-  have been replaced by a single <i>directory-separator.</i></ins></li>
-  <li><ins><i>dot</i> filenames have been removed.</ins></li>
+  have been replaced by a single <i>directory-separator.<br>
+&nbsp;</i></ins></li>
+  <li><ins><i>dot</i> filenames have been removed.<br>
+&nbsp;</ins></li>
   <li><ins>All sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i> 
-  have been recursively removed.</ins></li>
+  have been recursively removed.<br>
+&nbsp;</ins></li>
   <li><ins>All <i>slash directory-separator</i>s have been replaced with <i>
-  preferred-separator</i>s.</ins></li>
+  preferred-separator</i>s.<br>
+&nbsp;</ins></li>
   <li><ins>After the above transformations have been applied, if the pathname is 
-  empty a <i>dot</i> filename is inserted. [<i>Note:</i> This ensures a non-empty path 
-  is not changed into an empty path. <i>&mdash;end note</i>]</ins></li>
+  empty a <i>dot</i> filename is inserted.<br>
+  <br>
+&nbsp;[<i>Note:</i> This ensures a non-empty path 
+  is not changed into an empty path. <i>&mdash;end note</i>]<br>
+&nbsp;</ins></li>
   <li><ins>After the above transformations have been applied, if the <i>relative-path</i> 
   portion of the pathname consists solely of a <i>director-separator</i>, a <i>
-  dot</i> filename is inserted before the <i>directory-separator</i>. [<i>Note:</i> 
+  dot</i> filename is inserted before the <i>directory-separator</i>.<br>
+  <br>
+&nbsp;[<i>Note:</i> 
   This ensures a relative path is not changed into an absolute path. <i>—end note</i>]</ins></li></ins>
 </ul>
   <p><ins>A path in normal form is said to be <i>normalized</i>. The 
@@ -478,7 +492,7 @@ called <i>normalization</i>.</ins></p>
 
 <hr>
 
-<p><span style="background-color: #FFFF99">Option B</span></p>
+<p><span style="font-style: italic; background-color: #FFFF99">Option B</span></p>
 
 <p><ins>For a non-empty generic format pathname:</ins></p>
 <ul>
@@ -550,8 +564,8 @@ are  not always aware of the following. Thus the added note.</span></p>
   <p><ins>&nbsp;&mdash;<i>end note</i>]</ins></p>
 </blockquote>
 
-<p><span style="background-color: #FFFF99">Beman supplied the above wording. It 
-needs  review.</span></p>
+<p><span style="background-color: #FFFF99; font-style:italic">Beman supplied the above wording. It 
+has not been  reviewed by the small group.</span></p>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
@@ -646,8 +660,8 @@ is called.</p>
     </blockquote>
 </blockquote>
 
-<p><span style="background-color: #FFFF99">SG 
-needs to review Beman&#39;s wording above</span></p>
+<p><span style="background-color: #FFFF99; font-style:italic">Beman Dawes supplied the above wording. It 
+has not been  reviewed by the small group.</span></p>
 
 </blockquote>
 
@@ -781,12 +795,9 @@ if one or more trailing non-root <font FACE="LMRoman10-Italic">
 present.</font></p>
 
   </blockquote>
-</blockquote>
 
-<p><span style="font-style: italic; background-color: #FFFF99">LWG 2665 remove_filename() post condition is 
+<p><span style="font-style: italic; background-color: #FFFF99">Also see LWG 2665 remove_filename() post condition is 
 incorrect</span></p>
-
-<blockquote>
 
 <p><span style="font-style: italic; background-color: #FFFF99">Although not a NB comment,
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
@@ -810,24 +821,24 @@ with proposed wording.</p>
 
 <h4><a name="US32">US 32</a>; 27.10.2.1 [fs.conform.9945] ¶3: Meaning of POSIX 
 conformance unclear<code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
 
 <p>The comment requests &quot;Clarify that ¶2 governs and an error must be 
 reported in such cases&quot;.</p>
 
-<p><i>Change 27.10.2.1 [fs.conform.9945] ¶2:</i></p>
+<p><i>Change 27.10.2.1 [fs.conform.9945]:</i></p>
   <blockquote>
     <p>Implementations are not required to provide behavior that is not 
-    supported by a particular file system. [ Example: The FAT file system used 
+    supported by a particular file system. [ <i>Example:</i> The FAT file system used 
     by some memory cards, camera memory, and floppy disks does not support hard 
     links, symlinks, and many other features of more capable file systems, so 
     implementations are not required to support those features on the FAT file 
-    system <ins>but instead are required to report an error as described above</ins>. —end example ]</p>
+    system <ins>but instead are required to report an error as described above</ins>. —<i>end example</i> ]</p>
   </blockquote>
-    <p><span style="background-color: #FFFF99">Jonathan </span>
-    <span style="background-color: #FFFF99">Wakely</span><span style="background-color: #FFFF99"> will supply improved wording.</span></p>
+    <p><i><span style="background-color: #FFFF99">Jonathan Wakely may supply improved wording. 
+    The above change, however, is probably sufficient to resolve the NB comment.</span></i></p>
 </blockquote>
 <h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic<br>
 Status: Accept</h4>
@@ -863,8 +874,9 @@ Status: Accept with modifications</h4>
 <blockquote>
 <p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
 (or Link).</p>
-<h4><span style="font-weight: 400; background-color:#FFFF99">Davis Herring will open an issue on a related 
-concern.</span></h4>
+<h4><span style="font-weight: 400; background-color:#FFFF99; font-style:italic">
+Davis Herring plans to open an issue on a related concern that does not affect 
+the resolution of this NB comment below. </span></h4>
 <p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
   <blockquote>
 <p><b>link</b><br>
@@ -890,10 +902,6 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF99">For conversions that fail, Does Billy 
-or 
-Jonathan still want to provide an issue or propose wording ?</span></p>
-
 <p><i>Change 27.10.5 
 Requirements [fs.req] ¶4:</i></p>
 
@@ -914,8 +922,9 @@ no implied <ins>character set and</ins> encoding, they are not included as permi
 characters, the resulting converted characters, if any, are unspecified. 
 <ins>Implementations are strongly encouraged  not to mutate member function arguments 
 if already of type <code>path::value_type</code>.</ins>
-<span style="background-color: #FFFF99">Billy O&#39;Neal suggested this addition; it 
-has not been review by the small group.</span></p>
+<span style="background-color: #FFFF99; font-style:italic">Billy O&#39;Neal suggested this addition 
+and Beman Dawes supports it, but it 
+has not been reviewed by the rest of the filesystem small group.</span></p>
 
   </blockquote>
 
@@ -931,17 +940,19 @@ a note, has been applied to LWG 2734 to partially resolve US 44.</p>
 <p>The portion of this comment not resolved by LWG 2734 is resolved by
 <a href="#US74">US-74/CA-3</a> </p>
 
-<p> <span style="background-color: #FFFF99">Beman will check 2734, and 
-coordinate with Marshall if needed, or add a comment to 2734 </span></p>
+<p> <span style="background-color: #FFFF99; font-style:italic">Beman Dawes will check 2734, and 
+coordinate with Marshall Clow if needed, or add a comment to 2734 </span></p>
 
 </blockquote>
 
 <h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
 <i>root-name</i><code><br>
-</code>Status: <span style="background-color: #FFFF99">Open</span></h4>
+</code>Status: Accept with modifications</h4>
 <blockquote>
 <p>No 
-proposed wording. <span style="background-color: #FFFF99">Davis Herring is working on proposed wording.</span></p>
+proposed wording. <span style="background-color: #FFFF99; font-style:italic">Davis Herring is working on proposed wording. 
+Beman Dawes suggests that this specification improvement can be handled later as 
+an issue if wording is not available for C++17.</span></p>
 
 </blockquote>
 
@@ -968,8 +979,8 @@ of characters other than directory-separator characters.</p>
 
 </blockquote>
 
-<p><span style="background-color: #FFFF99">SG</span><span style="background-color: #FFFF99"> 
-needs to review Jonathan&#39;s wording above</span></p>
+<p><span style="background-color: #FFFF99; font-style:italic">Jonathan Wakely supplied the above wording. It 
+has been reviewed by Beman Dawes, but not the rest of the small group.</span></p>
 
 </blockquote>
 
@@ -1087,7 +1098,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 
 <blockquote>
 
-<p>Nico presented this to the Library Evolution Working group in 
+<p>Nico Josuttis presented this to the Library Evolution Working group in 
 Issaquah, including a number of examples (See Nico&#39;s <i>Filesystem: Filename 
 Issues</i> slides on the Issaquah LEWG wiki.) Support was unanimous. See the 
 Issaquah LEWG notes.</p>
@@ -1200,8 +1211,8 @@ returns an empty <code>path</code> object.</p>
   </blockquote>
 </blockquote>
 
-<h4><span style="background-color: #FFFF99">SG 
-needs to review Beman&#39;s wording above</span></h4>
+<p><span style="background-color: #FFFF99"><i>Beman Dawes supplied the above 
+wording per the LEWG vote. It has not been reviewed by the small group.</i></span></p>
 
 </blockquote>
 
@@ -1220,23 +1231,12 @@ not good standardese. No proposed wording. </p>
 </blockquote>
 
 <h4><a name="US63">US 63</a>; 27.10.8.4.11 [path.gen] ¶1: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory<code><br>
-</code>Status: Reject</h4>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
 
 <p>See <a href="#US37">US-37</a> and the <a href="#path.gen">change to 
 [path.gen]</a> in <a href="#US74">US-74/CA-3</a>.</p>
-
-<blockquote>
-
-  <blockquote>
-
-<p>&nbsp;</p>
-
-  </blockquote>
-</blockquote>
-
-<h4><span style="background-color: #FFFF99">SG needs to review</span> </h4>
 
 </blockquote>
 
@@ -1301,8 +1301,13 @@ Status: Accept with modifications</h4>
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
 Status: Accept with modifications</h4>
 
-<p><span style="background-color: #FFFF99">SG needs to review the Proposed 
-resolution wording below from Davis for US-74/CA-3.</span></p>
+<p><span style="background-color: #FFFF99"><i>Davis Herring supplied the wording 
+at the request of the filesystem small group in Issaquah. The wording has been 
+reviewed by Beman Dawes but not the rest of the small group.</i></span></p>
+
+<p><span style="background-color: #FFFF99"><i>This NB comment is a showstopper 
+for C++17. These specification improvements enable the resolution of many other 
+filesystem NB comments.</i></span></p>
 
 <p><b>Discussion: </b></p>
 <p>Many operations on <code>filesystem::path</code> are defined in terms of its 
@@ -1325,7 +1330,7 @@ class path:</i></p>
   string_type pathstring; // exposition only</del></pre>
 </blockquote>
 <p><i>Change [path.fmt.cvt]:</i></p>
-<p><span style="background-color: #FFFF99">Option A; from Davis:</span> </p>
+<p><span style="background-color: #FFFF99; font-style:italic">Option A; from Davis: </span> </p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are not applied on 
 POSIX-<del> or Windows-</del>based operating systems because on these systems:</p>
@@ -1337,7 +1342,7 @@ function arguments.<br>
 </blockquote>
 <p>—end note ]</p>
 </blockquote>
-<p><span style="background-color: #FFFF99">Option B; from Beman:</span></p>
+<p><span style="background-color: #FFFF99; font-style:italic">Option B; from Beman:</span></p>
 <blockquote>
 <p>[ <i>Note:</i> The format conversions described in this section are <ins>
 usually</ins> not applied on 
@@ -1352,7 +1357,7 @@ generic format in function arguments.<br>
 for pathnames with implementation-defined <i>root-name</i>s ([path.generic]).</ins> </p>
 <p>—end note ]</p>
 </blockquote>
-<p><span style="background-color: #FFFF99">SG needs to choose between Option A 
+<p><span style="font-style: italic; background-color: #FFFF99">We need to choose between Option A 
 or Option B.</span></p>
 <blockquote>
   <p><ins>Several functions are defined to accept <i>detected-format</i> character 
@@ -1373,16 +1378,16 @@ distinguish between native format and generic format arguments. This is by
 design as it simplifies use for operating systems that do not require 
 disambiguation. An implementation for an operating system where disambiguation 
 is required is permitted to distinguish between the formats. —end note ]</p>
-<p><span style="background-color: #FFFF99"><a name="US74markup"></a>Beman is concerned about 
-the following paragraph; his code font markup of text from Davis is almost 
-certainly wrong:</span></p>
+<p><span style="background-color: #FFFF99"><a name="US74markup"></a><i>Beman 
+says his code font markup of text from Davis in the following paragraph is almost 
+certainly wrong:</i></span></p>
 <ul>
   <li>
-<p><span style="background-color: #FFFF99">Would s/Define G(n) and N(g) 
+<p><span style="background-color: #FFFF99; font-style:italic">Would s/Define G(n) and N(g) 
 as the functions/Let G and N be the implementation&#39;s functions/ be clearer?</span></p>
   </li>
   <li>
-<p><span style="background-color: #FFFF99">Are some of the <code>&#39;=&#39;</code> 
+<p><span style="background-color: #FFFF99; font-style:italic">Are some of the <code>&#39;=&#39;</code> 
 supposed to be <code>&#39;==&#39;?</code></span></p>
   </li>
 </ul>
@@ -1713,9 +1718,9 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
   </p>
   <p><ins>- otherwise, the prefix of <code>f</code> ending before its last period.</ins> </p>
   </blockquote>
-  <p><i><span style="background-color: #FFFF99">[SG 
-  note: Beman inserted &quot;other than a leading period&quot; to reflect LEWG guidance 
-  from Issaquah.]</span></i><span style="background-color: #FFFF99"> </span></p>
+  <p><i><span style="background-color: #FFFF99">Beman Dawes inserted &quot;other than 
+  a leading period&quot; to reflect LEWG guidance from Issaquah. That wording has not 
+  been reviewed by the filesystem small group.</span></i></p>
 <p>[ Example:</p>
     <blockquote>
       <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).stem(); // outputs &quot;bar&quot;
@@ -1974,8 +1979,7 @@ Status: Accept with modifications </h4>
 
 <blockquote>
 
-<p> Proposed resolution: that this is not editorial, but we know the fix. 
-<span style="background-color: #FFFF99">Davis Herring 
+<p> <span style="font-style: italic; background-color: #FFFF99">This is not editorial, but we know the fix. Davis Herring 
 to supply updated proposed wording.</span></p>
 
 </blockquote>
@@ -1989,8 +1993,8 @@ Status: Reject</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF99">Beman to open an issue to expose this concern to additional experts.</span> 
-This is not a priority issue for shipping C++17.</p>
+<p><i><span style="background-color: #FFFF99">Beman Dawes to open an issue to expose this concern to additional experts. 
+This is not a priority issue for shipping C++17.</span></i></p>
 
 </blockquote>
 
@@ -2105,9 +2109,10 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p><span style="font-style: italic; background-color: #E1E9FD">Beman comments: 
+<p><span style="font-style: italic; background-color: #FFFF99">Beman Dawes 
+supplied the wording, which has not been reviewed by others. He comments: 
 Matt Austern pointed this out, with the same suggested fix, prior to the TS. It 
-got dropped on the floor in the TS shipping rush and has never been fixed. Its 
+got dropped on the floor in the TS shipping rush and has never been fixed. It is 
 an embarrassment that needs fixing before shipping C++17.</span></p>  
 <p><i>Change [fs.filesystem.syn]:</i></p>
 <blockquote>
@@ -2202,9 +2207,6 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec);
 </blockquote>
 
   </blockquote>
-
-<p><span style="background-color: #FFFF99">The SG needs to review Beman&#39;s 
-wording above.</span></p>  
 
 </blockquote>
 
