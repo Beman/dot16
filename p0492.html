@@ -16,7 +16,7 @@
 <table>
 <tr>
   <td>Doc. no.:</td>
-  <td><span style="background-color: #FFFF99; font-style:italic">D0492R1</span></td>
+  <td>P0492R1</td>
 </tr>
 <tr>
   <td>Date:</td>
@@ -127,9 +127,16 @@ N4618</a>.</p>
 <h3>P0492R1 Pre-Kona mailing</h3>
 
 <ul>
+  <li>Direction remains unchanged.</li>
+  <li>Updated WP base document to
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4618.pdf">
+N4618</a>.</li>
   <li>Modifications to reflect editorial changes to the standard WP. Most 
   importantly, the name of the class <code>path</code> exposition only data 
   member was changed from <code>pathname</code> to <code>pathstring</code>.</li>
+  <li>Proposed wording supplied for numerous NB comments that had no proposed 
+  wording.</li>
+  <li>Numerous minor and editorial corrections.</li>
 </ul>
 
 <h3>
@@ -605,7 +612,8 @@ the behavior.</p>
 
 </blockquote>
 
-<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶7 (was ¶10): <code>remove_filename()</code> is broken<code><br>
+<h4><a name="US54">US 54</a>; 27.10.8.4.5 [path.modifiers] ¶7 (was ¶10): <code>
+replace_filename()</code> is broken<code><br>
 </code>Status: Accept with modifications</h4>
 
 <blockquote>
@@ -874,7 +882,7 @@ the resolution of this NB comment below. </span></h4>
 <p><b>link</b><br>
 <del>A directory entry that associates a filename with a file. A link is either 
 a hard link (27.10.4.8) or a symbolic link (27.10.4.21).</del> <ins>An object 
-that associates a filename with a file. Several link entries can associate names 
+that associates a filename with a file. Several links can associate names 
 with the same file.</ins></p>
   </blockquote>
 </blockquote>
@@ -941,10 +949,7 @@ coordinate with Marshall Clow if needed, or add a comment to 2734 </span></p>
 <i>root-name</i><code><br>
 </code>Status: Accept with modifications</h4>
 <blockquote>
-<p>No 
-proposed wording. <span style="background-color: #FFFF99; font-style:italic">Davis Herring is working on proposed wording. 
-Beman Dawes suggests that this specification improvement can be handled later as 
-an issue if wording is not available for C++17.</span></p>
+<p>Resolved by <a href="#US73">US-73/CA-2</a></p>
 
 </blockquote>
 
@@ -2033,7 +2038,14 @@ appropriate</h4>
 
 <h4><a name="Late20">Late 20</a>; 27.10.11 ¶1: Anemic status structure</h4>
 
-<h4><a name="Late21">Late 21</a>; 27.10.12: <code>directory_entry</code> is just a tivial wrapper for <code>path</code></h4>
+<h4><a name="Late21">Late 21</a>; 27.10.12: <code>directory_entry</code> is just a trivial wrapper for <code>path</code></h4>
+
+<blockquote>
+
+<p>Subsumed by LWG <a href="http://cplusplus.github.io/LWG/lwg-active.html#2663">
+2663</a> and <a href="http://cplusplus.github.io/LWG/lwg-active.html#2677">2677</a></p>
+
+</blockquote>
 
 <h4><a name="Late22">Late 22</a>; 27.10.13 ¶6: <code>directory_iterator</code> cumbersome to assemble full path with iterator’s directory</h4>
 
@@ -2102,7 +2114,7 @@ Status: Accept with modifications</h4>
 <blockquote>
 
 <p><span style="font-style: italic; background-color: #FFFF99">Beman Dawes 
-supplied the wording, which has not been reviewed by others. He comments: 
+supplied the wording, which has  been reviewed by Davis but not others. Beman comments: 
 Matt Austern pointed this out, with the same suggested fix, prior to the TS. It 
 got dropped on the floor in the TS shipping rush and has never been fixed. It is 
 an embarrassment that needs fixing before shipping C++17.</span></p>  
