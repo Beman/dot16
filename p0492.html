@@ -73,9 +73,53 @@ relative to the C++ working paper,
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4618.pdf">
 N4618</a>.</p>
 
+<h3>NB comment status</h3>
+
+<h4>Ready for Library Working Group review</h4>
+
+<blockquote>
+
+<p>It is suggested that <a href="#US74">US-74/CA-3</a> be reviewed first; 
+otherwise  other changes may not make sense.</p>
+
+<p><a href="#US56">US-56</a>, <a href="#US60">US-60</a>, and <a href="#US61">US-61</a> 
+reflect design changes reviewed by LEWG in Issaquah; we need to know ASAP if any 
+of these are problematic so we can go back to LEWG if necessary.</p>
+
+<p>Accept, possibly with modifications: <a href="#US32">US-32</a>, <a href="#US33">
+US-33</a>, <a href="#US34">US-34</a>, <a href="#US36">US-36</a>, <a href="#US43">
+US-43</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US48">
+US-48</a>, <a href="#US53">US-53</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
+<a href="#US63">US-63</a>, <a href="#US73">US-73/CA-2</a>, <a href="#Late36">
+Late-36</a>, <a href="#Late37">Late-37</a>.</p>
+
+<p>Reject: <a href="#US25">US-25</a>, <a href="#US31">US-31</a>, <a href="#US35">
+US-35</a>, <a href="#US40">US-40</a>, <a href="#US52">US-52</a>, <a href="#US56">US-56</a>, 
+<a href="#US57">US-57</a>, <a href="#US59">US-59</a>, <a href="#US62">US-62</a>,
+<a href="#US185">US-185</a>, <a href="#FI 14">FI-14</a>, <a href="#US41">US-41</a>,
+<a href="#US42">US-42</a>, .</p>
+
+<p>Editorial: <a href="#US49">US-49</a>, <a href="#US38">US-38</a>,
+<a href="#US39">US-39</a>.</p>
+
+<p>Defer to P0430R1: <a href="#US75">US-75/CA-4</a>, <a href="#US76">US-76/CA-5</a>,
+<a href="#US77">US-77/CA-6</a>, <a href="#US78">US-78/CA-7</a>, <a href="#US79">
+US-79/CA-8</a>.</p>
+
+</blockquote>
+
+<h4>Not ready for Library Working Group review</h4>
+
+<blockquote>
+
+<p><a href="#US37">US-37</a>, <a href="#US47">US-47</a>, <a href="#US50">US-50</a></p>
+
+</blockquote>
+
 <p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US31">US 31: Everything is defined in terms of one implicit host system</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US31">US 31: Everything is defined in terms of 
+one implicit host system</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US32">US 32: Meaning of 27.10.2.1 unclear</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US33">US 33: Definition of <i>canonical path</i> problematic</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US34">US 34: Are there attributes of a file that are not an aspect of the file system?</a><br>
@@ -123,6 +167,14 @@ N4618</a>.</p>
 &nbsp;&nbsp;&nbsp; <span style="background-color: #FFFF99; font-style:italic">To be supplied</span>
 
 <h2>Revision History</h2>
+
+<h3>D0492R2</h3>
+
+<ul>
+  <li>Add <b>NB comment status</b> section.</li>
+  <li>Supply proposed wording for <a href="#US44">US-44</a> per LWG 16-Dec-2016 
+  Issues Telecon.</li>
+</ul>
 
 <h3>P0492R1 Pre-Kona mailing</h3>
 
@@ -934,15 +986,68 @@ has not been reviewed by the rest of the filesystem small group.</span></p>
 </code>Status: Accept with modifications</h4>
 <blockquote>
 
-<p>Proposed wording, including 
-a note, has been applied to LWG 2734 to partially resolve US 44.</p>
+<p>This is also <a href="https://cplusplus.github.io/LWG/lwg-active.html#2798">
+LWG 2798</a>. In the 16-Dec-2016 Issues Telecon, LWG asked that the fix be 
+included in this paper. Beman Dawes adapted Billy O&#39;Neal&#39;s proposed wording from 
+LWG 2798 to N4618, the current C++ working paper.</p>
 
-<p>The portion of this comment not resolved by LWG 2734 is resolved by
+<p>The portion of this comment not resolved by the following proposed wording is resolved by
 <a href="#US74">US-74/CA-3</a> </p>
 
-<p> <span style="background-color: #FFFF99; font-style:italic">Beman Dawes will check 2734, and 
-coordinate with Marshall Clow if needed, or add a comment to 2734 </span></p>
+<p> <span style="font-style: italic; background-color: #FFFF99">Proposed wording 
+has not been reviewed by the small group</span><span style="background-color: #FFFF99; font-style:italic"> </span></p>
 
+<i>Change 27.10.8.4.4 [path.concat]: </i>
+
+<blockquote>
+      <pre>path&amp; operator+=(const path&amp; x);
+path&amp; operator+=(const string_type&amp; x);
+path&amp; operator+=(basic_string_view&lt;value_type&gt; x);
+path&amp; operator+=(const value_type * x);
+path&amp; operator+=(value_type x);
+template &lt;class Source&gt;
+    path&amp; operator+=(const Source&amp; x);
+template &lt;class EcharT&gt;
+    path&amp; operator+=(EcharT x);
+template &lt;class Source&gt;
+    path&amp; concat(const Source&amp; x);
+<del>template &lt;class InputIterator&gt;
+    path&amp; concat(InputIterator first, InputIterator last);</del>
+</pre>
+      <blockquote>
+        <p> <del><em>Postcondition:</em> <tt>native() == prior_native + <em>
+        effective-argument</em></tt>, where <tt>prior_native</tt> is <tt>
+        native()</tt> prior to the call to <tt>operator+=</tt>, and <tt><em>
+        effective-argument</em></tt> is:</del> </p>
+        <ul>
+          <li><del>if <tt>x</tt> is present and is <tt>const path&amp;</tt>, <tt>
+          x.native()</tt>; otherwise,</del></li>
+          <li><del>if <tt>source</tt> is present, the effective range of <tt>
+          source</tt> path.req; otherwise,</del></li>
+          <li><del>&gt;if <tt>first</tt> and <tt>last</tt> are present, the range
+          <tt>[first, last)</tt>; otherwise,</del></li>
+          <li><del><tt>x</tt>.</del></li>
+        </ul>
+        <p><del>If the value type of <tt><em>effective-argument</em></tt> would 
+        not be <tt>path::value_type</tt>, the acctual argument or argument range 
+        is first converted path.type.cvt so that <tt><em>effective-argument</em></tt> 
+        has value type <tt>path::value_type</tt>.</del> </p>
+        <p><ins><i>Effects:</i>Appends <code>path(x).native()</code> to the native format pathname. [<em>Note:</em> 
+        This directly manipulates the value of <tt>native()</tt> and may not be 
+        portable between operating systems. — <em>end note</em>]</ins> </p>
+        <p> <em>Returns:</em> <tt>*this</tt>. </p>
+      </blockquote>
+      <pre><ins>template &lt;class InputIterator&gt;
+    path&amp; concat(InputIterator first, InputIterator last);</ins>
+</pre>
+      <blockquote>
+        <p><ins> <em>Effects:</em> Appends <tt>
+        path(first, last).native())</tt>to the native format pathname. [<em>Note:</em> This 
+        directly manipulates the value of <tt>native()</tt> and may not be 
+        portable between operating systems. — <em>end note</em>]</ins> </p>
+        <p><ins> <em>Returns:</em> <tt>*this</tt>.</ins> </p>
+      </blockquote>
+    </blockquote>
 </blockquote>
 
 <h4><a name="US45">US 45</a>; 27.10.8.1 [path.generic]: Generic format portability compromised by unspecified 
@@ -1536,19 +1641,7 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
     <p><i>Returns:</i> <code>*this</code>.</p>
   </blockquote>
 </blockquote>
-<p><i>Change [path.append]
-
-
-
-
-</font>
-
-
-
-
-<font FACE="Times New Roman">
-
-¶2 &amp; 3</font><font FACE="LMRoman10-Regular">:</font></i><font FACE="LMRoman10-Regular"></p>
+<p><i>Change [path.append]:</font></i><font FACE="LMRoman10-Regular"></p>
 <blockquote>
   <pre>path&amp; operator/=(const path&amp; p);</pre>
   <blockquote>
