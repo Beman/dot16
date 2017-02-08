@@ -88,7 +88,7 @@ of these are problematic so we can go back to LEWG if necessary.</p>
 
 <p>Accept, possibly with modifications: <a href="#US32">US-32</a>, <a href="#US33">
 US-33</a>, <a href="#US34">US-34</a>, <a href="#US36">US-36</a>, <a href="#US43">
-US-43</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US48">
+US-43</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US47">US-47</a>, <a href="#US48">
 US-48</a>, <a href="#US53">US-53</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
 <a href="#US63">US-63</a>, <a href="#US73">US-73/CA-2</a>, <a href="#Late36">
 Late-36</a>, <a href="#Late37">Late-37</a>.</p>
@@ -97,7 +97,7 @@ Late-36</a>, <a href="#Late37">Late-37</a>.</p>
 US-35</a>, <a href="#US40">US-40</a>, <a href="#US52">US-52</a>, <a href="#US56">US-56</a>, 
 <a href="#US57">US-57</a>, <a href="#US59">US-59</a>, <a href="#US62">US-62</a>,
 <a href="#US185">US-185</a>, <a href="#FI 14">FI-14</a>, <a href="#US41">US-41</a>,
-<a href="#US42">US-42</a>, .</p>
+<a href="#US42">US-42</a>, <a href="#US50">US-50</a>.</p>
 
 <p>Editorial: <a href="#US49">US-49</a>, <a href="#US38">US-38</a>,
 <a href="#US39">US-39</a>.</p>
@@ -112,7 +112,7 @@ US-79/CA-8</a>.</p>
 
 <blockquote>
 
-<p><a href="#US37">US-37</a>, <a href="#US47">US-47</a>, <a href="#US50">US-50</a></p>
+<p><a href="#US37">US-37</a> </p>
 
 </blockquote>
 
@@ -172,8 +172,10 @@ one implicit host system</a><br>
 
 <ul>
   <li>Add <b>NB comment status</b> section.</li>
-  <li>Supply proposed wording for <a href="#US44">US-44</a> per LWG 16-Dec-2016 
+  <li>Supplies proposed wording for <a href="#US44">US-44</a> per LWG 16-Dec-2016 
   Issues Telecon.</li>
+  <li>Editorial and near editorial corrections to <a href="#US74">US-74/CA-3</a>.</li>
+  <li>Supplies proposed wording for <a href="#US47">US-47</a>.</li>
 </ul>
 
 <h3>P0492R1 Pre-Kona mailing</h3>
@@ -1789,7 +1791,7 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
     solely of one or two periods, returns the substring of <code>filename()</code> starting 
     at its beginning and ending with the character before the last period. 
     Otherwise, returns <code>filename()</code>.</del></p>
-  <p><ins><i>Returns:</i> Let <code>f</code> be the generic format pathname for 
+  <p><ins><i>Returns:</i> Let <code>f</code> be 
   <code>filename()</code>. Returns a 
   path whose generic format pathname is </ins></p>
   <blockquote>
@@ -1815,8 +1817,8 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
   </blockquote>
   <pre>path extension() const;</pre>
   <blockquote>
-    <p><i>Returns: </i><ins>a path whose generic format pathname is the 
-    suffix of the generic format pathname for <code>filename()</code> not included in 
+    <p><i>Returns: </i><ins>a path whose generic format pathname is the suffix 
+    of <code>filename()</code> not included in 
     <code>stem()</code>.</ins> 
     <del>if <code>filename()</code> contains a period but does not consist solely of 
     one or two periods, returns the substring of <code>filename()</code> 
@@ -2053,14 +2055,149 @@ way.</p>
 
 <h4><a name="US47">US 47</a>; 27.10.8.1 [path.generic]: “.” and “..” already 
 match the name production<br>
-Status: Accept with modifications </h4>
+Status: Accept with modifications</h4>
 
 
 
 <blockquote>
 
-<p> <span style="font-style: italic; background-color: #FFFF99">This is not editorial, but we know the fix. Davis Herring 
-to supply updated proposed wording.</span></p>
+
+
+<p>&nbsp;<span style="background-color: #E1E9FD"><i>The filesystem small group 
+believes this is not editorial.</i></span></p>
+
+
+
+<p><b>Discussion</b>: <i>dot</i> and <i>dot-dot</i> are unneeded as grammar 
+productions, since &#39;name&#39; already matches them.&nbsp; They do, however, need to be 
+defined terms in [fs.def.filename]</p>
+
+
+
+<p><span style="font-style: italic; background-color: #FFFF99">Davis Herring 
+supplied the proposed wording below at the request of the filesystem small 
+group. The wording has been reviewed by Beman but not other members of the small 
+group.</span></p>
+
+
+
+<p><i>Change [fs.def.filename]:</i></p>
+
+
+
+  <blockquote>
+
+
+
+<p><b>filename</b><br>
+The name of a file. Filenames <i>dot</i> and <i>dot-dot</i><ins>, consisting solely 
+of one and two period characters respectively,</ins> have special meaning. The 
+following characteristics of filenames are operating system dependent:<br>
+— The permitted characters. [ <i>Example:</i> Some operating systems prohibit 
+the ASCII control characters (0x00 – 0x1F) in filenames. <i>—end example</i> ]<br>
+— The maximum permitted length.<br>
+— Filenames that are not permitted.<br>
+— Filenames that have special meaning.<br>
+— Case awareness and sensitivity during path resolution.<br>
+— Special rules that may apply to file types other than regular files, such as 
+directories.</p>
+
+
+
+  </blockquote>
+
+
+
+<p><i>Change [path.generic]:</i></p>
+
+
+
+  <blockquote>
+
+
+
+<p><i><del>filename:</del></i></p>
+
+
+
+    <blockquote>
+
+
+
+<p><i><del>name</del><br>
+<del>dot</del><br>
+<del>dot-dot</del></i></p>
+
+
+
+    </blockquote>
+
+
+
+<p><i><ins>file</ins>name:</i></p>
+
+
+
+    <blockquote>
+
+
+
+<p>A sequence of characters other than directory-separator characters. [ <i>
+Note:</i> Operating systems often place restrictions on the characters that may 
+be used in a filename. For wide portability, users may wish to limit filename 
+characters to the POSIX Portable Filename Character Set: <code>A B C D E F G H I 
+J K L M N O P Q R S T U V W X Y Z a b c d e f g h i j k l m n o p q r s t u v w 
+x y z 0 1 2 3 4 5 6 7 8 9 . _ -</code> <i>—end note</i> ]</p>
+
+
+
+    </blockquote>
+
+
+
+<p><i><del>dot:</del></i></p>
+
+
+
+    <blockquote>
+
+
+
+<p><i><del>The filename consisting solely of a single period character (.).</del></i></p>
+
+
+
+    </blockquote>
+
+
+
+<p><i><del>dot-dot:</del></i></p>
+
+
+
+    <blockquote>
+
+
+
+<p><i><del>The filename consisting solely of two period characters (..).</del></i></p>
+
+
+
+    </blockquote>
+</blockquote>
+
+
+
+<p>...</p>
+
+
+
+<p>The filename <i>dot</i> <ins>([fs.def.filename])</ins> is treated as a reference to the 
+current directory. The filename <i>dot-dot</i> <ins>([fs.def.filename])</ins> is treated as a reference to the 
+parent directory. What the filename <i>dot-dot</i> refers to relative to <i>
+root-directory</i> is implementation-defined. Specific filenames may have 
+special meanings for a particular operating system.</p>
+
 
 </blockquote>
 
