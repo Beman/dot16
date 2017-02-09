@@ -73,6 +73,11 @@ relative to the C++ working paper,
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4618.pdf">
 N4618</a>.</p>
 
+<p>The effect of most of the proposed wording changes is to improve the 
+specification of the library. Only a few of the changes modify the behavior of 
+the library. Most if not all of the behavior changes have been implemented and 
+tested.</p>
+
 <h3>NB comment status</h3>
 
 <h4>Ready for Library Working Group review</h4>
@@ -102,7 +107,8 @@ US-35</a>, <a href="#US40">US-40</a>, <a href="#US52">US-52</a>, <a href="#US56"
 <p>Editorial: <a href="#US49">US-49</a>, <a href="#US38">US-38</a>,
 <a href="#US39">US-39</a>.</p>
 
-<p>Defer to P0430R1: <a href="#US75">US-75/CA-4</a>, <a href="#US76">US-76/CA-5</a>,
+<p>Defer to 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a>: <a href="#US75">US-75/CA-4</a>, <a href="#US76">US-76/CA-5</a>,
 <a href="#US77">US-77/CA-6</a>, <a href="#US78">US-78/CA-7</a>, <a href="#US79">
 US-79/CA-8</a>.</p>
 
@@ -499,7 +505,7 @@ Status: Accept with modifications</h4>
 <p><i><span style="background-color: #FFFF99">Beman and Nico need to resolve 
 their different suggested normalizations for cases 8, 9, 12, and 14. This is 
 probably just a synchronization issue rather than a controversy. They are in 
-total agreement about invariants and are just trying to settle on the best 
+total agreement about invariants and are trying to settle on the best 
 wording to describe the desired results.</span></i></p>
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
 <blockquote>
@@ -521,23 +527,40 @@ different syntax for directory names and regular file names. <i>—end note</i> 
 
 <p><ins>A generic format pathname is in normal form if empty or has:</ins></p>
 <ul>
-  <li><ins>Only single <i>directory-separator</i> sequences or a leading sequence of two <i>
+  <li><ins>Only the <i>preferred-separator</i> form of<i> directory-separator</i>s.<br>
+  <br>
+  </ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> In normal form on POSIX, 
+  slashes remain slashes, but on Windows slashes are replaced by backslashes. &mdash;<i>end example</i>]<br>
+&nbsp;</ins></li>
+  <li><ins>Only single <i>directory-separator</i>s or a leading sequence of two <i>
   directory-separator</i>s.<br>
+  <br>
+</ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;//foo///bar&quot;
+  </code>is <code>&quot;//foo/bar&quot;</code> on POSIX. &mdash;<i>end example</i>]<br>
 </ins>&nbsp;</li>
-  <li><ins>No <i>dot</i> filenames except:</ins><ul>
+  <li><ins>No <i>dot</i> filenames except:<br>
+&nbsp;</ins><ul>
   <li><ins>if the pathname would otherwise be empty, the pathname consists of a
-  <i>dot</i> filename .</ins></li>
+  <i>dot</i> filename.<br>
+  <br>
+  </ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;foo/..&quot; </code>
+  is <code>&quot;.&quot;</code> —<i>end example</i>]<br>
+</ins>&nbsp;</li>
   <li><ins>if the <i>relative-path</i> 
   portion of the pathname would otherwise consist solely of a <i>director-separator, 
   the</i> <i>relative-path</i> portion of the pathname consists of a <i>dot</i> 
   filename followed by a <i>preferred-separator</i>.<br>
-&nbsp;</ins></li>
+  <br>
+  </ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;/foo/../&quot;
+  </code>is <code>&quot;/./&quot;</code> on POSIX &mdash;<i>end example</i>]<br>
+</ins>&nbsp;</li>
 </ul>
   </li>
-  <li><ins>No sequences of <i>name</i> <i>directory-separator</i> <i>dot-dot</i>, 
+  <li><ins>No sequences of <i>filename</i> <i>directory-separator</i> <i>dot-dot</i>, 
   applied recursively.<br>
-&nbsp;</ins></li>
-  <li><ins>Only the <i>preferred-separator</i> form of<i> directory-separator</i>s.</ins></li>
+  <br>
+  </ins>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<ins>[<i>Example:</i> Normal form of <code>&quot;/foo/bar/../..&quot;
+  </code>is <code>&quot;/&quot;</code> on POSIX &mdash;<i>end example</i>]</ins>&nbsp;</li>
 </ul>
   <p><ins>A path in normal form is said to be <i>normalized</i>. The 
 process of obtaining a normalized path from a path that is not in normal form is 
@@ -931,11 +954,9 @@ appears with proposed wording.</p>
 <h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links<br>
 Status: Accept with modifications</h4>
 <blockquote>
-<p>The SG provides wording, taken from POSIX definitions 3.130, Directory Entry 
-(or Link).</p>
-<h4><span style="font-weight: 400; background-color:#FFFF99; font-style:italic">
-Davis Herring plans to open an issue on a related concern that does not affect 
-the resolution of this NB comment below. </span></h4>
+<p><i><span style="background-color: #E1E9FD">The filesystem small group 
+provided wording, taken from POSIX definitions 3.130, Directory Entry 
+(or Link).</span></i></p>
 <p><i>Change 27.10.4.9 [fs.def.link]:</i></p>
   <blockquote>
 <p><b>link</b><br>
@@ -1937,7 +1958,8 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>See P0430R1 
+<p>See 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a> 
 Section 2.2 for wording.</p>
 
 </blockquote>
@@ -1948,7 +1970,8 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>See P0430R1 
+<p>See 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a> 
 Section 2.3.1 for wording.</p>
 
 </blockquote>
@@ -1958,7 +1981,8 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>See P0430R1 Section 2.3.2 for wording.</p>
+<p>See 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a> Section 2.3.2 for wording.</p>
 
 </blockquote>
 
@@ -1967,7 +1991,8 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>See P0430R1 
+<p>See 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a> 
 Section 2.4.1 for wording.</p>
 
 </blockquote>
@@ -1977,7 +2002,8 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>See P0430R1 
+<p>See 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a> 
 Section 2.4.2 for wording.</p>
 
 </blockquote>
