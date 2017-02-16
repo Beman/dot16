@@ -1515,7 +1515,7 @@ constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
 path(path&amp;&amp; p) noexcept;</pre>
   <blockquote>
   <p><i>Effects:</i> Constructs an object of class <code>path</code>
-  <ins>having the same pathname in the native and generic formats as <code>p</code></ins> 
+  <ins>having the same pathname in the native and generic formats respectively as <code>p</code></ins> 
   <del>with <code>pathstring</code> having the original value of <code>p.pathstring</code></del>. In
   the second form, <code>p</code> is left in a valid but unspecified state.</p>
   </blockquote>
@@ -1634,7 +1634,7 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
 <blockquote>
   <pre>path&amp; operator/=(const path&amp; p);</pre>
   <blockquote>
-<p><i>Effects:</i> <ins>If equivalent to <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
+<p><i>Effects:</i> <ins>If <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
 then appends <code>path::preferred_separator</code> to the pathname in the generic format. [ <i>
 Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
  equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
@@ -1661,8 +1661,9 @@ such time, addresses US 51.] </span></i></p>
 <blockquote>
   <pre>path&amp; make_preferred();</pre>
   <blockquote>
-  <p><i>Effects:</i> Each <i>directory-separator</i> is converted to
-  <i>preferred-separator</i> in the <ins>pathname in the generic format</ins>. </p>
+  <p><i>Effects:</i> Each <i>directory-separator </i><ins> of the 
+  pathname in the generic format</ins> is converted to
+  <i>preferred-separator</i>. </p>
   </blockquote>
 </blockquote>
 <p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
@@ -1800,9 +1801,9 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
   </p>
   <p><ins>- otherwise, the prefix of <code>f</code> ending before its last period.</ins> </p>
   </blockquote>
-  <p><i><span style="background-color: #FFFF99">Beman Dawes inserted &quot;other than 
-  a leading period&quot; to reflect LEWG guidance from Issaquah. That wording has not 
-  been reviewed by the filesystem small group.</span></i></p>
+  <p><i><span style="background-color: #E1E9FD">&quot;other than a leading period&quot; 
+  was inserted to reflect LEWG guidance from Issaquah that a filename like &quot;.bashrc&quot; 
+  is not treated as an extension.</span></i></p>
 <p>[ Example:</p>
     <blockquote>
       <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).stem(); // outputs &quot;bar&quot;
@@ -1910,8 +1911,8 @@ path canonical(const path&amp; p, const path&amp; base, error_code&amp; ec);</pr
   <pre>path current_path();
 path current_path(error_code&amp; ec);</pre>
   <blockquote>
-<p><i>Returns:</i> The absolute path of the current working directory, obtained
-<ins>in the native format</ins> as if by POSIX <code>getcwd()</code>. The 
+<p><i>Returns:</i> The absolute path of the current working directory, <ins>
+whose pathname in the native format is</ins> obtained&nbsp; as if by POSIX <code>getcwd()</code>. The 
 signature with argument <code>ec</code> returns <code>path()</code> if an error 
 occurs.</p>
 <p>...</p>
