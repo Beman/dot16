@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-08<!--webbot bot="Timestamp" endspan i-checksum="12158" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-16<!--webbot bot="Timestamp" endspan i-checksum="12155" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -525,7 +525,7 @@ different syntax for directory names and regular file names. <i>—end note</i> 
 <p><span style="font-style: italic; background-color: #FFFF99">
 <a name="option-a">Option A</a></span></p>
 
-<p><ins>A generic format pathname is in normal form if empty or has:</ins></p>
+<p><ins>A pathname in the generic format is in normal form if empty or has:</ins></p>
 <ul>
   <li><ins>Only the <i>preferred-separator</i> form of<i> directory-separator</i>s.<br>
   <br>
@@ -570,7 +570,7 @@ called <i>normalization</i>.</ins></p>
 
 <p><span style="font-style: italic; background-color: #FFFF99">Option B</span></p>
 
-<p><ins>For a non-empty generic format pathname:</ins></p>
+<p><ins>For a non-empty pathname in the generic format:</ins></p>
 <ul>
   <li><ins><i>dot</i> filenames are removed,&nbsp;except when removal would result in an empty pathname or change a relative pathname into 
   an absolute pathname.<br>
@@ -626,7 +626,7 @@ are  not always aware of the following. Thus the added note.</span></p>
 <p><i>Add the following note as a new paragraph at the end of [path.generic]:</i></p>
 <blockquote>
 
- <p><ins>[<i>Note:</i> The <i>relative-path</i> portion of a generic format pathname 
+ <p><ins>[<i>Note:</i> The <i>relative-path</i> portion of a pathname in the generic format 
   may end with a <i>directory-separator. </i>Its use is:</ins></p>
   <ul>
     <li><ins>Required for operating systems such as z/OS and OpenVMS where 
@@ -670,7 +670,7 @@ Status: Accept with modifications</h4>
  <del><i>Postcondition:</i><code>!has_filename()</code>.</del> </p>
  <p> <ins><i>Effects:</i> 
  If <code>has_filename()</code> then remove the minimum number of trailing 
- characters from generic format pathname such that there is one less element in
+ characters from the pathname in the generic format such that there is one less element in
  <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
  <p><i>Returns:</i> <code>*this</code>.</p>
  <p>[ <i>Example:</i></p>
@@ -1060,7 +1060,8 @@ template &lt;class Source&gt;
         not be <tt>path::value_type</tt>, the acctual argument or argument range 
         is first converted path.type.cvt so that <tt><em>effective-argument</em></tt> 
         has value type <tt>path::value_type</tt>.</del> </p>
-        <p><ins><i>Effects:</i>Appends <code>path(x).native()</code> to the native format pathname. [<em>Note:</em> 
+        <p><ins><i>Effects:</i>Appends <code>path(x).native()</code> to the 
+        pathname in the native format. [<em>Note:</em> 
         This directly manipulates the value of <tt>native()</tt> and may not be 
         portable between operating systems. — <em>end note</em>]</ins> </p>
         <p> <em>Returns:</em> <tt>*this</tt>. </p>
@@ -1070,7 +1071,7 @@ template &lt;class Source&gt;
 </pre>
       <blockquote>
         <p><ins> <em>Effects:</em> Appends <tt>
-        path(first, last).native())</tt>to the native format pathname. [<em>Note:</em> This 
+        path(first, last).native())</tt>to the pathname in the native format. [<em>Note:</em> This 
         directly manipulates the value of <tt>native()</tt> and may not be 
         portable between operating systems. — <em>end note</em>]</ins> </p>
         <p><ins> <em>Returns:</em> <tt>*this</tt>.</ins> </p>
@@ -1431,11 +1432,6 @@ Status: Accept with modifications</h4>
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
 Status: Accept with modifications</h4>
 
-<p><span style="background-color: #FFFF99"><i>Davis Herring supplied the 
-proposed wording 
-at the request of the filesystem small group in Issaquah. The wording has been 
-reviewed by Beman Dawes but not the rest of the small group.</i></span></p>
-
 <p><span style="background-color: #E1E9FD"><i>The proposed resolution of this 
 National Body comment enables the resolution of many other filesystem NB 
 comments.</i></span></p>
@@ -1459,11 +1455,6 @@ class path:</i></p>
 </blockquote>
 <p><i>Change [path.fmt.cvt]:</i></p>
 <blockquote>
-<p><span style="font-style: italic; background-color: #FFFF99">Need to choose 
-Option A or Option B. The filesystem small group has not yet discussed these 
-options.</span></p>
-  <hr>
-<p><span style="background-color: #FFFF99; font-style:italic">Option A; from Davis: </span> </p>
 <p>[ <i>Note:</i> The format conversions described in this section are not applied on 
 POSIX-<del> or Windows-</del>based operating systems because on these systems:</p>
 <blockquote>
@@ -1473,28 +1464,13 @@ function arguments.<br>
 — Paths for regular files and paths for directories share the same syntax.</p>
 </blockquote>
 <p>—end note ]</p>
-<hr>
-<p><span style="background-color: #FFFF99; font-style:italic">Option B; from Beman:</span></p>
-<p>[ <i>Note:</i> The format conversions described in this section are <ins>
-usually</ins> not applied on 
-POSIX- or Windows-based operating systems because on these systems:</p>
-<blockquote>
-<p>— The generic format is acceptable as a native path.<br>
-— There is <ins>usually</ins> no need to distinguish between native format and 
-generic format in function arguments.<br>
-— Paths for regular files and paths for directories share the same syntax.</p>
-</blockquote>
-<p><ins>Even on these operating systems, the format conversions may be applied 
-for pathnames with implementation-defined <i>root-name</i>s ([path.generic]).</ins> </p>
-<p>—end note ]</p>
-</blockquote>
-<blockquote>
-  <hr>
-  <p><ins>Several functions are defined to accept <i>detected-format</i> character 
-  sequence arguments that represent paths using either the generic pathname 
-  format grammar ([path.generic]) or the native pathname format ([fs.def.native]). Such an 
-  argument is taken to be in the generic format if and only if it matches the 
-  generic format but is not acceptable to the operating system as a native path.
+<p><ins>Several functions are defined to accept <i>detected-format</i> arguments, 
+which are character sequences. A detected-format argument represents paths using either 
+a pathname in the generic 
+  format&nbsp; ([path.generic]) or a pathname in the native format ([fs.def.native]). 
+Such an argument is taken to be in the generic format if and only if it matches 
+the generic format but is not acceptable to the operating system as a native 
+path.
   </ins>
   </p>
   <p><del>Function arguments that take character sequences representing paths 
@@ -1539,7 +1515,7 @@ constructor.]</span></i><span style="background-color: #E1E9FD"> </span></p>
 path(path&amp;&amp; p) noexcept;</pre>
   <blockquote>
   <p><i>Effects:</i> Constructs an object of class <code>path</code>
-  <ins>having the same native and generic format pathnames as <code>p</code></ins> 
+  <ins>having the same pathname in the native and generic formats as <code>p</code></ins> 
   <del>with <code>pathstring</code> having the original value of <code>p.pathstring</code></del>. In
   the second form, <code>p</code> is left in a valid but unspecified state.</p>
   </blockquote>
@@ -1613,7 +1589,7 @@ character set will be converted to their Unicode representation.</p>
   <pre>path&amp; operator=(const path&amp; p);</pre>
   <blockquote>
 <p><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
-has no effect. Otherwise, <ins>sets the native and generic format pathnames to 
+has no effect. Otherwise, <ins>sets the pathname in the native and generic formats to 
 those of <code>p</code></ins> <del>modifies <code>pathstring</code> to have the original 
 value of <code>p.pathstring</code></del>.</p>
 <p><i>Returns:</i> <code>*this</code>.</p>
@@ -1621,7 +1597,7 @@ value of <code>p.pathstring</code></del>.</p>
   <pre>path&amp; operator=(path&amp;&amp; p) noexcept;</pre>
   <blockquote>
 <p><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
-has no effect. Otherwise, <ins>sets the native and generic format pathnames to 
+has no effect. Otherwise, <ins>sets the pathname in the native and generic formats to 
 those of <code>p</code></ins> <del>modifies <code>pathstring</code> to have the original 
 value of <code>p.pathstring</code></del>. <code>p</code> is left in a valid but 
 unspecified state. [ <i>Note:</i> A valid implementation is <code>swap(p)</code>. 
@@ -1632,7 +1608,7 @@ note</i> ]</p>
   <pre>path&amp; operator=(string_type&amp;&amp; source);
 path&amp; assign(string_type&amp;&amp; source);</pre>
   <blockquote>
-    <p><i>Effects:</i> <ins>Sets the native and generic format pathnames to 
+    <p><i>Effects:</i> <ins>Sets the pathname in the native and generic formats to 
 those of <code>source</code></ins> <del>Modifies <code>pathstring</code> to have the original value 
     of <code>source</code></del>. <code>source</code> is left in a valid but 
     unspecified state.</p>
@@ -1659,7 +1635,7 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
   <pre>path&amp; operator/=(const path&amp; p);</pre>
   <blockquote>
 <p><i>Effects:</i> <ins>If equivalent to <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
-then appends <code>path::preferred_separator</code> to the generic format pathname. [ <i>
+then appends <code>path::preferred_separator</code> to the pathname in the generic format. [ <i>
 Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
  equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
 <p>&nbsp;<del>Appends <code>path::preferred_separator</code> to <code>pathstring</code> 
@@ -1671,7 +1647,8 @@ absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or<
 <p><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
 <p><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
     </blockquote>
-<p>Then appends <code>p.native()</code> to <ins>the native format pathname</ins>&nbsp; <code>
+<p>Then appends <code>p.native()</code> to <ins>the pathname in the native 
+format</ins>&nbsp; <code>
 <del>pathstring</del></code>.</p>
 <p><i>Returns:</i> <code>*this</code>.</p>
   </blockquote>
@@ -1685,7 +1662,7 @@ such time, addresses US 51.] </span></i></p>
   <pre>path&amp; make_preferred();</pre>
   <blockquote>
   <p><i>Effects:</i> Each <i>directory-separator</i> is converted to
-  <i>preferred-separator</i> in the <ins>generic format pathname</ins>. </p>
+  <i>preferred-separator</i> in the <ins>pathname in the generic format</ins>. </p>
   </blockquote>
 </blockquote>
 <p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
@@ -1698,11 +1675,12 @@ is expected to be rewritten.] </span></i></p>
   <blockquote>
   <p><i>Effects:</i> <del><code>pathstring</code> (the stored path) is modified as follows:</del></p>
   <blockquote>
-<p>— Any existing <code>extension()</code>(27.10.8.4.9) is removed from the <ins>generic format pathname</ins>
+<p>— Any existing <code>extension()</code>(27.10.8.4.9) is removed from the <ins>
+pathname in the generic format</ins>
 <del>stored path</del>, then</p>
 <p>— If <code>replacement</code> is not empty and does not begin with a <i>dot</i> character, a 
 <i>dot</i> 
-character is appended to the <ins>generic format pathname</ins> <del>stored path</del>, then</p>
+character is appended to the <ins>pathname in the generic format</ins> <del>stored path</del>, then</p>
 <p>— <ins><code>operator+=(replacement);</code></ins> <code><del>replacement</del></code><del> is concatenated to the stored path</del>.</p>
   </blockquote>
 <p><i>Returns</i> <code>*this</code>.</p>
@@ -1720,7 +1698,7 @@ character is appended to the <ins>generic format pathname</ins> <del>stored path
 <blockquote>
   <pre>const string_type&amp; native() const noexcept;</pre>
   <blockquote>
-    <p><i>Returns: </i><ins>The native format pathname</ins> <code><del>
+    <p><i>Returns: </i><ins>The pathname in the native format</ins> <code><del>
     pathstring</del></code>.</p>
   </blockquote>
   <pre>const value_type* c_str() const noexcept;</pre>
@@ -1752,7 +1730,7 @@ be performed by a. Conversion, if any, is specified by 27.10.8.2.</p>
   basic_string&lt;EcharT, traits, Allocator&gt;
     generic_string(const Allocator&amp; a = Allocator()) const;</pre>
   <blockquote>
-<p><i>Returns: </i><ins>The generic format pathname</ins> <del><code>pathstring</code>, 
+<p><i>Returns: </i><ins>The pathname in the generic format</ins> <del><code>pathstring</code>, 
 reformatted according to the generic pathname format (27.10.8.1)</del>.</p>
 <p><i>Remarks:</i> All memory allocation, including for the return value, shall 
 be performed by a. Conversion, if any, is specified by 27.10.8.2.</p>
@@ -1763,7 +1741,7 @@ std::string generic_u8string() const;
 std::u16string generic_u16string() const;
 std::u32string generic_u32string() const;</pre>
   <blockquote>
-<p><i>Returns:</i> <ins>The generic format pathname</ins> <del><code>pathstring</code>, 
+<p><i>Returns:</i> <ins>The pathname in the generic format</ins> <del><code>pathstring</code>, 
 reformatted according to the generic pathname format (27.10.8.1)</del>.</p>
 <p><i>Remarks:</i> Conversion, if any, is specified by 27.10.8.2. The encoding 
 of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
@@ -1773,20 +1751,21 @@ of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
 <blockquote>
   <pre>path root_name() const;</pre>
   <blockquote>
-    <p><i>Returns:</i> <i>root-name</i>, if <ins>the generic format 
-    pathname</ins> <del><code>pathstring</code></del> includes <i>root-name</i>, 
+    <p><i>Returns:</i> <i>root-name</i>, if <ins>the pathname in the generic 
+    format</ins> <del><code>pathstring</code></del> includes <i>root-name</i>, 
     otherwise <code>path()</code>. </p>
   </blockquote>
   <pre>path root_directory() const;</pre>
   <blockquote>
-    <p><i>Returns:</i> <i>root-directory</i>, if <ins>the generic format 
-    pathname</ins> <del><code>pathstring</code></del> includes <i>root-directory</i>, 
+    <p><i>Returns:</i> <i>root-directory</i>, if <ins>the pathname in the 
+    generic format</ins> <del><code>pathstring</code></del> includes <i>root-directory</i>, 
     otherwise <code>path()</code>.</p>
   </blockquote>
   <p>...</p>
   <pre>path relative_path() const;</pre>
   <blockquote>
-    <p><i>Returns:</i> A path composed from <ins>the generic format pathname</ins>
+    <p><i>Returns:</i> A path composed from <ins>the pathname in the generic 
+    format</ins>
     <del><code>pathstring</code></del>, if <code>!empty()</code>, beginning with 
     the first <i>filename</i> after <i>root-path</i>. Otherwise, <code>path()</code>.</p>
   </blockquote>
@@ -1814,7 +1793,7 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
     Otherwise, returns <code>filename()</code>.</del></p>
   <p><ins><i>Returns:</i> Let <code>f</code> be 
   <code>filename()</code>. Returns a 
-  path whose generic format pathname is </ins></p>
+  path whose the pathname in the generic format is </ins></p>
   <blockquote>
   <p><ins>- <code>f</code>, if it contains no periods other than a leading 
   period or consists solely of one or two periods;</ins>
@@ -1838,7 +1817,7 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
   </blockquote>
   <pre>path extension() const;</pre>
   <blockquote>
-    <p><i>Returns: </i><ins>a path whose generic format pathname is the suffix 
+    <p><i>Returns: </i><ins>a path whose pathname in the generic format is the suffix 
     of <code>filename()</code> not included in 
     <code>stem()</code>.</ins> 
     <del>if <code>filename()</code> contains a period but does not consist solely of 
@@ -1862,13 +1841,13 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
 <blockquote>
   <pre>bool empty() const noexcept;</pre>
   <blockquote>
-<p><i>Returns: </i><ins><code>true</code> if the generic format pathname is 
+<p><i>Returns: </i><ins><code>true</code> if the pathname in the generic format is 
 empty, else <code>false</code></ins><i> </i><del><code>pathstring.empty()</code></del>.</p>
   </blockquote>
 <p>...</p>
   <pre>bool is_absolute() const;</pre>
   <blockquote>
-<p><i>Returns:</i> <code>true</code> if <ins>the native format pathname</ins>
+<p><i>Returns:</i> <code>true</code> if <ins>the pathname in the native format</ins>
 <code><del>pathstring</del></code> contains an absolute path (27.10.4.1), else 
 false.</p>
 <p>[ Example: <code>path(&quot;/&quot;).is_absolute()</code> is true for POSIX-based 
@@ -1879,8 +1858,8 @@ operating systems, and false for Windows-based operating systems. —end example
 <blockquote>
   <pre>path lexically_normal() const;</pre>
   <blockquote>
-<p><i>Returns: </i><ins>a path whose generic format pathname is the normal form 
-([fs.def.normal.form]) of the generic format pathname of <code>*this</code></ins><i>
+<p><i>Returns: </i><ins>a path whose pathname in the generic format is the normal form 
+([fs.def.normal.form]) of the pathname in generic format of <code>*this</code></ins><i>
 </i><del><code>*this</code> in normal form ([fs.def.normal.form])</del>.</p>
 
 <p>[ <i>Example:</i><br>
@@ -1899,7 +1878,8 @@ example</i> ]</p>
 </blockquote>
 <p><i>Change [path.itr]:</i></p>
 <blockquote>
-<p>Path iterators iterate over the elements of <ins>the generic format pathname</ins>
+<p>Path iterators iterate over the elements of <ins>the pathname in the generic 
+format</ins>
 <del><code>pathstring</code> in the generic format</del> (27.10.8.1).</p>
 <p>A <code>path::iterator</code> is a constant iterator satisfying all the 
 requirements of a bidirectional iterator (24.2.6) except that, for 
@@ -1909,7 +1889,7 @@ path::iterator</code> with <code>a == b</code>, there is no requirement that
 value_type</code> is <code>path</code>.</p>
 <p>Calling any non-const member function of a path object invalidates all 
 iterators referring to elements of that object.</p>
-<p>For the elements of <ins>the generic format pathname</ins> <del><code>
+<p>For the elements of <ins>the pathname in the generic format</ins> <del><code>
 pathstring</code> in the generic format</del>, the forward traversal order is as 
 follows:</p>
 <p>...</p>
@@ -1921,7 +1901,7 @@ path canonical(const path&amp; p, const path&amp; base, error_code&amp; ec);</pr
   <blockquote>
     <p><i>Effects:</i> Converts <code>p</code>, which must exist, to an absolute 
     path that has no symbolic link, <ins><i>dot</i>, or <i>dot-dot</i> elements 
-    in its generic format pathname</ins> <del>&quot;.&quot;, or &quot;..&quot; elements</del>.</p>
+    in its pathname in the generic format</ins> <del>&quot;.&quot;, or &quot;..&quot; elements</del>.</p>
     <p>...</p>
   </blockquote>
 </blockquote>
