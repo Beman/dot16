@@ -84,25 +84,14 @@ tested.</p>
 
 <blockquote>
 
-<p>It is suggested that <a href="#US74">US-74/CA-3</a> be reviewed first; 
-otherwise  other changes may not make sense.</p>
-
-<p><a href="#US56">US-56</a>, <a href="#US60">US-60</a>, and <a href="#US61">US-61</a> 
-reflect design changes reviewed by LEWG in Issaquah; we need to know ASAP if any 
-of these are problematic so we can go back to LEWG if necessary.</p>
-
 <p>Accept or Accept with modifications: <a href="#US32">US-32</a>, <a href="#US33">
 US-33</a>, <a href="#US34">US-34</a>, <a href="#US36">US-36</a>, <a href="#US43">
 US-43</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US47">US-47</a>, <a href="#US48">
-US-48</a>, <a href="#US53">US-53</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
+US-48</a>, <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
 <a href="#US63">US-63</a>, <a href="#US73">US-73/CA-2</a>, <a href="#Late36">
 Late-36</a>, <a href="#Late37">Late-37</a>.</p>
 
-<p>Reject: <a href="#US25">US-25</a>, <a href="#US31">US-31</a>, <a href="#US35">
-US-35</a>, <a href="#US40">US-40</a>, <a href="#US52">US-52</a>, <a href="#US56">US-56</a>, 
-<a href="#US57">US-57</a>, <a href="#US59">US-59</a>, <a href="#US62">US-62</a>,
-<a href="#US185">US-185</a>, <a href="#FI 14">FI-14</a>, <a href="#US41">US-41</a>,
-<a href="#US42">US-42</a>, <a href="#US50">US-50</a>.</p>
+<p>Reject: <a href="#US51">US-51</a>, <a href="#US62">US-62</a>.</p>
 
 <p dir="ltr">Editorial: <a href="#US38">US-38</a>,
 <a href="#US39">US-39</a>, <a href="#US49">US-49</a>.</p>
@@ -118,7 +107,25 @@ US-79/CA-8</a>.</p>
 
 <blockquote>
 
-<p><a href="#US37">US-37</a> </p>
+<p><a href="#US37">US-37</a></p>
+
+</blockquote>
+
+<p><b>LWG review complete and any requested changes applied</b></p>
+
+<blockquote>
+
+<p> <a href="#US74">US-74/CA-3</a>. This is the critical pathname omnibus 
+cleanup.</p>
+
+<p><a href="#US56">US-56</a>, <a href="#US60">US-60</a>, and <a href="#US61">US-61</a>. 
+These were previously review by LEWG.</p>
+
+<p> <a href="#US25">US-25</a>, <a href="#US31">US-31</a>, <a href="#US35">
+US-35</a>, <a href="#US40">US-40</a>, <a href="#US56">US-56</a>, 
+<a href="#US57">US-57</a>, <a href="#US59">US-59</a>,
+<a href="#US185">US-185</a>, <a href="#FI 14">FI-14</a>, <a href="#US41">US-41</a>,
+<a href="#US42">US-42</a>, <a href="#US50">US-50</a>.</p>
 
 </blockquote>
 
@@ -215,11 +222,23 @@ P0492R0</a> Post-Issaquah mailing</h3>
 that remains to be done, who is planning to do that work, or wording that 
 requires specially careful review by the LWG. Some of these notes may indicate 
 that the proposed resolution is not yet ready to be voted into the 
-C++17 working paper.</span><p><span style="font-style: italic; background-color: #E1E9FD">
+C++17 working paper.</span>
+
+<p><span style="font-style: italic; background-color: #E1E9FD">
 SG informative notes that will remain in this proposal but do not become part of 
-the WP.</span><p><i>Instructions to the project editor.</i><p><del>Text to be 
-removed from the WP.</del><p><ins>Text 
-to be added to the WP.</ins><h2><a name="nb-comments"></a>NB Technical and general comments</h2>
+the WP.</span>
+
+<p><i>Instructions to the project editor.</i><p><del>Text to be 
+removed from the WP.</del>
+
+<p><ins>Text 
+to be added to the WP.</ins>
+
+<p><b>&#10003;</b> after an NB comment's <b>Status</b> indicates indicates that 
+the comment has been reviewed by the LWG, any changes they requested have been 
+made, and the comment is ready for voting in Kona.
+
+<h2><a name="nb-comments"></a>NB Technical and general comments</h2>
 
 <h3>Comments related to <code>filename()</code></h3>
 
@@ -228,7 +247,7 @@ are tightly coupled and best resolved as a whole.</span></p>
 
 <h4><a name="US25">US 25</a>; 27.10.8.4.10 [path.query]: <code>has_filename()</code> is equivalent to just 
 <code>!empty()<br>
-</code>Status: Reject</h4>
+</code>Status: Reject ✓</h4>
 <blockquote>
 <p>Resolved by <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US54">
 US-54</a>, and <a href="#US60">US-60</a>.</p>
@@ -750,7 +769,7 @@ is called.</p>
     <font FACE="LMRoman10-Regular">
 
 <h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
-</code>Status: Accept with modifications</h4>
+</code>Status: Accept with modifications ✓</h4>
 
 <blockquote>
 
@@ -878,9 +897,6 @@ present.</font></p>
 
   </blockquote>
 
-<p><span style="font-style: italic; background-color: #FFFF99">Also see LWG 2665 remove_filename() post condition is 
-incorrect</span></p>
-
 <p><span style="font-style: italic; background-color: #FFFF99">Although not a NB comment,
 <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
 to be coordinated with this set of comments, particularly US-52. It is mentioned 
@@ -891,7 +907,7 @@ here as a reminder to the LWG.</span></p>
 <h3>Other comments</h3>
 
 <h4><a name="US31">US 31</a>; 27.10 [filesystems]: Everything is defined in terms of one implicit host system<code><br>
-</code>Status: Reject</h4>
+</code>Status: Reject ✓</h4>
 <blockquote>
 <p>That&#39;s by design, aimed at achieving portable syntax and portable behavior. 
 And that objective has been largely achieved in practical real-world use for 
@@ -943,7 +959,7 @@ Status: Accept with modifications</h4>
   </blockquote>
 </blockquote>
 <h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?<code><br>
-</code>Status: Reject</h4>
+</code>Status: Reject ✓</h4>
 <blockquote>
 <p>27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
 describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
@@ -968,7 +984,7 @@ with the same file.</ins></p>
 </blockquote>
 <h4><a name="US40">US 40</a>; 27.10.4.15 [fs.def.parent]: Not all directories 
 have a parent<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 <blockquote>
 <p>No proposed wording. The definition in question is taken directly from 
@@ -1164,7 +1180,7 @@ conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
  
 <h4><a name="US56">US 56</a>; 27.10.8.4.5 [path.modifiers] ¶11.2: Remove <code>
 replace_extension()</code>&#39;s conditional addition of period<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 <blockquote>
  
@@ -1176,7 +1192,7 @@ consensus for change; the vote was 3/3/3/7/2. See the Issaquah LEWG notes.</p>
 </blockquote>
 
 <h4><a name="US57">US 57</a>; 27.10.8.4.8 [path.compare] ¶2: On Windows, absolute paths will sort in among relative paths<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 <blockquote>
 
@@ -1212,7 +1228,7 @@ Status: Accept with modifications</h4>
 </blockquote>
 
 <h4><a name="US59">US 59</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>filename()</code> returning <code>path</code> for single path components is bizarre<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 <blockquote>
 
@@ -1225,7 +1241,7 @@ sentences. See <a href="#US55">US 55</a> for further discussion.</p>
 </blockquote>
 
 <h4><a name="US61">US 61</a>; 27.10.8.4.9 [path.decompose] ¶8: Leading dots in <code>filename()</code> should not begin an extension<code><br>
-</code>Status: Accept with modifications</h4>
+</code>Status: Accept with modifications ✓</h4>
 
 <blockquote>
 
@@ -1308,7 +1324,9 @@ Issaquah LEWG notes.</p>
   </table>
 </blockquote>
 
-<p><i>Change 27.10.8.4.9 [path.decompose] ¶ 8:</i></p>
+<p><i>If the <a href="#stem-fix">US 74 stem()</a> change is voted in, this 
+change is moot and should not be applied. Otherwise, this is a point fix for 
+US61; change 27.10.8.4.9 [path.decompose] ¶ 8:</i></p>
 
 <blockquote>
 
@@ -1325,7 +1343,9 @@ Otherwise, returns <code>filename()</code>.</p>
   </blockquote>
 </blockquote>
 
-<p><i>Change 27.10.8.4.9 [path.decompose] ¶ 10:</i></p>
+<p><i>If the <a href="#extension-fix">US 74 extension()</a> change is voted in, 
+this change is moot and should not be applied. Otherwise, this is a point fix 
+for US61; change 27.10.8.4.9 [path.decompose] ¶ 10:</i></p>
 
 <blockquote>
 
@@ -1341,9 +1361,6 @@ returns an empty <code>path</code> object.</p>
 
   </blockquote>
 </blockquote>
-
-<p><span style="background-color: #FFFF99"><i>Beman Dawes supplied the above 
-wording per the LEWG vote. It has not been reviewed by the small group.</i></span></p>
 
 </blockquote>
 
@@ -1372,7 +1389,7 @@ not good standardese. No proposed wording. </p>
 </blockquote>
 
 <h4><b><a name="US185">US 185</a>; 27.10.7 [fs.err.report]: </b>Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 <blockquote>
 
@@ -1385,7 +1402,7 @@ October 25, 2016.</p>
 </blockquote>
 
 <h4><a name="FI 14">FI 14</a>; 27.10.12.3 [directory_entry.obs]: <tt>directory_entry</tt> comparisons are members<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 
 
@@ -1430,7 +1447,7 @@ Status: Accept with modifications</h4>
 </blockquote>
 
 <h4><a name="US74">US 74</a>, CA 3; 27.10.8 [class.path]: The term “pathname” is ambiguous in some contexts<br>
-Status: Accept with modifications</h4>
+Status: Accept with modifications &#10003;</h4>
 
 <p><span style="background-color: #E1E9FD"><i>The proposed resolution of this 
 National Body comment enables the resolution of many other filesystem NB 
@@ -1772,7 +1789,7 @@ of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
     the first <i>filename</i> after <i>root-path</i>. Otherwise, <code>path()</code>.</p>
   </blockquote>
   <p>...</p>
-  <pre>path filename() const;</pre>
+  <pre>path <a name="filename-fix">filename(</a>) const;</pre>
   <blockquote>
     <p><i>Returns:</i> <ins><code>relative_path().</ins>empty() ? path() : *--end()</code>.</p>
     <p>[ <i>Example:</i></p>
@@ -1787,8 +1804,12 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
     </blockquote>
     <p>—<i>end example</i> ]</p>
   </blockquote>
-  <pre>path stem() const;</pre>
+  <pre>path <a name="stem-fix">stem()</a> const;</pre>
   <blockquote>
+    <p><span style="background-color: #E1E9FD"><i>Note: This change also 
+    resolves <a href="#US61">US 61</a>, </i>Leading dots in filename() should 
+    not begin an extension<i>, as approved by LEWG in Issaquah, and affirmed by 
+    LWG telecon.</i></span></p>
     <p><del><i>Returns:</i> if <code>filename()</code> contains a period but does not consist 
     solely of one or two periods, returns the substring of <code>filename()</code> starting 
     at its beginning and ending with the character before the last period. 
@@ -1804,7 +1825,7 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
   </blockquote>
   <p><i><span style="background-color: #E1E9FD">&quot;other than a leading period&quot; 
   was inserted to reflect LEWG guidance from Issaquah that a filename like &quot;.bashrc&quot; 
-  is not treated as an extension.</span></i></p>
+  is not to be treated as an extension.</span></i></p>
 <p>[ Example:</p>
     <blockquote>
       <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).stem(); // outputs &quot;bar&quot;
@@ -1817,8 +1838,12 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
     </blockquote>
     <p>—end example ]</p>
   </blockquote>
-  <pre>path extension() const;</pre>
+  <pre>path <a name="extension-fix">extension</a>() const;</pre>
   <blockquote>
+    <p><span style="background-color: #E1E9FD"><i>Note: This change also 
+    resolves <a href="#US61">US 61</a>, </i>Leading dots in filename() should 
+    not begin an extension<i>, as approved by LEWG in Issaquah, and affirmed by 
+    LWG telecon.</i></span></p>
     <p><i>Returns: </i><ins>a path whose pathname in the generic format is the suffix 
     of <code>filename()</code> not included in 
     <code>stem()</code>.</ins> 
@@ -2035,7 +2060,7 @@ Status: Accept</h4>
 
 <h4><a name="US41">US 41</a>; 27.10.4.16 [fs.def.parent.other]: The term “parent 
 directory” for a (non-directory) file is unusual<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 
 <blockquote>
@@ -2046,7 +2071,7 @@ though the POSIX definition is a bit weird.</p>
 
 <h4><a name="US42">US 42</a>; 27.10.4.21 [fs.def.symlink]: Pathname resolution 
 does not always resolve a symlink<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 
 
@@ -2214,7 +2239,7 @@ special meanings for a particular operating system.</p>
 
 <h4><a name="US50">US 50</a>;&nbsp; 27.10.8.3 [path.req]: <code>path</code> 
 requirements ¶ 1.4 largely redundant with ¶ 1.3<br>
-Status: Reject</h4>
+Status: Reject ✓</h4>
 
 
 <blockquote>
