@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-19<!--webbot bot="Timestamp" endspan i-checksum="12161" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-26<!--webbot bot="Timestamp" endspan i-checksum="12156" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -87,13 +87,14 @@ tested.</p>
 <p>Accept or Accept with modifications: <a href="#US32">US-32</a>, <a href="#US33">
 US-33</a>, <a href="#US34">US-34</a>, <a href="#US36">US-36</a>, <a href="#US43">
 US-43</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US47">US-47</a>, <a href="#US48">
-US-48</a>, <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
+US-48</a>, <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US54">
+US-54</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
 <a href="#US63">US-63</a>, <a href="#US73">US-73/CA-2</a>, <a href="#Late36">
 Late-36</a>, <a href="#Late37">Late-37</a>.</p>
 
 <p>Reject: <a href="#US51">US-51</a>, <a href="#US62">US-62</a>.</p>
 
-<p dir="ltr">Editorial: <a href="#US38">US-38</a>,
+<p>Editorial: <a href="#US38">US-38</a>,
 <a href="#US39">US-39</a>, <a href="#US49">US-49</a>.</p>
 
 <p>Defer to 
@@ -191,6 +192,7 @@ one implicit host system</a><br>
   Issues Telecon.</li>
   <li>Editorial and near editorial corrections to <a href="#US74">US-74/CA-3</a>.</li>
   <li>Supplies proposed wording for <a href="#US47">US-47</a>.</li>
+  <li>Supplies proposed wording for <a href="#US54">US-54</a>.</li>
 </ul>
 
 <h3>P0492R1 Pre-Kona mailing</h3>
@@ -656,7 +658,7 @@ are  not always aware of the following. Thus the added note.</span></p>
     path syntax, and thus directory paths must be lexically distinguished from 
     non-directory paths.</ins></li>
     <li><ins>Required by POSIX utilities for tool dependent purposes such as 
-    indicating that a symlink is not to be followed<i>.</i></ins></li>
+    indicating that a symlink is to be followed<i>.</i></ins></li>
     <li><ins>Required by some programs to distinguish directory pathnames that are to 
     be handled in some special way.</ins></li>
     <li><ins>Recommended by some coding guidelines to clearly distinguish directory 
@@ -723,10 +725,6 @@ replace_filename()</code> is broken<code><br>
 
 <p>See <a href="#US52">US-52</a> and <a href="#US60">US-60</a> fixes.</p>
 
-<p><span style="background-color: #FFFF99; font-style:italic">Beman Dawes supplied the 
-following wording. It 
-has not been  reviewed by the filesystem small group.</span></p>
-
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers]:</i></p>
 
@@ -734,42 +732,42 @@ has not been  reviewed by the filesystem small group.</span></p>
     <pre>path&amp; replace_filename(const path&amp; replacement);</pre>
     <p><i>Effects:</i> Equivalent to:</p>
     <blockquote>
-      <pre><ins>if (has_filename()) {</ins>
-  remove_filename();
-  operator/=(replacement);
-<ins>}</ins></pre>
+      <pre>  remove_filename();
+  operator/=(replacement);</pre>
     </blockquote>
     <p><i>Returns:</i> <code>*this</code>.</p>
 
 <p>[ <i>Example:</i></p>
 
     <blockquote>
-      <div>
-      <pre><ins>std::cout &lt;&lt; path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;);  // outputs &quot;/bar&quot;</ins>
-std::cout &lt;&lt; path(&quot;/&quot;).replace_filename(&quot;bar&quot;);     // outputs &quot;<del>bar</del>&quot;</pre>
-      </div>
-    </blockquote>
+      <pre><ins>std::cout &lt;&lt; path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;);  // POSIX outputs &quot;/bar&quot;</ins>
+std::cout &lt;&lt; path(&quot;/&quot;).replace_filename(&quot;bar&quot;);     // <ins>POSIX </ins>outputs &quot;<ins>/</ins>bar&quot;</pre>
+     </blockquote>
 
 <p><i>—end example</i> ]</p>
 
   </blockquote>
 
-<p><i>Change 27.10.12.2 [directory_entry.mods]:</i></p>
+<p><i>Change 27.10.12.2 [directory_entry.mods] <b>after P0317 has been applied</b>:</i></p>
 
   <blockquote>
-    <pre>void replace_filename(const path&amp; p);</pre>
+    <pre>void replace_filename(const path&amp; p);
+void replace_filename(const path&amp; p, error_code&amp; ec);</pre>
+</blockquote>
+
+</blockquote>
+
+<blockquote>
+  <blockquote>
     <blockquote>
-
-<p><i>Postconditions:</i> <code>path() == <del>x.parent_path() / p</del> <ins>x.replace_filename(p)</ins></code> where <code>
-x</code> is the value of <code>path()</code> before the function
-is called.</p>
-
+      <p><i>Effects:</i> Equivalent to <code><del>pathobject = 
+      pathobject.parent_path()/ p</del> <ins>pathobject.replace_filename(p)</ins></code>, then <code>refresh()</code>or <code>
+      refresh(ec)</code>, respectively. If an error occurs&nbsp; the value of any 
+      cached attributes is unspecified.</p>
+      <p><i>Throws:</i> As specified in Error reporting ([fs.err.report]).</p>
     </blockquote>
+  </blockquote>
 </blockquote>
-
-</blockquote>
-
-    <font FACE="LMRoman10-Regular">
 
 <h4><a name="US60">US 60</a>; 27.10.8.4.9 [path.decompose] ¶6: <code>path(&quot;/foo/&quot;).filename()==path(&quot;.&quot;)</code> is surprising<code><br>
 </code>Status: Accept with modifications ✓</h4>
