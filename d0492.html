@@ -740,8 +740,8 @@ replace_filename()</code> is broken<code><br>
 <p>[ <i>Example:</i></p>
 
     <blockquote>
-      <pre><ins>std::cout &lt;&lt; path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;);  // POSIX outputs &quot;/bar&quot;</ins>
-std::cout &lt;&lt; path(&quot;/&quot;).replace_filename(&quot;bar&quot;);     // <ins>POSIX </ins>outputs &quot;<ins>/</ins>bar&quot;</pre>
+      <pre><ins>path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;)  // yields &quot;/bar&quot; on POSIX</ins>
+<del>std::cout &lt;&lt; </del>path(&quot;/&quot;).replace_filename(&quot;bar&quot;);     // <del>outputs</del><ins>yields</ins> &quot;<ins>/</ins>bar&quot; <ins>on POSIX</ins></pre>
      </blockquote>
 
 <p><i>—end example</i> ]</p>
