@@ -284,7 +284,8 @@ called <i>normalization</i>. [ <i>Note:</i> The rule that appends a current
 directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
 different syntax for directory names and regular file names. <i>—end note</i> ]</del></p>
 
-<p><ins>A pathname in the generic format ([path.generic]) is in normal form if empty or has:</ins></p>
+<p><ins>A pathname in the generic format ([path.generic]) is in normal form if 
+is empty or it has:</ins></p>
 
 <ul>
   <li><ins>Only the <i>preferred-separator</i> form of<i> directory-separator</i>s, 
@@ -304,9 +305,7 @@ normalization</i>.</ins></p>
   <li><ins>a relative path remains a relative path, and</ins></li>
   <li><ins>an absolute path remains an absolute path, and</ins></li>
   <li><ins>a pathname ending with a <i>filename</i> and a <i>directory-separator</i> 
-  remains ending with the same <i>filename</i> and a <i>directory separator </i>
-  [<i>Note:</i> No trailing <i>directory-separator</i> is added or removed if no 
-  concatenation occurs at the end of the path. <ins>—</ins> <i>end note</i>], 
+  remains ending with the same <i>filename</i> and a <i>directory separator</i>, 
   and</ins></li>
   <li><ins>a pathname ending with a <i>filename</i> remains ending with the same <i>
   filename</ins></i>. </li>
@@ -333,11 +332,11 @@ normalization</i>.</ins></p>
   &quot;./foo&quot; =&gt; &quot;./foo&quot;<br>
   &quot;./foo/../foo/.&quot; =&gt; &quot;./foo/&quot;<br>
   <br>
-  &quot;//foo//bar&quot; =&gt; &quot;//foo/bar&quot;&nbsp;&nbsp;&nbsp; root names in POSIX and Windows 
-  begin with two leading slashes<br>
+  &quot;//foo//bar&quot; =&gt; &quot;//foo/bar&quot;&nbsp;&nbsp;&nbsp; <i>(root names in POSIX and Windows 
+  begin with two leading slashes)</i><br>
   &quot;///foo//bar&quot; =&gt; &quot;/foo/bar&quot;<br>
   <br>
-  On Windows normalized paths have slashes replaced by backslashes.</ins></p>
+  On Windows, normalization replaces slashes with backslashes.</ins></p>
 </blockquote>
 <p><ins><i>&mdash; end example</i>]</ins></p>
 
@@ -348,7 +347,7 @@ normalization</i>.</ins></p>
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
-Status: Reject</h4>
+Status: Accept with modifications</h4>
 <blockquote>
 
 <p>Resolved by <a href="#US74">US-74/CA-3</a></p>
@@ -358,8 +357,7 @@ Status: Reject</h4>
 Status: Accept with modifications</h4>
 <blockquote>
 
-<p>Also see LWG
-<a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a>.</p>
+<p>Resolves <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a>.</p>
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers]:</i> </p>
 <blockquote>
@@ -575,11 +573,6 @@ present.</font></p>
 
   </blockquote>
 
-<p><span style="font-style: italic; background-color: #FFFF99">Although not a NB comment,
-<a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a> needs 
-to be coordinated with this set of comments, particularly US-52. It is mentioned 
-here as a reminder to the LWG.</span></p>
-
 </blockquote>
 
 <h3>Other comments</h3>
@@ -613,10 +606,8 @@ reported in such cases&quot;.</p>
     implementations are not required to support those features on the FAT file 
     system <ins>but instead are required to report an error as described above</ins>. —<i>end example</i> ]</p>
   </blockquote>
-    <p><i><span style="background-color: #FFFF99">Jonathan Wakely may supply improved wording. 
-    The above change, however, is probably sufficient to resolve the NB comment.</span></i></p>
 </blockquote>
-<h4><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic<br>
+<h4 dir="ltr"><a name="US33">US 33</a>; 27.10.4.2 [fs.def.canonical.path]: Definition of <i>canonical path</i> problematic<br>
 Status: Accept</h4>
 <blockquote>
 <p>The comment appears to be correct in that the definition of canonical path is 
@@ -1042,7 +1033,7 @@ returns an empty <code>path</code> object.</p>
 
 </blockquote>
 
-<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶13 (was ¶11): It is important that <code>stem()+extension()==filename()<br>
+<h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()<br>
 </code>Status: Reject</h4>
 
 <blockquote>
@@ -1160,7 +1151,7 @@ function arguments.<br>
 </blockquote>
 <p>—end note ]</p>
 <p><ins>Several functions are defined to accept <i>detected-format</i> arguments, 
-which are character sequences. A detected-format argument represents paths using either 
+which are character sequences. A detected-format argument represents a path using either 
 a pathname in the generic 
   format&nbsp; ([path.generic]) or a pathname in the native format ([fs.def.native]). 
 Such an argument is taken to be in the generic format if and only if it matches 
@@ -1285,16 +1276,16 @@ character set will be converted to their Unicode representation.</p>
   <pre>path&amp; operator=(const path&amp; p);</pre>
   <blockquote>
 <p><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
-has no effect. Otherwise, <ins>sets the pathname of <code>*this</code> to 
-the pathname of <code>p</code></ins> <del>modifies <code>pathstring</code> to have the original 
+has no effect. Otherwise, <ins>sets both respective pathnames of <code>*this</code> 
+to the respective pathnames of <code>p</code></ins> <del>modifies <code>pathstring</code> to have the original 
 value of <code>p.pathstring</code></del>.</p>
 <p><i>Returns:</i> <code>*this</code>.</p>
   </blockquote>
   <pre>path&amp; operator=(path&amp;&amp; p) noexcept;</pre>
   <blockquote>
 <p><i>Effects:</i> If <code>*this</code> and <code>p</code> are the same object, 
-has no effect. Otherwise, <ins>sets the pathname of <code>*this</code> to 
-the original value of the pathname of <code>p</code></ins> <del>modifies <code>pathstring</code> to have the original 
+has no effect. Otherwise, <ins>sets both respective pathnames of <code>*this</code> 
+to the respective pathnames of <code>p</code></ins> <del>modifies <code>pathstring</code> to have the original 
 value of <code>p.pathstring</code></del>. <code>p</code> is left in a valid but 
 unspecified state. [ <i>Note:</i> A valid implementation is <code>swap(p)</code>. 
 <i>—end 
@@ -1330,7 +1321,7 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
 <blockquote>
   <pre>path&amp; operator/=(const path&amp; p);</pre>
   <blockquote>
-<p><i>Effects:</i> <ins>If <code>has_filename() || !has_root_directory() &amp;&amp; is_absolute()</code>, 
+<p><i>Effects:</i> <ins>If <code>has_filename() || (!has_root_directory() &amp;&amp; is_absolute())</code>, 
 then appends <code>path::preferred_separator</code> to the pathname in the generic format. [ <i>
 Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
  equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
@@ -1492,7 +1483,8 @@ std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;.
     solely of one or two periods, returns the substring of <code>filename()</code> starting 
     at its beginning and ending with the character before the last period. 
     Otherwise, returns <code>filename()</code>.</del></p>
-  <p><ins><i>Returns:</i> Let <code>f</code> be 
+  <p><ins><i>Returns:</i> Let <code>f</code> be the generic format 
+  pathname of 
   <code>filename()</code>. Returns a 
   path whose the pathname in the generic format is </ins></p>
   <blockquote>
@@ -1533,8 +1525,11 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
     behavior for file systems which append additional elements to extensions, 
     such as alternate data streams or partitioned dataset names. </p>
     <p>[ <i>Example:</i></p>
-    <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).extension(); // outputs &quot;.txt&quot;
-<ins>std::cout &lt;&lt; path(&quot;/foo/bar&quot;).extension();     // outputs &quot;&quot;</ins></pre>
+    <pre><del>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).extension(); // outputs &quot;.txt&quot;</del>
+<ins>path(&quot;/foo/bar.txt&quot;).extension() // yields &quot;.txt&quot;</ins>
+<ins>path(&quot;/foo/bar&quot;).extension()     // yields &quot;&quot; since stem is &quot;bar&quot;
+path(&quot;/foo/.bashrc&quot;).extension() // yields &quot;&quot; since stem is &quot;.bashrc&quot;</ins></pre>
+    
     <p><i>—end example</i> ]</p>
     <p>[ <i>Note:</i> The period is included in the return value so that it is 
     possible to distinguish between no extension and an empty extension. Also 
@@ -1716,7 +1711,7 @@ Status: Accept</h4>
 
 <blockquote>
 
-<p> Project editor will make change.</p>
+<p> WP has been changed.</p>
 
 </blockquote>
 
@@ -1730,7 +1725,7 @@ Status: Accept</h4>
 
 <blockquote>
 
-<p> Project editor will make change.</p>
+<p> WP has been changed.</p>
 
 </blockquote>
 
@@ -1940,7 +1935,17 @@ issues against SC 22, N3151, ISO/IEC CD 14882.&quot; </p>
 
 
 
+</ins>
+
+
+
+
 </font>
+
+
+
+
+<ins>
 
 
 
