@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-26<!--webbot bot="Timestamp" endspan i-checksum="12156" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-28<!--webbot bot="Timestamp" endspan i-checksum="12160" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -723,7 +723,7 @@ replace_filename()</code> is broken<code><br>
 
 <blockquote>
 
-<p>See <a href="#US52">US-52</a> and <a href="#US60">US-60</a> fixes.</p>
+<p>See <a href="#US52">US-52</a> and <a href="#US74">US-74</a> fixes.</p>
 
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers]:</i></p>
@@ -748,7 +748,9 @@ replace_filename()</code> is broken<code><br>
 
   </blockquote>
 
-<p><i>Change 27.10.12.2 [directory_entry.mods] <b>after P0317 has been applied</b>:</i></p>
+<p><i>Change 27.10.12.2 [directory_entry.mods] <b>after 
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0317r1.html">P0317</a>, 
+Directory Entry Caching for Filesystem, has been applied</b>:</i></p>
 
   <blockquote>
     <pre>void replace_filename(const path&amp; p);
@@ -2318,6 +2320,13 @@ appropriate</h4>
 
 <h4><a name="Late29">Late 29</a>; 27.10.15.13: Access to file ID is superior to <code>equivalent()</code></h4>
 
+<blockquote>
+
+<p>Suggest proposing a new function, post-C++17, along the lines of <code>
+file_identity identity(const path&amp;,bool resolve=true);</code></p>
+
+</blockquote>
+
 <h4><a name="Late30">Late 30</a>; 27.10.15.13 ¶3: <code>equivalent()</code>'s <code>s1==s2</code> check is ill-formed and could race</h4>
 
 <h4><a name="Late31">Late 31</a>; 27.10.15.13 ¶5: Surprising that <code>equivalent()</code>'s error_code overload 
@@ -2351,14 +2360,10 @@ Status: Accept</h4>
 
 <blockquote>
 
-<p><i>Change 27.10.15.26 [fs.op.permissions] and 27.10.6 Header &lt;filesystem&gt; 
-synopsis [fs.filesystem.syn]:</i></p>
-
-  <blockquote>
-
-<p><code>void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;</code></p>
-
-  </blockquote>
+<p>The proposed resolution has been integrated into <a href="#Late37">Late-37</a> 
+below because it is much easier to understand when full context is provided and 
+having two separate resolutions revising the same wording would be a recipe for 
+disaster.</p>
 
 </blockquote>
 
@@ -2383,7 +2388,7 @@ enum class copy_options;
 enum class directory_options;</pre>
 <p>...</p>
   <pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_options::replace</ins>);
-void permissions(const path&amp; p, perms prms, error_code&amp; ec);
+void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;
 <ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
 </blockquote>
 
@@ -2439,7 +2444,7 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec);
 <p><i>Change [fs.op.permissions]:</i></p>
 <blockquote>
 <pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_opts::replace</ins>);
-void permissions(const path&amp; p, perms prms, error_code&amp; ec);
+void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;
 <ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
 <blockquote>
   <p><i>Requires:</i> <del><code>!((prms &amp; perms::add_perms) != perms::none &amp;&amp; (prms 
