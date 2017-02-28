@@ -2360,14 +2360,10 @@ Status: Accept</h4>
 
 <blockquote>
 
-<p><i>Change 27.10.15.26 [fs.op.permissions] and 27.10.6 Header &lt;filesystem&gt; 
-synopsis [fs.filesystem.syn]:</i></p>
-
-  <blockquote>
-
-<p><code>void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;</code></p>
-
-  </blockquote>
+<p>The proposed resolution has been integrated into <a href="#Late37">Late-37</a> 
+below because it is much easier to understand when full context is provided and 
+having two separate resolutions revising the same wording would be a recipe for 
+disaster.</p>
 
 </blockquote>
 
@@ -2392,7 +2388,7 @@ enum class copy_options;
 enum class directory_options;</pre>
 <p>...</p>
   <pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_options::replace</ins>);
-void permissions(const path&amp; p, perms prms, error_code&amp; ec);
+void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;
 <ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
 </blockquote>
 
@@ -2448,7 +2444,7 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec);
 <p><i>Change [fs.op.permissions]:</i></p>
 <blockquote>
 <pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_opts::replace</ins>);
-void permissions(const path&amp; p, perms prms, error_code&amp; ec);
+void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;
 <ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
 <blockquote>
   <p><i>Requires:</i> <del><code>!((prms &amp; perms::add_perms) != perms::none &amp;&amp; (prms 
