@@ -25,12 +25,12 @@ body
 <table width="342">
 <tr>
   <td align="left" width="66">Doc. no.:</td>
-  <td align="left" width="266">P0417R1</td>
+  <td align="left" width="266">D0417R2</td>
 </tr>
 <tr>
   <td align="left" width="66">Date:</td>
   <td align="left" width="266">
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2016-11-25<!--webbot bot="Timestamp" endspan i-checksum="12114" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-02-27<!--webbot bot="Timestamp" endspan i-checksum="12158" --></td>
 </tr>
 <tr>
   <td align="left" width="66">Reply to:</td>
@@ -42,7 +42,7 @@ body
 </tr>
 </table>
 
-<h1>C++17 should refer to ISO/IEC 10646 2014 instead of 1994 (R1)</h1>
+<h1>C++17 should refer to ISO/IEC 10646 2014 instead of 1994 (R2)</h1>
 
 <p>ISO standards are only supposed to have normative references to the 
 latest version of other ISO standards, yet the C++17 CD still refers to <i>ISO/IEC 10646-1:1993, Information 
@@ -133,6 +133,13 @@ for a copy of ISO/IEC 10646:2014.</p>
 
 <h2>Revision history</h2>
 
+<p><b>R2 - 2017 Post-Kona mailing</b></p>
+
+<ul>
+  <li>Remove change of UCS2 to UTF-16 at the request LWG in Kona in response to 
+  NB comments.</li>
+</ul>
+
 <p><b>R1 - 2016 Post-Issaquah mailing</b></p>
 
 <ul>
@@ -175,8 +182,7 @@ Character Set (UCS)</i></ins></p>
 
 <blockquote>
 
-<p>— The facet shall convert between UTF-8 multibyte sequences and 
-<del>UCS2</del> <ins>UTF-16</ins> or <del>UCS4</del> <ins>UTF-32</ins> (depending on the size
+<p dir="ltr">— The facet shall convert between UTF-8 multibyte sequences and UCS2 or <del>UCS4</del> <ins>UTF-32</ins> (depending on the size
 of Elem) within the program.</p>
 
 </blockquote>
@@ -187,8 +193,7 @@ of Elem) within the program.</p>
 
 <blockquote>
 
-<p>— The facet shall convert between UTF-16 multibyte sequences and 
-<del>UCS2</del> <ins>UTF-16</ins> or <del>UCS4</del> <ins>UTF-32</ins> 
+<p dir="ltr">— The facet shall convert between UTF-16 multibyte sequences and UCS2 or <del>UCS4</del> <ins>UTF-32</ins> 
 (depending on the size of Elem) within the program.</p>
 
 </blockquote>
