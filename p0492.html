@@ -86,7 +86,7 @@ tested.</p>
 
 <p>Accept or Accept with modifications: <a href="#US32">US-32</a>, <a href="#US33">
 US-33</a>, <a href="#US34">US-34</a>, <a href="#US36">US-36</a>, <a href="#US37">US-37</a>, <a href="#US43">
-US-43</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US47">US-47</a>, <a href="#US48">
+US-43</a>, <a href="#US44">US-44</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US47">US-47</a>, <a href="#US48">
 US-48</a>, <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US54">
 US-54</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
 <a href="#US63">US-63</a>, <a href="#US73">US-73/CA-2</a>, <a href="#Late36">
@@ -344,6 +344,48 @@ normalization</i>.</ins></p>
 </blockquote>
 
 
+<hr>
+<p>US 37:<br>
+<br>
+I promised a few days ago to supply my own attempt at the normalization 
+wording.&nbsp; Here it is, although I think root-name is still going to give us 
+trouble:<br>
+<br>
+Normalization of a generic format pathname means:<br>
+0. If the path is empty, stop.<br>
+1. Replace all directory-separators with a single preferred-separator.&nbsp; [ Note: 
+A root-name may contain slashes that are not part of a directory-separator.&nbsp; -- 
+end note ]<br>
+2. Remove all dot components and any directory-separators following them.<br>
+3. As long as any appear, remove a non-dot-dot filename followed by dot-dot 
+(along with the intervening directory-separator and any that follows).<br>
+4. If there is a root-directory, remove all dot-dot components and any 
+directory-separators following them.&nbsp; [ Note: They must immediately follow it.&nbsp; 
+-- end note ]<br>
+5. Remove any trailing directory-separator if the last component is dot-dot.<br>
+6. If the path is empty, add a dot.<br>
+<br>
+This implements the behavior I mentioned where normalization maps the set of 
+paths that lexically name directories (because they end in ., .., or /) to 
+itself.&nbsp; I implemented it (in the trivial case of POSIX with no root-names) in a 
+very literal-minded fashion as a 50-line Python script, if anyone is interested; 
+it reproduces the table in D0492R2 except that it never leaves a trailing / 
+after . or .. elements.<br>
+<br>
+The issues with root-name are these:<br>
+1. The current rules do not support &quot;//&quot; as a root-name (which it must be if the 
+simple path &quot;//&quot; is to be preserved under normalization), since they would allow 
+a root-directory to follow it.<br>
+2. I don&#39;t know what the path &quot;//worms/foo/../..&quot; means (in terms of an actual 
+implementation; Cygwin is the only one I know); the rules above make it be 
+&quot;//worms/&quot; or &quot;//worms/foo/&quot; (however much is considered to be the root-path).</p>
+<div class="yj6qo ajU">
+  <div id=":2uf" class="ajR" role="button" tabindex="0" data-tooltip="Show trimmed content" aria-label="Show trimmed content">
+    <img class="ajT" src="https://ssl.gstatic.com/ui/v1/icons/mail/images/cleardot.gif" width="1" height="1"></div>
+</div>
+<p>&nbsp;</p>
+
+
 </blockquote>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
@@ -358,22 +400,25 @@ Status: Accept with modifications</h4>
 <blockquote>
 
 <p>Resolves <a href="http://cplusplus.github.io/LWG/lwg-active.html#2665">LWG 2665</a>.</p>
+
 <p>
 <i>Change 27.10.8.4.5 [path.modifiers]:</i> </p>
 <blockquote>
  <pre>path&amp; remove_filename();</pre>
  <blockquote>
    <p>
- <del><i>Postcondition:</i><code>!has_filename()</code>.</del> </p>
- <p> <ins><i>Effects:</i> 
- If <code>has_filename()</code> then remove the minimum number of trailing 
- characters from the pathname in the generic format such that there is one less element in
- <code>[begin(), end())</code>. Otherwise, no effect.</ins></p>
+ <i>Postcondition:</i><code>!has_filename()</code>. </p>
+ <p> <ins><i>Effects:</i> Remove the generic format pathname of <code>filename()</code> from the 
+ generic format pathname.</ins></p>
  <p><i>Returns:</i> <code>*this</code>.</p>
  <p>[ <i>Example:</i></p>
    <blockquote>
-<pre>std::cout &lt;&lt; path(&quot;/foo&quot;).remove_filename(); // outputs &quot;/&quot;
-std::cout &lt;&lt; path(&quot;/&quot;).remove_filename();    // outputs &quot;<font FACE="LMRoman10-Regular"><code><ins>/</ins></code></font>&quot;</pre>
+<pre><del>std::cout &lt;&lt; path(&quot;/foo&quot;).remove_filename(); // outputs &quot;/&quot;
+std::cout &lt;&lt; path(&quot;/&quot;).remove_filename();    // outputs &quot;&quot;</del>
+<ins>path(&quot;foo/bar&quot;).remove_<wbr />filename(); // yields &quot;foo/&quot;
+path(&quot;foo/&quot;).remove_filename()<wbr />;&nbsp; &nbsp; // yields &quot;foo/&quot;
+path(&quot;/foo&quot;).remove_filename()<wbr />;&nbsp; &nbsp; // yields &quot;/&quot;
+path(&quot;/&quot;).remove_filename();&nbsp; &nbsp; &nbsp; &nbsp;// yields &quot;/&quot;</ins></pre>
    </blockquote>
    <p>—<i>end example</i> ]</p>
  </blockquote>
@@ -413,7 +458,7 @@ replace_filename()</code> is broken<code><br>
 <p>[ <i>Example:</i></p>
 
     <blockquote>
-      <pre><ins>path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;)  // yields &quot;/bar&quot; on POSIX</ins>
+      <pre><ins>path(&quot;/foo&quot;).replace_filename(&quot;bar&quot;);  // yields &quot;/bar&quot; on POSIX</ins>
 <del>std::cout &lt;&lt; </del>path(&quot;/&quot;).replace_filename(&quot;bar&quot;);     // <del>outputs</del><ins>yields</ins> &quot;<ins>/</ins>bar&quot; <ins>on POSIX</ins></pre>
      </blockquote>
 
@@ -685,11 +730,8 @@ no implied <ins>character set and</ins> encoding, they are not included as permi
 
 <p>If the encoding being converted to has no representation for source 
 characters, the resulting converted characters, if any, are unspecified. 
-<ins>Implementations are strongly encouraged  not to mutate member function arguments 
-if already of type <code>path::value_type</code>.</ins>
-<span style="background-color: #FFFF99; font-style:italic">Billy O&#39;Neal suggested this addition 
-and Beman Dawes supports it, but it 
-has not been reviewed by the rest of the filesystem small group.</span></p>
+<ins>Implementations are strongly encouraged  not to modify member function arguments 
+if already of type <code>path::value_type</code>.</ins></p>
 
   </blockquote>
 
@@ -706,9 +748,6 @@ LWG 2798 to N4618, the current C++ working paper.</p>
 
 <p>The portion of this comment not resolved by the following proposed wording is resolved by
 <a href="#US74">US-74/CA-3</a> </p>
-
-<p> <span style="font-style: italic; background-color: #FFFF99">Proposed wording 
-has not been reviewed by the small group</span><span style="background-color: #FFFF99; font-style:italic"> </span></p>
 
 <i>Change 27.10.8.4.4 [path.concat]: </i>
 
@@ -755,11 +794,8 @@ template &lt;class Source&gt;
     path&amp; concat(InputIterator first, InputIterator last);</ins>
 </pre>
       <blockquote>
-        <p><ins> <em>Effects:</em> Appends <tt>
-        path(first, last).native())</tt>to the pathname in the native format. [<em>Note:</em> This 
-        directly manipulates the value of <tt>native()</tt> and may not be 
-        portable between operating systems. — <em>end note</em>]</ins> </p>
-        <p><ins> <em>Returns:</em> <tt>*this</tt>.</ins> </p>
+        <p><ins> <em>Effects:</em> Equivalent to  <tt>return *this +=
+        path(first, last)</tt>.</ins> </p>
       </blockquote>
     </blockquote>
 </blockquote>
@@ -794,9 +830,6 @@ deliberately not in code font</span></i></p>
 of characters other than directory-separator characters.</p>
 
 </blockquote>
-
-<p><span style="background-color: #FFFF99; font-style:italic">Jonathan Wakely supplied the above wording. It 
-has been reviewed by Beman Dawes, but not the rest of the small group.</span></p>
 
 </blockquote>
 
@@ -839,7 +872,7 @@ is concerned only with the lexical and syntactic aspects of a path. The path doe
 external storage, and the pathname is not necessarily valid for the current operating system or for a particular
 file system.</p>
 
-<p><ins>[<i>Note:</i> Class path is used to support the differences between the string types
+<p><ins>[<i>Note:</i> Class <code>path</code> is used to support the differences between the string types
  used by different operating systems to represent pathnames, and to perform 
 conversions between encodings when necessary. &mdash; <i>end note</i>]</ins></p>
 
@@ -1034,16 +1067,11 @@ returns an empty <code>path</code> object.</p>
 </blockquote>
 
 <h4><a name="US62">US 62</a>; 27.10.8.4.9 [path.decompose] ¶11: It is important that <code>stem()+extension()==filename()<br>
-</code>Status: Reject</h4>
+</code>Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>Yes, it is important. But the note in ¶13 already says exactly that, so
-the question becomes "Should we make that part of the note normative?"</p>
-
-<p>Saying that normatively would be a second way of saying 
-what is already specified behavior, and saying the same normative thing twice is 
-not good standardese. No proposed wording. </p>
+<p>&nbsp;</p>
 
 </blockquote>
 
@@ -1109,9 +1137,9 @@ Status: Accept with modifications</h4>
   <p><i>Add a new paragraph at the end of [path.generic]:</i></p>
   <blockquote>
     <p><ins>If <i>root-name</i> is otherwise ambiguous, the possibility with the 
-    longest sequence of characters is chosen. [ Note: on a POSIX-like operating 
+    longest sequence of characters is chosen. [ <i>Note:</i> on a POSIX-like operating 
     system, it is impossible to have a <i>root-name</i> and a <i>relative-path</i> 
-    without an intervening <i>root-directory element</i>. -- end note ]</ins></p>
+    without an intervening <i>root-directory</i> element. <i>-- end note</i> ]</ins></p>
   </blockquote>
 </blockquote>
 
@@ -1181,6 +1209,11 @@ note</i> ] </ins></p>
 differently from paths for directories, the path shall be treated as a directory 
 path if its last element is a directory-separator, otherwise it shall be treated 
 as a path to a regular file.</p>
+<p><ins>[ <i>Note:</i> A path stores a native format pathname ([path.native.obs]) 
+and acts as if it also stores a generic format pathname, related as given 
+below.&nbsp; The implementation may generate the generic format pathname based on the 
+native format pathname (and possibly other information) when requested.&nbsp; <i>-- 
+end note</i> ]</ins></p>
   <p><ins>When a path is constructed from or is assigned a single representation 
   separate from any path, the other representation is selected by the 
   appropriate conversion function (<i>G</i> or <i>N</i>). </ins> </p>
@@ -1521,9 +1554,9 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
     one or two periods, returns the substring of <code>filename()</code> 
     starting at the rightmost period and for the remainder of the path. 
     Otherwise, returns an empty path object.</del></p>
-    <p><i>Remarks:</i> Implementations are permitted to define additional 
+    <p><del><i>Remarks:</i> Implementations are permitted to define additional 
     behavior for file systems which append additional elements to extensions, 
-    such as alternate data streams or partitioned dataset names. </p>
+    such as alternate data streams or partitioned dataset names. </del> </p>
     <p>[ <i>Example:</i></p>
     <pre><del>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).extension(); // outputs &quot;.txt&quot;</del>
 <ins>path(&quot;/foo/bar.txt&quot;).extension() // yields &quot;.txt&quot;</ins>
@@ -1532,9 +1565,13 @@ path(&quot;/foo/.bashrc&quot;).extension() // yields &quot;&quot; since stem is 
     
     <p><i>—end example</i> ]</p>
     <p>[ <i>Note:</i> The period is included in the return value so that it is 
-    possible to distinguish between no extension and an empty extension. Also 
+    possible to distinguish between no extension and an empty extension. <del>Also 
     note that for a path <code>p</code>, <code>p.stem()+p.extension() == 
-    p.filename()</code>.<i> —end note </i>]</p>
+    p.filename()</code>.<i></del> —end note </i>]</p>
+    <p><ins>[ <i>Note:</i> On non-POSIX operating systems, for a path <code>p</code>, it may not be the 
+    case that <code>p.stem()+p.extension()==p.filename()</code>, even though the 
+    generic format pathnames are the same.&nbsp; <i>-- end note</i> ]</ins></p>
+ 
   </blockquote>
 </blockquote>
 <p><i>Change [path.query]:</i></p>
@@ -1781,13 +1818,6 @@ defined terms in [fs.def.filename]</p>
 
 
 
-<p><span style="font-style: italic; background-color: #FFFF99">Davis Herring 
-supplied the proposed wording below at the request of the filesystem small 
-group. The wording has been reviewed by Beman but not by other members of the 
-small group.</span></p>
-
-
-
 <p><i>Change [fs.def.filename]:</i></p>
 
 
@@ -1945,11 +1975,6 @@ issues against SC 22, N3151, ISO/IEC CD 14882.&quot; </p>
 
 
 
-<ins>
-
-
-
-
 <p><span style="background-color: #E1E9FD; font-style:italic">Late comments 15-47 apply to 27.10 [filesystems]. 
 Except for as noted below, the submitter of these late comments has agreed to 
 open LWG issues for any late comments that are still a concern.</span></p>
@@ -2087,7 +2112,12 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
 
   <p><ins>The <code>enum class</code> type <code>perm_options</code> is 
   a bitmask type (bitmask.types) that specifies bitmask constants used to 
-  control the semantics of permissions operations.</ins></p>
+  control the semantics of permissions operations. In table <i>nnn, </i><code>
+  prms</code> denotes a value of type <code>perms</code>.</ins></p>
+
+  <p><span style="background-color: #FFFF99"><i>Work with Jonathan to get 
+  enum class perm_options correct as bitmask type.</i><br>
+&nbsp;</span></p>
   <p align="center"><ins>Table <i>nnn</i> &mdash; Enum class <code>perm_options</code></ins></p>
   <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
     <tr>
@@ -2096,25 +2126,25 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>replace</code></td>
-      <td bgcolor="#CCFFCC">(Default) <code>permissions()</code> shall replace the file's  permission bits with the <code>perm</code> argument’s permission bits.</td>
+      <td bgcolor="#CCFFCC">(Default) <code>permissions</code> shall replace the file's  permission bits with <code>prms</code>.</td>
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>add</code></td>
       <td bgcolor="#CCFFCC">
-      <p><code>permissions()</code> shall bitwise <i>or</i> the <code>
-      perm</code> argument’s permission bits to the file’s current permission 
+      <p><code>permissions</code> shall bitwise <i>or</i> the <code>
+      prms</code> argument’s permission bits to the file’s current permission 
       bits.</td>
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>remove</code></td>
       <td bgcolor="#CCFFCC">
-      <p><code>permissions()</code> shall bitwise <i>and</i> the 
-      complement of the <code>perm</code> argument’s permission bits to the 
+      <p><code>permissions</code> shall bitwise <i>and</i> the 
+      complement of the <code>prms</code> argument’s permission bits to the 
       file’s current permission bits.</td>
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>nofollow</code></td>
-      <td bgcolor="#CCFFCC"><code>permissions()</code> shall change the permissions of a symbolic 
+      <td bgcolor="#CCFFCC"><code>permissions</code> shall change the permissions of a symbolic 
       link itself rather than the permissions of the file the link resolves to. <code>nofollow</code> 
       is a bit-mask value.</td>
     </tr>
@@ -2123,7 +2153,7 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
 
 <p><i>Change [fs.op.permissions]:</i></p>
 <blockquote>
-<pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_opts::replace</ins>);
+<pre>void permissions(const path&amp; p, perms prms<ins>, perm_options opts=perm_options::replace</ins>);
 void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcept</ins>;
 <ins>void permissions(const path&amp; p, perms prms, perm_options opts, error_code&amp; ec);</ins></pre>
 <blockquote>
