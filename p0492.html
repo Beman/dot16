@@ -2072,11 +2072,9 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p><span style="font-style: italic; background-color: #FFFF99">Beman Dawes 
-supplied the wording, which has  been reviewed by Davis but not others. Beman comments: 
-Matt Austern pointed this out, with the same suggested fix, prior to the TS. It 
-got dropped on the floor in the TS shipping rush and has never been fixed. It is 
-an embarrassment that needs fixing before shipping C++17.</span></p>  
+<p><span style="font-style: italic; background-color: #E1E9FD">This problem, 
+with the same suggested fix, was also reported for the Filesystem TS. It was not 
+resolved in the TS due to an administrative snafu.</span></p>  
 <p><i>Change [fs.filesystem.syn]:</i></p>
 <blockquote>
   <pre>// 27.10.10, enumerations
@@ -2094,9 +2092,9 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
   <p><i>Strike the following rows in [fs.enum] Table nnn — Enum class
   <code>perms</code>:</i></p>
 <ul>
-  <li><i><code>add_perms</code></i></li>
-  <li><i><code>remove_perms</code></i></li>
-  <li><i><code>symlink_nofollow</code></i></li>
+  <li><del><i><code>add_perms</code></i></del></li>
+  <li><del><i><code>remove_perms</code></i></del></li>
+  <li><del><i><code>symlink_nofollow</code></i></del></li>
 </ul>
 
   <p><i>Insert a new sub-section after [enum.perms]:</i></p>
@@ -2105,13 +2103,12 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
   <p><b><i><ins>27.10.n.n </i>Enum class <code>perm_options </code>[enum.perm_options]</b></ins></p>
 
   <p><ins>The <code>enum class</code> type <code>perm_options</code> is 
-  a bitmask type (bitmask.types) that specifies bitmask constants used to 
-  control the semantics of permissions operations. In table <i>nnn, </i><code>
-  prms</code> denotes a value of type <code>perms</code>.</ins></p>
+  a bitmask type ([bitmask.types]) that specifies bitmask constants used to 
+  control the semantics of permissions operations, with the meanings listed in 
+  Table <i>nnn</i>. The bitmask constants are bitmask elements. In Table <i>nnn</i>
+  <code>perm</code> denotes a value of type <code>perms</code> passed to <code>
+  permissions</code>.</ins></p>
 
-  <p><span style="background-color: #FFFF99"><i>Work with Jonathan to get 
-  enum class perm_options correct as bitmask type.</i><br>
-&nbsp;</span></p>
   <p align="center"><ins>Table <i>nnn</i> &mdash; Enum class <code>perm_options</code></ins></p>
   <table border="1" cellpadding="5" cellspacing="0" style="border-collapse: collapse" bordercolor="#111111">
     <tr>
@@ -2120,27 +2117,38 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>replace</code></td>
-      <td bgcolor="#CCFFCC">(Default) <code>permissions</code> shall replace the file's  permission bits with <code>prms</code>.</td>
+      <td bgcolor="#CCFFCC"> <code>permissions</code> shall replace the file's  permission bits with <code>
+      perm</code>.</td>
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>add</code></td>
       <td bgcolor="#CCFFCC">
-      <p><code>permissions</code> shall bitwise <i>or</i> the <code>
-      prms</code> argument’s permission bits to the file’s current permission 
+      <p><code>permissions</code> shall 
+
+<font FACE="LMRoman10-Regular">
+
+      replace the file&#39;s permission bits with the </font>bitwise OR of <code>
+      perm</code> and the file’s current permission 
       bits.</td>
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>remove</code></td>
       <td bgcolor="#CCFFCC">
-      <p><code>permissions</code> shall bitwise <i>and</i> the 
-      complement of the <code>prms</code> argument’s permission bits to the 
-      file’s current permission bits.</td>
+      <p><code>permissions</code> shall
+
+<font FACE="LMRoman10-Regular">
+
+      replace the file&#39;s permission bits with the bitwise</font> AND of the 
+      complement of <code>perm</code>
+
+<font FACE="LMRoman10-Regular">
+
+      and the file’s current permission bits.</td>
     </tr>
     <tr>
       <td bgcolor="#CCFFCC"><code>nofollow</code></td>
       <td bgcolor="#CCFFCC"><code>permissions</code> shall change the permissions of a symbolic 
-      link itself rather than the permissions of the file the link resolves to. <code>nofollow</code> 
-      is a bit-mask value.</td>
+      link itself rather than the permissions of the file the link resolves to.</td>
     </tr>
   </table>
 </blockquote>
