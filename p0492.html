@@ -1622,10 +1622,15 @@ std::cout &lt;&lt; p.extension() &lt;&lt; ’\n’;
     behavior for file systems which append additional elements to extensions, 
     such as alternate data streams or partitioned dataset names. </del> </p>
     <p>[ <i>Example:</i></p>
+    <blockquote>
     <pre><del>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).extension(); // outputs &quot;.txt&quot;</del>
-<ins>path(&quot;/foo/bar.txt&quot;).extension() // yields &quot;.txt&quot;</ins>
-<ins>path(&quot;/foo/bar&quot;).extension()     // yields &quot;&quot; since stem is &quot;bar&quot;
-path(&quot;/foo/.bashrc&quot;).extension() // yields &quot;&quot; since stem is &quot;.bashrc&quot;</ins></pre>
+<ins>path(&quot;/foo/bar.txt&quot;).extension(); // yields &quot;.txt&quot; and stem() is &quot;bar&quot;</ins>
+<ins>path(&quot;/foo/bar&quot;).extension();     // yields &quot;&quot; and stem() is &quot;bar&quot;</ins>
+<ins>path(&quot;/foo/.bashrc&quot;).extension(); // yields &quot;&quot; and stem() is &quot;.bashrc&quot;</ins>
+<ins>path(&quot;.bar&quot;).extension();         // yields &quot;&quot; and stem() is &quot;.bar&quot;</ins>
+<ins>path(&quot;..bar&quot;).extension();        // yields &quot;.bar&quot; and stem()is &quot;.&quot;</ins></pre>
+    
+    </blockquote>
     
     <p><i>—end example</i> ]</p>
     <p>[ <i>Note:</i> The period is included in the return value so that it is 
