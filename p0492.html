@@ -1560,13 +1560,13 @@ of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
     <p><i>Returns:</i> <ins><code>relative_path().</ins>empty() ? path() : *--end()</code>.</p>
     <p>[ <i>Example:</i></p>
     <blockquote>
-      <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).filename(); // outputs &quot;bar.txt&quot;
-<ins>std::cout &lt;&lt; path(&quot;/foo/bar&quot;).filename();     // outputs &quot;bar&quot;</ins>
-<ins>std::cout &lt;&lt; path(&quot;/foo/bar/&quot;).filename();    // outputs &quot;&quot;</ins>
-std::cout &lt;&lt; path(&quot;/&quot;).filename();            // outputs &quot;<del>/</del>&quot;
-<ins>std::cout &lt;&lt; path(&quot;//host&quot;).filename();       // outputs &quot;&quot;</ins>
-std::cout &lt;&lt; path(&quot;.&quot;).filename();            // outputs &quot;.&quot;
-std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;..&quot;</pre>
+      <pre><del>std::cout &lt;&lt; </del>path(&quot;/foo/bar.txt&quot;).filename(); // <del>outputs</del> <ins>yields</ins> &quot;bar.txt&quot;
+<ins>path(&quot;/foo/bar&quot;).filename();     // yields &quot;bar&quot;</ins>
+<ins>path(&quot;/foo/bar/&quot;).filename();    // yields &quot;&quot;</ins>
+<del>std::cout &lt;&lt; </del>path(&quot;/&quot;).filename();            // <del>outputs</del> <ins>yields</ins> &quot;<del>/</del>&quot;
+<ins>path(&quot;//host&quot;).filename();       // yields &quot;&quot;</ins>
+<del>std::cout &lt;&lt; </del>path(&quot;.&quot;).filename();            // <del>outputs</del> <ins>yields</ins> &quot;.&quot;
+<del>std::cout &lt;&lt; </del>path(&quot;..&quot;).filename();           // <del>outputs</del> <ins>yields</ins> &quot;..&quot;</pre>
     </blockquote>
     <p>—<i>end example</i> ]</p>
   </blockquote>
