@@ -417,10 +417,13 @@ normalization</i>.</ins></p>
 
 <blockquote>
 
-<p>This option is an attempt to break out of the current bikeshed. It makes a 
+<p>This option is an attempt to break out of the current bikeshed. It makes the 
 minimum set of deletions required to make the current wording reflect the other 
 changes in this document, and to acknowledge the ongoing effort to adapt to the 
-realities of z/OS. </p>
+realities of z/OS. It make additions necessary to resolve the actual NB comment 
+by defining redundancy in terms of whether or not pathname resolution ([fs.def.pathres]) 
+is changed, including the case where a non-empty path would otherwise become 
+empty.</p>
 
 </blockquote>
 
@@ -428,9 +431,13 @@ realities of z/OS. </p>
 
 <blockquote>
 <p><b>normal form</b><br>
-A path with no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
-elements, and no redundant <i>directory-separators</i>. The normal form for an 
-empty path is an empty path. <del>The normal form for a path ending in a
+A <del>path</del> <ins>pathname</ins> with no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
+elements, and no redundant <i>directory-separators</i> <ins>is in normal form</ins>. <ins>Elements and sequences 
+of elements are redundant if their removal would not alter the result of 
+pathname resolution ([fs.def.pathres]) assuming the file exists and the path 
+contains no symlinks.</ins> The normal form for an 
+empty path is an empty path. <ins>The normal form for a path composed entirely of 
+redundant elements is a path with a single <i>dot</i> filename.</ins> <del>The normal form for a path ending in a
 <i>directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
 element appended.</del> A path in normal form is said to be <i>normalized</i>. The 
 process of obtaining a normalized path from a path that is not in normal form is 
@@ -1553,13 +1560,13 @@ of the string returned by <code>generic_u8string()</code> is always UTF-8.</p>
     <p><i>Returns:</i> <ins><code>relative_path().</ins>empty() ? path() : *--end()</code>.</p>
     <p>[ <i>Example:</i></p>
     <blockquote>
-      <pre>std::cout &lt;&lt; path(&quot;/foo/bar.txt&quot;).filename(); // outputs &quot;bar.txt&quot;
-<ins>std::cout &lt;&lt; path(&quot;/foo/bar&quot;).filename();     // outputs &quot;bar&quot;</ins>
-<ins>std::cout &lt;&lt; path(&quot;/foo/bar/&quot;).filename();    // outputs &quot;&quot;</ins>
-std::cout &lt;&lt; path(&quot;/&quot;).filename();            // outputs &quot;<del>/</del>&quot;
-<ins>std::cout &lt;&lt; path(&quot;//host&quot;).filename();       // outputs &quot;&quot;</ins>
-std::cout &lt;&lt; path(&quot;.&quot;).filename();            // outputs &quot;.&quot;
-std::cout &lt;&lt; path(&quot;..&quot;).filename();           // outputs &quot;..&quot;</pre>
+      <pre><del>std::cout &lt;&lt; </del>path(&quot;/foo/bar.txt&quot;).filename(); // <del>outputs</del> <ins>yields</ins> &quot;bar.txt&quot;
+<ins>path(&quot;/foo/bar&quot;).filename();     // yields &quot;bar&quot;</ins>
+<ins>path(&quot;/foo/bar/&quot;).filename();    // yields &quot;&quot;</ins>
+<del>std::cout &lt;&lt; </del>path(&quot;/&quot;).filename();            // <del>outputs</del> <ins>yields</ins> &quot;<del>/</del>&quot;
+<ins>path(&quot;//host&quot;).filename();       // yields &quot;&quot;</ins>
+<del>std::cout &lt;&lt; </del>path(&quot;.&quot;).filename();            // <del>outputs</del> <ins>yields</ins> &quot;.&quot;
+<del>std::cout &lt;&lt; </del>path(&quot;..&quot;).filename();           // <del>outputs</del> <ins>yields</ins> &quot;..&quot;</pre>
     </blockquote>
     <p>—<i>end example</i> ]</p>
   </blockquote>
