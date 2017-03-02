@@ -80,50 +80,12 @@ tested.</p>
 
 <h3>NB comment status</h3>
 
-<h4>Ready for Library Working Group review</h4>
+<p><a href="#US37">US-37</a> and <a href="#US63">US-63</a> need additional LWG 
+review and votes.</p>
 
-<blockquote>
+<h2>Index of comments</h2>
 
-<p>Accept or Accept with modifications: <a href="#US32">US-32</a>, <a href="#US33">
-US-33</a>, <a href="#US34">US-34</a>, <a href="#US36">US-36</a>, <a href="#US37">US-37</a>, <a href="#US43">
-US-43</a>, <a href="#US44">US-44</a>, <a href="#US45">US-45</a>, <a href="#US46">US-46</a>, <a href="#US47">US-47</a>, <a href="#US48">
-US-48</a>, <a href="#US52">US-52</a>, <a href="#US53">US-53</a>, <a href="#US54">
-US-54</a>, <a href="#US55">US-55</a>, <a href="#US58">US-58</a>,
-<a href="#US63">US-63</a>, <a href="#US73">US-73/CA-2</a>, <a href="#Late36">
-Late-36</a>, <a href="#Late37">Late-37</a>.</p>
-
-<p>Reject: <a href="#US51">US-51</a>, <a href="#US62">US-62</a>.</p>
-
-<p>Editorial: <a href="#US38">US-38</a>,
-<a href="#US39">US-39</a>, <a href="#US49">US-49</a>.</p>
-
-<p>Defer to 
-<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/p0430r1.pdf">P0430R1</a>: <a href="#US75">US-75/CA-4</a>, <a href="#US76">US-76/CA-5</a>,
-<a href="#US77">US-77/CA-6</a>, <a href="#US78">US-78/CA-7</a>, <a href="#US79">
-US-79/CA-8</a>.</p>
-
-</blockquote>
-
-<p><b>LWG review complete and any requested changes applied</b></p>
-
-<blockquote>
-
-<p> <a href="#US74">US-74/CA-3</a>. This is the critical pathname omnibus 
-cleanup.</p>
-
-<p><a href="#US56">US-56</a>, <a href="#US60">US-60</a>, and <a href="#US61">US-61</a>. 
-These were previously review by LEWG.</p>
-
-<p> <a href="#US25">US-25</a>, <a href="#US31">US-31</a>, <a href="#US35">
-US-35</a>, <a href="#US40">US-40</a>, <a href="#US56">US-56</a>, 
-<a href="#US57">US-57</a>, <a href="#US59">US-59</a>,
-<a href="#US185">US-185</a>, <a href="#FI 14">FI-14</a>, <a href="#US41">US-41</a>,
-<a href="#US42">US-42</a>, <a href="#US50">US-50</a>.</p>
-
-</blockquote>
-
-<p><b><a href="#nb-comments">NB Technical and general comments</a></b><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US25">US 25: has_filename() is equivalent to just !empty()</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US31">US 31: Everything is defined in terms of 
 one implicit host system</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US32">US 32: Meaning of 27.10.2.1 unclear</a><br>
@@ -132,13 +94,19 @@ one implicit host system</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US35">US 35: What synchronization is required to avoid a file system race?</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US36">US 36: Symbolic links themselves are attached to a directory via (hard) links</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US37">US 37: The term “redundant current directory (dot) elements” is not defined</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US38">US 38: Duplicates §17.3.16</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US39">US 39: Remove note: Dot and dot-dot are not directories</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US40">US 40: Not all directories have a parent.</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US41">US 41: The term “parent directory” for a (non-directory) file is unusual</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US42">US 42: Pathname resolution does not always resolve a symlink</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US43">US 43: Concerns about <i>encoded character types</i></a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US44">US 44: Definition of path in terms of a string requires leaky abstraction</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US45">US 45: Generic format portability compromised by unspecified root-name</a><br> 
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US46">US 46: <i>filename</i> can be empty so productions for <i>relative-path</i> are redundant</a><br> 
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US47">US 47: “.” and “..” already match the name production</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US48">US 48: Multiple separators are often meaningful in a <i>root-name</i></a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US49">US 49: What does “method of conversion method” mean?</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US51">US 51: Failing to add / when appending empty string prevents useful apps</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US52">US 52: <code>remove_filename()</code> postcondition is not by itself a definition</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US53">US 53: <code>remove_filename()</code>'s name does not correspond to its behavior</a><br>
@@ -152,8 +120,6 @@ one implicit host system</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US61">US 61: Leading dots in <code>filename()</code> should not begin an extension</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US62">US 62: It is important that <code>stem()+extension()==filename()</code></a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US63">US 63: <code>lexically_normal()</code> inconsistently treats trailing "/" but not &quot;/..&quot; as directory</a><br> 
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US73">US 73, CA 2: <i>root-name</i> is effectively implementation defined</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US74">US 74, CA 3: The term “pathname” is ambiguous in some contexts</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US75">US 75, CA 4: Extra flag in path constructors is needed</a><br>
@@ -161,33 +127,28 @@ one implicit host system</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US77">US 77, CA 6: <code>operator/</code> and other appends not useful if arg has <i>root-name</i></a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US78">US 78, CA 7: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S</a><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<a href="#US79">US 79, CA 8: Some  operation functions are overspecified for implementation-defined file types</a><br>
-<b><a href="#editorial">NB comments submitted as editorial</a></b><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US38">US 38: Duplicates §17.3.16</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US39">US 39: Remove note: Dot and dot-dot are not directories</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US41">US 41: The term “parent directory” for a (non-directory) file is unusual</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US42">US 42: Pathname resolution does not always resolve a symlink</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US47">US 47: “.” and “..” already match the name production</a><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<a href="#US50">US 50: 27.10.8.1 ¶ 1.4 largely redundant with ¶ 1.3</a><br>
-<b>
-<a href="#late-comments">Late comments</a></b><h2>Revision History</h2>
+&nbsp;&nbsp;&nbsp; <a href="#US185">US 185: Fold <code>error_code</code> and non-<code>error_code</code> signatures into one signature</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#FI14">FI 14: <tt>directory_entry</tt> comparisons are members</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Late36">Late 36: <code>permissions()</code> <code>
+error_code</code> overload should be <code>noexcept</code></a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Late37">Late 37: <code>permissions()</code> actions 
+should be separate parameter</a><br>
+&nbsp;&nbsp;&nbsp; <a href="#Late42">Late 42: <code>resize_file()</code> <i>
+Postcondition</i> missing argument</a><h2>Revision History</h2>
 
-<h3>D0492R2</h3>
+<h3>P0492R2 Post-Kona mailing</h3>
 
 <ul>
-  <li>Add <b>NB comment status</b> section.</li>
-  <li>Supplies proposed wording for <a href="#US44">US-44</a> per LWG 16-Dec-2016 
-  Issues Telecon.</li>
-  <li>Applies wording changes throughout per LWG 16-Dec-2016 
-  Issues Telecon.</li>
-  <li>Editorial and near editorial corrections to <a href="#US74">US-74/CA-3</a>.</li>
-  <li>Supplies proposed wording for <a href="#US47">US-47</a>.</li>
-  <li>Supplies proposed wording for <a href="#US54">US-54</a>.</li>
+  <li>Overall direction remains unchanged.</li>
+  <li>Changes requested by the LWG 16-Dec-2016 Issues Telecon.</li>
+  <li>Changes requested by the LWG line-by-line review in Kona, including 
+  proposed wording for all NB comments missing wording.</li>
 </ul>
 
 <h3>P0492R1 Pre-Kona mailing</h3>
 
 <ul>
-  <li>Direction remains unchanged.</li>
+  <li>Overall direction remains unchanged.</li>
   <li>Updated WP base document to
 <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2016/n4618.pdf">
 N4618</a>.</li>
@@ -229,7 +190,7 @@ to be added to the WP.</ins>
 
 <p><b>&#10003;</b> after an NB comment's <b>Status</b> indicates indicates that 
 the comment has been reviewed by the LWG, any changes they requested have been 
-made, and the comment is ready for voting in Kona.
+made, and the comment is ready for committee voting in Kona.
 
 <h2><a name="nb-comments"></a>NB Technical and general comments</h2>
 
@@ -423,7 +384,8 @@ changes in this document, and to acknowledge the ongoing effort to adapt to the
 realities of z/OS. It make additions necessary to resolve the actual NB comment 
 by defining redundancy in terms of whether or not pathname resolution ([fs.def.pathres]) 
 is changed, including the case where a non-empty path would otherwise become 
-empty.</p>
+empty. Note that a trailing <i>director-separator</i> is redundant except when 
+it affects pathname resolution [fs.def.pathres].</p>
 
 </blockquote>
 
@@ -2184,7 +2146,7 @@ void permissions(const path&amp; p, perms prms, error_code&amp; ec) <ins>noexcep
 <h4><a name="Late41">Late 41</a>; 27.10.15.31 ¶3: Would be useful for <code>remove_all()</code> to report successful removal count on error</h4>
 
 <h4><a name="Late42">Late 42</a>; 27.10.15.33 ¶1: <code>resize_file()</code> <i>Postcondition</i> missing argument<br>
-Status: Editorial</h4>
+Status: Editorial ✓</h4>
 
 <blockquote>
 
