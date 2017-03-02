@@ -216,124 +216,10 @@ Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p><span style="background-color: #FFFF99"><i>Option A provided by Nico with 
-edits from Beman. Option by Davis. Option C by Beman. The case of a trailing 
-directory-separator is exceedingly troublesome, and the Filesystem small group 
-has poured many hours into trying to understand the implications. See
-<a href="http://qdosmsq.dunbar-it.co.uk/blog/2013/02/rsync-to-slash-or-not-to-slash/">
-qdosmsq.dunbar-it.co.uk/blog/2013/02/rsync-to-slash-or-not-to-slash/</a> for an 
-example of the complexities. (More common uses are to unambiguously indicate a 
-directory path or to indicate that a symlink should be followed in a use such as 
-some POSIX utilities that do not usually follow trailing symlinks).</i></span></p>
-
 
 
 
 <p><i>Change 27.10.4.12 [fs.def.normal.form]:</i></p>
-<hr>
-
-
-
-
-<p><b><span style="background-color: #FFFF99">Option A</span></b></p>
-<blockquote>
-<p><b>normal form</b><br>
-<del>A path with no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
-elements, and no redundant <i>directory-separators</i>. The normal form for an 
-empty path is an empty path. The normal form for a path ending in a
-<i>directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
-element appended. A path in normal form is said to be <i>normalized</i>. The 
-process of obtaining a normalized path from a path that is not in normal form is 
-called <i>normalization</i>. [ <i>Note:</i> The rule that appends a current 
-directory (<i>dot</i>) element supports operating systems like OpenVMS that use 
-different syntax for directory names and regular file names. <i>—end note</i> ]</del></p>
-
-<p><ins>A pathname in the generic format ([path.generic]) is in normal form if 
-is empty or it has:</ins></p>
-
-<ul>
-  <li><ins>Only the <i>preferred-separator</i> form of<i> directory-separator</i>s, 
-  and</ins></li>
-  <li><ins>no redundant <i>dot</i> filenames [<i>Note</i>: the <i>dot</i> filename is 
-  only used for the current directory &mdash;<i>end note</i>], and</ins></li>
-  <li><ins>no redundant <i>dot-dot</i> filenames, and</ins></li>
-  <li><ins>no redundant <i>directory-separator</i>s.</ins></li>
-</ul>
-
-<p><ins>A path in normal form is said to be <i>normalized</i>. The process of 
-obtaining a normalized path from a path that is not in normal form is called <i>
-normalization</i>.</ins></p>
-<p><ins>During normalization:</ins></p>
-<ul>
-  <li><ins>An empty path remains an empty path, and</ins></li>
-  <li><ins>a relative path remains a relative path, and</ins></li>
-  <li><ins>an absolute path remains an absolute path, and</ins></li>
-  <li><ins>a pathname ending with a <i>filename</i> and a <i>directory-separator</i> 
-  remains ending with the same <i>filename</i> and a <i>directory separator</i>, 
-  and</ins></li>
-  <li><ins>a pathname ending with a <i>filename</i> remains ending with the same <i>
-  filename</ins></i>. </li>
-</ul>
-<p><ins>[<i>Example</i>:</ins></p>
-<blockquote>
-  <p><ins>Normalization has the following effect on POSIX:<br>
-  &quot;&quot; =&gt; &quot;&quot;<br>
-  &quot;.&quot; =&gt; &quot;.&quot;<br>
-  &quot;/&quot; =&gt; &quot;/&quot;<br>
-  &quot;./&quot; =&gt; &quot;.&quot;<br>
-  &quot;/./&quot; =&gt; &quot;/&quot;<br>
-  <br>
-  &quot;foo&quot; =&gt; &quot;foo&quot;<br>
-  &quot;foo/&quot; =&gt; &quot;foo/&quot;<br>
-  &quot;foo/.&quot; =&gt; &quot;foo/&quot;<br>
-  &quot;foo/../&quot; =&gt; &quot;.&quot;<br>
-  &quot;/foo/../&quot; =&gt; &quot;/&quot;<br>
-  <br>
-  &quot;/foo/bar/.././/qqq&quot; =&gt; &quot;/foo/qqq&quot;<br>
-  &quot;/foo/bar/.././/qqq/&quot; =&gt; &quot;/foo/qqq/&quot;<br>
-  &quot;/foo/bar/.././/qqq/.&quot; =&gt; &quot;/foo/qqq/&quot;<br>
-  <br>
-  &quot;./foo&quot; =&gt; &quot;./foo&quot;<br>
-  &quot;./foo/../foo/.&quot; =&gt; &quot;./foo/&quot;<br>
-  <br>
-  &quot;//foo//bar&quot; =&gt; &quot;//foo/bar&quot;&nbsp;&nbsp;&nbsp; <i>(root names in POSIX and Windows 
-  begin with two leading slashes)</i><br>
-  &quot;///foo//bar&quot; =&gt; &quot;/foo/bar&quot;<br>
-  <br>
-  On Windows, normalization replaces slashes with backslashes.</ins></p>
-</blockquote>
-<p><ins><i>&mdash; end example</i>]</ins></p>
-
-
-</blockquote>
-
-
-<hr>
-<p><b><span style="background-color: #FFFF99">Option B</span></b></p>
-<p><b>Discussion</b></p>
-
-<p>From Davis:</p>
-
-<blockquote>
-
-<p>This implements the behavior I mentioned where normalization maps the set of 
-paths that lexically name directories (because they end in ., .., or /) to 
-itself.&nbsp; I implemented it (in the trivial case of POSIX with no root-names) in a 
-very literal-minded fashion as a 50-line Python script, if anyone is interested; 
-it reproduces the table in D0492R2 except that it never leaves a trailing / 
-after . or .. elements.<br>
-<br>
-The issues with root-name are these:<br>
-1. The current rules do not support &quot;//&quot; as a root-name (which it must be if the 
-simple path &quot;//&quot; is to be preserved under normalization), since they would allow 
-a root-directory to follow it.<br>
-2. I don&#39;t know what the path &quot;//worms/foo/../..&quot; means (in terms of an actual 
-implementation; Cygwin is the only one I know); the rules above make it be 
-&quot;//worms/&quot; or &quot;//worms/foo/&quot; (however much is considered to be the root-path).</p>
-
-</blockquote>
-
-<p><b>Proposed wording</b></p>
 
 <blockquote>
 <p><b>normal form</b><br>
@@ -353,68 +239,34 @@ normalization</i>.</ins></p>
 <p><ins>Normalization of a generic format pathname means:</ins></p>
   <ol>
     <li><ins>If the path is empty, stop.</ins></li>
-    <li><ins>Replace all <i>directory-separator</i>s with a single <i>preferred-separator</i>.&nbsp; 
-    [ <i>Note:</i> A root-name may contain slashes that are not part of a 
-    directory-separator.&nbsp; <i>-- end note</i> ]</ins></li>
-    <li><ins>Remove all <i>dot</i> components and any <i>directory-separator</i>s following them.</ins></li>
-    <li><ins>As long as any appear, remove a non-<i>dot-dot filename</i> followed by 
-    <i>dot-dot</i> 
-    (along with the intervening <i>directory-separator</i> and any that follows).</ins></li>
-    <li><ins>If there is a <i>root-directory</i>, remove all <i>dot-dot</i> components and any 
-    <i>directory-separator</i>s following them.&nbsp; [ <i>Note:</i> They must immediately 
-    follow it.&nbsp; <i>-- end note</i> ]</ins></li>
-    <li><ins>Remove any trailing <i>directory-separator</i> if the last component is 
-    <i>dot-dot</i>.</ins></li>
+    <li><ins>Replace each slash character in the <i>root-name</i> with a <i>preferred-separator</i>.</ins></li>
+    <li><ins>Replace all <i>directory-separator</i>s with a single <i>preferred-separator</i>.
+    <span style="background-color: #FFFF00">Replace each sequence of <i>directory-separator</i>s with a single
+    <i>preferred-separator</i>.</span></ins></li>
+    <li><ins>Remove all <i>dot</i> filenames and any <i>directory-separator</i>s immediately following 
+  them. <span style="background-color: #FFFF00">Remove each <i>dot</i> filename and any 
+    immediately following sequence of <i>directory-separator</i>s.</span></ins></li>
+    <li><ins>As long as any appear, remove a non-<i>dot-dot</i> filename immediately followed 
+  by <i>dot-dot</i> (along with the intervening <i>directory-separator</i> and any that 
+  immediately follows). <span style="background-color: #FFFF00">Recursively remove a non-<i>dot-dot</i> filename immediately followed 
+  by one or more <i>directory-separator</i>s immediately followed by a <i>dot-dot
+    </i>filename</span></ins><u><span style="background-color: #FFFF00">.</span></u></li>
+    <li><ins>If there is a <i>root-directory</i>, remove all <i>dot-dot</i> filenames and any 
+    <i>directory-separator</i>s immediately following them. 
+    <span style="background-color: #FFFF00">If there is a <i>root-directory</i>, remove all 
+    <i>dot-dot</i> filenames and any 
+  <i>directory-separator</i>s immediately following the <i>root-directory</i>.</span> [
+    <i>Note:</i> These <i>dot-dot</i> 
+  filenames attempt to refer to nonexistent parent directories. <i>-- end note</i> ]</ins></li>
+    <li><ins>Remove any trailing <i>directory-separator</i> if the last filename is 
+    <i>dot-dot</i>. <span style="background-color: #FFFF00">If the last filename is
+    <i>dot-dot</i>, remove any trailing <i>directory-separator</i> .</span></ins></li>
     <li><ins>If the path is empty, add a <i>dot</i>.</ins></li>
-  </ol>
-</blockquote>
-<hr>
-
-
-<p><b><span style="background-color: #FFFF99">Option C</span></b></p>
-<p><b>Discussion</b></p>
-
-<p>From Beman:</p>
-
-<blockquote>
-
-<p>This option is an attempt to break out of the current bikeshed. It makes the 
-minimum set of deletions required to make the current wording reflect the other 
-changes in this document, and to acknowledge the ongoing effort to adapt to the 
-realities of z/OS. It make additions necessary to resolve the actual NB comment 
-by defining redundancy in terms of whether or not pathname resolution ([fs.def.pathres]) 
-is changed, including the case where a non-empty path would otherwise become 
-empty. Note that a trailing <i>director-separator</i> is redundant except when 
-it affects pathname resolution [fs.def.pathres].</p>
-
-</blockquote>
-
-<p><b>Proposed wording</b></p>
-
-<blockquote>
-<p><b>normal form</b><br>
-A <del>path with</del> <ins>pathname is in normal form if it has</ins> no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
-elements, <del>and</del> no redundant <i>directory-separators</i><ins>, and all <i>
-directory-separator</i>s are in the <i>preferred-separator</i> form</ins>. <ins>
-The elements and sequences 
-of elements described herein are redundant if their removal would not alter the result of 
-pathname resolution ([fs.def.pathres]) assuming the file exists and the pathname 
-contains no symlinks. The normal form for a pathname composed entirely of 
-redundant elements is a pathname with a single <i>dot</i> filename.</ins> The normal form for an 
-empty path is an empty path. <del>The normal form for a path ending in a
-<i>directory-separator</i> that is not the root directory has a current directory (<i>dot</i>) 
-element appended.</del> A path in normal form is said to be <i>normalized</i>. The 
-process of obtaining a normalized path from a path that is not in normal form is 
-called <i>normalization</i>. [ <i>Note:</i> <del>The rule that appends a current 
-directory (<i>dot</i>) element supports</del> <ins>These rules support</ins> operating systems like <ins>z/OS and</ins> OpenVMS that use 
-different syntax for directory names and regular file names. <i>—end note</i> ]</p>
-
+</ol>
 </blockquote>
 
 
 </blockquote>
-
-<hr>
 
 <h4><a name="US51">US 51</a>; 27.10.8.4.3 [path.append] ¶2.3: Failing to add / when appending empty string prevents useful apps<br>
 Status: Accept with modifications ✓</h4>
