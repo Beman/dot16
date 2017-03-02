@@ -393,9 +393,9 @@ it affects pathname resolution [fs.def.pathres].</p>
 
 <blockquote>
 <p><b>normal form</b><br>
-A <del>path</del> <ins>pathname</ins> with no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
-elements, <del>and</del> no redundant <i>directory-separators</i> <ins>and all <i>
-directory-separator</i>s in the <i>preferred-separator</i> form is in normal form</ins>. <ins>
+A <del>path with</del> <ins>pathname is in normal formm if it has</ins> no redundant current directory (<i>dot</i>) elements, no redundant parent directory (<i>dot-dot</i>) 
+elements, <del>and</del> no redundant <i>directory-separators</i><ins>, and all <i>
+directory-separator</i>s are in the <i>preferred-separator</i> form</ins>. <ins>
 The elements and sequences 
 of elements described herein are redundant if their removal would not alter the result of 
 pathname resolution ([fs.def.pathres]) assuming the file exists and the path 
