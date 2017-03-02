@@ -1305,7 +1305,7 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
   <blockquote>
 <p><i>Effects:</i> <ins>If <code>has_filename() || (!has_root_directory() &amp;&amp; is_absolute())</code>, 
 then appends <code>path::preferred_separator</code> to the pathname in the generic format. [ <i>
-Example:</i> <code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both
+Example:</i> <code>path(&quot;//host&quot;)/=&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/=&quot;foo&quot;</code> both
  equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
 <p>&nbsp;<del>Appends <code>path::preferred_separator</code> to <code>pathstring</code> 
 unless:</del></p>
