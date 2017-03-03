@@ -502,11 +502,10 @@ Status: Accept with modifications ✓</h4>
 <h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?<code><br>
 </code>Status: Reject ✓</h4>
 <blockquote>
-<p>27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
-describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
-would be the proper place. There is no proposed wording, and without proposed 
-wording there is no consensus for change.&nbsp; Will re-open if a paper or issue 
-appears with proposed wording.</p>
+<p>The LWG is rejecting US 35 for C++17 because there is currently no consensus 
+for change. The LWG will address the problem later as an LWG issue when we know 
+how to precisely say what we want. We are not happy with the current proposals 
+for fixing the problen, so will defer it.</p>
 </blockquote>
 <h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links<br>
 Status: Accept with modifications ✓</h4>
@@ -730,29 +729,11 @@ Status: Reject ✓</h4>
 </blockquote>
 
 <h4><a name="US58">US 58</a>; 27.10.8.4.9 [path.decompose] ¶5: <code>parent_path()</code> behavior for root paths is useless<br>
-Status: Accept with modifications ✓</h4>
+Status: Accept with modifications </h4>
 
 <blockquote>
 
-<p><i>Change [path.decompose]:</i></p>
-
-  <blockquote>
-    <p><tt>path parent_path() const;</tt> </p>
-    <p><ins>-?- Let <tt>parent_end</tt> be an instance of <tt>path::iterator</tt>, 
-    initialized as follows:</ins> </p>
-    <ul>
-      <li><ins>if <tt>has_relative_path()</tt>, from <tt>--end()</tt></ins></li>
-      <li><ins>otherwise, from <tt>end()</tt></ins></li>
-    </ul>
-  </blockquote>
-  <p></p>
-  <blockquote>
-    <p>-5- <em>Returns:</em> <del><tt>(empty() || begin() == --end()) ? path() :
-    </tt><em>pp</em>, where <em>pp</em> is </del><ins>a <tt>path</tt> </ins>
-    constructed as if by starting with an empty <tt>path</tt> and successively 
-    applying <tt>operator/=</tt> for each element in the range <tt>[begin(),
-    <del>--end()</del><ins>parent_end</ins>)</tt>.</p>
-  </blockquote>
+<p>Resolved by <a href="#US77">US-77/CA-6</a></p>
 
 </blockquote>
 
@@ -1143,33 +1124,6 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
     <p><i>Returns:</i> <code>*this</code>.</p>
   </blockquote>
 </blockquote>
-<p><i>Change [path.append]:</font></i><font FACE="LMRoman10-Regular"></p>
-<blockquote>
-  <pre>path&amp; operator/=(const path&amp; p);</pre>
-  <blockquote>
-<p><i>Effects:</i> <ins>If <code>has_filename() || (!has_root_directory() &amp;&amp; is_absolute())</code>, 
-then appends <code>path::preferred_separator</code> to the pathname in the generic format. [ <i>
-Example:</i> <code>path(&quot;//host&quot;)/=&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/=&quot;foo&quot;</code> both
- equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
-<p>&nbsp;<del>Appends <code>path::preferred_separator</code> to <code>pathstring</code> 
-unless:</del></p>
-    <blockquote>
-<p><del>— an added <i>directory-separator</i> would be redundant, or</del></p>
-<p><del>— an added <i>directory-separator</i> would change a relative path into an 
-absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or</del></p>
-<p><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
-<p><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
-    </blockquote>
-<p>Then appends <code>p.native()</code> to <ins>the pathname in the native 
-format</ins>&nbsp; <code>
-<del>pathstring</del></code>.</p>
-<p><i>Returns:</i> <code>*this</code>.</p>
-  </blockquote>
-<p><i><span style="background-color: #E1E9FD">[SG note: this proposed wording depends on LWG 2732 
-and the recently proposed definition of has_filename() and will change again to 
-address LWG 2664 and US 77/CA 6. It already, simply by ignoring p entirely until 
-such time, addresses US 51.] </span></i></p>
-</blockquote>
 <p><i>Change [path.modifiers]:</i></p>
 <blockquote>
   <pre>path&amp; make_preferred();</pre>
@@ -1179,10 +1133,6 @@ such time, addresses US 51.] </span></i></p>
   <i>preferred-separator</i>. </p>
   </blockquote>
 </blockquote>
-<p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
-note: the existing definition of </span><span style="background-color: #E1E9FD">
-remove_filename</span><span style="background-color: #E1E9FD">() is broken; it 
-is expected to be rewritten.] </span></i></p>
 <p><i>Change [path.modifiers]:</i></p>
 <blockquote>
   <pre>path&amp; replace_extension(const path&amp; replacement = path());</pre>
@@ -1389,28 +1339,6 @@ false.</p>
 operating systems, and false for Windows-based operating systems. —end example ]</p>
   </blockquote>
 </blockquote>
-<p><i>Change [<a name="path.gen">path.gen</a>]:</i></p>
-<blockquote>
-  <pre>path lexically_normal() const;</pre>
-  <blockquote>
-<p><i>Returns: </i><ins>a path whose pathname in the generic format is the normal form 
-([fs.def.normal.form]) of the pathname in generic format of <code>*this</code></ins><i>
-</i><del><code>*this</code> in normal form ([fs.def.normal.form])</del>.</p>
-
-<p>[ <i>Example:</i><br>
-<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
-&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/.///bar/../&quot;).lexically_normal() == &quot;foo/<del>.</del>&quot;);<br>
-</code><br>
-The above assertions will succeed. <del>The second example ends with a current 
-directory (dot) element appended to support operating systems that use different 
-syntax for directory names and regular file names.</del></p>
-
-<p>On Windows, the returned path’s directory-separator characters will be 
-backslashes rather than slashes, but that does not affect path equality. —<i>end 
-example</i> ]</p>
-
-  </blockquote>
-</blockquote>
 <p><i>Change [path.itr]:</i></p>
 <blockquote>
 <p>Path iterators iterate over the elements of <ins>the pathname in the generic 
@@ -1488,20 +1416,279 @@ Status: Accept with modifications ✓</h4>
 </blockquote>
 
 <h4><a name="US77">US 77</a>, CA 6; 27.10.8.4.3 [path.append]: <code>operator/</code> and other appends not useful if arg has <i>root-name</i><br>
-Status: Accept with modifications ✓</h4>
+Status: Accept with modifications</h4>
 
 <blockquote>
 
-<p>Resolved by P0430R2 Section US-77/CA-6.</p>
+<p><b>Discussion:</b></p>
+
+<p>Passing a path that includes a root path (name or directory) to <code>
+path.operator/=()</code> simply incorporates the root path into the middle of 
+the result, changing its meaning drastically. LWG 2664 proposes disallowing a 
+path with a root name (but leaves the root directory possibility untouched); US 
+77/CA 6 (via P0430R0) objects and suggests instead making the same case 
+implementation-defined. (P0430R1 drops the matter in favor of this issue.)</p>
+
+<p>We can carefully define operator/=() to be broadly applicable instead of 
+restricting it. (<code>path::parent_path()</code> and <code>
+path::lexically_relative()</code> are casualties that must be rewritten; they 
+need fixing anyway for US 58 and Late 16--18 respectively.)</p>
+
+<p>With the better <code>operator/=()</code>, <code>absolute(p,base)</code> is 
+of very little value: the user can easily write <code>absolute(base)/p</code> 
+(or simply <code>base/p</code> if preferable). Since Table 126 produces nonsense 
+in some cases (see Late 24), it is good to remove this complexity. <code>
+canonical()</code> loses its <code>base</code> argument since it simply forwards 
+it to <code>absolute()</code>.</p>
+
+<p>Finally, <code>absolute(p)</code>, which would simply be <code>current_path()/p</code>, 
+is of very limited utility on platforms like Windows with complicated notions of 
+current directory. As such, its semantics may be replaced entirely by those of
+<code>system_complete()</code> (as amended by Billy&#39;s email of 8 Feb 2017 
+04:33:59), which can then be removed (resolving Late 44 and 45). On POSIX, it 
+would remain a simple convenience for <code>current_path()/p</code> with 
+superior portability.</p>
+
+<p><b>Proposed wording:</b></p>
+
+<p dir="ltr"><i>Change [path.append]:</i></p>
+<blockquote dir="ltr">
+  <div dir="ltr">
+  <pre>path&amp; operator/=(const path&amp; p);</pre>
+  </div>
+  <blockquote dir="ltr">
+<p dir="ltr"><del><i>Requires:</i> <code>!p.has_root_name()</code>.</del></p>
+<p dir="ltr"><i>Effects:</i></p>
+<blockquote dir="ltr">
+<p dir="ltr">&nbsp;<del>Appends <code>path::preferred_separator</code> to <code>pathstring</code> 
+unless:</del></p>
+    <blockquote dir="ltr">
+<p dir="ltr"><del>— an added <i>directory-separator</i> would be redundant, or</del></p>
+<p dir="ltr"><del>— an added <i>directory-separator</i> would change a relative path into an 
+absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or</del></p>
+<p dir="ltr"><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
+<p dir="ltr"><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
+    </blockquote>
+<p dir="ltr"><del>Then appends <code>p.native()</code> to&nbsp; <code>
+pathstring.</code></del></p>
+<p dir="ltr"><ins>If <code>p.is_absolute() || (p.has_root_name() &amp;&amp; p.root_name()!= root_name())</code>, 
+then <code>operator=(p)</code>.</ins></p>
+<p dir="ltr"><ins>Otherwise, modifies <code>*this</code> as if by these steps:</ins></p>
+<blockquote dir="ltr">
+<p dir="ltr"><ins>If <code>p.has_root_directory()</code>, then removes any root directory and 
+relative path from the generic format pathname. Otherwise, if <code>has_filename() 
+|| (!has_root_directory() &amp;&amp; is_absolute())</code>, then appends <code>
+path::preferred_separator</code> to the generic format pathname.</ins></p>
+<p dir="ltr"><ins>Then appends the native format pathname of <code>p</code>, omitting any 
+<i>root-name</i> from its generic format pathname, to the native format pathname.</ins></p>
+</blockquote>
+<p dir="ltr"><ins>[ <i>Example</i>:</ins></p>
+<blockquote dir="ltr">
+<p dir="ltr"><ins>Even if <code>//host</code> is interpreted as a root-name,
+<code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both 
+equal <code>&quot;//host/foo&quot;</code>.</ins></p>
+<p dir="ltr"><ins>Expression examples</ins></p>
+  <blockquote dir="ltr">
+    <div dir="ltr">
+    <pre><ins>// On POSIX,
+path(&quot;foo&quot;) / &quot;&quot;;     // yields &quot;foo/&quot;
+path(&quot;foo&quot;) / &quot;/bar&quot;; // yields &quot;/bar&quot;
+// On Windows, backslashes replace slashes in the above yields
+
+// On Windows,
+path(&quot;foo&quot;) / &quot;c:/bar&quot;;  // yields &quot;c:/bar&quot;
+path(&quot;foo&quot;) / &quot;c:&quot;;      // yields &quot;c:&quot;
+path(&quot;c:&quot;) / &quot;&quot;;         // yields &quot;c:&quot;
+path(&quot;c:foo&quot;) / &quot;/bar&quot;;  // yields &quot;c:/bar&quot;
+path(&quot;c:foo&quot;) / &quot;c:bar&quot;; // yields &quot;c:foo/bar&quot;</pre>
+    </div>
+    </ins>
+  </blockquote>
+</blockquote>
+<p dir="ltr"><ins>&nbsp;<i>&mdash; end example</i> ]</ins></p>
+</blockquote>
+<p dir="ltr"><i>Returns:</i> <code>*this</code>.</p>
+  </blockquote>
+</blockquote>
+
+<p><i>Change [path.decompose]:</i></p>
+
+  <blockquote>
+    <p><tt>path parent_path() const;</tt> </p>
+  </blockquote>
+  <blockquote>
+    <p> <em>Returns:</em> <del><tt>(empty() || begin() == --end()) ? path() :
+    </tt><em>pp</em>, where <em>pp</em> is constructed as if by starting with an empty <tt>path</tt> and successively 
+    applying <tt>operator/=</tt> for each element in the range <tt>[begin(),
+    --end())</tt>.</del> <ins><code>*this</code> if <code>!has_relative_path()</code>, otherwise a 
+    path whose generic format pathname is the longest prefix of the generic 
+    format pathname of <code>*this</code> that produces one fewer element in its iteration.</ins></p>
+  </blockquote>
+
+<p><i>Change [<a name="path.gen">path.gen</a>]:</i></p>
+<blockquote>
+  <pre>path lexically_normal() const;</pre>
+  <blockquote>
+<p><i>Returns: </i><ins>a path whose pathname in the generic format is the normal form 
+([fs.def.normal.form]) of the pathname in generic format of <code>*this</code></ins><i>
+</i><del><code>*this</code> in normal form ([fs.def.normal.form])</del>.</p>
+
+<p>[ <i>Example:</i><br>
+<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
+&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/.///bar/../&quot;).lexically_normal() == &quot;foo/<del>.</del>&quot;);<br>
+</code><br>
+The above assertions will succeed. <del>The second example ends with a current 
+directory (dot) element appended to support operating systems that use different 
+syntax for directory names and regular file names.</del></p>
+
+<p>On Windows, the returned path’s directory-separator characters will be 
+backslashes rather than slashes, but that does not affect path equality. —<i>end 
+example</i> ]</p>
+
+  </blockquote>
+
+  <pre>path lexically_relative(const path&amp; base) const;</pre>
+  <blockquote>
+    <p><i>Returns:</i> <code>*this</code> made relative to <code>base</code>. Does not resolve (27.10.4.18) symlinks. 
+Does not first
+normalize (27.10.4.12) <code>*this</code> or <code>base</code>.</p>
+    <p><i>Effects:</i> Determines the first mismatched element of <code>*this</code> and 
+    <code>base</code> as if by:</p>
+    <blockquote>
+      <p><code>auto [a, b] = mismatch(begin(), end(), base.begin(), base.end());</code></p>
+    </blockquote>
+    <p>Then,</p>
+    <p><del>— if <code>a == begin()</code> and <code>b == base.begin()</code>, returns 
+    <code>path()</code>; otherwise</del></p>
+    <p>— if <code>a == end()</code> and <code>b == base.end()</code>, returns 
+    <code>path(&quot;.&quot;)</code>; otherwise</p>
+    <p><ins>—&nbsp; Let <code>n</code> be the number of <i>filename</i> elements in 
+    <code>[b, base.end())</code> that 
+    are not <i>dot</i> or <i>dot-dot</i> minus the number that are <i>dot</i>. If 
+    <code>n&lt;0</code>, returns 
+    <code>path()</code>; otherwise</ins></p>
+    <p>— returns an object of class <code>path</code> that is default-constructed, followed by</p>
+    <blockquote>
+      <p>— application of <code>operator/=(path(&quot;..&quot;))</code> for <del>each element in 
+      <code>[b, base.end())</code></del> <ins><code>n</code> times</ins>, 
+and then<br>
+      — application of <code>operator/=</code> for each element in <code>[a, end())</code>.</p>
+    </blockquote>
+
+<p>[ <i>Example</i>:</p>
+
+    <blockquote>
+
+<pre>assert(path(&quot;/a/d&quot;).lexically_relative(&quot;/a/b/c&quot;) == &quot;../../d&quot;);
+assert(path(&quot;/a/b/c&quot;).lexically_relative(&quot;/a/d&quot;) == &quot;../b/c&quot;);
+assert(path(&quot;a/b/c&quot;).lexically_relative(&quot;a&quot;) == &quot;b/c&quot;);
+assert(path(&quot;a/b/c&quot;).lexically_relative(&quot;a/b/c/x/y&quot;) == &quot;../..&quot;);
+assert(path(&quot;a/b/c&quot;).lexically_relative(&quot;a/b/c&quot;) == &quot;.&quot;);
+assert(path(&quot;a/b&quot;).lexically_relative(&quot;c/d&quot;) == &quot;<ins>../../a/b</ins>&quot;);</pre>
+
+<p>The above assertions will succeed. On Windows, the returned path’s 
+directory-separator characters will be backslashes rather than forward slashes, 
+but that does not affect path equality.</p>
+
+    </blockquote>
+
+<p>&nbsp;—<i>end example</i> ]</p>
+
+<p>[ <i>Note:</i> If symlink following semantics are desired, use the operational 
+function <code>relative()</code>. —<i>end note</i> ]</p>
+
+<p>[ <i>Note:</i> If normalization (27.10.4.12) is needed to ensure consistent matching 
+of elements, apply <code>lexically_normal()</code> to <code>*this</code>, <code>base</code>, or both. —<i>end note
+</i>]</p>
+
+  </blockquote>
+
+</blockquote>
 
 </blockquote>
 
 <h4><a name="US78">US 78</a>, CA 7; 27.10.15.1 [fs.op.absolute]: Member <code>absolute()</code> in 27.10.4.1 is overspecified for non-POSIX-like O/S<br>
-Status: Accept with modifications ✓</h4>
+Status: Accept with modifications </h4>
 
 <blockquote>
 
-<p>Resolved by P0430R2 Section US-78/CA-7.</p>
+<p><i>Change [fs.op.absolute] and update the synopsis in [fs.filesystem.syn] 
+accordingly:</i></p>
+
+  <blockquote>
+    <pre><del>path absolute(const path&amp; p, const path&amp; base = current_path());</del>
+<ins>path absolute(const path&amp; p);
+path absolute(const path&amp; p, error_code&amp; ec);</ins></pre>
+    <blockquote>
+
+<p><del><i>Returns</i>: An absolute path (27.10.4.1) 
+composed according to Table 126.</del></p>
+
+      <blockquote>
+
+<p><del>Table 126 — absolute(const path&amp;, const 
+path&amp;) return value<br>
+...</del></p>
+
+      </blockquote>
+
+<p><ins>&nbsp;<i>Effects:</i> Composes an absolute path referencing the same 
+file system location as <code>p</code> according to the operating system ([fs.conform.os])</ins></p>
+
+<p><ins><i>Returns:</i> The composed path. The signature with argument <code>ec</code> 
+returns <code>path()</code> if an error occurs. </ins></p>
+
+<blockquote>
+
+<p>[ <i>Note:</i> For the returned path, <code>
+rp</code>, <code>rp.is_absolute()</code> is <code>true</code> <ins>unless an error occurs</ins>. —<i>end note</i> 
+]</p>
+
+</blockquote>
+
+<p><i>Throws:</i> As specified in 27.10.7.</p>
+
+<p><ins>[ <i>Note:</i> To resolve symlinks, or perform other sanitization which might 
+require queries to secondary storage, such as hard disks, consider <code>canonical</code> ([fs.po.canonical]). 
+— <i>end note</i> ]</ins></p>
+
+<p><ins>[ <i>Note:</i> Implementations are strongly encouraged to not query secondary 
+storage, and not consider <code>!exists(p)</code> an error. — <i>end note</i> ]</ins></p>
+
+<p><ins>[ <i>Example:</i></ins></p>
+
+    <blockquote>
+
+<p><ins>For POSIX-based operating systems, <code>absolute(p)</code> is simply
+<code>current_path()/p</code>.</ins></p>
+
+<p><ins>For Windows-based operating systems, <code>absolute</code> might have the same semantics 
+as <code>GetFullPathNameW</code>.</ins></p>
+
+    </blockquote>
+
+<p><ins>— <i>end example</i> ]</ins></p>
+
+    </blockquote>
+  </blockquote>
+
+<p><i>Remove [fs.op.system_complete] and remove system_complete() from the 
+synopsis in [fs.filesystem.syn].</i></p>
+
+<blockquote>
+
+<p><b>Rationale:</b></p>
+
+<p>The simple lexical definition produces identical results for <code>path(&quot;/foo&quot;)/&quot;bar&quot;</code> 
+and <code>path(&quot;/foo&quot;)/&quot;/bar&quot;</code> and is likely to produce confusion; making it UB does 
+not help that. The &quot;alternative interpretation&quot; from LWG 2664 is the natural 
+extension of the obvious lexical meaning to cases involving a root path on the 
+right (and breaks the symmetry when both paths are absolute), but there was 
+never any proposed replacement more specific than &quot;implementation-defined&quot;. This 
+resolution provides the natural meaning and supports non-POSIX root-names as 
+well.</p>
+
+</blockquote>
 
 </blockquote>
 
