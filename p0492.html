@@ -21,7 +21,7 @@
 <tr>
   <td>Date:</td>
   <td>
-  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-03-02<!--webbot bot="Timestamp" endspan i-checksum="12210" --></td>
+  <!--webbot bot="Timestamp" S-Type="EDITED" S-Format="%Y-%m-%d" startspan -->2017-03-03<!--webbot bot="Timestamp" endspan i-checksum="12212" --></td>
 </tr>
 <tr>
   <td>Reply to:</td>
@@ -240,27 +240,19 @@ normalization</i>.</ins></p>
   <ol>
     <li><ins>If the path is empty, stop.</ins></li>
     <li><ins>Replace each slash character in the <i>root-name</i> with a <i>preferred-separator</i>.</ins></li>
-    <li><ins>Replace all <i>directory-separator</i>s with a single <i>preferred-separator</i>.
-    <span style="background-color: #FFFF00">Replace each sequence of <i>directory-separator</i>s with a single
-    <i>preferred-separator</i>.</span></ins></li>
-    <li><ins>Remove all <i>dot</i> filenames and any <i>directory-separator</i>s immediately following 
-  them. <span style="background-color: #FFFF00">Remove each <i>dot</i> filename and any 
-    immediately following sequence of <i>directory-separator</i>s.</span></ins></li>
-    <li><ins>As long as any appear, remove a non-<i>dot-dot</i> filename immediately followed 
-  by <i>dot-dot</i> (along with the intervening <i>directory-separator</i> and any that 
-  immediately follows). <span style="background-color: #FFFF00">Recursively remove a non-<i>dot-dot</i> filename immediately followed 
-  by one or more <i>directory-separator</i>s immediately followed by a <i>dot-dot
-    </i>filename</span></ins><u><span style="background-color: #FFFF00">.</span></u></li>
+    <li><ins>Replace each <i>directory-separator</i> with a <i>preferred-separator</i>. 
+    [ <i>Note:</i> The generic pathname grammar ([path.generic]) defines <i>directory-separator</i> as one or 
+    more slashes and <i>preferred-separator</i>s. &mdash;<i>end note</i> ]</ins></li>
+    <li><ins>Remove each <i>dot</i> filename and any immediately following <i>directory-separator</i>.</ins></li>
+    <li><ins>As long as any appear, remove a non-<i>dot-dot</i> filename immediately followed by a
+    <i>directory-separator</i> and a <i>dot-dot</i> filename, along with any immediately following 
+    <i>directory-separator</i>.</ins></li>
     <li><ins>If there is a <i>root-directory</i>, remove all <i>dot-dot</i> filenames and any 
-    <i>directory-separator</i>s immediately following them. 
-    <span style="background-color: #FFFF00">If there is a <i>root-directory</i>, remove all 
-    <i>dot-dot</i> filenames and any 
-  <i>directory-separator</i>s immediately following the <i>root-directory</i>.</span> [
+    <i>directory-separator</i>s immediately following them. [
     <i>Note:</i> These <i>dot-dot</i> 
-  filenames attempt to refer to nonexistent parent directories. <i>-- end note</i> ]</ins></li>
-    <li><ins>Remove any trailing <i>directory-separator</i> if the last filename is 
-    <i>dot-dot</i>. <span style="background-color: #FFFF00">If the last filename is
-    <i>dot-dot</i>, remove any trailing <i>directory-separator</i> .</span></ins></li>
+  filenames attempt to refer to nonexistent parent directories. <i>&mdash;end note</i> ]</ins></li>
+    <li><ins>If the last filename is
+    <i>dot-dot</i>, remove any trailing <i>directory-separator</i>.</ins></li>
     <li><ins>If the path is empty, add a <i>dot</i>.</ins></li>
 </ol>
 </blockquote>
