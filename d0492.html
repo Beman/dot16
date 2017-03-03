@@ -1534,7 +1534,7 @@ path(&quot;c:foo&quot;) / &quot;c:bar&quot;; // yields &quot;c:foo/bar&quot;</pr
 </i><del><code>*this</code> in normal form ([fs.def.normal.form])</del>.</p>
 
 <p>[ <i>Example:</i><br>
-<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo&quot;);<br>
+<code>&nbsp;&nbsp;&nbsp; assert(path(&quot;foo/./bar/..&quot;).lexically_normal() == &quot;foo<ins>/</ins>&quot;);<br>
 &nbsp;&nbsp;&nbsp; assert(path(&quot;foo/.///bar/../&quot;).lexically_normal() == &quot;foo/<del>.</del>&quot;);<br>
 </code><br>
 The above assertions will succeed. <del>The second example ends with a current 
@@ -1552,7 +1552,9 @@ example</i> ]</p>
     <p><i>Returns:</i> <code>*this</code> made relative to <code>base</code>. Does not resolve (27.10.4.18) symlinks. 
 Does not first
 normalize (27.10.4.12) <code>*this</code> or <code>base</code>.</p>
-    <p><i>Effects:</i> Determines the first mismatched element of <code>*this</code> and 
+    <p><i>Effects:</i> <ins>If <code>root_name()!=base.root_name() || is_absolute()!=base.is_<wbr />absolute() 
+    || (!has_root_directory() &amp;&amp; base.has_root_directory())</code>, returns 
+    <code>path()</code>.</ins> Determines the first mismatched element of <code>*this</code> and 
     <code>base</code> as if by:</p>
     <blockquote>
       <p><code>auto [a, b] = mismatch(begin(), end(), base.begin(), base.end());</code></p>
@@ -1564,7 +1566,7 @@ normalize (27.10.4.12) <code>*this</code> or <code>base</code>.</p>
     <code>path(&quot;.&quot;)</code>; otherwise</p>
     <p><ins>—&nbsp; Let <code>n</code> be the number of <i>filename</i> elements in 
     <code>[b, base.end())</code> that 
-    are not <i>dot</i> or <i>dot-dot</i> minus the number that are <i>dot</i>. If 
+    are not <i>dot</i> or <i>dot-dot</i> minus the number that are <i>dot-dot</i>. If 
     <code>n&lt;0</code>, returns 
     <code>path()</code>; otherwise</ins></p>
     <p>— returns an object of class <code>path</code> that is default-constructed, followed by</p>
