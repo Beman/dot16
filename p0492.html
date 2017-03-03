@@ -502,11 +502,10 @@ Status: Accept with modifications ✓</h4>
 <h4><a name="US35">US 35</a>; 27.10.4.6 [fs.def.race]: What synchronization is required to avoid a file system race?<code><br>
 </code>Status: Reject ✓</h4>
 <blockquote>
-<p>27.10.4 Terms and definitions [fs.definitions] is not the proper place to 
-describe file system race behavior. 27.10.2.3 File system race behavior [fs.race.behavior] 
-would be the proper place. There is no proposed wording, and without proposed 
-wording there is no consensus for change.&nbsp; Will re-open if a paper or issue 
-appears with proposed wording.</p>
+<p>The LWG is rejecting US 35 for C++17 because there is currently no consensus 
+for change. The LWG will address the problem later as an LWG issue when we know 
+how to precisely say what we want. We are not happy with the current proposals 
+for fixing the problen, so will defer it.</p>
 </blockquote>
 <h4><a name="US36">US 36</a>; 27.10.4.9 [fs.def.link]: Symbolic links themselves are attached to a directory via (hard) links<br>
 Status: Accept with modifications ✓</h4>
@@ -738,20 +737,14 @@ Status: Accept with modifications ✓</h4>
 
   <blockquote>
     <p><tt>path parent_path() const;</tt> </p>
-    <p><ins>-?- Let <tt>parent_end</tt> be an instance of <tt>path::iterator</tt>, 
-    initialized as follows:</ins> </p>
-    <ul>
-      <li><ins>if <tt>has_relative_path()</tt>, from <tt>--end()</tt></ins></li>
-      <li><ins>otherwise, from <tt>end()</tt></ins></li>
-    </ul>
   </blockquote>
-  <p></p>
   <blockquote>
-    <p>-5- <em>Returns:</em> <del><tt>(empty() || begin() == --end()) ? path() :
-    </tt><em>pp</em>, where <em>pp</em> is </del><ins>a <tt>path</tt> </ins>
-    constructed as if by starting with an empty <tt>path</tt> and successively 
+    <p> <em>Returns:</em> <del><tt>(empty() || begin() == --end()) ? path() :
+    </tt><em>pp</em>, where <em>pp</em> is constructed as if by starting with an empty <tt>path</tt> and successively 
     applying <tt>operator/=</tt> for each element in the range <tt>[begin(),
-    <del>--end()</del><ins>parent_end</ins>)</tt>.</p>
+    --end())</tt>.</del> <ins><code>*this</code> if <code>!has_relative_path()</code>, otherwise a 
+    path whose generic format pathname is the longest prefix of the generic 
+    format pathname of <code>*this</code> that produces one fewer element in its iteration.</ins></p>
   </blockquote>
 
 </blockquote>
@@ -1147,10 +1140,9 @@ path&amp; assign(InputIterator first, InputIterator last);</pre>
 <blockquote>
   <pre>path&amp; operator/=(const path&amp; p);</pre>
   <blockquote>
-<p><i>Effects:</i> <ins>If <code>has_filename() || (!has_root_directory() &amp;&amp; is_absolute())</code>, 
-then appends <code>path::preferred_separator</code> to the pathname in the generic format. [ <i>
-Example:</i> <code>path(&quot;//host&quot;)/=&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/=&quot;foo&quot;</code> both
- equal <code>&quot;//host/foo&quot;</code>. <i>—end example</i> ]</ins></p>
+<p><del><i>Requires:</i> <code>!p.has_root_name()</code>.</del></p>
+<p><i>Effects:</i></p>
+<blockquote>
 <p>&nbsp;<del>Appends <code>path::preferred_separator</code> to <code>pathstring</code> 
 unless:</del></p>
     <blockquote>
@@ -1160,15 +1152,43 @@ absolute path [<i>Note:</i> An empty path is relative.<i>—end note</i> ] , or<
 <p><del>— <code>p.empty()</code> is <code>true</code>, or</del></p>
 <p><del>— <code>*p.native().cbegin()</code> is a directory-separator.</del></p>
     </blockquote>
-<p>Then appends <code>p.native()</code> to <ins>the pathname in the native 
-format</ins>&nbsp; <code>
-<del>pathstring</del></code>.</p>
+<p><del>Then appends <code>p.native()</code> to&nbsp; <code>
+pathstring.</code></del></p>
+<p><ins>If <code>p.is_absolute() || (p.has_root_name() &amp;&amp; p.root_name()!= root_name())</code>, 
+then <code>operator=(p)</code>.</ins></p>
+<p><ins>Otherwise, modifies <code>*this</code> as if by these steps:</ins></p>
+<blockquote>
+<p><ins>If <code>p.has_root_directory()</code>, then removes any root directory and 
+relative path from the generic format pathname. Otherwise, if <code>has_filename() 
+|| (!has_root_directory() &amp;&amp; is_absolute())</code>, then appends <code>
+path::preferred_separator</code> to the generic format pathname.</ins></p>
+<p><ins>Then appends the native format pathname of <code>p</code>, omitting any 
+<i>root-name</i> from its generic format pathname, to the native format pathname.</ins></p>
+</blockquote>
+<p><ins>[ <i>Example</i>:</ins></p>
+<blockquote>
+<p><ins>Even if <code>//host</code> is interpreted as a root-name,
+<code>path(&quot;//host&quot;)/&quot;foo&quot;</code> and <code>path(&quot;//host/&quot;)/&quot;foo&quot;</code> both 
+equal <code>&quot;//host/foo&quot;</code>.</ins></p>
+<p><ins>Expression examples</ins></p>
+  <blockquote>
+    <pre><ins>// On POSIX,
+path(&quot;foo&quot;) / &quot;&quot;;     // yields &quot;foo/&quot;
+path(&quot;foo&quot;) / &quot;/bar&quot;; // yields &quot;/bar&quot;
+// On Windows, backslashes replace slashes in the above yields
+
+// On Windows,
+path(&quot;foo&quot;) / &quot;c:/bar&quot;;  // yields &quot;c:/bar&quot;
+path(&quot;foo&quot;) / &quot;c:&quot;;      // yields &quot;c:&quot;
+path(&quot;c:&quot;) / &quot;&quot;;         // yields &quot;c:&quot;
+path(&quot;c:foo&quot;) / &quot;/bar&quot;;  // yields &quot;c:/bar&quot;
+path(&quot;c:foo&quot;) / &quot;c:bar&quot;; // yields &quot;c:foo/bar&quot;</pre></ins>
+  </blockquote>
+</blockquote>
+<p><ins>&nbsp;<i>&mdash; end example</i> ]</ins></p>
+</blockquote>
 <p><i>Returns:</i> <code>*this</code>.</p>
   </blockquote>
-<p><i><span style="background-color: #E1E9FD">[SG note: this proposed wording depends on LWG 2732 
-and the recently proposed definition of has_filename() and will change again to 
-address LWG 2664 and US 77/CA 6. It already, simply by ignoring p entirely until 
-such time, addresses US 51.] </span></i></p>
 </blockquote>
 <p><i>Change [path.modifiers]:</i></p>
 <blockquote>
@@ -1179,10 +1199,6 @@ such time, addresses US 51.] </span></i></p>
   <i>preferred-separator</i>. </p>
   </blockquote>
 </blockquote>
-<p><i><span style="background-color: #E1E9FD">[</span><span style="background-color: #E1E9FD">SG</span><span style="background-color: #E1E9FD"> 
-note: the existing definition of </span><span style="background-color: #E1E9FD">
-remove_filename</span><span style="background-color: #E1E9FD">() is broken; it 
-is expected to be rewritten.] </span></i></p>
 <p><i>Change [path.modifiers]:</i></p>
 <blockquote>
   <pre>path&amp; replace_extension(const path&amp; replacement = path());</pre>
